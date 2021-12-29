@@ -1,0 +1,85 @@
+﻿<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:vm="using:Regul.Base.Views.Windows"
+                xmlns:settings="using:Regul"
+                xmlns:converters="clr-namespace:Regul.Base.Converters"
+                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                CanResize="False"
+                Width="350"
+                Height="316"
+                WindowButtons="Close"
+				ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
+                CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
+                Icon="avares://Regul.Assets/icon.ico"
+                ShowPinButton="True"
+                Title="{DynamicResource HashGenerator}"
+                x:Class="Regul.Base.Views.Windows.HashGenerator">
+    <PleasantWindow.DataContext>
+        <vm:HashGeneratorViewModel />
+    </PleasantWindow.DataContext>
+    
+    <PleasantWindow.Resources>
+        <converters:ULongToStringConverter x:Key="ULongToStringConverter" />
+    </PleasantWindow.Resources>
+    
+    <StackPanel Spacing="5" Margin="5">
+        <TextBlock Text="{DynamicResource NumberСonversion}" />
+        <Border CornerRadius="5" 
+                BorderThickness="1"
+                Padding="5"
+                Background="{StaticResource BackgroundLevel1Brush}"
+                BorderBrush="{StaticResource BorderBrush}">
+            <StackPanel Spacing="5">
+                <DockPanel>
+                    <TextBlock Text="{DynamicResource Decimal}" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding Number}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="{DynamicResource Hexadecimal}" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding Number, Converter={StaticResource ULongToStringConverter}}" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        
+        <TextBlock Text="{DynamicResource TextСonversion}" Margin="0 5 0 0" />
+        <Border CornerRadius="5"
+                BorderThickness="1"
+                Padding="5"
+                Background="{StaticResource BackgroundLevel1Brush}"
+                BorderBrush="{StaticResource BorderBrush}">
+            <StackPanel Spacing="5">
+                <DockPanel>
+                    <TextBlock Text="{DynamicResource TextC}" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding Text}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="FNV24:" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding FNV24}" IsReadOnly="True" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="FNV32:" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding FNV32}" IsReadOnly="True" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="FNV56:" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding FNV56}" IsReadOnly="True" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="FNV64:" Margin="0 0 5 0" />
+                    <TextBox Text="{Binding FNV64}" IsReadOnly="True" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="{DynamicResource TypeC}" Margin="0 0 5 0" />
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <RadioButton GroupName="Type" IsChecked="{Binding Hex}" Content="{DynamicResource Hexadecimal}" />
+                        <RadioButton GroupName="Type" IsChecked="{Binding Dec}" Content="{DynamicResource Decimal}" />
+                    </StackPanel>
+                </DockPanel>
+                
+                <CheckBox x:Name="HighBit" IsChecked="{Binding HighBit}" Content="{DynamicResource HighBit}" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</PleasantWindow>

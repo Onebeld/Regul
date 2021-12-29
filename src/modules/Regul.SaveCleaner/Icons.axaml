@@ -1,0 +1,11 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style.Resources>
+        <DrawingImage x:Key="UnknownIcon">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="{DynamicResource ForegroundBrush}"
+                                 Geometry="F1 M24,24z M0,0z M15.33,9.5A3.5,3.5,0,0,0,8.8,7.75A1,1,0,0,0,10.53,8.75A1.5,1.5,0,0,1,11.83,8A1.5,1.5,0,1,1,11.83,11A0.95,0.95,0,0,0,11.64,11.04A1.03,1.03,0,0,0,11.44,11.08A0.98,0.98,0,0,0,11.29,11.18A1,1,0,0,0,11.12,11.29A1,1,0,0,0,11.01,11.47A0.98,0.98,0,0,0,10.91,11.61A1.02,1.02,0,0,0,10.87,11.82A0.95,0.95,0,0,0,10.83,12L10.83,13.51A1,1,0,0,0,11.83,14.5A1,1,0,0,0,12.83,13.5L12.83,12.84A3.5,3.5,0,0,0,15.33,9.5z M11.13,16.29A1,1,0,0,0,11.83,18A1.04,1.04,0,0,0,12.54,17.71A1.02,1.02,0,0,0,12.54,16.29A1.03,1.03,0,0,0,11.13,16.29z" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </Style.Resources>
+</Style>

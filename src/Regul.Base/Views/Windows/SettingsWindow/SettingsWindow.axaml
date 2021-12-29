@@ -1,0 +1,283 @@
+﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:vm="using:Regul.Base.Views.Windows"
+                      xmlns:settings="using:Regul"
+                      xmlns:plesasantSettings="using:PleasantUI"
+                      xmlns:m="using:Regul.ModuleSystem"
+					  xmlns:model="using:Regul.Base.Models"
+					  xmlns:page="using:Regul.Base.Views.Windows"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      x:Class="Regul.Base.Views.Windows.SettingsWindow"
+                      Icon="avares://Regul.Assets/icon.ico"
+                      Title="{DynamicResource Settings}">
+	<PleasantDialogWindow.DataContext>
+		<vm:SettingsViewModel />
+	</PleasantDialogWindow.DataContext>
+	<PleasantDialogWindow.TitleContent>
+		<Button Classes="CloseButton"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                CornerRadius="0"
+                Command="{Binding Close}">
+			<Button.Styles>
+				<Style Selector="Button">
+					<Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+				</Style>
+			</Button.Styles>
+			<Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+		</Button>
+	</PleasantDialogWindow.TitleContent>
+	<PleasantDialogWindow.Styles>
+		<Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+		</Style>
+
+		<Style Selector="Button.SelectionColor:pointerover">
+			<Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+		</Style>
+		<Style Selector="Button.SelectionColor:pressed">
+			<Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+			<Setter Property="RenderTransform" Value="scale(0.98)" />
+		</Style>
+	</PleasantDialogWindow.Styles>
+
+	<PleasantTabView AdderButtonIsVisible="False">
+		<PleasantTabItem IsClosable="False" Header="{DynamicResource General}" Icon="{StaticResource SettingsIcon}">
+			<ScrollViewer>
+				<StackPanel Spacing="5" Margin="5">
+					<DockPanel>
+						<TextBlock Text="{DynamicResource LanguageC}" />
+						<ComboBox Margin="5 0 0 0" SelectedItem="{Binding SelectedLanguage}" Items="{Binding Languages}">
+							<ComboBox.DataTemplates>
+								<DataTemplate DataType="{x:Type model:Language}">
+									<TextBlock Text="{Binding Name}" />
+								</DataTemplate>
+							</ComboBox.DataTemplates>
+						</ComboBox>
+					</DockPanel>
+					<CheckBox Content="{DynamicResource HardwareAcceleration}"
+                              IsChecked="{Binding HardwareAcceleration, Source={x:Static settings:GeneralSettings.Settings}}" />
+					<CheckBox Content="{DynamicResource UseCustomTitleBar}"
+							  ToolTip.Tip="{DynamicResource UseCustomTitleBarDescription}"
+							  IsChecked="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}" />
+					<CheckBox Content="{DynamicResource ShowFullscreenButton}"
+                              IsChecked="{Binding ShowFullscreenButton, Source={x:Static settings:GeneralSettings.Settings}}"
+							  IsEnabled="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"/>
+					<CheckBox Content="{DynamicResource CompactMode}"
+                              IsChecked="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
+							  IsEnabled="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"/>
+
+					<Separator />
+
+					<CheckBox Content="{DynamicResource EnableShadowing}"
+							  ToolTip.Tip="{DynamicResource EnableShadowingDescription}"
+                              IsChecked="{Binding EnableShadowing, Source={x:Static plesasantSettings:PleasantSettings.Settings}}" />
+
+					<Separator />
+
+					<DockPanel>
+						<TextBlock Text="{DynamicResource CreatorNameC}" Margin="0 0 5 0" />
+						<TextBox Text="{Binding CreatorName, Source={x:Static settings:GeneralSettings.Settings}}" />
+					</DockPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</PleasantTabItem>
+		<PleasantTabItem IsClosable="False" Header="{DynamicResource Modules}" Icon="{StaticResource ModulesIcon}">
+			<Grid ColumnDefinitions="*,5,*" Margin="5">
+				<Grid Grid.Column="0" RowDefinitions="*,Auto">
+					<Border Grid.Row="0" BorderThickness="1" CornerRadius="5"
+                            BorderBrush="{StaticResource BorderBrush}">
+						<Border ClipToBounds="True" CornerRadius="5">
+							<Grid RowDefinitions="Auto,*">
+								<Panel Grid.Row="0"
+                                       Background="{StaticResource BackgroundLevel1Brush}"
+                                       Height="25">
+									<StackPanel Margin="5 0 0 0"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+										<TextBlock Text="{DynamicResource ConnectedModulesC}" Margin="0 0 5 0" />
+										<TextBlock Text="{Binding Modules.Count, Source={x:Static m:ModuleManager.System}}" />
+									</StackPanel>
+								</Panel>
+
+								<ListBox Grid.Row="1"
+                                         BorderThickness="0"
+                                         CornerRadius="0"
+                                         Items="{Binding Modules}"
+                                         SelectedItem="{Binding SelectedModule}">
+									<ListBox.DataTemplates>
+										<DataTemplate DataType="{x:Type m:IModule}">
+											<Grid Margin="5 0">
+												<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" />
+												<Path IsVisible="{Binding !CorrectlyInitialized}"
+                                                      HorizontalAlignment="Right"
+                                                      Fill="{StaticResource ErrorBrush}"
+                                                      Data="{StaticResource ErrorIcon}"
+                                                      Stretch="Uniform"
+                                                      Height="14" />
+											</Grid>
+										</DataTemplate>
+									</ListBox.DataTemplates>
+								</ListBox>
+							</Grid>
+						</Border>
+					</Border>
+					<Button Grid.Row="1"
+                            Content="{DynamicResource AddModules}"
+                            Margin="0 5 0 0"
+                            Command="{Binding AddModules}" />
+				</Grid>
+				<Grid Grid.Column="2" RowDefinitions="Auto,*">
+					<TextBlock Grid.Row="0"
+                               Text="{DynamicResource ModuleInformation}"
+                               TextAlignment="Center"
+                               FontSize="16"
+                               Margin="0 0 0 5"
+                               FontWeight="Bold" />
+
+					<Border Grid.Row="1"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            Background="{StaticResource BackgroundControlBrush}">
+						<Border ClipToBounds="True" CornerRadius="5">
+							<Grid>
+								<Grid IsVisible="{Binding SelectedModule, Converter={x:Static ObjectConverters.IsNotNull}}">
+									<ScrollViewer>
+										<StackPanel Margin="5">
+											<Image Source="{Binding SelectedModule.Icon}" Width="50" Height="50" />
+											<TextBlock Text="{Binding SelectedModule.Name}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       TextAlignment="Center"
+                                                       Margin="0 5 0 10" />
+
+											<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+												<TextBlock Text="{DynamicResource CreatorC}" Margin="0 0 5 0" />
+												<TextBlock Text="{Binding SelectedModule.Creator}" />
+											</StackPanel>
+											<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+												<TextBlock Text="{DynamicResource VersionC}" Margin="0 0 5 0" />
+												<TextBlock Text="{Binding SelectedModule.Version}" />
+											</StackPanel>
+
+											<TextBlock Text="{Binding SelectedModule.Description}"
+                                                       Margin="0 15 0 0"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap" />
+
+											<TextBlock Text="{DynamicResource NotInitialized}"
+                                                       IsVisible="{Binding !SelectedModule.CorrectlyInitialized}"
+                                                       Foreground="{StaticResource ErrorBrush}"
+                                                       Margin="0 25 0 0"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap" />
+										</StackPanel>
+									</ScrollViewer>
+
+									<Button VerticalAlignment="Bottom"
+                                            IsVisible="{Binding !SelectedModule.CorrectlyInitialized}"
+                                            HorizontalAlignment="Right"
+                                            Margin="5"
+                                            Command="{Binding InitializeModule}"
+											CommandParameter="{Binding SelectedModule}"
+                                            Content="{DynamicResource Initialize}" />
+								</Grid>
+
+								<TextBlock Text="{DynamicResource SelectModule}"
+                                           IsVisible="{Binding SelectedModule, Converter={x:Static ObjectConverters.IsNull}}"
+                                           Foreground="{StaticResource ForegroundOpacityBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+							</Grid>
+						</Border>
+					</Border>
+				</Grid>
+			</Grid>
+		</PleasantTabItem>
+		<PleasantTabItem IsClosable="False" Header="{DynamicResource Style}" Icon="{StaticResource PaletteIcon}">
+			<Grid ColumnDefinitions="*,5,*" RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="5">
+				<DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 0 5">
+					<TextBlock Text="{DynamicResource ThemeC}" />
+					<ComboBox Margin="5 0 0 0" SelectedIndex="{Binding Theme}">
+						<ComboBoxItem Content="{DynamicResource Light}" />
+						<ComboBoxItem Content="{DynamicResource Dark}" />
+						<ComboBoxItem Content="{DynamicResource Mysterious}" />
+						<ComboBoxItem Content="{DynamicResource Turquoise}" />
+						<ComboBoxItem Content="{DynamicResource Emerald}" />
+					</ComboBox>
+				</DockPanel>
+
+				<TextBox Grid.Column="2"
+                         Grid.Row="1"
+                         Watermark="{DynamicResource ThemeName}"
+                         TextAlignment="Center"
+                         Text="{Binding CustomTheme.Name, Mode=TwoWay}"
+                         IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+				<Border Grid.Row="1"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        BorderThickness="1"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        CornerRadius="5">
+					<Border CornerRadius="5" ClipToBounds="True">
+						<Grid RowDefinitions="Auto,*">
+							<Panel Grid.Row="0"
+                                   Background="{StaticResource BackgroundLevel1Brush}"
+                                   Height="25">
+								<StackPanel Margin="5 0 0 0"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+									<TextBlock Text="{DynamicResource InstalledThemesC}" Margin="0 0 5 0" />
+									<TextBlock Text="{Binding CustomThemes.Count}" />
+								</StackPanel>
+							</Panel>
+
+							<ListBox Grid.Row="1"
+                                     Items="{Binding CustomThemes}"
+                                     SelectedItem="{Binding CustomTheme}"
+                                     BorderThickness="0"
+                                     CornerRadius="0">
+								<ListBox.DataTemplates>
+									<DataTemplate>
+										<TextBlock Margin="5 0 0 0" Text="{Binding Name}" />
+									</DataTemplate>
+								</ListBox.DataTemplates>
+								<ListBox.ContextMenu>
+									<ContextMenu IsVisible="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+										<MenuItem Header="{DynamicResource Copy}" Command="{Binding CopyTheme}" />
+										<MenuItem Header="{DynamicResource Paste}" Command="{Binding PasteTheme}" />
+									</ContextMenu>
+								</ListBox.ContextMenu>
+							</ListBox>
+						</Grid>
+					</Border>
+				</Border>
+
+				<Button Grid.Column="0"
+                        Grid.Row="3"
+                        Content="{DynamicResource Delete}"
+                        Command="{Binding DeleteTheme}" Margin="0 5"
+                        IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+				<Button Grid.Column="0"
+                        Grid.Row="4"
+                        Content="{DynamicResource Create}"
+                        Command="{Binding CreateTheme}" />
+
+				<Border Classes="BorderStyle" Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" Margin="0 5 0 0" Background="{StaticResource BackgroundLevel1Brush}">
+					<Border CornerRadius="5" ClipToBounds="True">
+						<ScrollViewer VerticalScrollBarVisibility="Auto">
+							<page:CustomThemeSettingsPage />
+						</ScrollViewer>
+					</Border>
+				</Border>
+			</Grid>
+		</PleasantTabItem>
+	</PleasantTabView>
+</PleasantDialogWindow>

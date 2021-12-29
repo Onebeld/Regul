@@ -1,0 +1,18 @@
+﻿<Style xmlns="https://github.com/avaloniaui" Selector="ContextMenu"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Setter Property="WindowManagerAddShadowHint" Value="False"/>
+    <Setter Property="Template">
+        <ControlTemplate>
+            <Border BorderBrush="{StaticResource WindowBorderBrush}" Margin="4 2 4 4" CornerRadius="4" ShadowAssist.ShadowDepth="Depth1" BorderThickness="1" Background="{StaticResource BackgroundBrush}">
+                <ScrollViewer>
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    Margin="2"
+                                    Items="{TemplateBinding Items}"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                    ItemTemplate="{TemplateBinding ItemTemplate}"
+                                    KeyboardNavigation.TabNavigation="Continue"/>
+                </ScrollViewer>
+            </Border>
+        </ControlTemplate>
+    </Setter>
+</Style>

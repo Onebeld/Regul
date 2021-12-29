@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <Import Project="..\..\build\RegulVersion.props" />
+    <Import Project="..\..\build\Avalonia.props" />
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.11" />
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj" />
+        <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj" />
+        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
+        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
+        <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
+        <ProjectReference Include="..\Regul.Settings\Regul.Settings.csproj" />
+        <ProjectReference Include="..\System.Custom\System.Custom.csproj" />
+    </ItemGroup>
+</Project>

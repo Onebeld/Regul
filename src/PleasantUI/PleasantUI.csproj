@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Version>1.2.0</Version>
+		<Authors>Dmitry Zhutkov (Onebeld)</Authors>
+		<Copyright>©2021 Dmitry Zhutkov (Onebeld)</Copyright>
+		<RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
+		<RepositoryType>public</RepositoryType>
+		<PackageTags>style, pleasant, pleasantui, avalonia, ui, avaloniaui</PackageTags>
+		<Description>Dynamic user interface for Avalonia</Description>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+	</PropertyGroup>
+
+	<Import Project="..\..\build\Avalonia.props" />
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.11" />
+		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+		<AvaloniaResource Include="PleasantUI.axaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj" />
+	</ItemGroup>
+</Project>

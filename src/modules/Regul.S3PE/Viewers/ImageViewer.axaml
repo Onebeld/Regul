@@ -1,0 +1,47 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.S3PE.Viewers.ImageViewer">
+    <Grid RowDefinitions="25,*,30">
+        <Grid Row="0" Background="{DynamicResource BackgroundLevel1Brush}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0 0 0">
+                <TextBlock Text="{DynamicResource SizeC}" Margin="0 0 5 0" />
+				
+                <TextBlock Text="{Binding ImageWidth}" />
+                <TextBlock Text="x" />
+                <TextBlock Text="{Binding ImageHeight}" />
+            </StackPanel>
+
+			<Menu VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0">
+				<MenuItem Header="{DynamicResource Import}">
+					<MenuItem Header="{DynamicResource FromImage}" Command="{Binding ImportImage}" />
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Export}">
+					<MenuItem Header="{DynamicResource ToImage}" Command="{Binding ExportImage}" />
+				</MenuItem>
+			</Menu>
+        </Grid>
+        
+        <ScrollViewer Grid.Row="1" BorderThickness="0" CornerRadius="0" HorizontalScrollBarVisibility="Auto">
+            <Image Source="{Binding BitmapImage}"
+				   Width="{Binding WidthScale}" 
+				   Height="{Binding HeightScale}" 
+				   HorizontalAlignment="Center" 
+				   VerticalAlignment="Center" />
+        </ScrollViewer>
+
+		<Panel Grid.Row="2" Background="{StaticResource BackgroundLevel1Brush}">
+
+			<NumericUpDown Value="{Binding Scale, Mode=TwoWay}"
+						   VerticalAlignment="Center"
+						   Minimum="20"
+						   Maximum="500"
+						   Increment="20"
+						   FormatString="{}{0}%"
+						   HorizontalAlignment="Right"
+						   Margin="0 0 5 0" />
+		</Panel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,224 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.Base.Views.Windows.CustomThemeSettingsPage">
+	<UserControl.Resources>
+		<UIntToBrushConverter x:Key="UIntToBrushConverter" />
+	</UserControl.Resources>
+	
+	<StackPanel Margin="5" Spacing="5">
+		<StackPanel.Styles>
+			<Style Selector="Button">
+				<Setter Property="ContextFlyout">
+					<Setter.Value>
+						<MenuFlyout>
+							<MenuItem Header="{DynamicResource Copy}"
+									  Command="{Binding CopyColor}"
+									  CommandParameter="{Binding $parent[Button]}" />
+							<MenuItem Header="{DynamicResource Paste}"
+									  Command="{Binding PasteColor}"
+									  CommandParameter="{Binding $parent[Button]}" />
+						</MenuFlyout>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</StackPanel.Styles>
+		
+		<Expander Header="{DynamicResource General}">
+			<StackPanel Spacing="5" IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+				<DockPanel>
+					<TextBlock Text="Accent" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.AccentColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							DockPanel.Dock="Right"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Background" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.BackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Background control" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.BackgroundControlColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Hover Background" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.HoverBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Window Border Brush" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.WindowBorderColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Selection Text" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.SelectionColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Border" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.BorderColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Foreground" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.ForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Foreground Opacity" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.ForegroundOpacityColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Pressed Foreground" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.PressedForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Background Level1" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.BackgroundLevel1Color, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Error" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.ErrorColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="ScrollBox" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.ScrollBoxColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Hover ScrollBox" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.HoverScrollBoxColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Title Bar" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.TitleBarColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Close Button" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.CloseButtonColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+			</StackPanel>
+		</Expander>
+		<Expander Header="ModalWindow">
+			<StackPanel Spacing="5"
+						IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+				<DockPanel>
+					<TextBlock Text="DefaultButton Background" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBDefaultButtonBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="DefaultButton Foreground" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBDefaultButtonForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="DefaultButton Hover Background" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBDefaultButtonHoverBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Warning Icon" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBWarningColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Error Icon" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.ErrorColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Question Icon" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBQuestionColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+				<DockPanel>
+					<TextBlock Text="Success Icon" />
+					<Button Width="20" Classes="SelectionColor"
+							Background="{Binding CustomTheme.MBSuccessColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}"
+							Command="{Binding ChangeColor}"
+							CommandParameter="{Binding $self}"
+							HorizontalAlignment="Right" />
+				</DockPanel>
+			</StackPanel>
+		</Expander>
+	</StackPanel>
+</UserControl>

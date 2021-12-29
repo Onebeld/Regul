@@ -1,0 +1,88 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColor}" />
+        <SolidColorBrush x:Key="BackgroundControlBrush" Color="{DynamicResource BackgroundControlColor}" />
+        <SolidColorBrush x:Key="BackgroundLevel1Brush" Color="{DynamicResource BackgroundLevel1Color}" />
+        <SolidColorBrush x:Key="HoverBackgroundBrush" Color="{DynamicResource HoverBackgroundColor}" />
+        <SolidColorBrush x:Key="WindowBorderBrush" Color="{DynamicResource WindowBorderColor}" />
+        <SolidColorBrush x:Key="SelectionBrush" Color="{DynamicResource SelectionColor}" />
+        <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource BorderColor}" />
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource ForegroundColor}" />
+        <SolidColorBrush x:Key="ForegroundOpacityBrush" Color="{DynamicResource ForegroundOpacityColor}" />
+        <SolidColorBrush x:Key="PressedForegroundBrush" Color="{DynamicResource PressedForegroundColor}" />
+        <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}" />
+        <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
+        
+        <SolidColorBrush x:Key="TitleBarBrush" Color="{DynamicResource TitleBarColor}" />
+        <SolidColorBrush x:Key="CloseButtonBrush" Color="{DynamicResource CloseButtonColor}" />
+        
+        <SolidColorBrush x:Key="HoverScrollBoxBrush" Color="{DynamicResource HoverScrollBoxColor}"/>
+        <SolidColorBrush x:Key="ScrollBoxBrush" Color="{DynamicResource ScrollBoxColor}"/>
+
+        <!-- MessageBox -->
+        <SolidColorBrush x:Key="MBDefaultButtonBackgroundBrush" Color="{DynamicResource MBDefaultButtonBackgroundColor}" />
+        <SolidColorBrush x:Key="MBDefaultButtonForegroundBrush" Color="{DynamicResource MBDefaultButtonForegroundColor}" />
+        <SolidColorBrush x:Key="MBDefaultButtonHoverBackgroundBrush" Color="{DynamicResource MBDefaultButtonHoverBackgroundColor}" />
+
+        <SolidColorBrush x:Key="MBQuestionBrush" Color="{DynamicResource MBQuestionColor}" />
+        <SolidColorBrush x:Key="MBSuccessBrush" Color="{DynamicResource MBSuccessColor}" />
+        <SolidColorBrush x:Key="MBWarningBrush" Color="{DynamicResource MBWarningColor}" />
+        <SolidColorBrush x:Key="MBErrorBrush" Color="{DynamicResource MBErrorColor}" />
+        <!-- MessageBox -->
+    </Styles.Resources>
+    
+    <StyleInclude Source="/Assets/Icons.axaml" />
+
+    <!-- Custom controls -->
+    <StyleInclude Source="/Controls/Custom/Chrome/PleasantCaptionButtons.axaml" />
+    <StyleInclude Source="/Controls/Custom/Chrome/PleasantTitleBar.axaml" />
+    <StyleInclude Source="/Controls/Custom/PleasantWindow.axaml" />
+    <StyleInclude Source="/Controls/Custom/PleasantDialogWindow.axaml" />
+    <StyleInclude Source="/Controls/Custom/ColorPicker.axaml" />
+    <StyleInclude Source="/Controls/Custom/PleasantTabItem.axaml" />
+    <StyleInclude Source="/Controls/Custom/PleasantTabView.axaml" />
+    <!-- Custom controls -->
+
+    <!-- Styled controls -->
+    <StyleInclude Source="/Controls/Styled/Button.axaml" />
+    <StyleInclude Source="/Controls/Styled/TextBox.axaml" />
+    <StyleInclude Source="/Controls/Styled/DataValidationErrors.axaml" />
+    <StyleInclude Source="/Controls/Styled/ScrollViewer.axaml" />
+    <StyleInclude Source="/Controls/Styled/ListBox.axaml" />
+    <StyleInclude Source="/Controls/Styled/ListBoxItem.axaml" />
+    <StyleInclude Source="/Controls/Styled/UserControl.axaml" />
+    <StyleInclude Source="/Controls/Styled/ContextMenu.axaml" />
+    <StyleInclude Source="/Controls/Styled/PopupRoot.axaml" />
+    <StyleInclude Source="/Controls/Styled/CheckBox.axaml" />
+    <StyleInclude Source="/Controls/Styled/ComboBox.axaml" />
+    <StyleInclude Source="/Controls/Styled/ComboBoxItem.axaml" />
+    <StyleInclude Source="/Controls/Styled/ScrollBar.axaml" />
+    <StyleInclude Source="/Controls/Styled/ProgressBar.axaml" />
+    <StyleInclude Source="/Controls/Styled/ButtonSpinner.axaml" />
+    <StyleInclude Source="/Controls/Styled/NumericUpDown.axaml" />
+    <StyleInclude Source="/Controls/Styled/TabControl.axaml" />
+    <StyleInclude Source="/Controls/Styled/TabItem.axaml" />
+    <StyleInclude Source="/Controls/Styled/ToolTip.axaml" />
+    <StyleInclude Source="/Controls/Styled/MenuItem.axaml" />
+    <StyleInclude Source="/Controls/Styled/Separator.axaml" />
+    <StyleInclude Source="/Controls/Styled/Expander.axaml" />
+    <StyleInclude Source="/Controls/Styled/RepeatButton.axaml" />
+    <StyleInclude Source="/Controls/Styled/Menu.axaml" />
+    <StyleInclude Source="/Controls/Styled/DataGrid.axaml" />
+    <StyleInclude Source="/Controls/Styled/GridSplitter.axaml" />
+    <StyleInclude Source="/Controls/Styled/RadioButton.axaml" />
+    <StyleInclude Source="/Controls/Styled/WindowNotificationManager.axaml" />
+    <StyleInclude Source="/Controls/Styled/NotificationCard.axaml" />
+    <StyleInclude Source="/Controls/Styled/MenuFlyoutPresenter.axaml" />
+    <!-- Styled controls -->
+
+    <!-- Other -->
+    <Style Selector="Border.BorderStyle">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+    </Style>
+    <!-- Other -->
+</Styles>

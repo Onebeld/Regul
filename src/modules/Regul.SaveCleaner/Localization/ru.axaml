@@ -1,0 +1,64 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:v="using:System">
+    <Style.Resources>
+        <!-- Russian -->
+        
+        <v:String x:Key="TheSims3SaveCleaner">Очиститель сохранении The Sims 3</v:String>
+        
+        <!-- Settings -->
+        <v:String x:Key="EnableMultithreading">Включить многопоточность</v:String>
+
+		<v:String x:Key="PathToTheSims3DocumentC">Путь к документу The Sims 3:</v:String>
+		<v:String x:Key="PathToSavesFolderC">Путь к папке с сохранениями:</v:String>
+
+		<v:String x:Key="EnableMultithreadingDescr">Эта настройка позволяет задействовать все ядра процессора и выполнять задачи параллельно, возможно ускорение работы программы</v:String>
+		<v:String x:Key="Define">Определить</v:String>
+		<v:String x:Key="ChoosePath">Выбрать путь</v:String>
+        <!-- Settings -->
+        
+        <!-- SaveCleaner -->
+		<v:String x:Key="Select">Выбрать</v:String>
+		<v:String x:Key="PathBackup">Путь для создания резервной копии</v:String>
+		<v:String x:Key="Clear">Очистить</v:String>
+		<v:String x:Key="RemovingFamilyPortraits">Удалить портреты семей</v:String>
+		<v:String x:Key="DeletingCharacterPortraits">Удалить портреты персонажей</v:String>
+		<v:String x:Key="RemovingLotThumbnails">Удалить портреты участка</v:String>
+		<v:String x:Key="RemovingPhotos">Удалить фотографии</v:String>
+		<v:String x:Key="RemovingTextures">Удалить текстуры (экспериментально)</v:String>
+		<v:String x:Key="RemovingGeneratedImages">Удалить сгенерированные изображения</v:String>
+		<v:String x:Key="ClearCache">Очистить кэш</v:String>
+		<v:String x:Key="CreateBackup">Создать резервную копию</v:String>
+		<v:String x:Key="RemoveOtherTypes">Удалить другие типы (экспериментально)</v:String>
+		<v:String x:Key="ToolTipRemovingFamilyPortraits">Удаляет все семейные портреты, кроме текущего (Рекомендуется включить)</v:String>
+		<v:String x:Key="ToolTipDeletingCharacterPortraits">Удаляет портреты, которые отображаются на панели взаимоотношений, в CAS, при выборе одежды и на панели выбранного активного персонажа (Рекомендуется включить)</v:String>
+		<v:String x:Key="ToolTipRemovingLotThumbnails">Удаляет портреты участка в главном меню и при переезде</v:String>
+		<v:String x:Key="ToolTipRemovingPhotos">Удаляет все фотографии, сделанные симом</v:String>
+		<v:String x:Key="ToolTipRemovingTextures">Удаляет текстуры непрогруженного участка. После этого непрогруженный участок выглядит плохо, но после прогрузки эти дефекты исчезают. После очистки у некоторых испытывают замедление игры и невозможность сохранения. Используйте эту опцию на свой страх и риск и обязательно делайте копию своего сохранения.</v:String>
+		<v:String x:Key="ToolTipRemovingGeneratedImages">Удаляет сгенерированные изображения, созданные, например, во время выпускного бала</v:String>
+		<v:String x:Key="ToolTipRemoveOtherTypes">Эта опция позволяет очистить неизвестные типы. Работает как опция "Очистить воспоминания" у программы Kuree. Есть небольшая вероятность поломки сохранения. Рекомендуется перед очисткой отключить систему воспоминании в настройках игры и сделать резервную копию сохранения.</v:String>
+
+		<v:String x:Key="AnErrorHasOccurred">Произошла ошибка. Подробности ниже.</v:String>
+		<v:String x:Key="SaveFilesCleanedSuccessfully">Файл(ы) сохранения успешно очищен(ы)! Подробности внизу.</v:String>
+		<v:String x:Key="SaveFilesNotFound">Файлы сохранения не найдены</v:String>
+		<v:String x:Key="NoSelectedSaveFile">Вы не выбрали файл сохранения!</v:String>
+		<v:String x:Key="NotFindFolderTheSims3">Не удалось найти папку «The Sims 3». Выберите папку вручную.</v:String>
+
+		<v:String x:Key="ProcessingCreateBackup">Создание резервной копии...</v:String>
+		<v:String x:Key="ProcessingCompressingSave">Сжатие файла сохранения...</v:String>
+		<v:String x:Key="ProcessingClearingSave">Очистка файла сохранения...</v:String>
+		<v:String x:Key="ProcessingClearingCache">Очистка кэша...</v:String>
+
+		<v:String x:Key="SaveNameC">Название сохранения:</v:String>
+		<v:String x:Key="TimePassedC">Прошло времени:</v:String>
+		<v:String x:Key="Sec">сек.</v:String>
+		<v:String x:Key="OldSizeC">Старый размер:</v:String>
+		<v:String x:Key="NewSizeC">Новый размер:</v:String>
+		<v:String x:Key="PercentC">Процент:</v:String>
+		<v:String x:Key="DeletedFilesC">Удалённые файлы:</v:String>
+
+		<v:String x:Key="ChooseAll">Выбрать все</v:String>
+		<v:String x:Key="CancelAll">Отменить все</v:String>
+        <!-- SaveCleaner -->
+    </Style.Resources>
+</Style>

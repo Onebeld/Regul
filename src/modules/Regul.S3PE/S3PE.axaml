@@ -1,0 +1,240 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="using:Regul.Base.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.S3PE.S3PE">
+    <UserControl.KeyBindings>
+        <!-- Hack, look at S3PEViewModel -->
+        <KeyBinding Command="{Binding AddResource}" Gesture="Ctrl+Shift+A" />
+        <KeyBinding Command="{Binding CopyResource}" Gesture="Ctrl+Shift+C" />
+        <KeyBinding Command="{Binding PasteResource}" Gesture="Ctrl+Shift+V" />
+        <KeyBinding Command="{Binding ResourceDetails}" Gesture="Ctrl+Shift+D" />
+    </UserControl.KeyBindings>
+    <UserControl.Resources>
+        <c:UIntToStringConverter x:Key="UIntToStringConverter" />
+        <c:ULongToStringConverter x:Key="ULongToStringConverter" />
+        <c:UShortToStringConverter x:Key="UShortToStringConverter" />
+    </UserControl.Resources>
+    <Grid ColumnDefinitions="*,Auto" RowDefinitions="30,*">
+        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"
+                Margin="5 5 5 0"
+                BorderBrush="{StaticResource BorderBrush}"
+                Background="{StaticResource BackgroundControlBrush}"
+                ClipToBounds="True"
+                CornerRadius="5">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0 0 0">
+                    <TextBlock Text="{DynamicResource NumberOfC}" Margin="0 0 5 0" />
+                    <TextBlock Text="{Binding Resources.Count}" />
+                </StackPanel>
+                <Menu Grid.Column="1" Margin="5 0 0 0" VerticalAlignment="Center">
+                    <MenuItem Header="{DynamicResource ResourceMenu}">
+                        <MenuItem Header="{DynamicResource AddE}"
+                                  Command="{Binding AddResource}"
+                                  InputGesture="Ctrl+Shift+A" />
+                        <MenuItem Header="{DynamicResource Copy}"
+                                  Command="{Binding CopyResource}"
+                                  InputGesture="Ctrl+Shift+C"
+                                  IsEnabled="{Binding SelectedResources.Count}" />
+                        <MenuItem Header="{DynamicResource PasteE}"
+                                  Command="{Binding PasteResource}"
+                                  InputGesture="Ctrl+Shift+V" />
+                        <MenuItem Header="{DynamicResource Duplicate}"
+                                  Command="{Binding DuplicateResource}"
+                                  IsEnabled="{Binding SelectedResource, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <MenuItem Header="{DynamicResource Remove}"
+                                  Command="{Binding DeleteResources}"
+                                  IsEnabled="{Binding SelectedResources.Count}" />
+
+                        <Separator />
+
+                        <MenuItem Header="{DynamicResource Compressed}"
+                                  Command="{Binding CompressedResources}"
+                                  IsEnabled="{Binding SelectedResources.Count}" />
+
+                        <MenuItem Header="{DynamicResource Details}"
+                                  Command="{Binding ResourceDetails}"
+                                  InputGesture="Ctrl+Shift+D"
+                                  IsEnabled="{Binding SelectedResource, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                        <Separator />
+
+                        <MenuItem Header="{DynamicResource SelectAll}"
+                                  Command="{Binding SelectAllResources}"
+                                  InputGesture="Ctrl+A" />
+                        <MenuItem Header="{DynamicResource CopyRK}"
+                                  Command="{Binding CopyRK}"
+                                  IsEnabled="{Binding SelectedResources.Count}" />
+                    </MenuItem>
+                </Menu>
+                <ToggleButton Grid.Column="2" BorderThickness="0" Padding="6" IsChecked="{Binding OpenedMenu}">
+                    <Path Stretch="Uniform" Data="{StaticResource MenuIcon}" />
+                </ToggleButton>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="*,Auto,*">
+            <Border Grid.Column="0" Margin="5 5 0 5"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{StaticResource BackgroundControlBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                <Border ClipToBounds="True" CornerRadius="5">
+                    <DataGrid x:Name="PART_DataGrid"
+                              CanUserResizeColumns="True"
+                              CanUserReorderColumns="False"
+                              CanUserSortColumns="True"
+                              IsReadOnly="True"
+                              Items="{Binding Resources}"
+                              HeadersVisibility="All">
+                        <DataGrid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem Header="{DynamicResource AddE}"
+                                          Command="{Binding AddResource}"
+                                          InputGesture="Ctrl+Shift+A" />
+                                <MenuItem Header="{DynamicResource Copy}"
+                                          Command="{Binding CopyResource}"
+                                          InputGesture="Ctrl+Shift+C"
+                                          IsEnabled="{Binding SelectedResources.Count}" />
+                                <MenuItem Header="{DynamicResource PasteE}"
+                                          Command="{Binding PasteResource}"
+                                          InputGesture="Ctrl+Shift+V" />
+                                <MenuItem Header="{DynamicResource Duplicate}"
+                                          Command="{Binding DuplicateResource}"
+                                          IsEnabled="{Binding SelectedResource, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <MenuItem Header="{DynamicResource Remove}"
+                                          Command="{Binding DeleteResources}"
+                                          IsEnabled="{Binding SelectedResources.Count}" />
+
+                                <Separator />
+
+                                <MenuItem Header="{DynamicResource Compressed}"
+                                          Command="{Binding CompressedResources}"
+                                          IsEnabled="{Binding SelectedResources.Count}" />
+                                <MenuItem Header="{DynamicResource Details}"
+                                          Command="{Binding ResourceDetails}"
+                                          InputGesture="Ctrl+Shift+D"
+                                          IsEnabled="{Binding SelectedResource, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                                <Separator />
+                                
+                                <MenuItem Header="{DynamicResource SelectAll}"
+                                          Command="{Binding SelectAllResources}"
+                                          InputGesture="Ctrl+A" />
+                                <MenuItem Header="{DynamicResource CopyRK}"
+                                          Command="{Binding CopyRK}"
+                                          IsEnabled="{Binding SelectedResources.Count}" />
+                            </MenuFlyout>
+                        </DataGrid.ContextFlyout>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Width="150" IsReadOnly="True" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Tag" Width="60" IsReadOnly="True" Binding="{Binding Tag}" CanUserSort="True" />
+                            <DataGridTextColumn Header="Type" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.ResourceType, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Group" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.ResourceGroup, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Instance" Width="150" IsReadOnly="True" Binding="{Binding IndexEntry.Instance, Converter={StaticResource ULongToStringConverter}}" />
+                            <DataGridTextColumn Header="Chunkoffset" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Chunkoffset, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Filesize" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Filesize, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Memsize" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Memsize, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Compressed" Width="80" IsReadOnly="True" Binding="{Binding IndexEntry.Compressed, Converter={StaticResource UShortToStringConverter}}" />
+                            <DataGridTextColumn Header="Unknown2" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Unknown2, Converter={StaticResource UShortToStringConverter}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Border>
+            <TextBlock Grid.Column="0"
+                       Grid.Row="0"
+                       Text="{DynamicResource Empty}"
+                       HorizontalAlignment="Center"
+                       IsVisible="{Binding !Resources.Count}"
+                       VerticalAlignment="Center"
+                       Foreground="{StaticResource ForegroundOpacityBrush}" />
+            <GridSplitter Grid.Column="1" Width="5" Background="Transparent" Margin="0 5" />
+            <Border Grid.Column="2"
+                    Margin="0 5 5 5"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{StaticResource BackgroundControlBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                <Border CornerRadius="5" ClipToBounds="True">
+                    <Panel>
+                        <Border Child="{Binding Viewer}" />
+
+                        <TextBlock Text="{DynamicResource SelectResourceToView}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}"
+                                   IsVisible="{Binding NotSelectedResource}" />
+                        <TextBlock Text="{DynamicResource CantViewMultipleResources}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}"
+                                   IsVisible="{Binding SelectedMultipleResources}" />
+                        <TextBlock Text="{DynamicResource ResourceCannotViewed}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}"
+                                   IsVisible="{Binding CannotResourceView}" />
+                    </Panel>
+                </Border>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+            <Border Width="250"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{StaticResource BackgroundLevel1Brush}"
+                    BorderThickness="1 1 0 0"
+                    CornerRadius="5 0 0 0"
+                    Margin="0 5 0 0"
+                    IsVisible="{Binding OpenedMenu}"
+                    ClipToBounds="True">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="5" Spacing="5">
+                        <TextBlock Text="{DynamicResource Settings}" FontSize="16" FontWeight="Bold"
+                                   TextAlignment="Center" />
+
+                        <CheckBox IsChecked="{Binding CheckName}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Name" Text="{Binding Name}" />
+                        </CheckBox>
+                        <CheckBox IsChecked="{Binding CheckTag}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Tag" Text="{Binding Tag}" />
+                        </CheckBox>
+                        <CheckBox IsChecked="{Binding CheckResourceType}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Resource type" Text="{Binding ResourceType}" />
+                        </CheckBox>
+                        <CheckBox IsChecked="{Binding CheckResourceGroup}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Resource group" Text="{Binding ResourceGroup}" />
+                        </CheckBox>
+                        <CheckBox IsChecked="{Binding CheckInstance}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Instance" Text="{Binding Instance}" />
+                        </CheckBox>
+                        <CheckBox IsChecked="{Binding CheckCompressed}" HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <TextBox Watermark="Compressed" Text="{Binding Compressed}" />
+                        </CheckBox>
+
+                        <Separator />
+
+                        <Grid ColumnDefinitions="*,*,*">
+                            <Button Content="{DynamicResource Revise}" Grid.Column="0" Padding="0"
+                                    Command="{Binding Revise}" />
+                            <Button Content="{DynamicResource PasteRK}" Grid.Column="1" Margin="5 0" Padding="0"
+                                    Command="{Binding PasteRK}" />
+                            <Button Content="QBE" Grid.Column="2" Padding="0" Command="{Binding QBE}" />
+                        </Grid>
+                        
+                        <Button Content="{DynamicResource AdvancedSearch}" Padding="0"
+                                Command="{Binding OpenAdvancedSearch}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

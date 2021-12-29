@@ -1,0 +1,81 @@
+﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:windows="clr-namespace:Regul.S3PE.Windows"
+                     xmlns:converters="clr-namespace:Regul.Base.Converters;assembly=Regul.Base"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                     x:Class="Regul.S3PE.Windows.AdvancedSearchResources"
+                     Icon="avares://Regul.Assets/icon.ico"
+                     Title="{DynamicResource ResourceDetails}">
+    <PleasantDialogWindow.DataContext>
+        <windows:AdvancedSearchResourcesViewModel />
+    </PleasantDialogWindow.DataContext>
+    <PleasantDialogWindow.Resources>
+        <converters:UIntToStringConverter x:Key="UIntToStringConverter" />
+        <converters:ULongToStringConverter x:Key="ULongToStringConverter" />
+        <converters:UShortToStringConverter x:Key="UShortToStringConverter" />
+    </PleasantDialogWindow.Resources>
+    <PleasantDialogWindow.Styles>
+        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </PleasantDialogWindow.Styles>
+    <PleasantDialogWindow.TitleContent>
+        <Button Classes="CloseButton"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                CornerRadius="0"
+                Command="{Binding CloseWindow}">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+                </Style>
+            </Button.Styles>
+            <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+        </Button>
+    </PleasantDialogWindow.TitleContent>
+
+    <DockPanel>
+        <Border Background="{StaticResource TitleBarBrush}" DockPanel.Dock="Top">
+            <StackPanel Margin="5" Spacing="5">
+                <DockPanel>
+                    <TextBlock Text="Ключевые слова:" />
+                    <TextBox Margin="5 0 0 0" Text="{Binding KeyedWords}" />
+                </DockPanel>
+                
+                <ProgressBar IsIndeterminate="{Binding IsIndeterminate}" />
+            </StackPanel>
+        </Border>
+
+        <Grid Margin="5">
+            <Border CornerRadius="5" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                <Border CornerRadius="5" ClipToBounds="True">
+                    <DataGrid x:Name="PART_DataGrid"
+                              CanUserResizeColumns="True"
+                              CanUserReorderColumns="False"
+                              CanUserSortColumns="True"
+                              SelectionMode="Single"
+                              IsReadOnly="True"
+                              SelectedItem="{Binding SelectedResource}"
+                              Items="{Binding ViewedResource}"
+                              HeadersVisibility="All">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Width="150" IsReadOnly="True" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Tag" Width="60" IsReadOnly="True" Binding="{Binding Tag}" CanUserSort="True" />
+                            <DataGridTextColumn Header="Type" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.ResourceType, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Group" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.ResourceGroup, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Instance" Width="150" IsReadOnly="True" Binding="{Binding IndexEntry.Instance, Converter={StaticResource ULongToStringConverter}}" />
+                            <DataGridTextColumn Header="Chunkoffset" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Chunkoffset, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Filesize" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Filesize, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Memsize" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Memsize, Converter={StaticResource UIntToStringConverter}}" />
+                            <DataGridTextColumn Header="Compressed" Width="80" IsReadOnly="True" Binding="{Binding IndexEntry.Compressed, Converter={StaticResource UShortToStringConverter}}" />
+                            <DataGridTextColumn Header="Unknown2" Width="100" IsReadOnly="True" Binding="{Binding IndexEntry.Unknown2, Converter={StaticResource UShortToStringConverter}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Border>
+        </Grid>
+    </DockPanel>
+</PleasantDialogWindow>

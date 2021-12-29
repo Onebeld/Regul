@@ -1,0 +1,36 @@
+﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      x:Class="PleasantUI.Windows.MessageBox"
+					  MinWidth="350"
+                      MinHeight="100"
+                      Title="MessageBox">
+	<Grid RowDefinitions="Auto,40">
+		<Grid Name="ContentC" RowDefinitions="*,*,Auto" Margin="5">
+			<Grid Name="Content" ColumnDefinitions="70,*">
+				<Path Name="Icon" VerticalAlignment="Center" Stretch="Uniform" Width="40" Margin="10"/>
+				<ScrollViewer Grid.Column="1">
+					<TextBlock VerticalAlignment="Center" Name="Text" TextWrapping="Wrap" Margin="0 0 10 0" Width="250"/>
+				</ScrollViewer>
+			</Grid>
+			<ToggleButton Grid.Row="1" Name="toggleButton" Padding="7 5" HorizontalAlignment="Right">
+				<Path Data="{StaticResource ArrowDownIcon}" Width="14" Stretch="UniformToFill"/>
+			</ToggleButton>
+			<TextBox Name="ErrorText"
+                     Background="Transparent"
+                     MinHeight="50"
+                     MinWidth="200"
+                     MaxWidth="400"
+                     MaxHeight="200"
+                     Grid.Row="2"
+                     Margin="0 5 0 0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     IsReadOnly="True"
+                     IsVisible="{Binding #toggleButton.IsChecked}"/>
+		</Grid>
+
+		<Grid Grid.Row="1" Background="{DynamicResource BackgroundLevel1Brush}">
+			<StackPanel Name="Buttons" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5" Margin="8"/>
+		</Grid>
+	</Grid>
+</PleasantDialogWindow>

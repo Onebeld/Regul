@@ -1,0 +1,158 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:b="using:PleasantUI.Behaviors">
+	<Style Selector="PleasantTabItem">
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="FontSize" Value="14" />
+		<Setter Property="Padding" Value="10 0" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+		<Setter Property="ZIndex" Value="0"/>
+	</Style>
+	<Style Selector="PleasantTabItem:pressed">
+		<Setter Property="ZIndex" Value="1" />
+	</Style>
+
+	<!--Templates-->
+	<Style Selector="PleasantTabItem[TabStripPlacement=Top]">
+		<Setter Property="CornerRadius" Value="7 7 0 0"/>
+		<Setter Property="(i:Interaction.Behaviors)">
+			<b:SharedContentTemplate>
+				<b:SharedContent>
+					<i:BehaviorCollection>
+						<b:ItemDragBehavior Orientation="Horizontal"/>
+					</i:BehaviorCollection>
+				</b:SharedContent>
+			</b:SharedContentTemplate>
+		</Setter> 
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Decorator Padding="2 2 2 0">
+					<Border Name="PART_Container"
+					        Background="{TemplateBinding Background}"
+					        BorderBrush="{TemplateBinding BorderBrush}"
+					        CornerRadius="{TemplateBinding CornerRadius}" 
+					        Margin="0 0 0 0">
+						<Grid RowDefinitions="*, auto">
+							<Border Padding="10 5 0 0">
+								<Grid Background="Transparent" 
+								      RowDefinitions="*,3"
+								      ColumnDefinitions="*,auto">
+									<Grid Grid.Column="0" 
+									      ColumnDefinitions="Auto,*,Auto,20">
+										<Path Name="PART_Icon"
+										      VerticalAlignment="Center"
+										      Data="{TemplateBinding Icon}"
+										      Stretch="Uniform"
+										      Fill="{StaticResource ForegroundBrush}" />
+										<ContentPresenter Grid.Column="1"
+										                  Name="PART_ContentPresenter"
+										                  BorderThickness="{TemplateBinding BorderThickness}"
+										                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+										                  Content="{TemplateBinding Header}"
+										                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										                  Margin="{TemplateBinding Margin}"
+										                  Padding="{TemplateBinding Padding}"
+										                  TextBlock.Foreground="{TemplateBinding Foreground}" />
+										
+										<Ellipse Grid.Column="2" 
+										         Name="OuterEllipse"
+										         VerticalAlignment="Center"
+										         Margin="0 0 5 0"
+										         Width="5" 
+										         Height="5"
+										         Fill="{StaticResource ForegroundBrush}"
+										         IsVisible="{TemplateBinding IsEditedIndicator}"
+										         UseLayoutRounding="False"/>
+										                  
+										<Button Grid.Column="3" 
+										        Name="PART_CloseButton"
+										        Width="16"
+										        Height="16"
+										        Padding="3"
+										        BorderThickness="0" 
+										        VerticalAlignment="Center"
+										        VerticalContentAlignment="Center"
+										        Foreground="{TemplateBinding Foreground}">
+											<Button.Styles>
+												<Style Selector="Button">
+													<Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+												</Style>
+											</Button.Styles>
+											<Path Data="{StaticResource CloseIcon}" Stretch="Uniform"/>
+										</Button>
+									</Grid>
+
+									<Border Name="PART_Separator"
+									        Grid.Column="1" Grid.Row="0" CornerRadius="5"
+									        BoxShadow="0 0 1 0 Black"
+									        Width="1"
+									        Background="{StaticResource BorderBrush}" />
+								</Grid>
+							</Border>
+						</Grid>
+					</Border>
+				</Decorator>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+
+	<Style Selector="PleasantTabItem:selected /template/ Border#PART_Container">
+		<Setter Property="BoxShadow" Value="0 0 3 0 Black" />
+	</Style>
+	<Style Selector="PleasantTabItem /template/ Button#PART_CloseButton">
+		<Setter Property="IsVisible" Value="false" />
+	</Style>
+	<Style Selector="PleasantTabItem:pointerover /template/ Button#PART_CloseButton">
+		<Setter Property="IsVisible" Value="true" />
+	</Style>
+	<Style Selector="PleasantTabItem:selected /template/ Button#PART_CloseButton">
+		<Setter Property="IsVisible" Value="true" />
+	</Style>
+	<Style Selector="PleasantTabItem:selected[IsClosable=false] /template/ Button#PART_CloseButton">
+		<Setter Property="IsVisible" Value="False" />
+	</Style>
+
+	<Style Selector="PleasantTabItem:disabled">
+		<Setter Property="Opacity" Value="0.5" />
+	</Style>
+	<Style Selector="PleasantTabItem:dragging">
+		<Setter Property="Opacity" Value="0.5" />
+	</Style>
+
+	<Style Selector="PleasantTabItem /template/ Path#PART_Icon">
+		<Setter Property="MaxHeight" Value="16"/>
+	</Style>
+	
+	<Style Selector="PleasantTabItem[IsClosing=true]">
+		<Style.Animations>
+			<Animation Duration="0:0:0.2">
+				<KeyFrame Cue="0%">
+					<Setter Property="Opacity" Value="1" />
+				</KeyFrame>
+				<KeyFrame Cue="100%">
+					<Setter Property="Opacity" Value="0" />
+				</KeyFrame>
+			</Animation>
+		</Style.Animations>
+	</Style>
+	
+	<Style Selector="PleasantTabItem:pointerover">
+		<Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}" />
+	</Style>
+	<Style Selector="PleasantTabItem[IsSelected=True]">
+		<Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+	</Style>
+
+	<Style Selector="PleasantTabItem:pointerover /template/ Border#PART_Separator">
+		<Setter Property="Opacity" Value="0"></Setter>
+	</Style>
+	<Style Selector="PleasantTabItem:selected:pointerover /template/ Border#PART_Separator">
+		<Setter Property="Opacity" Value="0"></Setter>
+	</Style>
+	<Style Selector="PleasantTabItem:selected /template/ Border#PART_Separator">
+		<Setter Property="Opacity" Value="0"></Setter>
+	</Style>
+</Styles>

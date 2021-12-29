@@ -1,0 +1,103 @@
+﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:vm="using:Regul.Base.Views.Windows"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      x:Class="Regul.Base.Views.Windows.About"
+                      Title="{DynamicResource AboutTheProgram}"
+                      Icon="avares://Regul.Assets/icon.ico">
+	<PleasantDialogWindow.Styles>
+		<Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+			<Setter Property="Width" Value="450" />
+			<Setter Property="Margin" Value="0 50" />
+		</Style>
+	</PleasantDialogWindow.Styles>
+    <PleasantDialogWindow.TitleContent>
+        <Button Classes="CloseButton"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                CornerRadius="0"
+                Command="{Binding Close}">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+                </Style>
+            </Button.Styles>
+            <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+        </Button>
+    </PleasantDialogWindow.TitleContent>
+    <PleasantDialogWindow.DataContext>
+        <vm:AboutViewModel />
+    </PleasantDialogWindow.DataContext>
+    
+    <Grid RowDefinitions="*,40">
+        <ScrollViewer>
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Path Height="55"
+                          Fill="#FF9100BF"
+                          Data="{StaticResource RegulIcon}"
+                          Stretch="Uniform"/>
+                    <Path Width="200"
+                          Margin="10 0 0 0"
+                          VerticalAlignment="Center"
+                          Fill="{StaticResource ForegroundBrush}"
+                          Data="{StaticResource RegulText}"
+                          Stretch="Uniform"/>
+                </StackPanel>
+                <TextBlock TextAlignment="Center" FontWeight="Bold" Text="©2020-2022 Dmitry Zhutkov (Onebeld)" Margin="0 5" FontSize="14"/>
+            
+                <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                    <TextBlock Text="{DynamicResource VersionC}"/>
+                    <TextBlock Text="{Binding AppVersion}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding FrameworkVersion}" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                    <TextBlock Text="{DynamicResource LicenseC}"/>
+                    <TextBlock Text="MIT"/>
+                </StackPanel>
+                <TextBlock Text="{DynamicResource RegulDescription}" TextAlignment="Center" Margin="0 10" TextWrapping="Wrap"/>
+                <Border Height="1" Background="{StaticResource BorderBrush}" Margin="5" />
+            
+                <TextBlock Text="{DynamicResource LibrariesUsedC}" TextAlignment="Center" FontWeight="Bold"/>
+
+				<StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
+					<Image x:Name="AvaloniaImage" Source="{StaticResource AvaloniaUIImage}" Height="16" Cursor="Hand" />
+					<TextBlock Text="Avalonia 0.10.11" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+					<Image Source="{StaticResource PleasantUIImage}" Height="16" Cursor="Hand" />
+					<TextBlock Text="PleasantUI by Onebeld" />
+					<TextBlock Text="{Binding PleasantUIVersion}" />
+				</StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <Grid Grid.Row="1"
+              ColumnDefinitions="Auto,*,Auto"
+              Background="{StaticResource BackgroundLevel1Brush}" 
+              DockPanel.Dock="Bottom">
+            <Path Data="{StaticResource OnebeldIcon}" 
+                  Margin="10 0 0 0" 
+                  VerticalAlignment="Center" 
+                  Width="150" 
+                  Fill="{StaticResource ForegroundBrush}" 
+                  Stretch="Uniform"/>
+            
+            <StackPanel Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5"
+                        Margin="8">
+                <Button Height="25" Command="{Binding GoToPatreon}" ToolTip.Tip="Patreon">
+                    <Path Data="{StaticResource PatreonIcon}" Stretch="Uniform"/>
+                </Button>
+                <Button Height="25" Command="{Binding GoToGitHub}" ToolTip.Tip="GitHub">
+                    <Path Data="{StaticResource GitHubIcon}" Stretch="Uniform"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</PleasantDialogWindow>

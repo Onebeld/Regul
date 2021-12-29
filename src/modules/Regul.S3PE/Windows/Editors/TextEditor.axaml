@@ -1,0 +1,59 @@
+﻿<PleasantModalWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:vm="using:Regul.S3PE.Windows.Editors"
+                     xmlns:AvalonEdit="using:AvaloniaEdit"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                     x:Class="Regul.S3PE.Windows.Editors.TextEditor"
+                     Icon="avares://Regul.Assets/icon.ico"
+                     Title="{DynamicResource Edit}">
+	<PleasantModalWindow.DataContext>
+		<vm:TextEditorViewModel />
+	</PleasantModalWindow.DataContext>
+	<PleasantModalWindow.TitleContent>
+		<Button Classes="CloseButton"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                CornerRadius="0"
+                Command="{Binding Close}">
+			<Button.Styles>
+				<Style Selector="Button">
+					<Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+				</Style>
+			</Button.Styles>
+			<Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+		</Button>
+	</PleasantModalWindow.TitleContent>
+	<PleasantModalWindow.Styles>
+		<Style Selector="PleasantModalWindow /template/ Border#PART_ModalWindow">
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+		</Style>
+	</PleasantModalWindow.Styles>
+
+	<Grid RowDefinitions="*,40">
+		<Border Grid.Row="0"
+				Margin="5"
+				Background="{StaticResource BackgroundControlBrush}"
+				CornerRadius="5"
+				BorderThickness="1"
+				BorderBrush="{StaticResource BorderBrush}">
+			<Border ClipToBounds="True" CornerRadius="5">
+				<AvalonEdit:TextEditor x:Name="PART_AvaloniaEdit"
+                               Document="{Binding TextDocument}"
+                               BorderThickness="1"
+                               FontSize="12"
+                               HorizontalScrollBarVisibility="Auto"
+                               Background="Transparent"/>
+			</Border>
+		</Border>
+
+
+		<Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource BackgroundLevel1Brush}">
+			<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" Margin="8">
+				<Button Content="{DynamicResource OK}" Padding="15 0" Command="{Binding OK}" />
+			</StackPanel>
+		</Grid>
+	</Grid>
+</PleasantModalWindow>

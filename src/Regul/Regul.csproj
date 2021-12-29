@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
+        <Authors>Dmitry Zhutkov (Onebeld)</Authors>
+        <Version>0.2.0</Version>
+        <Copyright>©2021 Dmitry Zhutkov (Onebeld)</Copyright>
+        <RepositoryType>public</RepositoryType>
+        <RepositoryUrl>https://github.com/Onebeld/Regul</RepositoryUrl>
+        <Description>Modular modern file editor</Description>
+        <TargetFrameworks>net461;net6.0</TargetFrameworks>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+    
+    <Import Project="..\..\build\RegulVersion.props" />
+    <Import Project="..\..\build\Avalonia.props" />
+    
+    <ItemGroup>
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj" />
+      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
+      <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
+      <ProjectReference Include="..\Regul.Base\Regul.Base.csproj" />
+    </ItemGroup>
+</Project>

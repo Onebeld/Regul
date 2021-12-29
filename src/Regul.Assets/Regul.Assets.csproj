@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <Import Project="..\..\build\RegulVersion.props" />
+    <Import Project="..\..\build\Avalonia.props" />
+
+    <ItemGroup>
+        <AvaloniaResource Include="Localization\**" />
+        <AvaloniaXaml Remove="Localization\ru.axaml" />
+        <AvaloniaResource Include="icon.ico" />
+        <AvaloniaResource Include="Icons.axaml" />
+    </ItemGroup>
+</Project>

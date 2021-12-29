@@ -1,0 +1,51 @@
+﻿<PleasantModalWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:vm="using:Regul.SaveCleaner.Views"
+                     xmlns:s="using:Regul.SaveCleaner"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                     x:Class="Regul.SaveCleaner.Views.SettingsWindow"
+                     Title="{StaticResource Settings}"
+                     Icon="avares://Regul.Assets/icon.ico">
+    <PleasantModalWindow.Styles>
+        <Style Selector="PleasantModalWindow /template/ Border#PART_ModalWindow">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="500" />
+            <Setter Property="Height" Value="300" />
+        </Style>
+    </PleasantModalWindow.Styles>
+    <PleasantModalWindow.TitleContent>
+        <Button Classes="CloseButton" 
+                BorderThickness="0" 
+                HorizontalAlignment="Right" 
+                CornerRadius="0" 
+                Command="{Binding CloseWindow}">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+                </Style>
+            </Button.Styles>
+            <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+        </Button>
+    </PleasantModalWindow.TitleContent>
+    <PleasantModalWindow.DataContext>
+        <vm:SettingsViewModel />
+    </PleasantModalWindow.DataContext>
+    
+    <StackPanel Spacing="5" Margin="5">
+        <DockPanel>
+            <TextBlock Text="{DynamicResource PathToTheSims3DocumentC}" Margin="0 0 5 0" />
+            <TextBox Text="{Binding PathToTheSims3Document, Source={x:Static s:SaveCleanerSettings.Settings}}" />
+        </DockPanel>
+        <DockPanel>
+            <TextBlock Text="{DynamicResource PathToSavesFolderC}" Margin="0 0 5 0" />
+            <TextBox Text="{Binding PathToSaves, Source={x:Static s:SaveCleanerSettings.Settings}}" />
+        </DockPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <Button Content="{DynamicResource Define}" Padding="5 0" Command="{Binding Define}" />
+            <Button Content="{DynamicResource ChoosePath}" Padding="5 0" Command="{Binding ChoosePath}" />
+        </StackPanel>
+    </StackPanel>
+</PleasantModalWindow>
