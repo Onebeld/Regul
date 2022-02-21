@@ -36,7 +36,7 @@ namespace Regul.Base
 		{
 			AvaloniaXamlLoader.Load(this);
 			
-			AppCenter.Start("99222b51-2da8-4cc5-a051-81f309bb19df", typeof(Analytics), typeof(Crashes));
+			AppCenter.Start("", typeof(Analytics), typeof(Crashes));
 
 			InitializeTheme();
 			InitializeLanguage();
