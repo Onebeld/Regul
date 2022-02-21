@@ -7,6 +7,7 @@ namespace Regul.ModuleSystem
 {
 	public class Editor
 	{
+		public string Id { get; set; }
 		public string Name { get; set; }
 		public Func<IEditor> CreatingAnEditor { get; set; }
 		public PathGeometry Icon { get; set; }

@@ -1,7 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Styles.Resources>
-		<Color x:Key="BackgroundColor">#FFEEEEEE</Color>
+		<Color x:Key="BackgroundColor">#FFE9E9E9</Color>
 		<Color x:Key="BackgroundControlColor">#FFFFFFFF</Color>
 		<Color x:Key="BackgroundLevel1Color">#FFDEDEDE</Color>
 		<Color x:Key="HoverBackgroundColor">#FFCBCBCB</Color>
@@ -15,6 +15,7 @@
 		<Color x:Key="ErrorColor">#FFBD0000</Color>
 		
 		<Color x:Key="TitleBarColor">#FFDEDEDE</Color>
+		<Color x:Key="TitleBarFullscreenColor">#FFEEEEEE</Color>
 		<Color x:Key="CloseButtonColor">#FFbf1411</Color>
 		
 		<Color x:Key="HoverScrollBoxColor">#FF828282</Color>

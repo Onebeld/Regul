@@ -10,6 +10,8 @@ namespace Regul.ModuleSystem
 
 		Project CurrentProject { get; set; }
 
+		string Id { get; set; }
+
 		void Load(string path, Project project, PleasantTabItem pleasantTabItem, Editor editor);
 		bool Save(string path);
 		void Release();

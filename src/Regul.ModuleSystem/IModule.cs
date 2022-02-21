@@ -1,4 +1,6 @@
 ﻿using Avalonia.Media;
+using Avalonia.Styling;
+using Regul.ModuleSystem.Models;
 
 namespace Regul.ModuleSystem
 {
@@ -38,19 +40,11 @@ namespace Regul.ModuleSystem
 		/// Starting the module
 		/// </summary>
 		void Execute();
-		/// <summary>
-		/// Certain actions at the end of the program, such as saving settings
-		/// </summary>
-		void Release();
-
-		/// <summary>
-		/// If your module supports localization, change the module language using this method.
-		/// </summary>
-		void ChangeLanguage(string language);
-
-		/// <summary>
-		/// Certain actions after clicking the "Go to update" button, for example, opening a website
-		/// </summary>
-		void GoToUpdate();
+		
+		Language[] Languages { get; }
+		
+		IStyle LanguageStyle { get; set; }
+		string PathToLocalization { get; }
+		string LinkForCheckUpdates { get; }
 	}
 }

@@ -25,8 +25,7 @@
                    Margin="0 15 0 0" />
 
         <StackPanel Spacing="5" Margin="0 0 0 15" VerticalAlignment="Bottom" IsVisible="{Binding TabItems.Count}">
-            <TextBlock Text="{DynamicResource ProjectsOpen}"
-                       TextAlignment="Center" />
+            <TextBlock Text="{DynamicResource ProjectsOpen}" TextAlignment="Center" />
 
             <Button Content="{DynamicResource GoTo}" Command="{Binding GoToEditors}" HorizontalAlignment="Center" />
         </StackPanel>
@@ -43,7 +42,7 @@
             <Border Grid.Row="1" CornerRadius="5 5 0 0" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
                 <Border ClipToBounds="True" CornerRadius="5 5 0 0">
                     <Grid RowDefinitions="Auto,*">
-                        <Border Grid.Row="0" Background="{StaticResource BackgroundLevel1Brush}" Height="25">
+                        <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" Height="25">
                             <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="5 0">
                                 <DockPanel Grid.Column="0" Width="200">
                                     <Path Width="16"
@@ -81,13 +80,13 @@
                                               Width="25" 
                                               Margin="10 0"
                                               VerticalAlignment="Center"
-                                              Data="{Binding EditorIcon, Converter={x:Static c:RegulConverters.StringToGeometry}}"
+                                              Data="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToGeometry}}"
                                               Fill="{StaticResource ForegroundBrush}" 
                                               Stretch="Uniform" />
 
                                         <TextBlock Grid.Row="0" 
                                                    Grid.Column="1" 
-                                                   Text="{Binding Name}" 
+                                                   Text="{Binding Path, Converter={x:Static c:RegulConverters.PathToFileName}}" 
                                                    FontSize="16"
                                                    FontWeight="Bold" VerticalAlignment="Center" />
                                         <TextBlock Grid.Row="1" 
@@ -98,7 +97,7 @@
                                                    VerticalAlignment="Center" TextWrapping="Wrap" />
                                         <TextBlock Grid.Row="2" 
                                                    Grid.Column="1" 
-                                                   Text="{Binding EditorName}"
+                                                   Text="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToNameEditor}}"
                                                    Foreground="{StaticResource ForegroundOpacityBrush}"
                                                    VerticalAlignment="Center" />
                                     </Grid>

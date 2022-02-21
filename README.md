@@ -8,9 +8,7 @@
 
 ![program](https://user-images.githubusercontent.com/44552715/130894590-64ea727e-0545-40d3-805f-b3a5120ef1d7.png)
 
-**Regul** - a modular, modern file editor. Currently oriented for editing the package files of The Sims 3.
-
-This project should eliminate some of the problems s3pe has (such as a simpler user interface).
+**Regul** - a modular, modern file editor. The goal of this project: to create a simple and feature-rich file editor.
 
 ## Features
 
@@ -23,26 +21,19 @@ That's exactly what I've been working on more often.
 The module system allows the program to use third-party modules from third-party developers. Also, these modules are easy to update and you don't have to reinstall the entire program (and the program can weigh 20MB or more). 
 At the moment, these modules are officially working and they come with Regul:
 
-* Regul Save Cleaner
-* S3PE
-* S3PI (dependence for the first two modules)
+* CettaEditor
 
 ### Localization Support
 
 This allows the program to work in multiple languages and change it without restarting the program. Modules can also support this, but you need to implement it yourself (see an example of how this can be done).
 
-### Cross-platform (coming soon)
+### Cross-platform
 
-With .NET 5 and the AvaloniaUI library, cross-platform implementation is possible. This allows you to run the program not only on Windows, but also on macOS and Linux. As far as I know, this is the first game file editor for The Sims 3 that supports cross-platform.
-At the moment, there are no Linux or macOS versions planned. I can make a version for Linux, but unfortunately I can't for macOS, since I don't have a machine with that OS.
+Thanks to .NET 6 and the AvaloniaUI library, the program can run on other OS. This allows you to run the program not only on Windows, but also on macOS and Linux.
 
 ### Tabs
 
 It would be inconvenient to work with several windows at the same time, so tabs are created for this purpose. Thanks to this it became much more convenient to work with several files at the same time.
-
-## What's next?
-
-At the moment I want to refine S3PE to a more workable look and improve the functions of Regul itself.
 
 ## How to support this project?
 
@@ -66,12 +57,8 @@ Libraries:
 * Some controls from PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI) library
 * Modified version of [DotNetCorePlugins](https://github.com/natemcmaster/DotNetCorePlugins) to run .NET Standard 2.0 plugins
 
-Editors:
+The editors I used to create this project::
 * [JetBrains Rider](https://www.jetbrains.com/rider/) for creating and editing the application
 * [Microsoft Visual Studio](https://visualstudio.microsoft.com/) for publishing the application
-
-For module S3PE and SaveCleaner:
-* [s3pi](http://s3pi.sourceforge.net/) is used a modified version, but the authorship still remains Peter L. Jones
-* [Pfim](https://github.com/nickbabcock/Pfim) to view DDS files
 
 <img src="https://user-images.githubusercontent.com/44552715/130897295-8a60dd97-32d1-4bd7-8737-101b4a9f044e.png" width="360" align="right"/>

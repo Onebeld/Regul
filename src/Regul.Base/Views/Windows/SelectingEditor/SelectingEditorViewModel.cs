@@ -62,10 +62,12 @@ namespace Regul.Base.Views.Windows
             }
 
             FoundEditors = new AvaloniaList<Editor>();
-            
-            foreach (Editor editor in Editors)
+
+			//foreach (Editor editor in Editors)
+			for (int i = 0; i < Editors.Count; i++)
             {
-                if (editor.Name.ToLower().Contains(SearchText.ToLower()))
+				Editor editor = Editors[i];
+				if (editor.Name.ToLower().Contains(SearchText.ToLower()))
                     FoundEditors.Add(editor);
             }
         }

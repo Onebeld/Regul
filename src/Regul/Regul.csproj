@@ -11,13 +11,13 @@
         <TargetFrameworks>net461;net6.0</TargetFrameworks>
         <Nullable>disable</Nullable>
     </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
+	</ItemGroup>
     
     <Import Project="..\..\build\RegulVersion.props" />
     <Import Project="..\..\build\Avalonia.props" />
-    
-    <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
-    </ItemGroup>
     
     <ItemGroup>
       <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj" />

@@ -12,36 +12,25 @@
         <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Width" Value="400" />
+            <Setter Property="Width" Value="450" />
             <Setter Property="Margin" Value="0 50" />
         </Style>
     </PleasantDialogWindow.Styles>
-    <PleasantDialogWindow.TitleContent>
-        <Button Classes="CloseButton"
-                BorderThickness="0"
-                HorizontalAlignment="Right"
-                CornerRadius="0"
-                Command="{Binding Close}">
-            <Button.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
-                </Style>
-            </Button.Styles>
-            <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
-        </Button>
-    </PleasantDialogWindow.TitleContent>
     <PleasantDialogWindow.DataContext>
         <vm:SelectingEditorViewModel />
     </PleasantDialogWindow.DataContext>
-    <Grid RowDefinitions="*,40">
-        <Border Grid.Row="0"
-                Margin="5"
+	
+    <Grid RowDefinitions="Auto,*,40">
+		<TextBlock Name="PART_FileName" TextAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0 5 0 0" IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+		
+        <Border Grid.Row="1"
+                Margin="5 5 5 0"
                 CornerRadius="5"
                 BorderBrush="{StaticResource BorderBrush}"
                 BorderThickness="1">
             <Border CornerRadius="5" ClipToBounds="True">
                 <Grid RowDefinitions="Auto,*">
-                    <Panel Grid.Row="0" Height="25" Background="{StaticResource BackgroundLevel1Brush}">
+                    <Panel Grid.Row="0" Height="25" Background="{StaticResource BackgroundBrush}">
                         <DockPanel Width="200" HorizontalAlignment="Left" Margin="5 0 0 0">
                             <Path Width="16"
                                   VerticalAlignment="Center"
@@ -95,7 +84,9 @@
             </Border>
         </Border>
 
-        <Grid Grid.Row="1" Background="{StaticResource BackgroundLevel1Brush}" DockPanel.Dock="Bottom">
+        <Grid Grid.Row="2">
+			<CheckBox Name="PART_AlwaysOpen" Content="{DynamicResource AlwaysOpenFile}" VerticalAlignment="Center" Margin="8 0 0 0" />
+			
             <Button Classes="mbdefault"
                     HorizontalAlignment="Right"
                     Margin="8"

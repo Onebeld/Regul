@@ -69,6 +69,7 @@
 										                  
 										<Button Grid.Column="3" 
 										        Name="PART_CloseButton"
+										        Classes="CloseButton"
 										        Width="16"
 										        Height="16"
 										        Padding="3"

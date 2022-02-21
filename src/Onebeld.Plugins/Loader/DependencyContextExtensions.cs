@@ -179,7 +179,7 @@ namespace Onebeld.Plugins.Loader
                    select library;
         }
 
-        private static IEnumerable<LibraryModel.NativeLibrary> ResolveNativeAssets(this DependencyContext depContext, RuntimeFallbacks runtimeGraph)
+        private static IEnumerable<NativeLibrary> ResolveNativeAssets(this DependencyContext depContext, RuntimeFallbacks runtimeGraph)
         {
             IEnumerable<string> rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries

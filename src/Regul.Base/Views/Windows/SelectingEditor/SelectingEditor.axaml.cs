@@ -1,4 +1,5 @@
-﻿using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 using Regul.ModuleSystem;
 using System.Threading.Tasks;
@@ -17,20 +18,24 @@ namespace Regul.Base.Views.Windows
             };
         }
 
-        public static async Task<Editor> GetEditor()
+        public static async Task<(Editor, bool)> GetEditor(string fileName, bool showCheckBox = true)
 		{
-            SelectingEditor foundEditor = WindowsManager.FindModalWindow<SelectingEditor>();
+            SelectingEditor selectingEditor = WindowsManager.CreateModalWindow<SelectingEditor>();
 
-            if (foundEditor != null && foundEditor.CanOpen)
-                return null;
+            if (selectingEditor == null)
+                return (null, false);
 
-            SelectingEditor selectEditor = new SelectingEditor();
-            selectEditor.GetDataContext<SelectingEditorViewModel>().Editors = ModuleManager.Editors;
-            WindowsManager.OtherModalWindows.Add(selectEditor);
-            Editor editor = await selectEditor.Show<Editor>(WindowsManager.MainWindow);
-            WindowsManager.OtherModalWindows.Remove(selectEditor);
+            selectingEditor.FindControl<TextBlock>("PART_FileName").Text = fileName;
 
-            return editor;
+            CheckBox checkBox = selectingEditor.FindControl<CheckBox>("PART_AlwaysOpen");
+            checkBox.IsVisible = showCheckBox;
+
+            selectingEditor.GetDataContext<SelectingEditorViewModel>().Editors = ModuleManager.Editors;
+
+            Editor editor = await selectingEditor.Show<Editor>(WindowsManager.MainWindow);
+            WindowsManager.OtherModalWindows.Remove(selectingEditor);
+
+            return (editor, editor == null ? false : checkBox.IsChecked ?? false);
         }
     }
 }

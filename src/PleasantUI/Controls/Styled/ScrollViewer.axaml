@@ -23,8 +23,6 @@
 					<ScrollContentPresenter Name="PART_ContentPresenter"
 											Grid.Row="0"
 											Grid.Column="0"
-											Grid.RowSpan="2"
-											Grid.ColumnSpan="2"
 											Background="{TemplateBinding Background}"
 											CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
 											CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}"
@@ -76,8 +74,17 @@
 		</Setter>
 	</Style>
 
-	<Style Selector="ScrollViewer[IsExpanded=true] /template/ Panel#PART_ScrollBarsSeparator">
+	<Style Selector="ScrollViewer[IsExpanded=True] /template/ Panel#PART_ScrollBarsSeparator">
 		<Setter Property="Opacity" Value="0.85" />
+	</Style>
+	
+	<Style Selector="ScrollViewer[AllowAutoHide=True] /template/ ScrollContentPresenter#PART_ContentPresenter">
+		<Setter Property="Grid.RowSpan" Value="2" />
+		<Setter Property="Grid.ColumnSpan" Value="2" />
+	</Style>
+	<Style Selector="ScrollViewer[AllowAutoHide=False] /template/ ScrollContentPresenter#PART_ContentPresenter">
+		<Setter Property="Grid.RowSpan" Value="0" />
+		<Setter Property="Grid.ColumnSpan" Value="0" />
 	</Style>
 
 	<Style Selector="ScrollViewer.menuscroller">

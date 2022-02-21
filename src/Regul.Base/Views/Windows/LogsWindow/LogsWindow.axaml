@@ -21,9 +21,9 @@
 		<vm:LogsWindowViewModel />
 	</PleasantWindow.DataContext>
 	
-	<Grid RowDefinitions="*,40">
+	<Grid RowDefinitions="*,37">
 		<Border Grid.Row="0"
-				Margin="5"
+				Margin="5 5 5 0"
 				Background="{StaticResource BackgroundControlBrush}"
 				CornerRadius="5"
 				BorderThickness="1"
@@ -40,8 +40,8 @@
 		</Border>
 
 
-		<Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource BackgroundLevel1Brush}">
-			<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5" Margin="8">
+		<Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource TitleBarBrush}">
+			<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5" Margin="5">
 				<Button Content="{DynamicResource Clear}" Padding="15 0" Command="{Binding ClearLogs}" />
 				<Button Content="{DynamicResource SaveLogs}" Padding="15 0" Command="{Binding SaveLogs}" />
 			</StackPanel>

@@ -17,8 +17,10 @@ namespace Regul.Base.Views.Windows
 
 		public LogsWindowViewModel()
 		{
-			foreach (string item in Logger.Current.Logs)
+			//foreach (string item in Logger.Current.Logs)
+			for (int i = 0; i < Logger.Current.Logs.Count; i++)
 			{
+				string item = Logger.Current.Logs[i];
 				if (Logger.Current.Logs.IndexOf(item) == 0)
 					TextDocument.Text += item;
 				else
@@ -52,9 +54,7 @@ namespace Regul.Base.Views.Windows
 			string path = await saveFileDialog.ShowAsync(WindowsManager.FindWindow<LogsWindow>());
 
 			if (!string.IsNullOrEmpty(path))
-			{
 				Logger.Current.SaveLog(path);
-			}
 		}
 	}
 }

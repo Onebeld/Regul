@@ -23,7 +23,7 @@
 						</Style>
 					</StackPanel.Styles>
 
-					<Button Name="PART_FullScreenButton" ToolTip.Tip="{DynamicResource Fullscreen}" CornerRadius="0">
+					<Button Name="PART_FullScreenButton" ToolTip.Tip="{DynamicResource FullscreenMode}" CornerRadius="0">
 						<Path Width="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					</Button>
 					<Button Name="PART_MinimizeButton" ToolTip.Tip="{DynamicResource Collapse}" CornerRadius="0">

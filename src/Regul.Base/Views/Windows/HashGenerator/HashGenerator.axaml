@@ -29,7 +29,7 @@
         <Border CornerRadius="5" 
                 BorderThickness="1"
                 Padding="5"
-                Background="{StaticResource BackgroundLevel1Brush}"
+                Background="{StaticResource BackgroundBrush}"
                 BorderBrush="{StaticResource BorderBrush}">
             <StackPanel Spacing="5">
                 <DockPanel>
@@ -47,7 +47,7 @@
         <Border CornerRadius="5"
                 BorderThickness="1"
                 Padding="5"
-                Background="{StaticResource BackgroundLevel1Brush}"
+                Background="{StaticResource BackgroundBrush}"
                 BorderBrush="{StaticResource BorderBrush}">
             <StackPanel Spacing="5">
                 <DockPanel>

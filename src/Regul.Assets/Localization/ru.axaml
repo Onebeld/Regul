@@ -37,19 +37,24 @@
 		<v:String x:Key="SearchName">Имя</v:String>
 		<v:String x:Key="SearchPath">Путь</v:String>
 		<v:String x:Key="SearchEditor">Редактор</v:String>
+		
+		<v:String x:Key="EditorС">Редактор:</v:String>
+		<v:String x:Key="ExtensionFileС">Расширение файла:</v:String>
 
 		<v:String x:Key="NoName">Без имени</v:String>
 		<v:String x:Key="Search">Поиск</v:String>
 
 		<v:String x:Key="Successful">Успешно!</v:String>
 
-		<v:String x:Key="MemorySuccessfullyCleared">Память была успешно очищена.</v:String>
-		<v:String x:Key="FilesSuccessfullySaved">Все файлы были успешно сохранены.</v:String>
+		<v:String x:Key="MemorySuccessfullyCleared">Память была успешно очищена!</v:String>
+		<v:String x:Key="FilesSuccessfullySaved">Все файлы были успешно сохранены!</v:String>
 		<v:String x:Key="FileSuccessfullySavedC">Файл успешно сохранен:</v:String>
-		<v:String x:Key="FileExported">Файл был успешно экспортирован.</v:String>
-		<v:String x:Key="FileImported">Файл был успешно импортирован.</v:String>
+		<v:String x:Key="FileExported">Файл был успешно экспортирован!</v:String>
+		<v:String x:Key="FileImported">Файл был успешно импортирован!</v:String>
+		<v:String x:Key="ModulesUploaded">Модули были успешно загружены!</v:String>
 
 		<v:String x:Key="ChooseAnEditor">Выберите редактор</v:String>
+		<v:String x:Key="AlwaysOpenFile">Всегда открывать эти типы файлов</v:String>
 		<v:String x:Key="InstalledEditorsC">Установлено редакторов:</v:String>
 		<v:String x:Key="NewProject">Новый проект</v:String>
 		<v:String x:Key="NoEditorsButton">Да, скорее всего</v:String>
@@ -63,8 +68,15 @@
 		<v:String x:Key="NoNewUpdate">На данный момент новых обновлений нет</v:String>
 		<v:String x:Key="UpdateIsAvailable">Доступно обнволение! Хотите перейти на сайт для загрузки?</v:String>
 		<v:String x:Key="FailedCheckUpdate">Не удалось проверить наличие обновления</v:String>
+		<v:String x:Key="FailedOpenFile">Произошла ошибка при открытии файла:</v:String>
+		<v:String x:Key="FailedCopyModule">Невозможно загрузить модуль, так как в данный момент загружен другой модуль.</v:String>
+		<v:String x:Key="FileIsAlreadyOpen">Этот файл уже открыт в программе</v:String>
+		<v:String x:Key="ModulesSuccessfullyUpdated">Все модули успешно обновлены!</v:String>
 
 		<v:String x:Key="WarningSaveFile">Вы хотите сохранить файл: </v:String>
+
+		<v:String x:Key="LoadingModules">Загрузка модулей</v:String>
+		<v:String x:Key="EditingFiles">Редактирование файлов</v:String>
 		<!--MainWindow-->
 
 		<!-- TextBoxContextMenu -->
@@ -93,6 +105,7 @@
 		<v:String x:Key="Reestablish">Восстановить</v:String>
 		<v:String x:Key="Close">Закрыть</v:String>
 		<v:String x:Key="FastenOverTheWindows">Закрепить над окнами</v:String>
+		<v:String x:Key="FullscreenMode">Полноэкранный режим</v:String>
 
 		<!-- MessageBox -->
 		<v:String x:Key="Yes">Да</v:String>
@@ -109,6 +122,7 @@
 
 		<!--Settings-->
 		<v:String x:Key="General">Основные</v:String>
+		<v:String x:Key="Editing">Редактирование</v:String>
 		<v:String x:Key="Modules">Модули</v:String>
 		<v:String x:Key="Style">Стиль</v:String>
 
@@ -125,6 +139,7 @@
 		<v:String x:Key="UseCustomTitleBarDescription">Если у вас возникли проблемы с пользовательской строкой заголовка, отключите ее</v:String>
 
 		<v:String x:Key="AddModules">Добавить модули</v:String>
+		<v:String x:Key="UpdateAllModules">Обновить все модули</v:String>
 		<v:String x:Key="ConnectedModulesC">Подключено модулей:</v:String>
 		<v:String x:Key="InstalledThemesC">Установлено тем:</v:String>
 		<v:String x:Key="ModuleInformation">Информация о модуле</v:String>
@@ -132,13 +147,24 @@
 		<v:String x:Key="SelectModule">Выберите модуль</v:String>
 		<v:String x:Key="CreatorC">Создатель:</v:String>
 		<v:String x:Key="VersionC">Версия:</v:String>
-		<v:String x:Key="NETVersionC">Версия .NET:</v:String>
+		<v:String x:Key="NewVersionC">Новая версия:</v:String>
 
-		<v:String x:Key="GoToUpdate">Перейти для обновления</v:String>
+		<v:String x:Key="Update">Обновить</v:String>
 		<v:String x:Key="Initialize">Инициализировать</v:String>
 
-		<v:String x:Key="NotInitialized">Этот модуль был инициализирован неправильно. Попробуйте инициализировать еще раз.</v:String>
+		<v:String x:Key="FileTypes">Типы файлов</v:String>
 
+		<v:String x:Key="NotHaveEditorForTypeFile">У вас нет редакторов по умолчанию для определенных типов расширений файлов</v:String>
+
+		<v:String x:Key="PreparationM">Подготовка...</v:String>
+		<v:String x:Key="DownloadingM">Скачивание...</v:String>
+
+		<v:String x:Key="NotInitialized">Этот модуль был инициализирован неправильно. Попробуйте инициализировать еще раз.</v:String>
+		<v:String x:Key="NoUpdate">Вы не можете обновить этот модуль, так как версия Regul ниже требуемой для модуля</v:String>
+		<v:String x:Key="NextTimeModulesUpdate">Модули будут обновлены при следующем запуске Regul</v:String>
+		<v:String x:Key="UpdatesForModulesNotFound">Обновления для модулей не найдены</v:String>
+		<v:String x:Key="UpdatesForModulesAvailable">Доступны обновления для модулей!</v:String>
+		
 		<v:String x:Key="ThemeName">Название темы</v:String>
 
 		<v:String x:Key="Light">Светлая</v:String>
@@ -152,7 +178,12 @@
 		<v:String x:Key="LicenseC">Лицензия:</v:String>
 		<v:String x:Key="LibrariesUsedC">Используемые библиотеки:</v:String>
 
-		<v:String x:Key="RegulDescription">Модульный современный редактор файлов</v:String>
+		<v:String x:Key="RegulDescription">Модульный и современный редактор файлов</v:String>
+
+		<v:String x:Key="PatronsC">Покровители:</v:String>
+		<v:String x:Key="EarthlyPatronsC">Земные покровители:</v:String>
+		<v:String x:Key="HeavenlyPatronsC">Небесные покровители:</v:String>
+		<v:String x:Key="SpacePatronsC">Космические покровители:</v:String>
 		<!--About-->
 
 		<!--Hash Generator-->

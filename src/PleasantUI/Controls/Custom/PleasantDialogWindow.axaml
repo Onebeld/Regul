@@ -1,7 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="PleasantDialogWindow">
-        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundLevel1Brush}" />
         <Setter Property="ShadowAssist.ShadowDepth" Value="Depth2" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Template">
@@ -21,19 +21,51 @@
                             MaxHeight="{TemplateBinding MaxHeight}">
                         <Border ClipToBounds="True" CornerRadius="{TemplateBinding CornerRadius}">
                             <DockPanel>
-                                <Grid ColumnDefinitions="Auto,*"
+                                <Grid Name="PART_TitleBar" 
+									  ColumnDefinitions="Auto,*,Auto"
                                       DockPanel.Dock="Top"
                                       Height="25"
                                       Background="{StaticResource TitleBarBrush}"
                                       IsVisible="{TemplateBinding ShowTitleBar}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{TemplateBinding Icon}" Width="16" Height="16" Margin="5 0 0 0" />
+                                        <Image Source="{TemplateBinding Icon}" 
+                                               Width="16" 
+                                               Height="16" 
+                                               Margin="5 0 0 0" />
                                         <TextBlock HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    Text="{TemplateBinding Title}" Margin="5 0" />
                                     </StackPanel>
 
-                                    <ContentPresenter Grid.Column="1" Content="{TemplateBinding TitleContent}" />
+                                    <Button Name="PART_CloseButton"
+                                            Classes="CloseButton"
+                                            BorderThickness="0"
+                                            ToolTip.Tip="{DynamicResource Close}">
+                                        <Button.Styles>
+                                            <Style Selector="PleasantDialogWindow /template/ Button#PART_CloseButton">
+                                                <Setter Property="Grid.Column" Value="2" />
+                                                <Setter Property="Background" Value="{StaticResource TitleBarBrush}" />
+                                                <Setter Property="CornerRadius" Value="0" />
+                                            </Style>
+                                            <Style Selector="PleasantDialogWindow[MacOsMode=True] /template/ Button#PART_CloseButton">
+                                                <Setter Property="Width" Value="12" />
+                                                <Setter Property="Height" Value="12" />
+                                                <Setter Property="Margin" Value="10 0 0 0" />
+                                                <Setter Property="Grid.Column" Value="0" />
+												
+                                                <Setter Property="CornerRadius" Value="99" />
+                                                <Setter Property="Background" Value="#FFFE4C40" />
+                                            </Style>
+                                            <Style Selector="PleasantDialogWindow[MacOsMode=True] /template/ Button#PART_CloseButton > Path">
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </Style>
+                                            <Style Selector="PleasantDialogWindow[MacOsMode=True] /template/ Button#PART_CloseButton:pointerover">
+                                                <Setter Property="Background" Value="#FFCC362C" />
+                                            </Style>
+                                        </Button.Styles>
+                                        
+                                        <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Margin="3" />
+                                    </Button>
                                 </Grid>
                                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Content="{TemplateBinding Content}"

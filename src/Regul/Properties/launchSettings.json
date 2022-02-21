@@ -1,11 +1,8 @@
-﻿{
+{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Regul": {
-      "commandName": "Project",
-      "environmentVariables": {
-        
-      }
+      "commandName": "Project"
     }
   }
 }

@@ -1,27 +1,34 @@
-﻿using Avalonia.Collections;
-using Onebeld.Extensions;
-using Onebeld.Plugins;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using Avalonia.Collections;
+using Onebeld.Extensions;
+using Onebeld.Plugins;
+using Regul.ModuleSystem.Models;
+using Module = Regul.ModuleSystem.Models.Module;
 
 namespace Regul.ModuleSystem
 {
 	public class ModuleManager : ViewModelBase
 	{
-		private AvaloniaList<IModule> _modules = new AvaloniaList<IModule>();
-
-		public static ModuleManager System = new ModuleManager();
-
-		public AvaloniaList<IModule> Modules
-		{
-			get => _modules;
-			set => RaiseAndSetIfChanged(ref _modules, value);
-		}
+		public static AvaloniaList<Module> Modules { get; } = new AvaloniaList<Module>();
 
 		public static AvaloniaList<Editor> Editors { get; } = new AvaloniaList<Editor>();
 
-		public static IModule InitializeModule(string path)
+		public static Editor GetEditorById(string id)
+		{
+			//return Editors.FirstOrDefault(x => x.Id == id);
+			for (int i = 0; i < Editors.Count; i++)
+			{
+				Editor item = Editors[i];
+
+				if (item.Id == id)
+					return item;
+			}
+			return null;
+		}
+
+		public static Module InitializeModule(string path)
 		{
 			bool suitableType = false;
 
@@ -41,24 +48,31 @@ namespace Regul.ModuleSystem
 				types = e.Types.Where(t => t != null).ToArray();
 			}
 
-			IModule module = null;
+			IModule source = null;
 
 			foreach (Type type in types)
 			{
 				if (typeof(IModule).IsAssignableFrom(type))
 				{
-					module = Activator.CreateInstance(type) as IModule;
-					System.Modules.Add(module);
+					source = Activator.CreateInstance(type) as IModule;
 					suitableType = true;
 				}
 			}
 
 			if (!suitableType)
 			{
-				loader.Dispose();
 				return null;
 			}
 
+			Module module = new Module
+			{
+				PluginLoader = loader, 
+				Source = source, 
+				InfoForUpdate = new InfoForUpdate(),
+				ModuleAssembly = assembly
+			};
+
+			Modules.Add(module);
 			return module;
 		}
 	}

@@ -52,9 +52,9 @@ namespace PleasantUI.Controls.Custom
         protected override IItemContainerGenerator CreateItemContainerGenerator()
             => new PleasantTabItemContainerGenerator(
                 this,
-                ContentControl.ContentProperty,
-                ContentControl.ContentTemplateProperty,
-                HeaderedContentControl.HeaderProperty,
+                PleasantTabItem.ContentProperty,
+                PleasantTabItem.ContentTemplateProperty,
+                PleasantTabItem.HeaderProperty,
                 PleasantTabItem.IconProperty,
                 PleasantTabItem.IsClosableProperty);
 
@@ -65,7 +65,7 @@ namespace PleasantUI.Controls.Custom
 
             if (SelectedItem == null)
             {
-                double d = (double)ItemCount / 2;
+                double d = ItemCount * 0.5;
                 if (lastselectindex < d & ItemCount != 0)
                 {
                     SelectedItem = (Items as IList)?.OfType<object>().FirstOrDefault();

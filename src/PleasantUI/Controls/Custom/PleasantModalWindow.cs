@@ -15,17 +15,20 @@ namespace PleasantUI.Controls.Custom
     public class PleasantModalWindow : ContentControl, IStyleable, ICustomSimpleHitTest
     {
         public static readonly RoutedEvent WindowClosedEvent =
-            RoutedEvent.Register<PleasantDialogWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
+            RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
 
         public static readonly RoutedEvent WindowOpenedEvent =
-            RoutedEvent.Register<PleasantDialogWindow, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
+            RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
 
-        public static readonly DirectProperty<PleasantDialogWindow, bool> IsClosedProperty =
-            AvaloniaProperty.RegisterDirect<PleasantDialogWindow, bool>(nameof(IsClosed), o => o.IsClosed,
+        public static readonly DirectProperty<PleasantModalWindow, bool> IsClosedProperty =
+            AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosed), o => o.IsClosed,
                 (o, v) => o.IsClosed = v);
 
-        public static readonly DirectProperty<PleasantDialogWindow, bool> IsClosingProperty =
-            AvaloniaProperty.RegisterDirect<PleasantDialogWindow, bool>(nameof(IsClosing), o => o.IsClosing);
+        public static readonly DirectProperty<PleasantModalWindow, bool> IsClosingProperty =
+            AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosing), o => o.IsClosing);
+
+        public static readonly StyledProperty<bool> MacOsModeProperty =
+            AvaloniaProperty.Register<PleasantModalWindow, bool>(nameof(MacOsMode));
 
         public event EventHandler Opened;
         public event EventHandler Closed;
@@ -56,6 +59,12 @@ namespace PleasantUI.Controls.Custom
         {
             get => _isClosing;
             set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
+        }
+
+        public bool MacOsMode
+        {
+            get => GetValue(MacOsModeProperty);
+            private set => SetValue(MacOsModeProperty, value);
         }
         
         public bool CanOpen { get; set; }

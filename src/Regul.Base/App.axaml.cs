@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Xml.Serialization;
 using Avalonia;
 using Avalonia.Controls;
@@ -16,19 +16,27 @@ using PleasantUI;
 using PleasantUI.Media;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
-using Regul.Base.Models;
+using Regul.ModuleSystem.Models;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Regul.Base
 {
 	public class App : Application
 	{
 		public static List<DispatcherTimer> Timers { get; set; } = new List<DispatcherTimer>();
+		public static List<Thread> Threads { get; } = new List<Thread>();
 
-		public static Styles ModulesLanguage { get; set; } = new Styles();
+		public static List<Action> ActionsWhenCompleting { get; } = new List<Action>();
+
+		public static Styles ModulesLanguage { get; } = new Styles();
 
 		public override void Initialize()
 		{
 			AvaloniaXamlLoader.Load(this);
+			
+			AppCenter.Start("99222b51-2da8-4cc5-a051-81f309bb19df", typeof(Analytics), typeof(Crashes));
 
 			InitializeTheme();
 			InitializeLanguage();
@@ -36,54 +44,89 @@ namespace Regul.Base
 
 		private void InitializeTheme()
 		{
-			switch (GeneralSettings.Settings.Theme)
+			//DefaultTheme defaultTheme = PleasantUIDefaults.Themes.FirstOrDefault(x => x.Name == GeneralSettings.Settings.Theme);
+			DefaultTheme defaultTheme = null;
+			foreach (DefaultTheme item in PleasantUIDefaults.Themes)
 			{
-				case "Dark":
-				case "Mysterious":
-				case "Turquoise":
-				case "Emerald":
-				case "Light":
+				if (item.Name == GeneralSettings.Settings.Theme)
+				{
+					defaultTheme = item;
+					break;
+				}
+			}
+			//
+
+			if (defaultTheme == null)
+			{
+				List<Theme> Themes = new List<Theme>();
+
+				if (Directory.Exists("Themes"))
+				{
+					foreach (string path in Directory.EnumerateFiles("Themes", "*.xml"))
+					{
+						using (FileStream fs = File.OpenRead(path))
+							Themes.Add((Theme)new XmlSerializer(typeof(Theme)).Deserialize(fs));
+					}
+				}
+
+				//Theme theme = Themes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
+				Theme theme = null;
+				for (int i = 0; i < Themes.Count; i++)
+				{
+					Theme item = Themes[i];
+
+					if (item.Name == GeneralSettings.Settings.Theme)
+					{
+						theme = item;
+						break;
+					}
+				}
+				//
+
+				if (theme != null)
+				{
+					Current.Styles[1] = AvaloniaRuntimeXamlLoader.Parse<IStyle>(theme.ToAxaml());
+				}
+				else
 					Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
 					{
-						Source = new Uri($"avares://PleasantUI/Assets/Themes/{GeneralSettings.Settings.Theme}.axaml")
+						Source = new Uri("avares://PleasantUI/Assets/Themes/Light.axaml")
 					};
-					break;
-				default:
-					List<Theme> Themes = new List<Theme>();
-
-					if (Directory.Exists(CorePaths.Themes))
-					{
-						foreach (string path in Directory.EnumerateFiles(CorePaths.Themes, "*.xml"))
-						{
-							using (FileStream fs = File.OpenRead(path))
-								Themes.Add((Theme)new XmlSerializer(typeof(Theme)).Deserialize(fs));
-						}
-					}
-
-					Theme theme = Themes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
-					if (theme != null)
-					{
-						Current.Styles[1] = AvaloniaRuntimeXamlLoader.Parse<IStyle>(theme.ToAxaml());
-					}
-					else
-						Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
-						{
-							Source = new Uri("avares://PleasantUI/Assets/Themes/Light.axaml")
-						};
-
-					break;
 			}
+			else Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+			{
+				Source = new Uri($"avares://PleasantUI/Assets/Themes/{defaultTheme.Name}.axaml")
+			};
 		}
 		private void InitializeLanguage()
 		{
-			Language language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language);
-
+			//Language language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language)
+			//	?? Languages.First(x => x.Key == "en");
+			Language language = null;
+			foreach (Language item in Languages)
+			{
+				if (item.Key == GeneralSettings.Settings.Language)
+				{
+					language = item;
+					break;
+				}
+			}
 			if (language == null)
-				language = Languages.FirstOrDefault(x => x.Key == "en");
+			{
+				foreach (Language item in Languages)
+				{
+					if (item.Key == "en")
+					{
+						language = item;
+						break;
+					}
+				}
+			}
+			//
 
 			Current.Styles[3] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
 			{
-				Source = new Uri(language.Resource)
+				Source = new Uri($"avares://Regul.Assets/Localization/{language.Key}.axaml")
 			};
 
 			Current.Styles.Add(ModulesLanguage);
@@ -195,9 +238,7 @@ namespace Regul.Base
 				if (current is IResourceHost host)
 				{
 					if (host.TryGetResource(key, out value))
-					{
 						return (T)value;
-					}
 				}
 
 				current = ((IStyledElement)current).StylingParent as IResourceHost;
@@ -206,10 +247,10 @@ namespace Regul.Base
 			return (T)value;
 		}
 
-		public static readonly List<Language> Languages = new List<Language>()
+		public static readonly Language[] Languages = new Language[2]
 		{
-			new Language("English (English)", "en", "avares://Regul.Assets/Localization/en.axaml"),
-			new Language("Русский (Russian)", "ru", "avares://Regul.Assets/Localization/ru.axaml")
+			new Language("English (English)", "en"),
+			new Language("Русский (Russian)", "ru"),
 		};
 	}
 }

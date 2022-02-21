@@ -22,6 +22,7 @@ namespace PleasantUI.Media
         private uint _errorColor;
         
         private uint _titleBarColor;
+        private uint _titleBarFullscreenColor;
         private uint _closeButtonColor;
         
         private uint _hoverScrollBoxColor;
@@ -35,9 +36,6 @@ namespace PleasantUI.Media
         private uint _mbSuccessColor;
         private uint _mbWarningColor;
         private uint _mbErrorColor;
-
-        [DataMember]
-        public string ID { get; set; }
         
         [DataMember]
         public string Name
@@ -124,6 +122,12 @@ namespace PleasantUI.Media
             get => _titleBarColor;
             set => RaiseAndSetIfChanged(ref _titleBarColor, value);
         }
+        [DataMember]
+        public uint TitleBarFullscreenColor
+		{
+            get => _titleBarFullscreenColor;
+            set => RaiseAndSetIfChanged(ref _titleBarFullscreenColor, value);
+		}
         [DataMember]
         public uint CloseButtonColor
         {

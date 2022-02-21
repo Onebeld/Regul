@@ -11,8 +11,8 @@
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}">
                     <DockPanel>
-                        <ScrollViewer Background="{StaticResource BackgroundBrush}"
-                                      DockPanel.Dock="Top"
+                        <ScrollViewer Name="PART_ScrollViewer"
+									  Background="{StaticResource BackgroundBrush}"
                                       HorizontalScrollBarVisibility="Auto">
                             <ItemsPresenter Name="PART_ItemsPresenter"
                                             Items="{TemplateBinding Items, Mode=TwoWay}"
@@ -35,7 +35,7 @@
     <Style Selector="TabControl[TabStripPlacement=Top]">
         <Setter Property="Padding" Value="0 4 0 0" />
     </Style>
-    <Style Selector="TabControl[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="TabControl[TabStripPlacement=Top] /template/ ScrollViewer#PART_ScrollViewer">
         <Setter Property="DockPanel.Dock" Value="Top" />
     </Style>
     <Style Selector="TabControl[TabStripPlacement=Bottom] /template/ ItemsPresenter#PART_ItemsPresenter">
@@ -44,8 +44,41 @@
     <Style Selector="TabControl[TabStripPlacement=Bottom]">
         <Setter Property="Padding" Value="0 0 0 4" />
     </Style>
-    <Style Selector="TabControl[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter">
-        <Setter Property="DockPanel.Dock" Value="Left" />
+	<Style Selector="TabControl[TabStripPlacement=Left]">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Margin="{TemplateBinding Margin}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}">
+					<DockPanel>
+						<Border DockPanel.Dock="Left" Margin="0 0 5 0" BorderBrush="{StaticResource BorderBrush}" Background="{StaticResource BackgroundControlBrush}" BorderThickness="1" CornerRadius="5">
+							<Border CornerRadius="5" ClipToBounds="True">
+								<ScrollViewer Name="PART_ScrollViewer"
+                                              HorizontalScrollBarVisibility="Auto">
+									<ItemsPresenter Name="PART_ItemsPresenter"
+													Items="{TemplateBinding Items, Mode=TwoWay}"
+													ItemsPanel="{TemplateBinding ItemsPanel}"
+													ItemTemplate="{TemplateBinding ItemTemplate}"
+													Margin="2" />
+								</ScrollViewer>
+							</Border>
+						</Border>
+						<Border Background="{StaticResource BackgroundLevel1Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="5">
+							<Border CornerRadius="5" ClipToBounds="True">
+								<ContentPresenter Name="PART_SelectedContentHost"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding SelectedContent, Mode=TwoWay}"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+							</Border>
+						</Border>
+					</DockPanel>
+				</Border>
+			</ControlTemplate>
+		</Setter>
     </Style>
     <Style Selector="TabControl[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
         <Setter Property="Orientation" Value="Vertical" />
@@ -53,7 +86,7 @@
     <Style Selector="TabControl[TabStripPlacement=Left]">
         <Setter Property="Padding" Value="4 0 0 0" />
     </Style>
-    <Style Selector="TabControl[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="TabControl[TabStripPlacement=Right] /template/ ScrollViewer#PART_ScrollViewer">
         <Setter Property="DockPanel.Dock" Value="Right" />
     </Style>
     <Style Selector="TabControl[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">

@@ -16,7 +16,7 @@
 				<Path Data="{StaticResource ArrowDownIcon}" Width="14" Stretch="UniformToFill"/>
 			</ToggleButton>
 			<TextBox Name="ErrorText"
-                     Background="Transparent"
+                     Background="{StaticResource BackgroundControlBrush}"
                      MinHeight="50"
                      MinWidth="200"
                      MaxWidth="400"

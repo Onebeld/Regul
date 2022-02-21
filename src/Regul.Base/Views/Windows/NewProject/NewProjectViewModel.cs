@@ -83,9 +83,11 @@ namespace Regul.Base.Views.Windows
 
             MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
 
-            foreach (Editor editor1 in ModuleManager.Editors)
+			//foreach (Editor editor1 in ModuleManager.Editors)
+			for (int i = 0; i < ModuleManager.Editors.Count; i++)
             {
-                if (editor1.Name == SelectedProject.EditorName)
+				Editor editor1 = ModuleManager.Editors[i];
+				if (editor1.Id == SelectedProject.IdEditor)
                 {
                     ed = editor1;
                     break;
@@ -95,7 +97,7 @@ namespace Regul.Base.Views.Windows
             if (ed == null)
             {
                 MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                    App.GetResource<string>("FailedFindEditor") + $" {SelectedProject.EditorName}", new List<MessageBoxButton>
+                    App.GetResource<string>("FailedFindEditor") + $" {ModuleManager.GetEditorById(SelectedProject.IdEditor).Name}", new List<MessageBoxButton>
                     {
                         new MessageBoxButton
                         {
@@ -143,7 +145,7 @@ namespace Regul.Base.Views.Windows
                 case 0:
                     foreach (Project project in GeneralSettings.Settings.Projects)
                     {
-                        if (project.Name.ToLower().Contains(SearchText.ToLower()))
+                        if (Path.GetFileNameWithoutExtension(project.Path).ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     }
                     break;
@@ -157,7 +159,8 @@ namespace Regul.Base.Views.Windows
                 case 2:
                     foreach (Project project in GeneralSettings.Settings.Projects)
                     {
-                        if (project.EditorName.ToLower().Contains(SearchText.ToLower()))
+                        Editor editor = ModuleManager.GetEditorById(project.IdEditor);
+                        if (editor != null && editor.Name.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     }
                     break;

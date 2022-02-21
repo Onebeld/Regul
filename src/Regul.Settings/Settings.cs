@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using Avalonia.Collections;
 using Onebeld.Extensions;
 using Regul.ModuleSystem;
+using Regul.Settings;
 
 namespace Regul
 {
@@ -18,6 +19,8 @@ namespace Regul
 		private bool _showCustomTitleBar;
 		private string _creatorName;
 		private AvaloniaList<Project> _projects;
+		private AvaloniaList<CorrespondingExtensionEditor> _correspondingExtensionEditors = new AvaloniaList<CorrespondingExtensionEditor>();
+		private AvaloniaList<ModuleForUpdate> _modulesForUpdate = new AvaloniaList<ModuleForUpdate>();
 
 		public GeneralSettings()
 		{
@@ -25,7 +28,8 @@ namespace Regul
 			{
 				Theme = "Light";
 				Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-				ShowCustomTitleBar = false;
+				ShowCustomTitleBar = true;
+				HardwareAcceleration = true;
 
 				FirstRun = false;
 			}
@@ -58,9 +62,11 @@ namespace Regul
 
 		[DataMember]
 		public string Theme { get; set; }
+		[XmlAttribute]
 		[DataMember]
 		public string Language { get; set; }
 
+		[XmlAttribute]
 		[DataMember]
 		public bool FirstRun { get; set; } = true;
 
@@ -88,6 +94,7 @@ namespace Regul
 			get => _showCustomTitleBar;
 			set => RaiseAndSetIfChanged(ref _showCustomTitleBar, value);
 		}
+		[XmlAttribute]
 		[DataMember]
 		public string CreatorName
 		{
@@ -99,6 +106,19 @@ namespace Regul
 		{
 			get => _projects;
 			set => RaiseAndSetIfChanged(ref _projects, value);
+		}
+
+		[DataMember]
+		public AvaloniaList<ModuleForUpdate> ModulesForUpdate
+		{
+			get => _modulesForUpdate;
+			set => RaiseAndSetIfChanged(ref _modulesForUpdate, value);
+		}
+		[DataMember]
+		public AvaloniaList<CorrespondingExtensionEditor> CorrespondingExtensionEditors
+		{
+			get => _correspondingExtensionEditors;
+			set => RaiseAndSetIfChanged(ref _correspondingExtensionEditors, value);
 		}
 	}
 }

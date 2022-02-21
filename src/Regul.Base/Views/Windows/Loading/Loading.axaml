@@ -4,7 +4,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                       x:Class="Regul.Base.Views.Windows.Loading"
-					  Width="300"
+                      Background="{StaticResource BackgroundControlBrush}"
                       ShowTitleBar="False">
 	<PleasantDialogWindow.Styles>
 		<Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">

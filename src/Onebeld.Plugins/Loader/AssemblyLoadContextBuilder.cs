@@ -25,12 +25,6 @@ namespace Onebeld.Plugins.Loader
         private bool _preferDefaultLoadContext;
         private bool _lazyLoadReferences;
 
-#if FEATURE_UNLOAD
-        private bool _isCollectible;
-        private bool _loadInMemory;
-        private bool _shadowCopyNativeLibraries;
-#endif
-
         /// <summary>
         /// Creates an assembly load context using settings specified on the builder.
         /// </summary>
@@ -54,22 +48,13 @@ namespace Onebeld.Plugins.Loader
             return new ManagedLoadContext(
                 _mainAssemblyPath,
                 _managedLibraries,
-                _nativeLibraries,
                 _privateAssemblies,
                 _defaultAssemblies,
                 _additionalProbingPaths,
                 resourceProbingPaths,
                 _preferDefaultLoadContext,
                 _lazyLoadReferences,
-#if FEATURE_UNLOAD
-                _isCollectible,
-                _loadInMemory,
-                _shadowCopyNativeLibraries);
-#else
-                isCollectible: false,
-                loadInMemory: false,
-                shadowCopyNativeLibraries: false);
-#endif
+                false);
         }
 
         /// <summary>
@@ -294,42 +279,6 @@ namespace Onebeld.Plugins.Loader
             _resourceProbingPaths.Add(path);
             return this;
         }
-
-#if FEATURE_UNLOAD
-        /// <summary>
-        /// Enable unloading the assembly load context.
-        /// </summary>
-        /// <returns>The builder</returns>
-        public AssemblyLoadContextBuilder EnableUnloading()
-        {
-            _isCollectible = true;
-            return this;
-        }
-
-        /// <summary>
-        /// Read .dll files into memory to avoid locking the files.
-        /// This is not as efficient, so is not enabled by default, but is required for scenarios
-        /// like hot reloading.
-        /// </summary>
-        /// <returns>The builder</returns>
-        public AssemblyLoadContextBuilder PreloadAssembliesIntoMemory()
-        {
-            _loadInMemory = true; // required to prevent dotnet from locking loaded files
-            return this;
-        }
-
-        /// <summary>
-        /// Shadow copy native libraries (unmanaged DLLs) to avoid locking of these files.
-        /// This is not as efficient, so is not enabled by default, but is required for scenarios
-        /// like hot reloading of plugins dependent on native libraries.
-        /// </summary>
-        /// <returns>The builder</returns>
-        public AssemblyLoadContextBuilder ShadowCopyNativeLibraries()
-        {
-            _shadowCopyNativeLibraries = true;
-            return this;
-        }
-#endif
 
         /// <summary>
         /// Add a <paramref name="path"/> that should be use to search for resource assemblies (aka satellite assemblies)

@@ -19,6 +19,7 @@ namespace PleasantUI.Controls.Custom
         public PleasantTabItem()
         {
             //EnableDragDrop();
+            Closing += OnClosing;
         }
 
         static PleasantTabItem()
@@ -67,20 +68,27 @@ namespace PleasantUI.Controls.Custom
             }
         }
 
-        public void CloseCore()
+        public bool CloseCore()
         {
             TabControl x = Parent as TabControl;
-            x.CloseTab(this);
+            try
+            {
+                x.CloseTab(this);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
         /// Close the Tab
         /// </summary>
-        public void Close()
+        public bool Close()
         {
             RaiseEvent(new RoutedEventArgs(ClosingEvent));
-            if (IsClosing)
-                CloseCore();
+            return CloseCore();
         }
 
         protected void OnCanDraggablePropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e)

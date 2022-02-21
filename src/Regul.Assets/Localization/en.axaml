@@ -38,18 +38,23 @@
 		<v:String x:Key="SearchPath">Path</v:String>
 		<v:String x:Key="SearchEditor">Editor</v:String>
 
+		<v:String x:Key="EditorС">Editor:</v:String>
+		<v:String x:Key="ExtensionFileС">Extension file:</v:String>
+
 		<v:String x:Key="NoName">No name</v:String>
 		<v:String x:Key="Search">Search</v:String>
 
 		<v:String x:Key="Successful">Successful!</v:String>
 
-		<v:String x:Key="MemorySuccessfullyCleared">The memory has been successfully cleared.</v:String>
-		<v:String x:Key="FilesSuccessfullySaved">All files have been successfully saved.</v:String>
+		<v:String x:Key="MemorySuccessfullyCleared">The memory has been successfully cleared!</v:String>
+		<v:String x:Key="FilesSuccessfullySaved">All files have been successfully saved!</v:String>
 		<v:String x:Key="FileSuccessfullySavedC">The file has been successfully saved:</v:String>
-		<v:String x:Key="FileExported">The file has been successfully exported.</v:String>
-		<v:String x:Key="FileImported">The file was successfully imported.</v:String>
+		<v:String x:Key="FileExported">The file has been successfully exported!</v:String>
+		<v:String x:Key="FileImported">The file was successfully imported!</v:String>
+		<v:String x:Key="ModulesUploaded">Modules have been successfully uploaded!</v:String>
 
 		<v:String x:Key="ChooseAnEditor">Choose an editor</v:String>
+		<v:String x:Key="AlwaysOpenFile">Always open these file types</v:String>
 		<v:String x:Key="InstalledEditorsC">Installed editors:</v:String>
 		<v:String x:Key="NewProject">New project</v:String>
 		<v:String x:Key="NoEditorsButton">Yes, most likely</v:String>
@@ -63,8 +68,15 @@
 		<v:String x:Key="NoNewUpdate">No new updates at this time</v:String>
 		<v:String x:Key="UpdateIsAvailable">An update is available! Want to go to the site to download?</v:String>
 		<v:String x:Key="FailedCheckUpdate">Failed to check for an update</v:String>
+		<v:String x:Key="FailedOpenFile">An error occurred while opening the file:</v:String>
+		<v:String x:Key="FailedCopyModule">Unable to load a module because another module is currently loaded.</v:String>
+		<v:String x:Key="FileIsAlreadyOpen">This file is already open in the program</v:String>
+		<v:String x:Key="ModulesSuccessfullyUpdated">All modules have been successfully updated!</v:String>
 
 		<v:String x:Key="WarningSaveFile">You want to save the file: </v:String>
+
+		<v:String x:Key="LoadingModules">Loading modules</v:String>
+		<v:String x:Key="EditingFiles">Editing files</v:String>
 		<!--MainWindow-->
 
 		<!-- TextBoxContextMenu -->
@@ -93,6 +105,7 @@
 		<v:String x:Key="Reestablish">Reestablish</v:String>
 		<v:String x:Key="Close">Close</v:String>
 		<v:String x:Key="FastenOverTheWindows">Fasten over the windows</v:String>
+		<v:String x:Key="FullscreenMode">Fullscreen mode</v:String>
 
 		<!-- MessageBox -->
 		<v:String x:Key="Yes">Yes</v:String>
@@ -109,6 +122,7 @@
 
 		<!--Settings-->
 		<v:String x:Key="General">General</v:String>
+		<v:String x:Key="Editing">Editing</v:String>
 		<v:String x:Key="Modules">Modules</v:String>
 		<v:String x:Key="Style">Style</v:String>
 
@@ -125,6 +139,7 @@
 		<v:String x:Key="UseCustomTitleBarDescription">If you are experiencing problems with the custom title bar, disable it</v:String>
 
 		<v:String x:Key="AddModules">Add modules</v:String>
+		<v:String x:Key="UpdateAllModules">Update all modules</v:String>
 		<v:String x:Key="ConnectedModulesC">Connected modules:</v:String>
 		<v:String x:Key="InstalledThemesC">Installed themes:</v:String>
 		<v:String x:Key="ModuleInformation">Module information</v:String>
@@ -132,12 +147,23 @@
 		<v:String x:Key="SelectModule">Select module</v:String>
 		<v:String x:Key="CreatorC">Creator:</v:String>
 		<v:String x:Key="VersionC">Version:</v:String>
-		<v:String x:Key="NETVersionC">.NET version:</v:String>
+		<v:String x:Key="NewVersionC">New version:</v:String>
 
-		<v:String x:Key="GoToUpdate">Go to update</v:String>
+		<v:String x:Key="Update">Update</v:String>
 		<v:String x:Key="Initialize">Initialize</v:String>
+		
+		<v:String x:Key="FileTypes">File Types</v:String>
+		
+		<v:String x:Key="NotHaveEditorForTypeFile">You do not have default editors for certain types of file extensions</v:String>
+
+		<v:String x:Key="PreparationM">Preparation...</v:String>
+		<v:String x:Key="DownloadingM">Downloading...</v:String>
 
 		<v:String x:Key="NotInitialized">This module was not initialized correctly. Try to initialize again.</v:String>
+		<v:String x:Key="NoUpdate">You cannot update this module because the Regul version is lower than the one required for the module.</v:String>
+		<v:String x:Key="NextTimeModulesUpdate">The modules will be updated the next time you run Regul</v:String>
+		<v:String x:Key="UpdatesForModulesNotFound">Updates for modules not found</v:String>
+		<v:String x:Key="UpdatesForModulesAvailable">Updates are available for modules!</v:String>
 
 		<v:String x:Key="ThemeName">Theme name</v:String>
 
@@ -152,7 +178,12 @@
 		<v:String x:Key="LicenseC">License:</v:String>
 		<v:String x:Key="LibrariesUsedC">Libraries used:</v:String>
 
-		<v:String x:Key="RegulDescription">Modular modern file editor</v:String>
+		<v:String x:Key="RegulDescription">Modular and modern file editor</v:String>
+
+		<v:String x:Key="PatronsC">Patrons:</v:String>
+		<v:String x:Key="EarthlyPatronsC">Earthly Patrons:</v:String>
+		<v:String x:Key="HeavenlyPatronsC">Heavenly Patrons:</v:String>
+		<v:String x:Key="SpacePatronsC">Space Patrons:</v:String>
 		<!--About-->
 
 		<!--Hash Generator-->

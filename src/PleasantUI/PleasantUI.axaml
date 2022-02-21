@@ -15,6 +15,7 @@
         <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
         
         <SolidColorBrush x:Key="TitleBarBrush" Color="{DynamicResource TitleBarColor}" />
+        <SolidColorBrush x:Key="TitleBarFullscreenBrush" Color="{DynamicResource TitleBarFullscreenColor}" />
         <SolidColorBrush x:Key="CloseButtonBrush" Color="{DynamicResource CloseButtonColor}" />
         
         <SolidColorBrush x:Key="HoverScrollBoxBrush" Color="{DynamicResource HoverScrollBoxColor}"/>
@@ -76,13 +77,4 @@
     <StyleInclude Source="/Controls/Styled/NotificationCard.axaml" />
     <StyleInclude Source="/Controls/Styled/MenuFlyoutPresenter.axaml" />
     <!-- Styled controls -->
-
-    <!-- Other -->
-    <Style Selector="Border.BorderStyle">
-        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
-        <Setter Property="CornerRadius" Value="5" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
-    </Style>
-    <!-- Other -->
 </Styles>

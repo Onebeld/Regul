@@ -14,8 +14,8 @@
 	<Import Project="..\..\build\Avalonia.props" />
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.11" />
-		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.11" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
+		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.11.5" />
 	</ItemGroup>
 
 	<ItemGroup>

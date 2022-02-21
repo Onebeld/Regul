@@ -15,6 +15,7 @@
 		<Color x:Key="ErrorColor">#FFBD0000</Color>
 		
 		<Color x:Key="TitleBarColor">#FF5B066F</Color>
+		<Color x:Key="TitleBarFullscreenColor">#FF3E004A</Color>
 		<Color x:Key="CloseButtonColor">#FFbf1411</Color>
 		
 		<Color x:Key="HoverScrollBoxColor">#FFC216E5</Color>

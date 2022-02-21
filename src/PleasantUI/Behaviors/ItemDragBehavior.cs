@@ -34,7 +34,7 @@ namespace PleasantUI.Behaviors
         {
             base.OnAttached();
 
-            if (AssociatedObject == null)
+            if (AssociatedObject != null)
             {
                 AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Tunnel);
                 AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Tunnel);
@@ -46,7 +46,7 @@ namespace PleasantUI.Behaviors
         {
             base.OnDetaching();
 
-            if (AssociatedObject == null)
+            if (AssociatedObject != null)
             {
                 AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
                 AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);

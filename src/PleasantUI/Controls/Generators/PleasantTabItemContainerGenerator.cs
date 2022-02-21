@@ -1,7 +1,11 @@
-﻿using Avalonia.Controls.Generators;
+﻿using System;
+using Avalonia.Controls.Generators;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.LogicalTree;
+using Avalonia.Reactive;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Data;
 
@@ -23,34 +27,115 @@ namespace PleasantUI.Controls.Generators
 
         private AvaloniaProperty HeaderProperty, IsClosableProperty, IconProperty;
 
-
-        protected override IControl CreateContainer(object item)
+        private IControl CreateContainer<T>(object item) where T : class, IControl, new()
         {
-            PleasantTabItem container = item as PleasantTabItem;
-            if (!(item is null))
+            if (item is T container)
             {
-                container.Bind(PleasantTabItem.TabStripPlacementProperty, Owner.GetObservable(PleasantTabView.TabStripPlacementProperty), BindingPriority.Style);
                 return container;
-            }
-            else if (item is IPleasantTabItemTemplate temp)
-            {
-                PleasantTabItem tab = new PleasantTabItem();
-                tab.SetValue(HeaderProperty, temp.Header, BindingPriority.Style);
-                tab.SetValue(IconProperty, temp.Icon, BindingPriority.Style);
-                tab.SetValue(ContentProperty, temp.Content);
-                tab.SetValue(IsClosableProperty, temp.IsClosable);
-
-                tab.Bind(PleasantTabView.TabStripPlacementProperty,
-                    Owner.GetObservable(PleasantTabView.TabStripPlacementProperty), BindingPriority.Style);
-
-                return tab;
             }
             else
             {
-                PleasantTabItem tb = new PleasantTabItem();
-                tb.Bind(PleasantTabItem.TabStripPlacementProperty,
-                    Owner.GetObservable(PleasantTabView.TabStripPlacementProperty), BindingPriority.Style);
-                return tb;
+                T result = new T();
+
+                if (ContentTemplateProperty != null)
+                {
+                    result.SetValue(ContentTemplateProperty, ItemTemplate, BindingPriority.Style);
+                }
+
+                result.SetValue(ContentProperty, item, BindingPriority.Style);
+
+                if (!(item is IControl))
+                {
+                    result.DataContext = item;
+                }
+
+                return result;
+            }
+        }
+
+
+        protected override IControl CreateContainer(object item)
+        {
+            PleasantTabItem container = (PleasantTabItem)item;
+
+            PleasantTabItem tabItem = (PleasantTabItem)CreateContainer<PleasantTabItem>(item);
+
+            tabItem.Bind(TabItem.TabStripPlacementProperty,
+                new OwnerBinding<Dock>(tabItem, TabControl.TabStripPlacementProperty));
+
+            if (tabItem.HeaderTemplate == null)
+            {
+                tabItem.Bind(PleasantTabItem.HeaderTemplateProperty,
+                    new OwnerBinding<IDataTemplate>(tabItem, PleasantTabView.ItemTemplateProperty));
+            }
+
+            if (tabItem.Header == null)
+            {
+                if (item is IHeadered headered)
+                {
+                    tabItem.Header = headered.Header;
+                }
+                else
+                {
+                    if (!(tabItem.DataContext is IControl))
+                    {
+                        tabItem.Header = tabItem.DataContext;
+                    }
+                }
+            }
+
+            if (!(tabItem.Content is IControl))
+            {
+                tabItem.Bind(TabItem.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
+                    tabItem,
+                    TabControl.ContentTemplateProperty));
+            }
+
+            if (item is IPleasantTabItemTemplate tab)
+            {
+                if (!(tab.Icon is null))
+                    tabItem.SetValue(IconProperty, tab.Icon, BindingPriority.Style);
+
+                tabItem.SetValue(IsClosableProperty, tab.IsClosable, BindingPriority.Style);
+            }
+
+            return tabItem;
+        }
+        
+        private class OwnerBinding<T> : SingleSubscriberObservableBase<T>
+        {
+            private readonly TabItem _item;
+            private readonly StyledProperty<T> _ownerProperty;
+            private IDisposable _ownerSubscription;
+            private IDisposable _propertySubscription;
+
+            public OwnerBinding(TabItem item, StyledProperty<T> ownerProperty)
+            {
+                _item = item;
+                _ownerProperty = ownerProperty;
+            }
+
+            protected override void Subscribed()
+            {
+                _ownerSubscription = ControlLocator.Track(_item, 0, typeof(TabControl)).Subscribe(OwnerChanged);
+            }
+
+            protected override void Unsubscribed()
+            {
+                _ownerSubscription?.Dispose();
+                _ownerSubscription = null;
+            }
+
+            private void OwnerChanged(ILogical c)
+            {
+                _propertySubscription?.Dispose();
+                _propertySubscription = null;
+
+                if (c is TabControl tabControl)
+                {
+                    _propertySubscription = tabControl.GetObservable(_ownerProperty)
+                        .Subscribe(x => PublishNext(x));
+                }
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using PleasantUI.Controls.Custom;
@@ -11,7 +10,6 @@ namespace Regul.Base
     public static class WindowsManager
     {
         public static MainWindow MainWindow { get; set; }
-        public static SettingsWindow SettingsWindow { get; set; }
 
         public static AvaloniaList<PleasantModalWindow> OtherModalWindows { get; set; } =
             new AvaloniaList<PleasantModalWindow>();
@@ -20,22 +18,40 @@ namespace Regul.Base
 
         public static T FindModalWindow<T>() where T : PleasantModalWindow
         {
-            return (T)OtherModalWindows.FirstOrDefault(x => x is T);
+			//return (T)OtherModalWindows.FirstOrDefault(x => x is T);
+			for (int i = 0; i < OtherModalWindows.Count; i++)
+			{
+				PleasantModalWindow item = OtherModalWindows[i];
+
+                if (item is T window)
+                    return window;
+			}
+            return null;
         }
 
         public static T FindWindow<T>() where T : PleasantWindow
         {
-            return (T) OtherWindows.FirstOrDefault(x => x is T);
+            //return (T) OtherWindows.FirstOrDefault(x => x is T);
+            for (int i = 0; i < OtherWindows.Count; i++)
+            {
+                PleasantWindow item = OtherWindows[i];
+
+                if (item is T window)
+                    return window;
+            }
+            return null;
         }
 
         public static List<T> FindAllModalWindows<T>() where T : PleasantModalWindow
         {
             List<T> otherWindows = new List<T>();
 
-            foreach (PleasantDialogWindow window in OtherModalWindows)
+            //foreach (PleasantDialogWindow window in OtherModalWindows)
+			for (int i = 0; i < OtherModalWindows.Count; i++)
             {
-                if (window is T pleasantModalWindow)
-                    otherWindows.Add(pleasantModalWindow);
+					PleasantDialogWindow window = (PleasantDialogWindow)OtherModalWindows[i];
+					if (window is T pleasantModalWindow)
+                        otherWindows.Add(pleasantModalWindow);
             }
 
             return otherWindows;
@@ -44,9 +60,12 @@ namespace Regul.Base
         {
             List<T> otherWindows = new List<T>();
 
-            foreach (PleasantWindow window in OtherWindows)
+			//foreach (PleasantWindow window in OtherWindows)
+			for (int i = 0; i < OtherWindows.Count; i++)
             {
-                if (window is T pleasantWindow)
+				PleasantWindow window = OtherWindows[i];
+
+				if (window is T pleasantWindow)
                     otherWindows.Add(pleasantWindow);
             }
 

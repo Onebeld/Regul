@@ -1,22 +1,15 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Onebeld.Extensions;
 
 namespace Regul.ModuleSystem
 {
 	public class Project : ViewModelBase
 	{
-		private string _name;
 		private string _path;
-		private string _editorIcon;
-		private string _editorName;
+		private string _idEditor;
 
-		[DataMember]
-		public string Name
-		{
-			get => _name;
-			set => RaiseAndSetIfChanged(ref _name, value);
-		}
-
+		[XmlAttribute]
 		[DataMember]
 		public string Path
 		{
@@ -24,18 +17,12 @@ namespace Regul.ModuleSystem
 			set => RaiseAndSetIfChanged(ref _path, value);
 		}
 
+		[XmlAttribute]
 		[DataMember]
-		public string EditorIcon
+		public string IdEditor
 		{
-			get => _editorIcon;
-			set => RaiseAndSetIfChanged(ref _editorIcon, value);
-		}
-
-		[DataMember]
-		public string EditorName
-		{
-			get => _editorName;
-			set => RaiseAndSetIfChanged(ref _editorName, value);
+			get => _idEditor;
+			set => RaiseAndSetIfChanged(ref _idEditor, value);
 		}
 	}
 }

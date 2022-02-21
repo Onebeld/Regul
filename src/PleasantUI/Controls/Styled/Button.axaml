@@ -72,6 +72,9 @@
 	<Style Selector="Button > Path, ToggleButton > Path">
 		<Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
 	</Style>
+	<Style Selector="Button > StackPanel > Path, ToggleButton > StackPanel > Path">
+		<Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+	</Style>
 	
 	<Style Selector="ToggleButton:checked">
 		<Setter Property="Background" Value="{StaticResource AccentBrush}"/>

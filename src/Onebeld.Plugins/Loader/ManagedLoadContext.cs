@@ -21,7 +21,6 @@ namespace Onebeld.Plugins.Loader
         private readonly string _basePath;
         private readonly string _mainAssemblyPath;
         private readonly IReadOnlyDictionary<string, ManagedLibrary> _managedAssemblies;
-        private readonly IReadOnlyDictionary<string, NativeLibrary> _nativeLibraries;
         private readonly IReadOnlyCollection<string> _privateAssemblies;
         private readonly ICollection<string> _defaultAssemblies;
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
@@ -29,27 +28,17 @@ namespace Onebeld.Plugins.Loader
         private readonly string[] _resourceRoots;
         private readonly bool _loadInMemory;
         private readonly bool _lazyLoadReferences;
-#if FEATURE_NATIVE_RESOLVER
-        private readonly AssemblyDependencyResolver _dependencyResolver;
-#endif
-        private readonly bool _shadowCopyNativeLibraries;
         private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
         public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
-            IReadOnlyDictionary<string, NativeLibrary> nativeLibraries,
             IReadOnlyCollection<string> privateAssemblies,
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
             bool preferDefaultLoadContext,
             bool lazyLoadReferences,
-            bool isCollectible,
-            bool loadInMemory,
-            bool shadowCopyNativeLibraries)
-#if FEATURE_UNLOAD
-            : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
-#endif
+            bool loadInMemory)
         {
             if (resourceProbingPaths == null)
             {
@@ -57,15 +46,15 @@ namespace Onebeld.Plugins.Loader
             }
 
             _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
-#if FEATURE_NATIVE_RESOLVER
-            _dependencyResolver = new AssemblyDependencyResolver(mainAssemblyPath);
-#endif
-            _basePath = Path.GetDirectoryName(mainAssemblyPath) ?? throw new ArgumentException(nameof(mainAssemblyPath));
+            _basePath = Path.GetDirectoryName(mainAssemblyPath) ??
+                        throw new ArgumentException(nameof(mainAssemblyPath));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
-            _defaultAssemblies = defaultAssemblies != null ? defaultAssemblies.ToList() : throw new ArgumentNullException(nameof(defaultAssemblies));
-            _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
-            _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
+            _defaultAssemblies = defaultAssemblies != null
+                ? defaultAssemblies.ToList()
+                : throw new ArgumentNullException(nameof(defaultAssemblies));
+            _additionalProbingPaths =
+                additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
             _preferDefaultLoadContext = preferDefaultLoadContext;
             _loadInMemory = loadInMemory;
             _lazyLoadReferences = lazyLoadReferences;
@@ -73,8 +62,6 @@ namespace Onebeld.Plugins.Loader
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
                 .ToArray();
-
-            _shadowCopyNativeLibraries = shadowCopyNativeLibraries;
             _unmanagedDllShadowCopyDirectoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
 
@@ -140,7 +127,8 @@ namespace Onebeld.Plugins.Loader
             {
                 foreach (string resourceRoot in _resourceRoots)
                 {
-                    string resourcePath = Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
+                    string resourcePath =
+                        Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
                     if (File.Exists(resourcePath))
                     {
                         return LoadAssemblyFromFilePath(resourcePath);
@@ -277,7 +265,6 @@ namespace Onebeld.Plugins.Loader
             return false;
         }
         
-        
         private string CreateShadowCopy(string dllPath)
         {
             Directory.CreateDirectory(_unmanagedDllShadowCopyDirectoryPath);
@@ -291,24 +278,6 @@ namespace Onebeld.Plugins.Loader
             }
 
             return shadowCopyPath;
-        }
-
-        private void OnUnloaded()
-        {
-            if (!_shadowCopyNativeLibraries || !Directory.Exists(_unmanagedDllShadowCopyDirectoryPath))
-            {
-                return;
-            }
-
-            // Attempt to delete shadow copies
-            try
-            {
-                Directory.Delete(_unmanagedDllShadowCopyDirectoryPath, recursive: true);
-            }
-            catch (Exception)
-            {
-                // Files might be locked by host process. Nothing we can do about it, I guess.
-            }
         }
     }
 }
