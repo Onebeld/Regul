@@ -1,4 +1,4 @@
-﻿<Style xmlns="https://github.com/avaloniaui" 
+﻿<Style xmlns="https://github.com/avaloniaui"
        Selector="DataValidationErrors">
     <Setter Property="Template">
         <ControlTemplate>
@@ -7,7 +7,7 @@
                                 ContentTemplate="{TemplateBinding ErrorTemplate}"
                                 DataContext="{TemplateBinding Owner}"
                                 Content="{Binding (DataValidationErrors.Errors)}"
-                                IsVisible="{Binding (DataValidationErrors.HasErrors)}"/>
+                                IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
                 <ContentPresenter Name="PART_ContentPresenter"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
@@ -15,24 +15,25 @@
                                   CornerRadius="{TemplateBinding CornerRadius}"
                                   ContentTemplate="{TemplateBinding ContentTemplate}"
                                   Content="{TemplateBinding Content}"
-                                  Padding="{TemplateBinding Padding}"/>
+                                  Padding="{TemplateBinding Padding}" />
             </DockPanel>
         </ControlTemplate>
     </Setter>
     <Setter Property="ErrorTemplate">
         <DataTemplate>
-            <Canvas Width="14" Height="14" Margin="4 0 1 0" 
+            <Canvas Width="14" Height="14" Margin="4 0 1 0"
                     Background="Transparent">
                 <Canvas.Styles>
                     <Style Selector="ToolTip">
-                        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource ErrorBrush}"/>
+                        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
                     </Style>
                 </Canvas.Styles>
                 <ToolTip.Tip>
-                    <ItemsControl Items="{Binding}"/>
+                    <ItemsControl Items="{Binding}" />
                 </ToolTip.Tip>
-                <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2" Stroke="{StaticResource ErrorBrush}" StrokeThickness="2"/>
+                <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
+                      Stroke="{StaticResource ErrorBrush}" StrokeThickness="2" />
             </Canvas>
         </DataTemplate>
     </Setter>

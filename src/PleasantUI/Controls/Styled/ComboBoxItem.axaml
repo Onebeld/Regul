@@ -5,7 +5,7 @@
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="BackgroundBorder" 
+                <Border Name="BackgroundBorder"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         ClipToBounds="True"
                         Background="{TemplateBinding Background}"

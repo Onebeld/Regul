@@ -1,10 +1,17 @@
+#region
+
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
+#endregion
+
 namespace Regul.Base.Views.Windows
 {
-	public partial class CustomThemeSettingsPage : UserControl
-	{
-		public CustomThemeSettingsPage() => AvaloniaXamlLoader.Load(this);
-	}
+    public class CustomThemeSettingsPage : UserControl
+    {
+        public CustomThemeSettingsPage()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+    }
 }

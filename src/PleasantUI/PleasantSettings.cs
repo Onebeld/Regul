@@ -1,17 +1,28 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Onebeld.Extensions;
 
+#endregion
+
 namespace PleasantUI
 {
     [DataContract]
-	public class PleasantSettings : ViewModelBase
-	{
+    public class PleasantSettings : ViewModelBase
+    {
         private bool _enableShadowing = true;
 
         public static PleasantSettings Settings { get; set; }
+
+        [DataMember]
+        public bool EnableShadowing
+        {
+            get => _enableShadowing;
+            set => RaiseAndSetIfChanged(ref _enableShadowing, value);
+        }
 
         public static PleasantSettings Load()
         {
@@ -20,8 +31,11 @@ namespace PleasantUI
 
             try
             {
-                using (FileStream fileStream = File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "pleasantUI.xml"))
+                using (FileStream fileStream =
+                       File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "pleasantUI.xml"))
+                {
                     return (PleasantSettings)new XmlSerializer(typeof(PleasantSettings)).Deserialize(fileStream);
+                }
             }
             catch
             {
@@ -31,15 +45,11 @@ namespace PleasantUI
 
         public static void Save()
         {
-            using (FileStream fileStream = File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "pleasantUI.xml"))
+            using (FileStream fileStream =
+                   File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "pleasantUI.xml"))
+            {
                 new XmlSerializer(typeof(PleasantSettings)).Serialize(fileStream, Settings);
+            }
         }
-
-        [DataMember]
-        public bool EnableShadowing
-		{
-            get => _enableShadowing;
-            set => RaiseAndSetIfChanged(ref _enableShadowing, value);
-		}
     }
 }

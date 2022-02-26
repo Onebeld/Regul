@@ -1,19 +1,23 @@
-﻿using PleasantUI.Controls.Custom;
+﻿#region
+
+using PleasantUI.Controls.Custom;
+
+#endregion
 
 namespace Regul.ModuleSystem
 {
-	public interface IEditor
-	{
-		string FileToPath { get; set; }
+    public interface IEditor
+    {
+        string FileToPath { get; set; }
 
-		Editor CurrentEditor { get; set; }
+        Editor CurrentEditor { get; set; }
 
-		Project CurrentProject { get; set; }
+        Project CurrentProject { get; set; }
 
-		string Id { get; set; }
+        string Id { get; set; }
 
-		void Load(string path, Project project, PleasantTabItem pleasantTabItem, Editor editor);
-		bool Save(string path);
-		void Release();
-	}
+        void Load(string path, Project project, PleasantTabItem pleasantTabItem, Editor editor);
+        bool Save(string path);
+        void Release();
+    }
 }

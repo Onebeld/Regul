@@ -30,9 +30,11 @@
                                     Margin="{TemplateBinding Padding}" Background="{TemplateBinding Foreground}" />
                         </Panel>
                         <Panel x:Name="IndeterminateRoot">
-                            <Border x:Name="IndeterminateProgressBarIndicator" CornerRadius="{TemplateBinding CornerRadius}"
+                            <Border x:Name="IndeterminateProgressBarIndicator"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}" Background="{TemplateBinding Foreground}" />
-                            <Border x:Name="IndeterminateProgressBarIndicator2" CornerRadius="{TemplateBinding CornerRadius}"
+                            <Border x:Name="IndeterminateProgressBarIndicator2"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}" Background="{TemplateBinding Foreground}" />
                         </Panel>
                     </Panel>

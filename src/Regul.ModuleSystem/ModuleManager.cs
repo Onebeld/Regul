@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Collections;
@@ -7,73 +9,71 @@ using Onebeld.Plugins;
 using Regul.ModuleSystem.Models;
 using Module = Regul.ModuleSystem.Models.Module;
 
+#endregion
+
 namespace Regul.ModuleSystem
 {
-	public class ModuleManager : ViewModelBase
-	{
-		public static AvaloniaList<Module> Modules { get; } = new AvaloniaList<Module>();
+    public class ModuleManager : ViewModelBase
+    {
+        public static AvaloniaList<Module> Modules { get; } = new AvaloniaList<Module>();
 
-		public static AvaloniaList<Editor> Editors { get; } = new AvaloniaList<Editor>();
+        public static AvaloniaList<Editor> Editors { get; } = new AvaloniaList<Editor>();
 
-		public static Editor GetEditorById(string id)
-		{
-			//return Editors.FirstOrDefault(x => x.Id == id);
-			for (int i = 0; i < Editors.Count; i++)
-			{
-				Editor item = Editors[i];
+        public static Editor GetEditorById(string id)
+        {
+            //return Editors.FirstOrDefault(x => x.Id == id);
+            for (int i = 0; i < Editors.Count; i++)
+            {
+                Editor item = Editors[i];
 
-				if (item.Id == id)
-					return item;
-			}
-			return null;
-		}
+                if (item.Id == id)
+                    return item;
+            }
 
-		public static Module InitializeModule(string path)
-		{
-			bool suitableType = false;
+            return null;
+        }
 
-			PluginLoader loader = PluginLoader.CreateFromAssemblyFile(path);
+        public static Module InitializeModule(string path)
+        {
+            bool suitableType = false;
 
-			Assembly assembly = loader.LoadDefaultAssembly();
+            PluginLoader loader = PluginLoader.CreateFromAssemblyFile(path);
 
-			Type[] types;
+            Assembly assembly = loader.LoadDefaultAssembly();
 
-			// This was done to run both the .NET and the .NET Framework simultaneously
-			try
-			{
-				types = assembly.GetTypes();
-			}
-			catch (ReflectionTypeLoadException e)
-			{
-				types = e.Types.Where(t => t != null).ToArray();
-			}
+            Type[] types;
 
-			IModule source = null;
+            // This was done to run both the .NET and the .NET Framework simultaneously
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                types = e.Types.Where(t => t != null).ToArray();
+            }
 
-			foreach (Type type in types)
-			{
-				if (typeof(IModule).IsAssignableFrom(type))
-				{
-					source = Activator.CreateInstance(type) as IModule;
-					suitableType = true;
-				}
-			}
+            IModule source = null;
 
-			if (!suitableType)
-			{
-				return null;
-			}
+            foreach (Type type in types)
+                if (typeof(IModule).IsAssignableFrom(type))
+                {
+                    source = Activator.CreateInstance(type) as IModule;
+                    suitableType = true;
+                }
 
-			Module module = new Module
-			{
-				PluginLoader = loader, 
-				Source = source, 
-				InfoForUpdate = new InfoForUpdate(),
-				ModuleAssembly = assembly
-			};
+            if (!suitableType) return null;
 
-			Modules.Add(module);
-			return module;
-		}
-	}
+            Module module = new Module
+            {
+                PluginLoader = loader,
+                Source = source,
+                InfoForUpdate = new InfoForUpdate(),
+                ModuleAssembly = assembly
+            };
+
+            Modules.Add(module);
+            return module;
+        }
+    }
 }

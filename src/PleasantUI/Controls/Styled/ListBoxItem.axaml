@@ -1,94 +1,94 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="ListBoxItem">
-		<Setter Property="Background" Value="{StaticResource BackgroundControlBrush}"/>
-		<Setter Property="RenderTransform" Value="none"/>
-		<Setter Property="MinHeight" Value="16"/>
-		<Setter Property="CornerRadius" Value="4"/>
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Transitions">
-			<Transitions>
-				<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
-			</Transitions>
-		</Setter>
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Border Name="BackgroundBorder" CornerRadius="{TemplateBinding CornerRadius}"
-				        Background="{TemplateBinding Background}"
-				        BorderBrush="{TemplateBinding BorderBrush}"
-				        BorderThickness="{TemplateBinding BorderThickness}">
-					<Border ClipToBounds="True" CornerRadius="{TemplateBinding CornerRadius}">
-						<Grid ColumnDefinitions="3,*">
-							<Border Name="PART_Border" 
-							        Background="{StaticResource AccentBrush}" 
-							        Width="5" 
-							        MinHeight="15" 
-							        CornerRadius="5" 
-							        Margin="0 10" />
-							<ContentPresenter Grid.Column="1" Name="PART_ContentPresenter"
-							                  ContentTemplate="{TemplateBinding ContentTemplate}"
-							                  Content="{TemplateBinding Content}"
-							                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-							                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-							                  Padding="{TemplateBinding Padding}"/>
+        <Setter Property="Background" Value="{StaticResource BackgroundControlBrush}" />
+        <Setter Property="RenderTransform" Value="none" />
+        <Setter Property="MinHeight" Value="16" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="BackgroundBorder" CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border ClipToBounds="True" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid ColumnDefinitions="3,*">
+                            <Border Name="PART_Border"
+                                    Background="{StaticResource AccentBrush}"
+                                    Width="5"
+                                    MinHeight="15"
+                                    CornerRadius="5"
+                                    Margin="0 10" />
+                            <ContentPresenter Grid.Column="1" Name="PART_ContentPresenter"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Padding="{TemplateBinding Padding}" />
 
-						</Grid>
-					</Border>
-				</Border>
-			</ControlTemplate>
-		</Setter>
-	</Style>
-	<Style Selector="ListBox.Horizontal > ListBoxItem">
-		<Setter Property="Background" Value="{StaticResource BackgroundControlBrush}"/>
-		<Setter Property="RenderTransform" Value="none"/>
-		<Setter Property="CornerRadius" Value="4"/>
-		<Setter Property="Transitions">
-			<Transitions>
-				<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
-			</Transitions>
-		</Setter>
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Border Name="BackgroundBorder"
-				        Background="{TemplateBinding Background}"
-				        BorderBrush="{TemplateBinding BorderBrush}"
-				        BorderThickness="{TemplateBinding BorderThickness}"
-				        CornerRadius="{TemplateBinding CornerRadius}">
-					<Border ClipToBounds="True" CornerRadius="{TemplateBinding CornerRadius}">
-						<Grid RowDefinitions="5,*">
-							<Border Name="PART_Border" 
-							        Background="{StaticResource AccentBrush}" 
-							        Height="5" 
-							        MinWidth="15" 
-							        CornerRadius="5" 
-							        Margin="10 0" />
-							<ContentPresenter Grid.Row="1" Name="PART_ContentPresenter"
-							                  ContentTemplate="{TemplateBinding ContentTemplate}"
-							                  Content="{TemplateBinding Content}"
-							                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-							                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-							                  Padding="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="ListBox.Horizontal > ListBoxItem">
+        <Setter Property="Background" Value="{StaticResource BackgroundControlBrush}" />
+        <Setter Property="RenderTransform" Value="none" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="BackgroundBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <Border ClipToBounds="True" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid RowDefinitions="5,*">
+                            <Border Name="PART_Border"
+                                    Background="{StaticResource AccentBrush}"
+                                    Height="5"
+                                    MinWidth="15"
+                                    CornerRadius="5"
+                                    Margin="10 0" />
+                            <ContentPresenter Grid.Row="1" Name="PART_ContentPresenter"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Padding="{TemplateBinding Padding}" />
 
-						</Grid>
-					</Border>
-				</Border>
-			</ControlTemplate>
-		</Setter>
-	</Style>
-	
-	<Style Selector="ListBoxItem:pointerover">
-		<Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}"/>
-	</Style>
-	<Style Selector="ListBoxItem:selected">
-		<Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}"/>
-	</Style>
-	<Style Selector="ListBoxItem /template/ Border#PART_Border">
-		<Setter Property="Opacity" Value="0"/>
-	</Style>
-	<Style Selector="ListBoxItem:selected /template/ Border#PART_Border">
-		<Setter Property="Opacity" Value="1"/>
-	</Style>
-	<Style Selector="ListBoxItem:pressed">
-		<Setter Property="RenderTransform" Value="scale(0.98)" />
-	</Style>
+                        </Grid>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ListBoxItem:pointerover">
+        <Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}" />
+    </Style>
+    <Style Selector="ListBoxItem:selected">
+        <Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}" />
+    </Style>
+    <Style Selector="ListBoxItem /template/ Border#PART_Border">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+    <Style Selector="ListBoxItem:selected /template/ Border#PART_Border">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="ListBoxItem:pressed">
+        <Setter Property="RenderTransform" Value="scale(0.98)" />
+    </Style>
 </Styles>

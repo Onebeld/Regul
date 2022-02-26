@@ -1,30 +1,37 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+#endregion
 
 namespace Onebeld.Extensions
 {
     public class Command<T> : Command, ICommand
     {
         private readonly Action<T> _action;
-        private bool _busy;
-        private Func<T, Task> _acb;
+        private readonly Func<T, Task> _acb;
 
-        private bool Busy
+        public Command(Action<T> action)
         {
-            get => _busy;
-            set
-            {
-                _busy = value;
-                
-            }
+            _action = action;
         }
 
-        public Command(Action<T> action) => _action = action;
-        public Command(Func<T, Task> acb) => _acb = acb;
+        public Command(Func<T, Task> acb)
+        {
+            _acb = acb;
+        }
+
+        private bool Busy { get; set; }
 
         public override event EventHandler CanExecuteChanged;
-        public override bool CanExecute(object parameter) => !_busy;
+
+        public override bool CanExecute(object parameter)
+        {
+            return !Busy;
+        }
+
         public override async void Execute(object parameter)
         {
             if (Busy) return;
@@ -32,8 +39,8 @@ namespace Onebeld.Extensions
             try
             {
                 Busy = true;
-                if (_action != null) _action((T) parameter);
-                else await _acb((T) parameter);
+                if (_action != null) _action((T)parameter);
+                else await _acb((T)parameter);
             }
             finally
             {
@@ -41,15 +48,26 @@ namespace Onebeld.Extensions
             }
         }
     }
-    
+
     public abstract class Command : ICommand
     {
-        public static Command Create(Action action) => new Command<object>(_ => action());
-        public static Command Create<TArg>(Action<TArg> cb) => new Command<TArg>(cb);
-        public static Command CreateFromTask(Func<Task> cb) => new Command<object>(_ => cb());
-
         public abstract bool CanExecute(object parameter);
         public abstract void Execute(object parameter);
         public abstract event EventHandler CanExecuteChanged;
+
+        public static Command Create(Action action)
+        {
+            return new Command<object>(_ => action());
+        }
+
+        public static Command Create<TArg>(Action<TArg> cb)
+        {
+            return new Command<TArg>(cb);
+        }
+
+        public static Command CreateFromTask(Func<Task> cb)
+        {
+            return new Command<object>(_ => cb());
+        }
     }
 }

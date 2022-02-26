@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace PleasantUI.Media.Colors
 {
@@ -40,15 +44,30 @@ namespace PleasantUI.Media.Colors
             V = hsv.V;
         }
 
-        public HSV WithH(double h) => new HSV(h, S, V);
+        public HSV WithH(double h)
+        {
+            return new HSV(h, S, V);
+        }
 
-        public HSV WithS(double s) => new HSV(H, s, V);
+        public HSV WithS(double s)
+        {
+            return new HSV(H, s, V);
+        }
 
-        public HSV WithV(double v) => new HSV(H, S, v);
+        public HSV WithV(double v)
+        {
+            return new HSV(H, S, v);
+        }
 
-        public RGB ToRGB() => ToRGB(H, S, V);
+        public RGB ToRGB()
+        {
+            return ToRGB(H, S, V);
+        }
 
-        public CMYK ToCMYK() => ToCMYK(H, S, V);
+        public CMYK ToCMYK()
+        {
+            return ToCMYK(H, S, V);
+        }
 
         public static RGB ToRGB(double h, double s, double v)
         {
@@ -113,6 +132,9 @@ namespace PleasantUI.Media.Colors
             return new RGB(R, G, B);
         }
 
-        public static CMYK ToCMYK(double h, double s, double v) => ToRGB(h, s, v).ToCMYK();
+        public static CMYK ToCMYK(double h, double s, double v)
+        {
+            return ToRGB(h, s, v).ToCMYK();
+        }
     }
 }

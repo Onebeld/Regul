@@ -1,12 +1,12 @@
 ﻿namespace PleasantUI.Media
 {
-	public class DefaultTheme
-	{
-		public string Name { get; private set; }
+    public class DefaultTheme
+    {
+        public DefaultTheme(string name)
+        {
+            Name = name;
+        }
 
-		public DefaultTheme(string name)
-		{
-			Name = name;
-		}
-	}
+        public string Name { get; }
+    }
 }

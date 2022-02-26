@@ -1,13 +1,13 @@
 ﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:vm="using:Regul.Base.Views.Windows"
-                     xmlns:o="using:Regul.ModuleSystem"
-                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                     x:Class="Regul.Base.Views.Windows.SelectingEditor"
-                     Title="{DynamicResource ChooseAnEditor}"
-                     Icon="avares://Regul.Assets/icon.ico">
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:vm="using:Regul.Base.Views.Windows"
+                      xmlns:o="using:Regul.ModuleSystem"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      x:Class="Regul.Base.Views.Windows.SelectingEditor"
+                      Title="{DynamicResource ChooseAnEditor}"
+                      Icon="avares://Regul.Assets/icon.ico">
     <PleasantDialogWindow.Styles>
         <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -19,10 +19,11 @@
     <PleasantDialogWindow.DataContext>
         <vm:SelectingEditorViewModel />
     </PleasantDialogWindow.DataContext>
-	
+
     <Grid RowDefinitions="Auto,*,40">
-		<TextBlock Name="PART_FileName" TextAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0 5 0 0" IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-		
+        <TextBlock Name="PART_FileName" TextAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0 5 0 0"
+                   IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
         <Border Grid.Row="1"
                 Margin="5 5 5 0"
                 CornerRadius="5"
@@ -38,13 +39,13 @@
                                   Stretch="Uniform"
                                   Margin="0 0 5 0"
                                   Data="{StaticResource SearchIcon}" />
-                            <TextBox Watermark="{DynamicResource Search}" 
-                                     VerticalAlignment="Center" 
+                            <TextBox Watermark="{DynamicResource Search}"
+                                     VerticalAlignment="Center"
                                      Text="{Binding SearchText}" />
                         </DockPanel>
 
-                        <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment="Right" 
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Margin="0 0 5 0">
                             <TextBlock Text="{DynamicResource InstalledEditorsC}" Margin="0 0 5 0" />
@@ -85,8 +86,9 @@
         </Border>
 
         <Grid Grid.Row="2">
-			<CheckBox Name="PART_AlwaysOpen" Content="{DynamicResource AlwaysOpenFile}" VerticalAlignment="Center" Margin="8 0 0 0" />
-			
+            <CheckBox Name="PART_AlwaysOpen" Content="{DynamicResource AlwaysOpenFile}" VerticalAlignment="Center"
+                      Margin="8 0 0 0" />
+
             <Button Classes="mbdefault"
                     HorizontalAlignment="Right"
                     Margin="8"

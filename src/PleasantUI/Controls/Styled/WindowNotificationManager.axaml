@@ -10,14 +10,14 @@
                             <StackPanel Spacing="5" Margin="10"
                                         TextBlock.Foreground="{StaticResource ForegroundBrush}">
                                 <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="16" />
-                                <TextBlock MaxHeight="80" 
-                                           Text="{Binding Message}" 
+                                <TextBlock MaxHeight="80"
+                                           Text="{Binding Message}"
                                            TextWrapping="Wrap"
                                            Margin="0 0 12 0" />
                             </StackPanel>
                         </DataTemplate>
                         <DataTemplate DataType="x:String">
-                            <TextBlock Text="{Binding }" 
+                            <TextBlock Text="{Binding }"
                                        Margin="10"
                                        Foreground="{StaticResource ForegroundBrush}" />
                         </DataTemplate>

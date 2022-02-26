@@ -3,13 +3,14 @@
         xmlns:converters="using:Avalonia.Controls.Converters">
     <Styles.Resources>
         <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-        
-        <converters:CornerRadiusFilterConverter x:Key="TopCornerRadiusFilterConverter" Filter="TopLeft, TopRight"/>
-        <converters:CornerRadiusFilterConverter x:Key="RightCornerRadiusFilterConverter" Filter="TopRight, BottomRight"/>
-        <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter" Filter="BottomLeft, BottomRight"/>
-        <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft"/>
+
+        <converters:CornerRadiusFilterConverter x:Key="TopCornerRadiusFilterConverter" Filter="TopLeft, TopRight" />
+        <converters:CornerRadiusFilterConverter x:Key="RightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
+        <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter"
+                                                Filter="BottomLeft, BottomRight" />
+        <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
     </Styles.Resources>
-    
+
     <Style Selector="Expander">
         <Setter Property="Background" Value="{StaticResource BackgroundControlBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
@@ -169,7 +170,8 @@
             </Animation>
         </Style.Animations>
     </Style>
-    <Style Selector="Expander:not(:expanded) /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
+    <Style
+        Selector="Expander:not(:expanded) /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
         <Style.Animations>
             <Animation FillMode="Both" Duration="0:0:0.0625">
                 <KeyFrame Cue="0%">

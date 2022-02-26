@@ -1,22 +1,26 @@
-﻿using Avalonia;
+﻿#region
+
+using System;
+using System.Reactive.Disposables;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using System;
-using System.Reactive.Disposables;
+
+#endregion
 
 namespace PleasantUI.Controls.Custom.Chrome
 {
     [PseudoClasses(":minimized", ":normal", ":maximized", ":fullscreen", ":isactive")]
     public class PleasantCaptionButtons : TemplatedControl
     {
-        public PleasantWindow HostWindow;
         private CompositeDisposable _disposables;
-        
+        private Button _fullscreenButton;
+
         private Button _maximizeButton;
         private Button _minimizeButton;
-        private Button _fullscreenButton;
-        
+        public PleasantWindow HostWindow;
+
         public void Detach()
         {
             if (_disposables != null)
@@ -26,7 +30,7 @@ namespace PleasantUI.Controls.Custom.Chrome
                 HostWindow = null;
             }
         }
-        
+
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
@@ -39,7 +43,10 @@ namespace PleasantUI.Controls.Custom.Chrome
 
             _maximizeButton.Click += (_, e1) =>
             {
-                if (HostWindow != null) HostWindow.WindowState = HostWindow.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+                if (HostWindow != null)
+                    HostWindow.WindowState = HostWindow.WindowState == WindowState.Maximized
+                        ? WindowState.Normal
+                        : WindowState.Maximized;
             };
 
             _minimizeButton.Click += (_, e1) =>
@@ -49,21 +56,23 @@ namespace PleasantUI.Controls.Custom.Chrome
 
             _fullscreenButton.Click += (_, e1) =>
             {
-                if (HostWindow != null) HostWindow.WindowState = HostWindow.WindowState == WindowState.FullScreen ? WindowState.Normal : WindowState.FullScreen;
+                if (HostWindow != null)
+                    HostWindow.WindowState = HostWindow.WindowState == WindowState.FullScreen
+                        ? WindowState.Normal
+                        : WindowState.FullScreen;
             };
 
             if (_disposables == null)
-            {
                 _disposables = new CompositeDisposable
                 {
-                    HostWindow.GetObservable(PleasantWindow.WindowStateProperty).Subscribe(x =>
+                    HostWindow.GetObservable(Window.WindowStateProperty).Subscribe(x =>
                     {
                         PseudoClasses.Set(":minimized", x == WindowState.Minimized);
                         PseudoClasses.Set(":normal", x == WindowState.Normal);
                         PseudoClasses.Set(":maximized", x == WindowState.Maximized);
                         PseudoClasses.Set(":fullscreen", x == WindowState.FullScreen);
                     }),
-                    HostWindow.GetObservable(PleasantWindow.IsActiveProperty).Subscribe(x =>
+                    HostWindow.GetObservable(WindowBase.IsActiveProperty).Subscribe(x =>
                     {
                         PseudoClasses.Set(":isactive", !x);
                     }),
@@ -71,22 +80,21 @@ namespace PleasantUI.Controls.Custom.Chrome
                     {
                         if (x != WindowButtons.All)
                         {
-                            if (x != WindowButtons.CloseAndCollapse) _minimizeButton.IsVisible = false; 
-                            if (x != WindowButtons.CloseAndExpand) _maximizeButton.IsVisible = false; 
+                            if (x != WindowButtons.CloseAndCollapse) _minimizeButton.IsVisible = false;
+                            if (x != WindowButtons.CloseAndExpand) _maximizeButton.IsVisible = false;
                         }
                     }),
                     HostWindow.GetObservable(PleasantWindow.FullScreenButtonProperty).Subscribe(x =>
                     {
-                        if ((_fullscreenButton is null) == false) 
-                        { 
-                            _fullscreenButton.IsVisible = x; 
-                            
+                        if (_fullscreenButton is null == false)
+                        {
+                            _fullscreenButton.IsVisible = x;
+
                             if (HostWindow.WindowState == WindowState.FullScreen)
                                 HostWindow.WindowState = WindowState.Normal;
-                        } 
+                        }
                     })
                 };
-            }
         }
     }
 }

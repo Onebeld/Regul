@@ -1,8 +1,12 @@
-﻿using System.Diagnostics;
+﻿#region
+
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Onebeld.Extensions;
 using PleasantUI.Controls.Custom;
+
+#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -11,13 +15,13 @@ namespace Regul.Base.Views.Windows
         private string AppVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString();
         private string FrameworkVersion => RuntimeInformation.FrameworkDescription;
         private string PleasantUIVersion => Assembly.GetAssembly(typeof(PleasantWindow))?.GetName().Version?.ToString();
-        
+
         public void Close()
         {
             About window = WindowsManager.FindModalWindow<About>();
-            
+
             WindowsManager.OtherModalWindows.Remove(window);
-            
+
             window.Close();
         }
 

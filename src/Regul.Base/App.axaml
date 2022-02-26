@@ -5,9 +5,9 @@
         <StyleInclude Source="avares://PleasantUI/PleasantUI.axaml" />
         <StyleInclude Source="avares://PleasantUI/Assets/Themes/Light.axaml" />
         <StyleInclude Source="avares://Regul.Assets/Icons.axaml" />
-        
+
         <StyleInclude Source="avares://Regul.Assets/Localization/en.axaml" />
-        
+
         <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
         <StyleInclude Source="avares://Regul.Base/DragAndDrop/DragAndDropWindow.axaml" />
     </Application.Styles>

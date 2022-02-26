@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Media;
 
+#endregion
+
 namespace Regul.ModuleSystem
 {
-	public class Editor
-	{
-		public string Id { get; set; }
-		public string Name { get; set; }
-		public Func<IEditor> CreatingAnEditor { get; set; }
-		public PathGeometry Icon { get; set; }
-		public List<FileDialogFilter> DialogFilters { get; set; }
-	}
+    public class Editor
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public Func<IEditor> CreatingAnEditor { get; set; }
+        public PathGeometry Icon { get; set; }
+        public List<FileDialogFilter> DialogFilters { get; set; }
+    }
 }

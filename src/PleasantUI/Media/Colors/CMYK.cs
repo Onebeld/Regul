@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace PleasantUI.Media.Colors
 {
@@ -46,17 +50,35 @@ namespace PleasantUI.Media.Colors
             K = cmyk.K;
         }
 
-        public CMYK WithC(double c) => new CMYK(c, M, Y, K);
+        public CMYK WithC(double c)
+        {
+            return new CMYK(c, M, Y, K);
+        }
 
-        public CMYK WithM(double m) => new CMYK(C, m, Y, K);
+        public CMYK WithM(double m)
+        {
+            return new CMYK(C, m, Y, K);
+        }
 
-        public CMYK WithY(double y) => new CMYK(C, M, y, K);
+        public CMYK WithY(double y)
+        {
+            return new CMYK(C, M, y, K);
+        }
 
-        public CMYK WithK(double k) => new CMYK(C, M, Y, k);
+        public CMYK WithK(double k)
+        {
+            return new CMYK(C, M, Y, k);
+        }
 
-        public RGB ToRGB() => ToRGB(C, M, Y, K);
+        public RGB ToRGB()
+        {
+            return ToRGB(C, M, Y, K);
+        }
 
-        public HSV ToHSV() => ToHSV(C, M, Y, K);
+        public HSV ToHSV()
+        {
+            return ToHSV(C, M, Y, K);
+        }
 
         public static RGB ToRGB(double c, double m, double y, double k)
         {
@@ -78,6 +100,9 @@ namespace PleasantUI.Media.Colors
             return new RGB(R, G, B);
         }
 
-        public static HSV ToHSV(double c, double m, double y, double k) => ToRGB(c, m, y, k).ToHSV();
+        public static HSV ToHSV(double c, double m, double y, double k)
+        {
+            return ToRGB(c, m, y, k).ToHSV();
+        }
     }
 }

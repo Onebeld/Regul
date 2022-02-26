@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -8,6 +10,8 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Interactivity;
 using Avalonia.Rendering;
 using Avalonia.Styling;
+
+#endregion
 
 namespace PleasantUI.Controls.Custom
 {
@@ -30,24 +34,26 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<bool> MacOsModeProperty =
             AvaloniaProperty.Register<PleasantModalWindow, bool>(nameof(MacOsMode));
 
-        public event EventHandler Opened;
-        public event EventHandler Closed;
-        public event EventHandler Opening;
-        public event EventHandler Closing;
+        private object _dialogResult;
 
-        protected virtual void OnOpened() => Opened?.Invoke(this, null);
-        protected virtual void OnOpening() => Opening?.Invoke(this, null);
-        protected virtual void OnClosed() => Closed?.Invoke(this, null);
-        protected virtual void OnClosing(CancelEventArgs args) => Closing?.Invoke(this, args);
-
-#pragma warning disable CS1998 
-		protected virtual async Task OnAnimation() { }
-#pragma warning restore CS1998
-
-		private object _dialogResult;
+        private PleasantWindow _host;
 
         private bool _isClosed;
         private bool _isClosing;
+
+        static PleasantModalWindow()
+        {
+        }
+
+        public PleasantModalWindow()
+        {
+            this.GetObservable(IsClosedProperty).Subscribe(x =>
+            {
+                if (!IsClosing && !IsClosed) return;
+
+                RaiseEvent(new RoutedEventArgs(WindowClosedEvent));
+            });
+        }
 
         public bool IsClosed
         {
@@ -66,27 +72,52 @@ namespace PleasantUI.Controls.Custom
             get => GetValue(MacOsModeProperty);
             private set => SetValue(MacOsModeProperty, value);
         }
-        
+
         public bool CanOpen { get; set; }
 
-        private PleasantWindow _host;
-
-        static PleasantModalWindow()
+        public bool HitTest(Point point)
         {
+            return VisualChildren.HitTestCustom(point);
         }
 
-        public PleasantModalWindow()
-        {
-            this.GetObservable(IsClosedProperty).Subscribe(x =>
-            {
-                if (!IsClosing && !IsClosed) return;
+        Type IStyleable.StyleKey => typeof(ContentControl);
 
-                RaiseEvent(new RoutedEventArgs(WindowClosedEvent));
-            });
+        public event EventHandler Opened;
+        public event EventHandler Closed;
+        public event EventHandler Opening;
+        public event EventHandler Closing;
+
+        protected virtual void OnOpened()
+        {
+            Opened?.Invoke(this, null);
         }
 
-        public Task Show(PleasantWindow host) => Show<object>(host);
-        
+        protected virtual void OnOpening()
+        {
+            Opening?.Invoke(this, null);
+        }
+
+        protected virtual void OnClosed()
+        {
+            Closed?.Invoke(this, null);
+        }
+
+        protected virtual void OnClosing(CancelEventArgs args)
+        {
+            Closing?.Invoke(this, args);
+        }
+
+#pragma warning disable CS1998
+        protected virtual async Task OnAnimation()
+        {
+        }
+#pragma warning restore CS1998
+
+        public Task Show(PleasantWindow host)
+        {
+            return Show<object>(host);
+        }
+
         public Task<T> Show<T>(PleasantWindow host)
         {
             _host = host ?? throw new ArgumentNullException(nameof(host));
@@ -101,7 +132,7 @@ namespace PleasantUI.Controls.Custom
                     x => Closed += x,
                     x => Closed -= x)
                 .Take(1)
-                .Subscribe(_ => { result.SetResult((T) (_dialogResult ?? default(T))); });
+                .Subscribe(_ => { result.SetResult((T)(_dialogResult ?? default(T))); });
 
             OnOpened();
 
@@ -132,7 +163,7 @@ namespace PleasantUI.Controls.Custom
             finally
             {
                 if (close)
-				{
+                {
                     RaiseEvent(new RoutedEventArgs(WindowClosedEvent));
                     OnClosed();
                     PseudoClasses.Set(":close", true);
@@ -143,7 +174,7 @@ namespace PleasantUI.Controls.Custom
 
                     _host.RemoveModalWindow(this);
                 }
-			}
+            }
         }
 
         private bool ShouldCancelClose(CancelEventArgs args = null)
@@ -160,9 +191,5 @@ namespace PleasantUI.Controls.Custom
 
             return true;
         }
-
-        public bool HitTest(Point point) => VisualChildren.HitTestCustom(point);
-
-        Type IStyleable.StyleKey => typeof(ContentControl);
     }
 }

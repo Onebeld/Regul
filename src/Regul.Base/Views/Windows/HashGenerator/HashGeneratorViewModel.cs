@@ -1,13 +1,17 @@
-﻿using System.Security.Cryptography;
+﻿#region
+
+using System.Security.Cryptography;
 using Onebeld.Extensions;
+
+#endregion
 
 namespace Regul.Base.Views.Windows
 {
     public class HashGeneratorViewModel : ViewModelBase
     {
-        private bool _highBit;
-        private bool _hex = true;
         private bool _dec;
+        private bool _hex = true;
+        private bool _highBit;
 
         private ulong _number;
 
@@ -25,7 +29,7 @@ namespace Regul.Base.Views.Windows
             set
             {
                 if (!RaiseAndSetIfChanged(ref _text, value)) return;
-                
+
                 RaisePropertyChanged(nameof(FNV24));
                 RaisePropertyChanged(nameof(FNV32));
                 RaisePropertyChanged(nameof(FNV56));
@@ -39,7 +43,7 @@ namespace Regul.Base.Views.Windows
             set
             {
                 if (!RaiseAndSetIfChanged(ref _hex, value)) return;
-                
+
                 RaisePropertyChanged(nameof(FNV24));
                 RaisePropertyChanged(nameof(FNV32));
                 RaisePropertyChanged(nameof(FNV56));
@@ -53,7 +57,7 @@ namespace Regul.Base.Views.Windows
             set
             {
                 if (!RaiseAndSetIfChanged(ref _dec, value)) return;
-                
+
                 RaisePropertyChanged(nameof(FNV24));
                 RaisePropertyChanged(nameof(FNV32));
                 RaisePropertyChanged(nameof(FNV56));
@@ -71,7 +75,7 @@ namespace Regul.Base.Views.Windows
                 return Dec ? num.ToString() : string.Empty;
             }
         }
-        
+
         public string FNV32
         {
             get
@@ -82,7 +86,7 @@ namespace Regul.Base.Views.Windows
                 return Dec ? num.ToString() : string.Empty;
             }
         }
-        
+
         public string FNV56
         {
             get
@@ -93,7 +97,7 @@ namespace Regul.Base.Views.Windows
                 return Dec ? num.ToString() : string.Empty;
             }
         }
-        
+
         public string FNV64
         {
             get
@@ -111,14 +115,17 @@ namespace Regul.Base.Views.Windows
             set
             {
                 if (!RaiseAndSetIfChanged(ref _highBit, value)) return;
-                
+
                 RaisePropertyChanged(nameof(FNV24));
                 RaisePropertyChanged(nameof(FNV32));
                 RaisePropertyChanged(nameof(FNV56));
                 RaisePropertyChanged(nameof(FNV64));
             }
         }
-        
-        public void Close(HashGenerator hashGenerator) => WindowsManager.OtherWindows.Remove(hashGenerator);
+
+        public void Close(HashGenerator hashGenerator)
+        {
+            WindowsManager.OtherWindows.Remove(hashGenerator);
+        }
     }
 }

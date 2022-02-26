@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:Regul.Base.Views.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:p="using:Regul.ModuleSystem"
              xmlns:c="using:Regul.Base.Converters"
@@ -29,7 +28,7 @@
 
             <Button Content="{DynamicResource GoTo}" Command="{Binding GoToEditors}" HorizontalAlignment="Center" />
         </StackPanel>
-        
+
 
         <Grid Grid.Column="1" Margin="15" RowDefinitions="Auto,*,Auto">
             <TextBlock Grid.Row="0"
@@ -53,7 +52,7 @@
                                           Data="{StaticResource SearchIcon}" />
                                     <TextBox Watermark="{DynamicResource Search}" Text="{Binding SearchText}" />
                                 </DockPanel>
-                                
+
                                 <DockPanel Grid.Column="2" Width="150">
                                     <TextBlock Text="{DynamicResource SearchByC}" Margin="0 0 5 0" />
                                     <ComboBox SelectedIndex="{Binding SelectedPatternSearch}">
@@ -74,29 +73,29 @@
                             <ListBox.DataTemplates>
                                 <DataTemplate DataType="{x:Type p:Project}">
                                     <Grid RowDefinitions="*,*,*" ColumnDefinitions="Auto,*">
-                                        <Path Grid.Row="0" 
-                                              Grid.RowSpan="3" 
-                                              Grid.Column="0" 
-                                              Width="25" 
+                                        <Path Grid.Row="0"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="0"
+                                              Width="25"
                                               Margin="10 0"
                                               VerticalAlignment="Center"
                                               Data="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToGeometry}}"
-                                              Fill="{StaticResource ForegroundBrush}" 
+                                              Fill="{StaticResource ForegroundBrush}"
                                               Stretch="Uniform" />
 
-                                        <TextBlock Grid.Row="0" 
-                                                   Grid.Column="1" 
-                                                   Text="{Binding Path, Converter={x:Static c:RegulConverters.PathToFileName}}" 
+                                        <TextBlock Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   Text="{Binding Path, Converter={x:Static c:RegulConverters.PathToFileName}}"
                                                    FontSize="16"
                                                    FontWeight="Bold" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Row="1" 
-                                                   Grid.Column="1" 
+                                        <TextBlock Grid.Row="1"
+                                                   Grid.Column="1"
                                                    Text="{Binding Path}"
                                                    HorizontalAlignment="Left"
                                                    Foreground="{StaticResource ForegroundOpacityBrush}"
                                                    VerticalAlignment="Center" TextWrapping="Wrap" />
-                                        <TextBlock Grid.Row="2" 
-                                                   Grid.Column="1" 
+                                        <TextBlock Grid.Row="2"
+                                                   Grid.Column="1"
                                                    Text="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToNameEditor}}"
                                                    Foreground="{StaticResource ForegroundOpacityBrush}"
                                                    VerticalAlignment="Center" />
@@ -104,7 +103,7 @@
                                 </DataTemplate>
                             </ListBox.DataTemplates>
                         </ListBox>
-                        
+
                         <TextBlock Grid.Row="1"
                                    Text="{DynamicResource NoProjects}"
                                    HorizontalAlignment="Center"

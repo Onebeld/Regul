@@ -7,9 +7,9 @@
     <Style Selector="TextBox">
         <Setter Property="CaretBrush" Value="{StaticResource ForegroundBrush}" />
         <Setter Property="Background" Value="{StaticResource BackgroundControlBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        <Setter Property="CornerRadius" Value="4"/>
-        <Setter Property="BorderThickness" Value="1 1 1 2" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinHeight" Value="18" />
         <Setter Property="SelectionBrush" Value="{StaticResource SelectionBrush}" />
         <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundBrush}" />
@@ -18,21 +18,21 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu x:Name="TextBoxContextMenu">
-                    <MenuItem x:Name="TextBoxContextMenuCutItem" 
+                    <MenuItem x:Name="TextBoxContextMenuCutItem"
                               Header="{DynamicResource Cut}"
-                              Command="{Binding $parent[TextBox].Cut}" 
+                              Command="{Binding $parent[TextBox].Cut}"
                               IsEnabled="{Binding $parent[TextBox].CanCut}"
                               InputGesture="{x:Static TextBox.CutGesture}">
                         <MenuItem.Icon>
                             <Path Data="{StaticResource CutIcon}"
                                   Fill="{StaticResource ForegroundBrush}"
                                   Stretch="Uniform"
-                                  Margin="1"/>
+                                  Margin="1" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="TextBoxContextMenuCopyItem" 
+                    <MenuItem x:Name="TextBoxContextMenuCopyItem"
                               Header="{DynamicResource Copy}"
-                              Command="{Binding $parent[TextBox].Copy}" 
+                              Command="{Binding $parent[TextBox].Copy}"
                               IsEnabled="{Binding $parent[TextBox].CanCopy}"
                               InputGesture="{x:Static TextBox.CopyGesture}">
                         <MenuItem.Icon>
@@ -41,7 +41,7 @@
                                 Fill="{StaticResource ForegroundBrush}" Stretch="Uniform" Margin="1" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="TextBoxContextMenuPasteItem" 
+                    <MenuItem x:Name="TextBoxContextMenuPasteItem"
                               Header="{DynamicResource Paste}"
                               Command="{Binding $parent[TextBox].Paste}"
                               IsEnabled="{Binding $parent[TextBox].CanPaste}"
@@ -123,7 +123,7 @@
         <Setter Property="Background" Value="{StaticResource HoverBackgroundBrush}" />
     </Style>
     <Style Selector="TextBox:focus /template/ Border#border">
-        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
     </Style>
     <Style Selector="TextBox:disabled /template/ Border#border">
         <Setter Property="Opacity" Value="0.5" />

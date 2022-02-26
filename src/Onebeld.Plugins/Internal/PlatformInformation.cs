@@ -1,9 +1,13 @@
 ﻿// Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#region
+
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
+#endregion
 
 namespace Onebeld.Plugins
 {
@@ -11,12 +15,13 @@ namespace Onebeld.Plugins
     {
         public static readonly string[] NativeLibraryExtensions;
         public static readonly string[] NativeLibraryPrefixes;
-        public static readonly string[] ManagedAssemblyExtensions = new[]
+
+        public static readonly string[] ManagedAssemblyExtensions =
         {
-                ".dll",
-                ".ni.dll",
-                ".exe",
-                ".ni.exe"
+            ".dll",
+            ".ni.dll",
+            ".exe",
+            ".ni.exe"
         };
 
         static PlatformInformation()
@@ -28,7 +33,7 @@ namespace Onebeld.Plugins
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                NativeLibraryPrefixes = new[] { "", "lib", };
+                NativeLibraryPrefixes = new[] { "", "lib" };
                 NativeLibraryExtensions = new[] { ".dylib" };
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

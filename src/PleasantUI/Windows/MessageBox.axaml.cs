@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +11,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Structures;
+
+#endregion
 
 namespace PleasantUI.Windows
 {
@@ -23,9 +27,13 @@ namespace PleasantUI.Windows
             None
         }
 
-        public MessageBox() => AvaloniaXamlLoader.Load(this);
+        public MessageBox()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
 
-        public static Task<string> Show(PleasantWindow parent, string title, string text, IList<MessageBoxButton> buttons, MessageBoxIcon icon = MessageBoxIcon.None, string textException = null)
+        public static Task<string> Show(PleasantWindow parent, string title, string text,
+            IList<MessageBoxButton> buttons, MessageBoxIcon icon = MessageBoxIcon.None, string textException = null)
         {
             MessageBox messageBox = new MessageBox
             {
@@ -43,7 +51,7 @@ namespace PleasantUI.Windows
 
             void AddButton(MessageBoxButton r)
             {
-                Button btn = new Button {Content = r.Text, Padding = Thickness.Parse("15 0")};
+                Button btn = new Button { Content = r.Text, Padding = Thickness.Parse("15 0") };
                 btn.Click += (_, __) =>
                 {
                     res = r.Result;
@@ -57,7 +65,10 @@ namespace PleasantUI.Windows
                 }
             }
 
-            void ChangeIcon(string icn) => iconControl.Data = (Geometry) Application.Current.FindResource($"{icn}Icon");
+            void ChangeIcon(string icn)
+            {
+                iconControl.Data = (Geometry)Application.Current.FindResource($"{icn}Icon");
+            }
 
             foreach (MessageBoxButton button in buttons)
             {
@@ -78,26 +89,24 @@ namespace PleasantUI.Windows
             {
                 case MessageBoxIcon.Error:
                     ChangeIcon("Error");
-                    iconControl.Fill = (IBrush) Application.Current.FindResource("MBErrorBrush");
+                    iconControl.Fill = (IBrush)Application.Current.FindResource("MBErrorBrush");
                     break;
                 case MessageBoxIcon.Information:
                     ChangeIcon("Information");
-                    iconControl.Fill = (IBrush) Application.Current.FindResource("MBQuestionBrush");
+                    iconControl.Fill = (IBrush)Application.Current.FindResource("MBQuestionBrush");
                     break;
                 case MessageBoxIcon.Question:
                     ChangeIcon("Question");
-                    iconControl.Fill = (IBrush) Application.Current.FindResource("MBQuestionBrush");
+                    iconControl.Fill = (IBrush)Application.Current.FindResource("MBQuestionBrush");
                     break;
                 case MessageBoxIcon.Warning:
                     ChangeIcon("Warning");
-                    iconControl.Fill = (IBrush) Application.Current.FindResource("MBWarningBrush");
+                    iconControl.Fill = (IBrush)Application.Current.FindResource("MBWarningBrush");
                     break;
             }
 
             if (!string.IsNullOrEmpty(textException))
-            {
                 errorText.Text = textException;
-            }
             else toggleButton.IsVisible = false;
 
             TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();

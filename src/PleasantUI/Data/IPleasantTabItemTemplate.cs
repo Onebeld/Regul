@@ -1,4 +1,8 @@
-﻿using Avalonia.Controls.Shapes;
+﻿#region
+
+using Avalonia.Controls.Shapes;
+
+#endregion
 
 namespace PleasantUI.Data
 {

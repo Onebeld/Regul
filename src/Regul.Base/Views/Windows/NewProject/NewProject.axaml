@@ -1,14 +1,14 @@
 ﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:vm="using:Regul.Base.Views.Windows"
-                     xmlns:c="using:Regul.Base.Converters"
-                     xmlns:p="using:Regul.ModuleSystem"
-                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                     x:Class="Regul.Base.Views.Windows.NewProject"
-                     Title="{StaticResource NewProject}"
-                     Icon="avares://Regul.Assets/icon.ico">
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:vm="using:Regul.Base.Views.Windows"
+                      xmlns:c="using:Regul.Base.Converters"
+                      xmlns:p="using:Regul.ModuleSystem"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      x:Class="Regul.Base.Views.Windows.NewProject"
+                      Title="{StaticResource NewProject}"
+                      Icon="avares://Regul.Assets/icon.ico">
     <PleasantDialogWindow.Styles>
         <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
             <Setter Property="Width" Value="400" />
@@ -18,113 +18,113 @@
     <PleasantDialogWindow.DataContext>
         <vm:NewProjectViewModel />
     </PleasantDialogWindow.DataContext>
-	
+
     <Grid Margin="5" RowDefinitions="Auto,*,Auto">
-            <TextBlock Grid.Row="0"
-                       Text="{StaticResource RecentProjects}"
-                       TextAlignment="Center"
-                       FontWeight="Bold"
-                       FontSize="16"
-                       Margin="0 0 0 5" />
+        <TextBlock Grid.Row="0"
+                   Text="{StaticResource RecentProjects}"
+                   TextAlignment="Center"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Margin="0 0 0 5" />
 
-            <Border Grid.Row="1" CornerRadius="5 5 0 0" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
-                <Border ClipToBounds="True" CornerRadius="5 5 0 0">
-                    <Grid RowDefinitions="Auto,*">
-                        <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" Height="25">
-                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="5 0">
-                                <DockPanel Grid.Column="0" Width="200">
-                                    <Path Width="16"
-                                          VerticalAlignment="Center"
-                                          Fill="{StaticResource ForegroundBrush}" 
-                                          Stretch="Uniform" 
-                                          Margin="0 0 5 0"
-                                          Data="{StaticResource SearchIcon}"/>
-                                    <TextBox Watermark="Search" Text="{Binding SearchText}" />
-                                </DockPanel>
-                                
-                                <DockPanel Grid.Column="2" Width="150">
-                                    <TextBlock Text="{StaticResource SearchByC}" Margin="0 0 5 0"/>
-                                    <ComboBox SelectedIndex="{Binding SelectedPatternSearch}">
-                                        <ComboBoxItem Content="{StaticResource SearchName}" />
-                                        <ComboBoxItem Content="{StaticResource SearchPath}" />
-                                        <ComboBoxItem Content="{StaticResource SearchEditor}" />
-                                    </ComboBox>
-                                </DockPanel>
-                            </Grid>
-                        </Border>
+        <Border Grid.Row="1" CornerRadius="5 5 0 0" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+            <Border ClipToBounds="True" CornerRadius="5 5 0 0">
+                <Grid RowDefinitions="Auto,*">
+                    <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" Height="25">
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="5 0">
+                            <DockPanel Grid.Column="0" Width="200">
+                                <Path Width="16"
+                                      VerticalAlignment="Center"
+                                      Fill="{StaticResource ForegroundBrush}"
+                                      Stretch="Uniform"
+                                      Margin="0 0 5 0"
+                                      Data="{StaticResource SearchIcon}" />
+                                <TextBox Watermark="Search" Text="{Binding SearchText}" />
+                            </DockPanel>
 
-                        <ListBox Grid.Row="1"
-                                 Items="{Binding FoundProjects}"
-                                 SelectedItem="{Binding SelectedProject}"
-                                 CornerRadius="0"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                 BorderThickness="0">
-                            <ListBox.DataTemplates>
-                                <DataTemplate DataType="{x:Type p:Project}">
-                                    <Grid RowDefinitions="*,*,*" ColumnDefinitions="Auto,*">
-                                        <Path Grid.Row="0" 
-                                              Grid.RowSpan="3" 
-                                              Grid.Column="0" 
-                                              Width="25" 
-                                              Margin="10 0"
-                                              VerticalAlignment="Center"
-                                              Data="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToGeometry}}"
-                                              Fill="{StaticResource ForegroundBrush}" 
-                                              Stretch="Uniform" />
-
-                                        <TextBlock Grid.Row="0" 
-                                                   Grid.Column="1" 
-                                                   Text="{Binding Path, Converter={x:Static c:RegulConverters.PathToFileName}}" 
-                                                   FontSize="16"
-                                                   FontWeight="Bold" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Row="1" 
-                                                   Grid.Column="1" 
-                                                   Text="{Binding Path}"
-                                                   HorizontalAlignment="Left"
-                                                   Foreground="{StaticResource ForegroundOpacityBrush}"
-                                                   VerticalAlignment="Center" TextWrapping="Wrap" />
-                                        <TextBlock Grid.Row="2" 
-                                                   Grid.Column="1" 
-                                                   Text="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToNameEditor}}"
-                                                   Foreground="{StaticResource ForegroundOpacityBrush}"
-                                                   VerticalAlignment="Center" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.DataTemplates>
-                        </ListBox>
-                        
-                        <TextBlock Grid.Row="1"
-                                   Margin="0 10"
-                                   Text="{StaticResource NoProjects}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   IsVisible="{Binding !FoundProjects.Count}"
-                                   Foreground="{StaticResource ForegroundOpacityBrush}" />
-                    </Grid>
-                </Border>
-            </Border>
-
-            <StackPanel Grid.Row="2" Spacing="5">
-                <StackPanel IsEnabled="{Binding SelectedProject, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <Button Content="{StaticResource DeleteProject}"
-                            BorderThickness="1 0 1 0"
-                            CornerRadius="0"
-                            Command="{Binding DeleteProject}" />
-                    <Border Height="1"
-                            Background="{StaticResource BorderBrush}">
-                        <Border.Styles>
-                            <Style Selector="Border:disabled">
-                                <Setter Property="Opacity" Value="0.5" />
-                            </Style>
-                        </Border.Styles>
+                            <DockPanel Grid.Column="2" Width="150">
+                                <TextBlock Text="{StaticResource SearchByC}" Margin="0 0 5 0" />
+                                <ComboBox SelectedIndex="{Binding SelectedPatternSearch}">
+                                    <ComboBoxItem Content="{StaticResource SearchName}" />
+                                    <ComboBoxItem Content="{StaticResource SearchPath}" />
+                                    <ComboBoxItem Content="{StaticResource SearchEditor}" />
+                                </ComboBox>
+                            </DockPanel>
+                        </Grid>
                     </Border>
-                    <Button Content="{StaticResource OpenProject}"
-                            CornerRadius="0 0 5 5"
-                            BorderThickness="1 0 1 1"
-                            Command="{Binding OpenProject}" />
-                </StackPanel>
-                <Button Content="{StaticResource Create}" Command="{Binding CreateNew}" />
-                <Button Content="{StaticResource Open}" Command="{Binding OpenFile}" />
+
+                    <ListBox Grid.Row="1"
+                             Items="{Binding FoundProjects}"
+                             SelectedItem="{Binding SelectedProject}"
+                             CornerRadius="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             BorderThickness="0">
+                        <ListBox.DataTemplates>
+                            <DataTemplate DataType="{x:Type p:Project}">
+                                <Grid RowDefinitions="*,*,*" ColumnDefinitions="Auto,*">
+                                    <Path Grid.Row="0"
+                                          Grid.RowSpan="3"
+                                          Grid.Column="0"
+                                          Width="25"
+                                          Margin="10 0"
+                                          VerticalAlignment="Center"
+                                          Data="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToGeometry}}"
+                                          Fill="{StaticResource ForegroundBrush}"
+                                          Stretch="Uniform" />
+
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="1"
+                                               Text="{Binding Path, Converter={x:Static c:RegulConverters.PathToFileName}}"
+                                               FontSize="16"
+                                               FontWeight="Bold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Text="{Binding Path}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="{StaticResource ForegroundOpacityBrush}"
+                                               VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="1"
+                                               Text="{Binding IdEditor, Converter={x:Static c:RegulConverters.IdEditorToNameEditor}}"
+                                               Foreground="{StaticResource ForegroundOpacityBrush}"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.DataTemplates>
+                    </ListBox>
+
+                    <TextBlock Grid.Row="1"
+                               Margin="0 10"
+                               Text="{StaticResource NoProjects}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               IsVisible="{Binding !FoundProjects.Count}"
+                               Foreground="{StaticResource ForegroundOpacityBrush}" />
+                </Grid>
+            </Border>
+        </Border>
+
+        <StackPanel Grid.Row="2" Spacing="5">
+            <StackPanel IsEnabled="{Binding SelectedProject, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <Button Content="{StaticResource DeleteProject}"
+                        BorderThickness="1 0 1 0"
+                        CornerRadius="0"
+                        Command="{Binding DeleteProject}" />
+                <Border Height="1"
+                        Background="{StaticResource BorderBrush}">
+                    <Border.Styles>
+                        <Style Selector="Border:disabled">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Style>
+                    </Border.Styles>
+                </Border>
+                <Button Content="{StaticResource OpenProject}"
+                        CornerRadius="0 0 5 5"
+                        BorderThickness="1 0 1 1"
+                        Command="{Binding OpenProject}" />
             </StackPanel>
-        </Grid>
+            <Button Content="{StaticResource Create}" Command="{Binding CreateNew}" />
+            <Button Content="{StaticResource Open}" Command="{Binding OpenFile}" />
+        </StackPanel>
+    </Grid>
 </PleasantDialogWindow>

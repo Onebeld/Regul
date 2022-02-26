@@ -1,6 +1,8 @@
 // Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,23 +10,26 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyModel;
 using Onebeld.Plugins.LibraryModel;
-using NativeLibrary = Onebeld.Plugins.LibraryModel.NativeLibrary;
+using RuntimeEnvironment = Microsoft.DotNet.PlatformAbstractions.RuntimeEnvironment;
+
+#endregion
 
 namespace Onebeld.Plugins.Loader
 {
     /// <summary>
-    /// Extensions for configuring a load context using .deps.json files.
+    ///     Extensions for configuring a load context using .deps.json files.
     /// </summary>
     public static class DependencyContextExtensions
     {
         /// <summary>
-        /// Add dependency information to a load context from a .deps.json file.
+        ///     Add dependency information to a load context from a .deps.json file.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="depsFilePath">The full path to the .deps.json file.</param>
         /// <param name="error">An error, if one occurs while reading .deps.json</param>
         /// <returns>The builder.</returns>
-        public static AssemblyLoadContextBuilder TryAddDependencyContext(this AssemblyLoadContextBuilder builder, string depsFilePath, out Exception error)
+        public static AssemblyLoadContextBuilder TryAddDependencyContext(this AssemblyLoadContextBuilder builder,
+            string depsFilePath, out Exception error)
         {
             error = null;
             try
@@ -40,14 +45,14 @@ namespace Onebeld.Plugins.Loader
         }
 
         /// <summary>
-        /// Add dependency information to a load context from a .deps.json file.
+        ///     Add dependency information to a load context from a .deps.json file.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="depsFilePath">The full path to the .deps.json file.</param>
         /// <returns>The builder.</returns>
-        public static AssemblyLoadContextBuilder AddDependencyContext(this AssemblyLoadContextBuilder builder, string depsFilePath)
+        public static AssemblyLoadContextBuilder AddDependencyContext(this AssemblyLoadContextBuilder builder,
+            string depsFilePath)
         {
-
             DependencyContextJsonReader reader = new DependencyContextJsonReader();
             using (FileStream file = File.OpenRead(depsFilePath))
             {
@@ -65,22 +70,13 @@ namespace Onebeld.Plugins.Loader
             string ridBase;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
                 ridBase = "win10";
-            }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
                 ridBase = "linux";
-
-            }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
                 ridBase = "osx.10.12";
-            }
             else
-            {
                 return "any";
-            }
 
             switch (RuntimeInformation.OSArchitecture)
             {
@@ -98,33 +94,32 @@ namespace Onebeld.Plugins.Loader
         }
 
         /// <summary>
-        /// Add a pre-parsed <see cref="DependencyContext" /> to the load context.
+        ///     Add a pre-parsed <see cref="DependencyContext" /> to the load context.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="dependencyContext">The dependency context.</param>
         /// <returns>The builder.</returns>
-        public static AssemblyLoadContextBuilder AddDependencyContext(this AssemblyLoadContextBuilder builder, DependencyContext dependencyContext)
+        public static AssemblyLoadContextBuilder AddDependencyContext(this AssemblyLoadContextBuilder builder,
+            DependencyContext dependencyContext)
         {
-            IReadOnlyList<RuntimeFallbacks> ridGraph = dependencyContext.RuntimeGraph.Any() || DependencyContext.Default == null
-               ? dependencyContext.RuntimeGraph
-               : DependencyContext.Default.RuntimeGraph;
+            IReadOnlyList<RuntimeFallbacks> ridGraph =
+                dependencyContext.RuntimeGraph.Any() || DependencyContext.Default == null
+                    ? dependencyContext.RuntimeGraph
+                    : DependencyContext.Default.RuntimeGraph;
 
-            string rid = Microsoft.DotNet.PlatformAbstractions.RuntimeEnvironment.GetRuntimeIdentifier();
+            string rid = RuntimeEnvironment.GetRuntimeIdentifier();
             string fallbackRid = GetFallbackRid();
             RuntimeFallbacks fallbackGraph = ridGraph.FirstOrDefault(g => g.Runtime == rid)
                                              ?? ridGraph.FirstOrDefault(g => g.Runtime == fallbackRid)
                                              ?? new RuntimeFallbacks("any");
 
             foreach (ManagedLibrary managed in dependencyContext.ResolveRuntimeAssemblies(fallbackGraph))
-            {
                 builder.AddManagedLibrary(managed);
-            }
 
             foreach (RuntimeLibrary library in dependencyContext.ResolveResourceAssemblies())
+            foreach (ResourceAssembly resource in library.ResourceAssemblies)
             {
-                foreach (ResourceAssembly resource in library.ResourceAssemblies)
-                {
-                    /*
+                /*
                      * For resource assemblies, look in $packageRoot/$packageId/$version/$resourceGrandparent
                      *
                      * For example, a deps file may contain
@@ -143,50 +138,50 @@ namespace Onebeld.Plugins.Loader
                      * In this case, probing should happen in $packageRoot/example/1.0.0/lib/netcoreapp2.0
                      */
 
-                    string resourceDir = Path.GetDirectoryName(Path.GetDirectoryName(resource.Path));
+                string resourceDir = Path.GetDirectoryName(Path.GetDirectoryName(resource.Path));
 
-                    if (resourceDir != null)
-                    {
-                        string path = Path.Combine(library.Name.ToLowerInvariant(),
-                            library.Version,
-                            resourceDir);
+                if (resourceDir != null)
+                {
+                    string path = Path.Combine(library.Name.ToLowerInvariant(),
+                        library.Version,
+                        resourceDir);
 
-                        builder.AddResourceProbingSubpath(path);
-                    }
+                    builder.AddResourceProbingSubpath(path);
                 }
             }
 
             foreach (NativeLibrary native in dependencyContext.ResolveNativeAssets(fallbackGraph))
-            {
                 builder.AddNativeLibrary(native);
-            }
 
             return builder;
         }
 
-        private static IEnumerable<ManagedLibrary> ResolveRuntimeAssemblies(this DependencyContext depContext, RuntimeFallbacks runtimeGraph)
+        private static IEnumerable<ManagedLibrary> ResolveRuntimeAssemblies(this DependencyContext depContext,
+            RuntimeFallbacks runtimeGraph)
         {
             IEnumerable<string> rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries
-                   from assetPath in SelectAssets(rids, library.RuntimeAssemblyGroups)
-                   select ManagedLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
+                from assetPath in SelectAssets(rids, library.RuntimeAssemblyGroups)
+                select ManagedLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
         }
 
         private static IEnumerable<RuntimeLibrary> ResolveResourceAssemblies(this DependencyContext depContext)
         {
             return from library in depContext.RuntimeLibraries
-                   where library.ResourceAssemblies != null && library.ResourceAssemblies.Count > 0
-                   select library;
+                where library.ResourceAssemblies != null && library.ResourceAssemblies.Count > 0
+                select library;
         }
 
-        private static IEnumerable<NativeLibrary> ResolveNativeAssets(this DependencyContext depContext, RuntimeFallbacks runtimeGraph)
+        private static IEnumerable<NativeLibrary> ResolveNativeAssets(this DependencyContext depContext,
+            RuntimeFallbacks runtimeGraph)
         {
             IEnumerable<string> rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries
-                   from assetPath in SelectAssets(rids, library.NativeLibraryGroups)
-                       // some packages include symbols alongside native assets, such as System.Native.a or pwshplugin.pdb
-                   where PlatformInformation.NativeLibraryExtensions.Contains(Path.GetExtension(assetPath), StringComparer.OrdinalIgnoreCase)
-                   select NativeLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
+                from assetPath in SelectAssets(rids, library.NativeLibraryGroups)
+                // some packages include symbols alongside native assets, such as System.Native.a or pwshplugin.pdb
+                where PlatformInformation.NativeLibraryExtensions.Contains(Path.GetExtension(assetPath),
+                    StringComparer.OrdinalIgnoreCase)
+                select NativeLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
         }
 
         private static IEnumerable<string> GetRids(RuntimeFallbacks runtimeGraph)
@@ -199,10 +194,7 @@ namespace Onebeld.Plugins.Loader
             foreach (string rid in rids)
             {
                 RuntimeAssetGroup group = groups.FirstOrDefault(g => g.Runtime == rid);
-                if (group != null)
-                {
-                    return group.AssetPaths;
-                }
+                if (group != null) return @group.AssetPaths;
             }
 
             // Return the RID-agnostic group

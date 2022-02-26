@@ -13,18 +13,21 @@
         <SolidColorBrush x:Key="PressedForegroundBrush" Color="{DynamicResource PressedForegroundColor}" />
         <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}" />
         <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
-        
+
         <SolidColorBrush x:Key="TitleBarBrush" Color="{DynamicResource TitleBarColor}" />
         <SolidColorBrush x:Key="TitleBarFullscreenBrush" Color="{DynamicResource TitleBarFullscreenColor}" />
         <SolidColorBrush x:Key="CloseButtonBrush" Color="{DynamicResource CloseButtonColor}" />
-        
-        <SolidColorBrush x:Key="HoverScrollBoxBrush" Color="{DynamicResource HoverScrollBoxColor}"/>
-        <SolidColorBrush x:Key="ScrollBoxBrush" Color="{DynamicResource ScrollBoxColor}"/>
+
+        <SolidColorBrush x:Key="HoverScrollBoxBrush" Color="{DynamicResource HoverScrollBoxColor}" />
+        <SolidColorBrush x:Key="ScrollBoxBrush" Color="{DynamicResource ScrollBoxColor}" />
 
         <!-- MessageBox -->
-        <SolidColorBrush x:Key="MBDefaultButtonBackgroundBrush" Color="{DynamicResource MBDefaultButtonBackgroundColor}" />
-        <SolidColorBrush x:Key="MBDefaultButtonForegroundBrush" Color="{DynamicResource MBDefaultButtonForegroundColor}" />
-        <SolidColorBrush x:Key="MBDefaultButtonHoverBackgroundBrush" Color="{DynamicResource MBDefaultButtonHoverBackgroundColor}" />
+        <SolidColorBrush x:Key="MBDefaultButtonBackgroundBrush"
+                         Color="{DynamicResource MBDefaultButtonBackgroundColor}" />
+        <SolidColorBrush x:Key="MBDefaultButtonForegroundBrush"
+                         Color="{DynamicResource MBDefaultButtonForegroundColor}" />
+        <SolidColorBrush x:Key="MBDefaultButtonHoverBackgroundBrush"
+                         Color="{DynamicResource MBDefaultButtonHoverBackgroundColor}" />
 
         <SolidColorBrush x:Key="MBQuestionBrush" Color="{DynamicResource MBQuestionColor}" />
         <SolidColorBrush x:Key="MBSuccessBrush" Color="{DynamicResource MBSuccessColor}" />
@@ -32,7 +35,7 @@
         <SolidColorBrush x:Key="MBErrorBrush" Color="{DynamicResource MBErrorColor}" />
         <!-- MessageBox -->
     </Styles.Resources>
-    
+
     <StyleInclude Source="/Assets/Icons.axaml" />
 
     <!-- Custom controls -->

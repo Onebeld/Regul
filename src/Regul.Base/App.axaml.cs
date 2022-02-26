@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -17,240 +19,223 @@ using PleasantUI.Media;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.ModuleSystem.Models;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+
+#endregion
 
 namespace Regul.Base
 {
-	public class App : Application
-	{
-		public static List<DispatcherTimer> Timers { get; set; } = new List<DispatcherTimer>();
-		public static List<Thread> Threads { get; } = new List<Thread>();
+    public class App : Application
+    {
+        public static readonly Language[] Languages = new Language[2]
+        {
+            new Language("English (English)", "en"),
+            new Language("Русский (Russian)", "ru")
+        };
 
-		public static List<Action> ActionsWhenCompleting { get; } = new List<Action>();
+        public static List<DispatcherTimer> Timers { get; set; } = new List<DispatcherTimer>();
+        public static List<Thread> Threads { get; } = new List<Thread>();
 
-		public static Styles ModulesLanguage { get; } = new Styles();
+        public static List<Action> ActionsWhenCompleting { get; } = new List<Action>();
 
-		public override void Initialize()
-		{
-			AvaloniaXamlLoader.Load(this);
-			
-			AppCenter.Start("", typeof(Analytics), typeof(Crashes));
+        public static Styles ModulesLanguage { get; } = new Styles();
 
-			InitializeTheme();
-			InitializeLanguage();
-		}
+        public override void Initialize()
+        {
+            AvaloniaXamlLoader.Load(this);
 
-		private void InitializeTheme()
-		{
-			//DefaultTheme defaultTheme = PleasantUIDefaults.Themes.FirstOrDefault(x => x.Name == GeneralSettings.Settings.Theme);
-			DefaultTheme defaultTheme = null;
-			foreach (DefaultTheme item in PleasantUIDefaults.Themes)
-			{
-				if (item.Name == GeneralSettings.Settings.Theme)
-				{
-					defaultTheme = item;
-					break;
-				}
-			}
-			//
+            InitializeTheme();
+            InitializeLanguage();
+        }
 
-			if (defaultTheme == null)
-			{
-				List<Theme> Themes = new List<Theme>();
+        private void InitializeTheme()
+        {
+            //DefaultTheme defaultTheme = PleasantUIDefaults.Themes.FirstOrDefault(x => x.Name == GeneralSettings.Settings.Theme);
+            DefaultTheme defaultTheme = null;
+            foreach (DefaultTheme item in PleasantUIDefaults.Themes)
+                if (item.Name == GeneralSettings.Settings.Theme)
+                {
+                    defaultTheme = item;
+                    break;
+                }
+            //
 
-				if (Directory.Exists("Themes"))
-				{
-					foreach (string path in Directory.EnumerateFiles("Themes", "*.xml"))
-					{
-						using (FileStream fs = File.OpenRead(path))
-							Themes.Add((Theme)new XmlSerializer(typeof(Theme)).Deserialize(fs));
-					}
-				}
+            if (defaultTheme == null)
+            {
+                List<Theme> Themes = new List<Theme>();
 
-				//Theme theme = Themes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
-				Theme theme = null;
-				for (int i = 0; i < Themes.Count; i++)
-				{
-					Theme item = Themes[i];
+                if (Directory.Exists("Themes"))
+                    foreach (string path in Directory.EnumerateFiles("Themes", "*.xml"))
+                        using (FileStream fs = File.OpenRead(path))
+                        {
+                            Themes.Add((Theme)new XmlSerializer(typeof(Theme)).Deserialize(fs));
+                        }
 
-					if (item.Name == GeneralSettings.Settings.Theme)
-					{
-						theme = item;
-						break;
-					}
-				}
-				//
+                //Theme theme = Themes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
+                Theme theme = null;
+                for (int i = 0; i < Themes.Count; i++)
+                {
+                    Theme item = Themes[i];
 
-				if (theme != null)
-				{
-					Current.Styles[1] = AvaloniaRuntimeXamlLoader.Parse<IStyle>(theme.ToAxaml());
-				}
-				else
-					Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
-					{
-						Source = new Uri("avares://PleasantUI/Assets/Themes/Light.axaml")
-					};
-			}
-			else Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
-			{
-				Source = new Uri($"avares://PleasantUI/Assets/Themes/{defaultTheme.Name}.axaml")
-			};
-		}
-		private void InitializeLanguage()
-		{
-			//Language language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language)
-			//	?? Languages.First(x => x.Key == "en");
-			Language language = null;
-			foreach (Language item in Languages)
-			{
-				if (item.Key == GeneralSettings.Settings.Language)
-				{
-					language = item;
-					break;
-				}
-			}
-			if (language == null)
-			{
-				foreach (Language item in Languages)
-				{
-					if (item.Key == "en")
-					{
-						language = item;
-						break;
-					}
-				}
-			}
-			//
+                    if (item.Name == GeneralSettings.Settings.Theme)
+                    {
+                        theme = item;
+                        break;
+                    }
+                }
+                //
 
-			Current.Styles[3] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
-			{
-				Source = new Uri($"avares://Regul.Assets/Localization/{language.Key}.axaml")
-			};
+                if (theme != null)
+                    Current.Styles[1] = AvaloniaRuntimeXamlLoader.Parse<IStyle>(theme.ToAxaml());
+                else
+                    Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+                    {
+                        Source = new Uri("avares://PleasantUI/Assets/Themes/Light.axaml")
+                    };
+            }
+            else
+            {
+                Current.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+                {
+                    Source = new Uri($"avares://PleasantUI/Assets/Themes/{defaultTheme.Name}.axaml")
+                };
+            }
+        }
 
-			Current.Styles.Add(ModulesLanguage);
-		}
+        private void InitializeLanguage()
+        {
+            //Language language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language)
+            //	?? Languages.First(x => x.Key == "en");
+            Language language = null;
+            foreach (Language item in Languages)
+                if (item.Key == GeneralSettings.Settings.Language)
+                {
+                    language = item;
+                    break;
+                }
 
-		public static async void CheckUpdate(bool b)
-		{
-			string resultCheckUpdate = string.Empty;
-			string errorResult = string.Empty;
+            if (language == null)
+                foreach (Language item in Languages)
+                    if (item.Key == "en")
+                    {
+                        language = item;
+                        break;
+                    }
+            //
 
-			try
-			{
-				using (WebClient webClient = new WebClient())
-				{
-					webClient.DownloadStringCompleted += (s, e) =>
-					{
-						if (e.Error != null)
-						{
-							errorResult = e.Error.ToString();
-							return;
-						}
-						resultCheckUpdate = e.Result;
-					};
+            Current.Styles[3] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+            {
+                Source = new Uri($"avares://Regul.Assets/Localization/{language.Key}.axaml")
+            };
 
-					await webClient.DownloadStringTaskAsync(
-						new Uri("https://raw.githubusercontent.com/Onebeld/Regul/main/version.txt"));
+            Current.Styles.Add(ModulesLanguage);
+        }
 
-					float latest = float.Parse(resultCheckUpdate.Replace(".", ""));
-					float current = float.Parse(Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-						.Replace(".", ""));
+        public static async void CheckUpdate(bool b)
+        {
+            string resultCheckUpdate = string.Empty;
+            string errorResult = string.Empty;
 
-					if (!(latest > current) && b)
-					{
-						await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Information"),
-							GetResource<string>("NoNewUpdate"), new List<MessageBoxButton>
-							{
-								new MessageBoxButton
-								{
-									Text = GetResource<string>("OK"),
-									Default = true,
-									Result = "OK",
-									IsKeyDown = true
-								}
-							}, MessageBox.MessageBoxIcon.Information);
-					}
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.DownloadStringCompleted += (s, e) =>
+                    {
+                        if (e.Error != null)
+                        {
+                            errorResult = e.Error.ToString();
+                            return;
+                        }
 
-					if (!(latest > current)) return;
+                        resultCheckUpdate = e.Result;
+                    };
 
-					string result = await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Information"),
-						GetResource<string>("UpdateIsAvailable"), new List<MessageBoxButton>
-						{
-							new MessageBoxButton
-							{
-								Default = true,
-								Result = "Yes",
-								Text = GetResource<string>("Yes"),
-								IsKeyDown = true
-							},
-							new MessageBoxButton
-							{
-								Result = "No",
-								Text = GetResource<string>("No")
-							}
-						}, MessageBox.MessageBoxIcon.Question);
+                    await webClient.DownloadStringTaskAsync(
+                        new Uri("https://raw.githubusercontent.com/Onebeld/Regul/main/version.txt"));
 
-					if (result == "Yes")
-					{
-						Process.Start(new ProcessStartInfo
-						{
-							FileName = "https://github.com/Onebeld/Regul/releases",
-							UseShellExecute = true
-						});
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				if (b)
-				{
-					await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Error"),
-						GetResource<string>("FailedCheckUpdate"), new List<MessageBoxButton>
-						{
-							new MessageBoxButton
-							{
-								Default = true,
-								Result = "OK",
-								Text = GetResource<string>("OK"),
-								IsKeyDown = true
-							}
-						}, MessageBox.MessageBoxIcon.Error, e.ToString());
-				}
-			}
-		}
+                    float latest = float.Parse(resultCheckUpdate.Replace(".", ""));
+                    float current = float.Parse(Assembly.GetExecutingAssembly().GetName().Version?.ToString()
+                        .Replace(".", ""));
 
-		/// <summary>
-		/// Looks for a suitable resource in the program.
-		/// </summary>
-		/// <param name="key">Resource name</param>
-		/// <typeparam name="T">Resource type</typeparam>
-		/// <returns>Resource found, otherwise null</returns>
-		public static T GetResource<T>(object key)
-		{
-			object value = null;
+                    if (!(latest > current) && b)
+                        await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Information"),
+                            GetResource<string>("NoNewUpdate"), new List<MessageBoxButton>
+                            {
+                                new MessageBoxButton
+                                {
+                                    Text = GetResource<string>("OK"),
+                                    Default = true,
+                                    Result = "OK",
+                                    IsKeyDown = true
+                                }
+                            }, MessageBox.MessageBoxIcon.Information);
 
-			IResourceHost current = Current;
+                    if (!(latest > current)) return;
 
-			while (current != null)
-			{
-				if (current is IResourceHost host)
-				{
-					if (host.TryGetResource(key, out value))
-						return (T)value;
-				}
+                    string result = await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Information"),
+                        GetResource<string>("UpdateIsAvailable"), new List<MessageBoxButton>
+                        {
+                            new MessageBoxButton
+                            {
+                                Default = true,
+                                Result = "Yes",
+                                Text = GetResource<string>("Yes"),
+                                IsKeyDown = true
+                            },
+                            new MessageBoxButton
+                            {
+                                Result = "No",
+                                Text = GetResource<string>("No")
+                            }
+                        }, MessageBox.MessageBoxIcon.Question);
 
-				current = ((IStyledElement)current).StylingParent as IResourceHost;
-			}
+                    if (result == "Yes")
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://github.com/Onebeld/Regul/releases",
+                            UseShellExecute = true
+                        });
+                }
+            }
+            catch (Exception e)
+            {
+                if (b)
+                    await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Error"),
+                        GetResource<string>("FailedCheckUpdate"), new List<MessageBoxButton>
+                        {
+                            new MessageBoxButton
+                            {
+                                Default = true,
+                                Result = "OK",
+                                Text = GetResource<string>("OK"),
+                                IsKeyDown = true
+                            }
+                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+            }
+        }
 
-			return (T)value;
-		}
+        /// <summary>
+        ///     Looks for a suitable resource in the program.
+        /// </summary>
+        /// <param name="key">Resource name</param>
+        /// <typeparam name="T">Resource type</typeparam>
+        /// <returns>Resource found, otherwise null</returns>
+        public static T GetResource<T>(object key)
+        {
+            object value = null;
 
-		public static readonly Language[] Languages = new Language[2]
-		{
-			new Language("English (English)", "en"),
-			new Language("Русский (Russian)", "ru"),
-		};
-	}
+            IResourceHost current = Current;
+
+            while (current != null)
+            {
+                if (current is IResourceHost host)
+                    if (host.TryGetResource(key, out value))
+                        return (T)value;
+
+                current = ((IStyledElement)current).StylingParent as IResourceHost;
+            }
+
+            return (T)value;
+        }
+    }
 }

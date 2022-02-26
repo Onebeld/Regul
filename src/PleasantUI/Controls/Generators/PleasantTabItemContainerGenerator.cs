@@ -1,7 +1,10 @@
-﻿using System;
-using Avalonia.Controls.Generators;
+﻿#region
+
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Generators;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.LogicalTree;
@@ -9,10 +12,16 @@ using Avalonia.Reactive;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Data;
 
+#endregion
+
 namespace PleasantUI.Controls.Generators
 {
     public class PleasantTabItemContainerGenerator : ItemContainerGenerator<PleasantTabItem>
     {
+        private AvaloniaProperty HeaderProperty;
+        private readonly AvaloniaProperty IsClosableProperty;
+        private readonly AvaloniaProperty IconProperty;
+
         public PleasantTabItemContainerGenerator(PleasantTabView owner,
             AvaloniaProperty contentProperty,
             AvaloniaProperty contentTemplateProperty,
@@ -25,32 +34,23 @@ namespace PleasantUI.Controls.Generators
             IsClosableProperty = isClosableProperty;
         }
 
-        private AvaloniaProperty HeaderProperty, IsClosableProperty, IconProperty;
-
         private IControl CreateContainer<T>(object item) where T : class, IControl, new()
         {
             if (item is T container)
             {
                 return container;
             }
-            else
-            {
-                T result = new T();
 
-                if (ContentTemplateProperty != null)
-                {
-                    result.SetValue(ContentTemplateProperty, ItemTemplate, BindingPriority.Style);
-                }
+            T result = new T();
 
-                result.SetValue(ContentProperty, item, BindingPriority.Style);
+            if (ContentTemplateProperty != null)
+                result.SetValue(ContentTemplateProperty, ItemTemplate, BindingPriority.Style);
 
-                if (!(item is IControl))
-                {
-                    result.DataContext = item;
-                }
+            result.SetValue(ContentProperty, item, BindingPriority.Style);
 
-                return result;
-            }
+            if (!(item is IControl)) result.DataContext = item;
+
+            return result;
         }
 
 
@@ -64,10 +64,8 @@ namespace PleasantUI.Controls.Generators
                 new OwnerBinding<Dock>(tabItem, TabControl.TabStripPlacementProperty));
 
             if (tabItem.HeaderTemplate == null)
-            {
-                tabItem.Bind(PleasantTabItem.HeaderTemplateProperty,
-                    new OwnerBinding<IDataTemplate>(tabItem, PleasantTabView.ItemTemplateProperty));
-            }
+                tabItem.Bind(HeaderedContentControl.HeaderTemplateProperty,
+                    new OwnerBinding<IDataTemplate>(tabItem, ItemsControl.ItemTemplateProperty));
 
             if (tabItem.Header == null)
             {
@@ -77,19 +75,14 @@ namespace PleasantUI.Controls.Generators
                 }
                 else
                 {
-                    if (!(tabItem.DataContext is IControl))
-                    {
-                        tabItem.Header = tabItem.DataContext;
-                    }
+                    if (!(tabItem.DataContext is IControl)) tabItem.Header = tabItem.DataContext;
                 }
             }
 
             if (!(tabItem.Content is IControl))
-            {
-                tabItem.Bind(TabItem.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
+                tabItem.Bind(ContentControl.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
                     tabItem,
                     TabControl.ContentTemplateProperty));
-            }
 
             if (item is IPleasantTabItemTemplate tab)
             {
@@ -101,7 +94,7 @@ namespace PleasantUI.Controls.Generators
 
             return tabItem;
         }
-        
+
         private class OwnerBinding<T> : SingleSubscriberObservableBase<T>
         {
             private readonly TabItem _item;
@@ -132,10 +125,8 @@ namespace PleasantUI.Controls.Generators
                 _propertySubscription = null;
 
                 if (c is TabControl tabControl)
-                {
                     _propertySubscription = tabControl.GetObservable(_ownerProperty)
                         .Subscribe(x => PublishNext(x));
-                }
             }
         }
     }

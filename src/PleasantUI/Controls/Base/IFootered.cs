@@ -1,5 +1,9 @@
-﻿using Avalonia.Controls;
+﻿#region
+
+using Avalonia.Controls;
 using Avalonia.Styling;
+
+#endregion
 
 namespace PleasantUI.Controls.Base
 {

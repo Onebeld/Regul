@@ -1,8 +1,8 @@
 ﻿<Style xmlns="https://github.com/avaloniaui" Selector="Separator">
-    <Setter Property="Focusable" Value="False"/>
-    <Setter Property="Background" Value="{StaticResource BorderBrush}"/>
-    <Setter Property="Height" Value="1"/>
-    <Setter Property="Margin" Value="10 5"/>
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Background" Value="{StaticResource BorderBrush}" />
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Margin" Value="10 5" />
     <Setter Property="Template">
         <ControlTemplate>
             <Border Padding="{TemplateBinding Margin}"
@@ -11,7 +11,7 @@
                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    Background="{TemplateBinding Background}"/>
+                    Background="{TemplateBinding Background}" />
         </ControlTemplate>
     </Setter>
 </Style>

@@ -1,33 +1,38 @@
-﻿using Avalonia;
+﻿#region
+
+using System;
+using System.Reactive.Disposables;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using System;
-using System.Reactive.Disposables;
+using Avalonia.Controls.Shapes;
+
+#endregion
 
 namespace PleasantUI.Controls.Custom.Chrome
 {
     [PseudoClasses(":minimized", ":normal", ":maximized", ":fullscreen", ":isactive")]
     public class PleasantTitleBar : TemplatedControl
     {
-        private CompositeDisposable _disposables;
         private PleasantCaptionButtons _captionButtons;
-        private Image _image;
-        private TextBlock _title;
-        private Avalonia.Controls.Shapes.Path _logo;
-        private ContentPresenter _titleBarMenu;
-        private Border _dragWindow;
-        private ContextMenu _contextMenu;
-        private StackPanel _titlePanel;
 
         private MenuItem _closeMenuItem;
         private MenuItem _collapseMenuItem;
+        private ContextMenu _contextMenu;
+        private CompositeDisposable _disposables;
+        private Border _dragWindow;
         private MenuItem _expandMenuItem;
-        private MenuItem _reestablishMenuItem;
-        private Separator _separator;
+        private Image _image;
+        private Path _logo;
 
         private ToggleButton _pinButton;
+        private MenuItem _reestablishMenuItem;
+        private Separator _separator;
+        private TextBlock _title;
+        private ContentPresenter _titleBarMenu;
+        private StackPanel _titlePanel;
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
@@ -38,7 +43,7 @@ namespace PleasantUI.Controls.Custom.Chrome
             _captionButtons = e.NameScope.Get<PleasantCaptionButtons>("PART_CaptionButtons");
             _image = e.NameScope.Get<Image>("PART_Icon");
             _title = e.NameScope.Get<TextBlock>("PART_Title");
-            _logo = e.NameScope.Get<Avalonia.Controls.Shapes.Path>("PART_Logo");
+            _logo = e.NameScope.Get<Path>("PART_Logo");
             _titleBarMenu = e.NameScope.Get<ContentPresenter>("PART_TitleBarMenu");
             _dragWindow = e.NameScope.Get<Border>("PART_DragWindow");
             _contextMenu = e.NameScope.Get<ContextMenu>("PART_ContextMenu");
@@ -61,7 +66,8 @@ namespace PleasantUI.Controls.Custom.Chrome
                 _expandMenuItem.Click += (_, e1) => window.WindowState = WindowState.Maximized;
                 _collapseMenuItem.Click += (_, e1) => window.WindowState = WindowState.Minimized;
 
-                _pinButton.Click += (_, e1) => window.Topmost = (_pinButton.IsChecked is null) == false && (bool)_pinButton.IsChecked;
+                _pinButton.Click += (_, e1) =>
+                    window.Topmost = _pinButton.IsChecked is null == false && (bool)_pinButton.IsChecked;
 
                 _dragWindow.PointerPressed += (_, e1) =>
                 {
@@ -88,10 +94,9 @@ namespace PleasantUI.Controls.Custom.Chrome
         private void Attach()
         {
             if (VisualRoot is PleasantWindow window)
-            {
                 _disposables = new CompositeDisposable
                 {
-                    window.GetObservable(PleasantWindow.WindowStateProperty)
+                    window.GetObservable(Window.WindowStateProperty)
                         .Subscribe(x =>
                         {
                             PseudoClasses.Set(":minimized", x == WindowState.Minimized);
@@ -116,19 +121,22 @@ namespace PleasantUI.Controls.Custom.Chrome
                                 _expandMenuItem.IsEnabled = false;
                                 _collapseMenuItem.IsEnabled = false;
                             }
-                            else _collapseMenuItem.IsEnabled = true;
+                            else
+                            {
+                                _collapseMenuItem.IsEnabled = true;
+                            }
                         }),
-                    window.GetObservable(PleasantWindow.IsActiveProperty)
+                    window.GetObservable(WindowBase.IsActiveProperty)
                         .Subscribe(x => { PseudoClasses.Set(":isactive", !x); }),
-                    window.GetObservable(PleasantWindow.IconProperty)
+                    window.GetObservable(Window.IconProperty)
                         .Subscribe(x => _image.Source = window.Icon.ToBitmap()),
-                    window.GetObservable(PleasantWindow.TitleProperty)
+                    window.GetObservable(Window.TitleProperty)
                         .Subscribe(x => { _title.Text = x; }),
                     window.GetObservable(PleasantWindow.LogoProperty)
                         .Subscribe(x =>
                         {
                             _logo.Data = x;
-                            _logo.IsVisible = (_logo.Data is null) == false;
+                            _logo.IsVisible = _logo.Data is null == false;
                             _title.IsVisible = _logo.Data is null;
                         }),
                     window.GetObservable(PleasantWindow.TitleBarMenuProperty)
@@ -169,9 +177,9 @@ namespace PleasantUI.Controls.Custom.Chrome
                         _pinButton.IsVisible = x;
                     }),
                     window.GetObservable(PleasantWindow.ShowCustomTitleBarProperty).Subscribe(x =>
-					{
+                    {
                         if (x)
-						{
+                        {
                             IsVisible = true;
 
                             _titlePanel.IsVisible = true;
@@ -179,8 +187,8 @@ namespace PleasantUI.Controls.Custom.Chrome
                             _titleBarMenu.Margin = new Thickness(5, 0);
                             _captionButtons.IsVisible = true;
                         }
-						else
-						{
+                        else
+                        {
                             if (window.WindowState == WindowState.FullScreen)
                                 window.WindowState = WindowState.Normal;
 
@@ -189,14 +197,10 @@ namespace PleasantUI.Controls.Custom.Chrome
                             _titleBarMenu.Margin = new Thickness(1, 0);
                             _captionButtons.IsVisible = false;
 
-                            if (window.TitleBarMenu is null || window.ShowMenuBar == false)
-							{
-                                IsVisible = false;
-                            }
+                            if (window.TitleBarMenu is null || window.ShowMenuBar == false) IsVisible = false;
                         }
-					})
+                    })
                 };
-            }
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)

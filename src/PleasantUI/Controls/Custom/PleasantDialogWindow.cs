@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -6,9 +8,11 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 
+#endregion
+
 namespace PleasantUI.Controls.Custom
 {
-	public class PleasantDialogWindow : PleasantModalWindow, IStyleable
+    public class PleasantDialogWindow : PleasantModalWindow, IStyleable
     {
         public static readonly StyledProperty<string> TitleProperty =
             AvaloniaProperty.Register<PleasantDialogWindow, string>(nameof(Title), "ModalWindow");
@@ -21,6 +25,37 @@ namespace PleasantUI.Controls.Custom
 
         public static readonly StyledProperty<bool> ShowTitleBarProperty =
             AvaloniaProperty.Register<PleasantDialogWindow, bool>(nameof(ShowTitleBar), true);
+
+        private Grid _titleBar;
+        private Border _window;
+
+        /*
+        public bool DragWindow
+		{
+            get => GetValue(DragWindowProperty);
+            set => SetValue(DragWindowProperty, value);
+		}
+		*/
+
+        /*
+        private Point InitialPointerLocation
+		{
+            get => GetValue(InitialPointerLocationProperty);
+            set => SetValue(InitialPointerLocationProperty, value);
+		}
+		*/
+
+        /*
+        public Point InitialDragShift
+		{
+            get => GetValue(InitialDragShiftProperty);
+            set => SetValue(InitialDragShiftProperty, value);
+		}
+		*/
+
+        static PleasantDialogWindow()
+        {
+        }
 
         //private static readonly StyledProperty<bool> DragWindowProperty =
         //    AvaloniaProperty.Register<PleasantDialogWindow, bool>(nameof(DragWindow), true);
@@ -55,41 +90,12 @@ namespace PleasantUI.Controls.Custom
             set => SetValue(ShowTitleBarProperty, value);
         }
 
-        /*
-        public bool DragWindow
-		{
-            get => GetValue(DragWindowProperty);
-            set => SetValue(DragWindowProperty, value);
-		}
-		*/
-
-        /*
-        private Point InitialPointerLocation
-		{
-            get => GetValue(InitialPointerLocationProperty);
-            set => SetValue(InitialPointerLocationProperty, value);
-		}
-		*/
-
-        /*
-        public Point InitialDragShift
-		{
-            get => GetValue(InitialDragShiftProperty);
-            set => SetValue(InitialDragShiftProperty, value);
-		}
-		*/
-
-        static PleasantDialogWindow()
-        {
-        }
-
-        private Grid _titleBar;
-        private Border _window;
+        Type IStyleable.StyleKey => typeof(PleasantDialogWindow);
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
-            
+
             PseudoClasses.Set(":open", true);
 
             _titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
@@ -98,7 +104,7 @@ namespace PleasantUI.Controls.Custom
             e.NameScope.Find<Button>("PART_CloseButton").Click += (s, _e) => Close();
 
             Focus();
-            PointerPressed += (s,_e) => { Focus(); };
+            PointerPressed += (s, _e) => { Focus(); };
 
             // TODO: Work on window dragging
 
@@ -111,11 +117,9 @@ namespace PleasantUI.Controls.Custom
         }
 
         protected override async Task OnAnimation()
-		{
+        {
             await Task.Delay(200);
-		}
-
-		Type IStyleable.StyleKey => typeof(PleasantDialogWindow);
+        }
 
         /*
         private void _titleBar_PointerPressed(object sender, PointerPressedEventArgs e)

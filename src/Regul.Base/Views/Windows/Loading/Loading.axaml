@@ -6,17 +6,18 @@
                       x:Class="Regul.Base.Views.Windows.Loading"
                       Background="{StaticResource BackgroundControlBrush}"
                       ShowTitleBar="False">
-	<PleasantDialogWindow.Styles>
-		<Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
-			<Setter Property="Width" Value="300" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="HorizontalAlignment" Value="Center" />
-		</Style>
-	</PleasantDialogWindow.Styles>
-	
-	<StackPanel VerticalAlignment="Center" Margin="30 10">
-		<TextBlock Name="textBlock" IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+    <PleasantDialogWindow.Styles>
+        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </PleasantDialogWindow.Styles>
+
+    <StackPanel VerticalAlignment="Center" Margin="30 10">
+        <TextBlock Name="textBlock"
+                   IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                    HorizontalAlignment="Center" TextAlignment="Center" Margin="0 0 0 5" TextWrapping="Wrap" />
-		<ProgressBar Name="progressBar" Maximum="100"/>
-	</StackPanel>
+        <ProgressBar Name="progressBar" Maximum="100" />
+    </StackPanel>
 </PleasantDialogWindow>

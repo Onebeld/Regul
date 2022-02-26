@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,16 +14,23 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using PleasantUI.Media.Colors;
 
+#endregion
+
 namespace PleasantUI.Controls.Custom
 {
     public static class ColorHelpers
     {
         private static readonly Regex s_hexRegex = new Regex("^#[a-fA-F0-9]{8}$");
 
-        public static bool IsValidHexColor(string hex) =>
-            !string.IsNullOrWhiteSpace(hex) && s_hexRegex.Match(hex).Success;
+        public static bool IsValidHexColor(string hex)
+        {
+            return !string.IsNullOrWhiteSpace(hex) && s_hexRegex.Match(hex).Success;
+        }
 
-        public static string ToHexColor(Color color) => $"#{color.ToUint32():X8}";
+        public static string ToHexColor(Color color)
+        {
+            return $"#{color.ToUint32():X8}";
+        }
 
         //public static Color FromHexColor(string hex) => Color.Parse(hex);
 
@@ -37,10 +46,13 @@ namespace PleasantUI.Controls.Custom
         public static Color FromHSVA(double h, double s, double v, double a)
         {
             RGB rgb = new HSV(h, s, v).ToRGB();
-            return new Color((byte) (a * 255.0 * 0.01), (byte) rgb.R, (byte) rgb.G, (byte) rgb.B);
+            return new Color((byte)(a * 255.0 * 0.01), (byte)rgb.R, (byte)rgb.G, (byte)rgb.B);
         }
 
-        public static Color FromRGBA(byte r, byte g, byte b, double a) => new Color((byte) (a * 255.0 * 0.01), r, g, b);
+        public static Color FromRGBA(byte r, byte g, byte b, double a)
+        {
+            return new Color((byte)(a * 255.0 * 0.01), r, g, b);
+        }
     }
 
     public class UIntToBrushConverter : IValueConverter
@@ -49,7 +61,7 @@ namespace PleasantUI.Controls.Custom
         {
             try
             {
-                return new SolidColorBrush((uint) value);
+                return new SolidColorBrush((uint)value);
             }
             catch
             {
@@ -61,8 +73,8 @@ namespace PleasantUI.Controls.Custom
         {
             try
             {
-                uint v = ((ISolidColorBrush) value).Color.ToUint32();
-                
+                uint v = ((ISolidColorBrush)value).Color.ToUint32();
+
                 return v;
             }
             catch
@@ -77,19 +89,14 @@ namespace PleasantUI.Controls.Custom
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s && targetType == typeof(IBrush))
-            {
                 try
                 {
-                    if (ColorHelpers.IsValidHexColor(s))
-                    {
-                        return new SolidColorBrush {Color = Color.Parse(s)};
-                    }
+                    if (ColorHelpers.IsValidHexColor(s)) return new SolidColorBrush { Color = Color.Parse(s) };
                 }
                 catch (Exception)
                 {
                     return AvaloniaProperty.UnsetValue;
                 }
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -97,16 +104,14 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is IBrush c && targetType == typeof(string))
-            {
                 try
                 {
-                    return ((SolidColorBrush) c).Color.ToString();
+                    return ((SolidColorBrush)c).Color.ToString();
                 }
                 catch (Exception)
                 {
                     return AvaloniaProperty.UnsetValue;
                 }
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -117,9 +122,7 @@ namespace PleasantUI.Controls.Custom
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
                 return v * range / 360.0;
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -127,9 +130,7 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
                 return v * 360.0 / range;
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -139,10 +140,7 @@ namespace PleasantUI.Controls.Custom
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double v && parameter is double range && targetType == typeof(double))
-            {
-                return v * range * 0.01;
-            }
+            if (value is double v && parameter is double range && targetType == typeof(double)) return v * range * 0.01;
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -150,9 +148,7 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
                 return v * 100.0 / range;
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -163,9 +159,7 @@ namespace PleasantUI.Controls.Custom
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
-                return range - v * range * 0.01;
-            }
+                return range - v * (range * 0.01);
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -173,9 +167,7 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
-                return 100.0 - v * 100.0 / range;
-            }
+                return 100.0 - v * (100.0 / range);
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -185,10 +177,7 @@ namespace PleasantUI.Controls.Custom
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double v && parameter is double range && targetType == typeof(double))
-            {
-                return v * range * 0.01;
-            }
+            if (value is double v && parameter is double range && targetType == typeof(double)) return v * range * 0.01;
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -196,9 +185,7 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
-            {
                 return v * 100.0 / range;
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -209,10 +196,7 @@ namespace PleasantUI.Controls.Custom
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
             double[] v = values.OfType<double>().ToArray();
-            if (v.Length == values.Count)
-            {
-                return ColorHelpers.FromHSVA(v[0], v[1], v[2], v[3]);
-            }
+            if (v.Length == values.Count) return ColorHelpers.FromHSVA(v[0], v[1], v[2], v[3]);
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -222,10 +206,7 @@ namespace PleasantUI.Controls.Custom
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double h && targetType == typeof(Color))
-            {
-                return ColorHelpers.FromHSVA(h, 100, 100, 100);
-            }
+            if (value is double h && targetType == typeof(Color)) return ColorHelpers.FromHSVA(h, 100, 100, 100);
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -233,7 +214,6 @@ namespace PleasantUI.Controls.Custom
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s && targetType == typeof(double))
-            {
                 try
                 {
                     if (ColorHelpers.IsValidHexColor(s))
@@ -246,7 +226,6 @@ namespace PleasantUI.Controls.Custom
                 {
                     return AvaloniaProperty.UnsetValue;
                 }
-            }
 
             return AvaloniaProperty.UnsetValue;
         }
@@ -295,39 +274,9 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<double> ValueProperty =
             AvaloniaProperty.Register<HsvProperties, double>(nameof(Value), 100.0, validate: ValidateValue);
 
-        private static bool ValidateHue(double hue)
-        {
-            if (hue < 0.0 || hue > 360.0)
-            {
-                throw new ArgumentException("Invalid Hue value.");
-            }
+        private bool _updating;
 
-            return true;
-        }
-
-        private static bool ValidateSaturation(double saturation)
-        {
-            if (saturation < 0.0 || saturation > 100.0)
-            {
-                throw new ArgumentException("Invalid Saturation value.");
-            }
-
-            return true;
-        }
-
-        private static bool ValidateValue(double value)
-        {
-            if (value < 0.0 || value > 100.0)
-            {
-                throw new ArgumentException("Invalid Value value.");
-            }
-
-            return true;
-        }
-
-        private bool _updating = false;
-
-        public HsvProperties() : base()
+        public HsvProperties()
         {
             this.GetObservable(HueProperty).Subscribe(x => UpdateColorPickerValues());
             this.GetObservable(SaturationProperty).Subscribe(x => UpdateColorPickerValues());
@@ -350,6 +299,27 @@ namespace PleasantUI.Controls.Custom
         {
             get => GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
+        }
+
+        private static bool ValidateHue(double hue)
+        {
+            if (hue < 0.0 || hue > 360.0) throw new ArgumentException("Invalid Hue value.");
+
+            return true;
+        }
+
+        private static bool ValidateSaturation(double saturation)
+        {
+            if (saturation < 0.0 || saturation > 100.0) throw new ArgumentException("Invalid Saturation value.");
+
+            return true;
+        }
+
+        private static bool ValidateValue(double value)
+        {
+            if (value < 0.0 || value > 100.0) throw new ArgumentException("Invalid Value value.");
+
+            return true;
         }
 
         public override void UpdateColorPickerValues()
@@ -388,39 +358,9 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<byte> BlueProperty =
             AvaloniaProperty.Register<RgbProperties, byte>(nameof(Blue), 0x00, validate: ValidateBlue);
 
-        private static bool ValidateRed(byte red)
-        {
-            if (red > 255)
-            {
-                throw new ArgumentException("Invalid Red value.");
-            }
+        private bool _updating;
 
-            return true;
-        }
-
-        private static bool ValidateGreen(byte green)
-        {
-            if (green > 255)
-            {
-                throw new ArgumentException("Invalid Green value.");
-            }
-
-            return true;
-        }
-
-        private static bool ValidateBlue(byte blue)
-        {
-            if (blue > 255)
-            {
-                throw new ArgumentException("Invalid Blue value.");
-            }
-
-            return true;
-        }
-
-        private bool _updating = false;
-
-        public RgbProperties() : base()
+        public RgbProperties()
         {
             this.GetObservable(RedProperty).Subscribe(x => UpdateColorPickerValues());
             this.GetObservable(GreenProperty).Subscribe(x => UpdateColorPickerValues());
@@ -445,6 +385,27 @@ namespace PleasantUI.Controls.Custom
             set => SetValue(BlueProperty, value);
         }
 
+        private static bool ValidateRed(byte red)
+        {
+            if (red > 255) throw new ArgumentException("Invalid Red value.");
+
+            return true;
+        }
+
+        private static bool ValidateGreen(byte green)
+        {
+            if (green > 255) throw new ArgumentException("Invalid Green value.");
+
+            return true;
+        }
+
+        private static bool ValidateBlue(byte blue)
+        {
+            if (blue > 255) throw new ArgumentException("Invalid Blue value.");
+
+            return true;
+        }
+
         public override void UpdateColorPickerValues()
         {
             if (_updating == false && ColorPicker != null)
@@ -466,9 +427,9 @@ namespace PleasantUI.Controls.Custom
                 _updating = true;
                 HSV hsv = new HSV(ColorPicker.Value1, ColorPicker.Value2, ColorPicker.Value3);
                 RGB rgb = hsv.ToRGB();
-                Red = (byte) rgb.R;
-                Green = (byte) rgb.G;
-                Blue = (byte) rgb.B;
+                Red = (byte)rgb.R;
+                Green = (byte)rgb.G;
+                Blue = (byte)rgb.B;
                 _updating = false;
             }
         }
@@ -488,49 +449,9 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<double> BlackKeyProperty =
             AvaloniaProperty.Register<CmykProperties, double>(nameof(BlackKey), 0.0, validate: ValidateBlackKey);
 
-        private static bool ValidateCyan(double cyan)
-        {
-            if (cyan < 0.0 || cyan > 100.0)
-            {
-                throw new ArgumentException("Invalid Cyan value.");
-            }
+        private bool _updating;
 
-            return true;
-        }
-
-        private static bool ValidateMagenta(double magenta)
-        {
-            if (magenta < 0.0 || magenta > 100.0)
-            {
-                throw new ArgumentException("Invalid Magenta value.");
-            }
-
-            return true;
-        }
-
-        private static bool ValidateYellow(double yellow)
-        {
-            if (yellow < 0.0 || yellow > 100.0)
-            {
-                throw new ArgumentException("Invalid Yellow value.");
-            }
-
-            return true;
-        }
-
-        private static bool ValidateBlackKey(double blackKey)
-        {
-            if (blackKey < 0.0 || blackKey > 100.0)
-            {
-                throw new ArgumentException("Invalid BlackKey value.");
-            }
-
-            return true;
-        }
-
-        private bool _updating = false;
-
-        public CmykProperties() : base()
+        public CmykProperties()
         {
             this.GetObservable(CyanProperty).Subscribe(x => UpdateColorPickerValues());
             this.GetObservable(MagentaProperty).Subscribe(x => UpdateColorPickerValues());
@@ -560,6 +481,34 @@ namespace PleasantUI.Controls.Custom
         {
             get => GetValue(BlackKeyProperty);
             set => SetValue(BlackKeyProperty, value);
+        }
+
+        private static bool ValidateCyan(double cyan)
+        {
+            if (cyan < 0.0 || cyan > 100.0) throw new ArgumentException("Invalid Cyan value.");
+
+            return true;
+        }
+
+        private static bool ValidateMagenta(double magenta)
+        {
+            if (magenta < 0.0 || magenta > 100.0) throw new ArgumentException("Invalid Magenta value.");
+
+            return true;
+        }
+
+        private static bool ValidateYellow(double yellow)
+        {
+            if (yellow < 0.0 || yellow > 100.0) throw new ArgumentException("Invalid Yellow value.");
+
+            return true;
+        }
+
+        private static bool ValidateBlackKey(double blackKey)
+        {
+            if (blackKey < 0.0 || blackKey > 100.0) throw new ArgumentException("Invalid BlackKey value.");
+
+            return true;
         }
 
         public override void UpdateColorPickerValues()
@@ -597,19 +546,9 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<string> HexProperty =
             AvaloniaProperty.Register<HexProperties, string>(nameof(Hex), "#FFFF0000", validate: ValidateHex);
 
-        private static bool ValidateHex(string hex)
-        {
-            if (!ColorHelpers.IsValidHexColor(hex))
-            {
-                throw new ArgumentException("Invalid Hex value.");
-            }
+        private bool _updating;
 
-            return true;
-        }
-
-        private bool _updating = false;
-
-        public HexProperties() : base()
+        public HexProperties()
         {
             this.GetObservable(HexProperty).Subscribe(x => UpdateColorPickerValues());
         }
@@ -618,6 +557,13 @@ namespace PleasantUI.Controls.Custom
         {
             get => GetValue(HexProperty);
             set => SetValue(HexProperty, value);
+        }
+
+        private static bool ValidateHex(string hex)
+        {
+            if (!ColorHelpers.IsValidHexColor(hex)) throw new ArgumentException("Invalid Hex value.");
+
+            return true;
         }
 
         public override void UpdateColorPickerValues()
@@ -653,19 +599,9 @@ namespace PleasantUI.Controls.Custom
         public static readonly StyledProperty<double> AlphaProperty =
             AvaloniaProperty.Register<AlphaProperties, double>(nameof(Alpha), 100.0, validate: ValidateAlpha);
 
-        private static bool ValidateAlpha(double alpha)
-        {
-            if (alpha < 0.0 || alpha > 100.0)
-            {
-                throw new ArgumentException("Invalid Alpha value.");
-            }
+        private bool _updating;
 
-            return true;
-        }
-
-        private bool _updating = false;
-
-        public AlphaProperties() : base()
+        public AlphaProperties()
         {
             this.GetObservable(AlphaProperty).Subscribe(x => UpdateColorPickerValues());
         }
@@ -674,6 +610,13 @@ namespace PleasantUI.Controls.Custom
         {
             get => GetValue(AlphaProperty);
             set => SetValue(AlphaProperty, value);
+        }
+
+        private static bool ValidateAlpha(double alpha)
+        {
+            if (alpha < 0.0 || alpha > 100.0) throw new ArgumentException("Invalid Alpha value.");
+
+            return true;
         }
 
         public override void UpdateColorPickerValues()
@@ -736,15 +679,16 @@ namespace PleasantUI.Controls.Custom
         public static readonly RoutedEvent<RoutedEventArgs> ChangeColorEvent =
             RoutedEvent.Register<ColorPicker, RoutedEventArgs>(nameof(ChangeColor), RoutingStrategies.Bubble);
 
+        private readonly IValueConverters _converters = new HsvValueConverters();
+        private Canvas _alphaCanvas;
+        private Thumb _alphaThumb;
+        private bool _captured;
+
         private Canvas _colorCanvas;
         private Thumb _colorThumb;
         private Canvas _hueCanvas;
         private Thumb _hueThumb;
-        private Canvas _alphaCanvas;
-        private Thumb _alphaThumb;
-        private bool _updating = false;
-        private bool _captured = false;
-        private readonly IValueConverters _converters = new HsvValueConverters();
+        private bool _updating;
 
         public ColorPicker()
         {
@@ -787,8 +731,8 @@ namespace PleasantUI.Controls.Custom
 
         public event EventHandler<RoutedEventArgs> ChangeColor
         {
-            add { AddHandler(ChangeColorEvent, value); }
-            remove { RemoveHandler(ChangeColorEvent, value); }
+            add => AddHandler(ChangeColorEvent, value);
+            remove => RemoveHandler(ChangeColorEvent, value);
         }
 
         protected virtual void OnChangeColor()
@@ -808,10 +752,7 @@ namespace PleasantUI.Controls.Custom
                 _colorCanvas.PointerMoved -= ColorCanvas_PointerMoved;
             }
 
-            if (_colorThumb != null)
-            {
-                _colorThumb.DragDelta -= ColorThumb_DragDelta;
-            }
+            if (_colorThumb != null) _colorThumb.DragDelta -= ColorThumb_DragDelta;
 
             if (_hueCanvas != null)
             {
@@ -820,10 +761,7 @@ namespace PleasantUI.Controls.Custom
                 _hueCanvas.PointerMoved -= HueCanvas_PointerMoved;
             }
 
-            if (_hueThumb != null)
-            {
-                _hueThumb.DragDelta -= HueThumb_DragDelta;
-            }
+            if (_hueThumb != null) _hueThumb.DragDelta -= HueThumb_DragDelta;
 
             if (_alphaCanvas != null)
             {
@@ -832,10 +770,7 @@ namespace PleasantUI.Controls.Custom
                 _alphaCanvas.PointerMoved -= AlphaCanvas_PointerMoved;
             }
 
-            if (_alphaThumb != null)
-            {
-                _alphaThumb.DragDelta -= AlphaThumb_DragDelta;
-            }
+            if (_alphaThumb != null) _alphaThumb.DragDelta -= AlphaThumb_DragDelta;
 
             _colorCanvas = e.NameScope.Find<Canvas>("PART_ColorCanvas");
             _colorThumb = e.NameScope.Find<Thumb>("PART_ColorThumb");
@@ -851,10 +786,7 @@ namespace PleasantUI.Controls.Custom
                 _colorCanvas.PointerMoved += ColorCanvas_PointerMoved;
             }
 
-            if (_colorThumb != null)
-            {
-                _colorThumb.DragDelta += ColorThumb_DragDelta;
-            }
+            if (_colorThumb != null) _colorThumb.DragDelta += ColorThumb_DragDelta;
 
             if (_hueCanvas != null)
             {
@@ -863,10 +795,7 @@ namespace PleasantUI.Controls.Custom
                 _hueCanvas.PointerMoved += HueCanvas_PointerMoved;
             }
 
-            if (_hueThumb != null)
-            {
-                _hueThumb.DragDelta += HueThumb_DragDelta;
-            }
+            if (_hueThumb != null) _hueThumb.DragDelta += HueThumb_DragDelta;
 
             if (_alphaCanvas != null)
             {
@@ -875,10 +804,7 @@ namespace PleasantUI.Controls.Custom
                 _alphaCanvas.PointerMoved += AlphaCanvas_PointerMoved;
             }
 
-            if (_alphaThumb != null)
-            {
-                _alphaThumb.DragDelta += AlphaThumb_DragDelta;
-            }
+            if (_alphaThumb != null) _alphaThumb.DragDelta += AlphaThumb_DragDelta;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -888,14 +814,20 @@ namespace PleasantUI.Controls.Custom
             return size;
         }
 
-        private bool IsTemplateValid() => _colorCanvas != null
-                                          && _colorThumb != null
-                                          && _hueCanvas != null
-                                          && _hueThumb != null
-                                          && _alphaCanvas != null
-                                          && _alphaThumb != null;
+        private bool IsTemplateValid()
+        {
+            return _colorCanvas != null
+                   && _colorThumb != null
+                   && _hueCanvas != null
+                   && _hueThumb != null
+                   && _alphaCanvas != null
+                   && _alphaThumb != null;
+        }
 
-        private double Clamp(double val, double min, double max) => Math.Min(Math.Max(val, min), max);
+        private double Clamp(double val, double min, double max)
+        {
+            return Math.Min(Math.Max(val, min), max);
+        }
 
         private void MoveThumb(Canvas canvas, Thumb thumb, double x, double y)
         {
@@ -908,19 +840,35 @@ namespace PleasantUI.Controls.Custom
             }
         }
 
-        private T Convert<T>(IValueConverter converter, T value, T range) =>
-            (T) converter.Convert(value, typeof(T), range, CultureInfo.CurrentCulture);
+        private T Convert<T>(IValueConverter converter, T value, T range)
+        {
+            return (T)converter.Convert(value, typeof(T), range, CultureInfo.CurrentCulture);
+        }
 
-        private T ConvertBack<T>(IValueConverter converter, T value, T range) =>
-            (T) converter.ConvertBack(value, typeof(T), range, CultureInfo.CurrentCulture);
+        private T ConvertBack<T>(IValueConverter converter, T value, T range)
+        {
+            return (T)converter.ConvertBack(value, typeof(T), range, CultureInfo.CurrentCulture);
+        }
 
-        private double GetValue1Range() => _hueCanvas?.Bounds.Height ?? 0.0;
+        private double GetValue1Range()
+        {
+            return _hueCanvas?.Bounds.Height ?? 0.0;
+        }
 
-        private double GetValue2Range() => _colorCanvas?.Bounds.Width ?? 0.0;
+        private double GetValue2Range()
+        {
+            return _colorCanvas?.Bounds.Width ?? 0.0;
+        }
 
-        private double GetValue3Range() => _colorCanvas?.Bounds.Height ?? 0.0;
+        private double GetValue3Range()
+        {
+            return _colorCanvas?.Bounds.Height ?? 0.0;
+        }
 
-        private double GetValue4Range() => _alphaCanvas?.Bounds.Width ?? 0.0;
+        private double GetValue4Range()
+        {
+            return _alphaCanvas?.Bounds.Width ?? 0.0;
+        }
 
         private void UpdateThumbsFromColor()
         {
@@ -1009,12 +957,12 @@ namespace PleasantUI.Controls.Custom
 
         private void ColorCanvas_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
-            if (_captured == true) _captured = false;
+            if (_captured) _captured = false;
         }
 
         private void ColorCanvas_PointerMoved(object sender, PointerEventArgs e)
         {
-            if (_captured == true)
+            if (_captured)
             {
                 Point position = e.GetPosition(_colorCanvas);
                 _updating = true;
@@ -1050,12 +998,12 @@ namespace PleasantUI.Controls.Custom
 
         private void HueCanvas_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
-            if (_captured == true) _captured = false;
+            if (_captured) _captured = false;
         }
 
         private void HueCanvas_PointerMoved(object sender, PointerEventArgs e)
         {
-            if (_captured == true)
+            if (_captured)
             {
                 Point position = e.GetPosition(_hueCanvas);
                 _updating = true;
@@ -1089,12 +1037,12 @@ namespace PleasantUI.Controls.Custom
 
         private void AlphaCanvas_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
-            if (_captured == true) _captured = false;
+            if (_captured) _captured = false;
         }
 
         private void AlphaCanvas_PointerMoved(object sender, PointerEventArgs e)
         {
-            if (_captured == true)
+            if (_captured)
             {
                 Point position = e.GetPosition(_alphaCanvas);
                 _updating = true;

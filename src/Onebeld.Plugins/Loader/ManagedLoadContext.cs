@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,25 +11,27 @@ using System.Linq;
 using System.Reflection;
 using Onebeld.Plugins.LibraryModel;
 
+#endregion
+
 namespace Onebeld.Plugins.Loader
 {
     /// <summary>
-    /// An implementation of <see cref="AssemblyLoadContext" /> which attempts to load managed and native
-    /// binaries at runtime immitating some of the behaviors of corehost.
+    ///     An implementation of <see cref="AssemblyLoadContext" /> which attempts to load managed and native
+    ///     binaries at runtime immitating some of the behaviors of corehost.
     /// </summary>
     [DebuggerDisplay("'{Name}' ({_mainAssemblyPath})")]
     public class ManagedLoadContext
     {
+        private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly string _basePath;
+        private readonly ICollection<string> _defaultAssemblies;
+        private readonly bool _lazyLoadReferences;
+        private readonly bool _loadInMemory;
         private readonly string _mainAssemblyPath;
         private readonly IReadOnlyDictionary<string, ManagedLibrary> _managedAssemblies;
-        private readonly IReadOnlyCollection<string> _privateAssemblies;
-        private readonly ICollection<string> _defaultAssemblies;
-        private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
+        private readonly IReadOnlyCollection<string> _privateAssemblies;
         private readonly string[] _resourceRoots;
-        private readonly bool _loadInMemory;
-        private readonly bool _lazyLoadReferences;
         private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
         public ManagedLoadContext(string mainAssemblyPath,
@@ -40,10 +44,7 @@ namespace Onebeld.Plugins.Loader
             bool lazyLoadReferences,
             bool loadInMemory)
         {
-            if (resourceProbingPaths == null)
-            {
-                throw new ArgumentNullException(nameof(resourceProbingPaths));
-            }
+            if (resourceProbingPaths == null) throw new ArgumentNullException(nameof(resourceProbingPaths));
 
             _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
             _basePath = Path.GetDirectoryName(mainAssemblyPath) ??
@@ -66,20 +67,18 @@ namespace Onebeld.Plugins.Loader
         }
 
         /// <summary>
-        /// Load an assembly.
+        ///     Load an assembly.
         /// </summary>
         /// <param name="assemblyName"></param>
         /// <returns></returns>
         public Assembly Load(AssemblyName assemblyName)
         {
             if (assemblyName.Name == null)
-            {
                 // not sure how to handle this case. It's technically possible.
                 return null;
-            }
 
-            if ((_preferDefaultLoadContext || _defaultAssemblies.Contains(assemblyName.Name)) && !_privateAssemblies.Contains(assemblyName.Name))
-            {
+            if ((_preferDefaultLoadContext || _defaultAssemblies.Contains(assemblyName.Name)) &&
+                !_privateAssemblies.Contains(assemblyName.Name))
                 // If default context is preferred, check first for types in the default context unless the dependency has been declared as private
                 try
                 {
@@ -89,15 +88,9 @@ namespace Onebeld.Plugins.Loader
                         // Add referenced assemblies to the list of default assemblies.
                         // This is basically lazy loading
                         if (_lazyLoadReferences)
-                        {
                             foreach (AssemblyName reference in defaultAssembly.GetReferencedAssemblies())
-                            {
                                 if (reference.Name != null && !_defaultAssemblies.Contains(reference.Name))
-                                {
                                     _defaultAssemblies.Add(reference.Name);
-                                }
-                            }
-                        }
 
                         // Older versions used to return null here such that returned assembly would be resolved from the default ALC.
                         // However, with the addition of custom default ALCs, the Default ALC may not be the user's chosen ALC when
@@ -109,7 +102,6 @@ namespace Onebeld.Plugins.Loader
                 {
                     // Swallow errors in loading from the default context
                 }
-            }
 
 #if FEATURE_NATIVE_RESOLVER
             var resolvedPath = _dependencyResolver.ResolveAssemblyToPath(assemblyName);
@@ -129,10 +121,7 @@ namespace Onebeld.Plugins.Loader
                 {
                     string resourcePath =
                         Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
-                    if (File.Exists(resourcePath))
-                    {
-                        return LoadAssemblyFromFilePath(resourcePath);
-                    }
+                    if (File.Exists(resourcePath)) return LoadAssemblyFromFilePath(resourcePath);
                 }
 
                 return null;
@@ -140,10 +129,7 @@ namespace Onebeld.Plugins.Loader
 
             if (_managedAssemblies.TryGetValue(assemblyName.Name, out ManagedLibrary library) && library != null)
             {
-                if (SearchForLibrary(library, out string path) && path != null)
-                {
-                    return LoadAssemblyFromFilePath(path);
-                }
+                if (SearchForLibrary(library, out string path) && path != null) return LoadAssemblyFromFilePath(path);
             }
             else
             {
@@ -153,10 +139,7 @@ namespace Onebeld.Plugins.Loader
                 foreach (string probingPath in _additionalProbingPaths.Prepend(_basePath))
                 {
                     string localFile = Path.Combine(probingPath, dllName);
-                    if (File.Exists(localFile))
-                    {
-                        return LoadAssemblyFromFilePath(localFile);
-                    }
+                    if (File.Exists(localFile)) return LoadAssemblyFromFilePath(localFile);
                 }
             }
 
@@ -165,10 +148,7 @@ namespace Onebeld.Plugins.Loader
 
         public Assembly LoadAssemblyFromFilePath(string path)
         {
-            if (!_loadInMemory)
-            {
-                return Assembly.LoadFrom(path);
-            }
+            if (!_loadInMemory) return Assembly.LoadFrom(path);
 
             using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -177,7 +157,6 @@ namespace Onebeld.Plugins.Loader
                     file.CopyTo(ms);
                     string pdbPath = Path.ChangeExtension(path, ".pdb");
                     if (File.Exists(pdbPath))
-                    {
                         using (FileStream pdbFile = File.Open(pdbPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
                             using (MemoryStream ms1 = new MemoryStream())
@@ -186,7 +165,6 @@ namespace Onebeld.Plugins.Loader
                                 return Assembly.Load(ms.ToArray(), ms1.ToArray());
                             }
                         }
-                    }
 
                     return Assembly.Load(ms.ToArray());
                 }
@@ -264,7 +242,7 @@ namespace Onebeld.Plugins.Loader
             path = null;
             return false;
         }
-        
+
         private string CreateShadowCopy(string dllPath)
         {
             Directory.CreateDirectory(_unmanagedDllShadowCopyDirectoryPath);
@@ -272,10 +250,7 @@ namespace Onebeld.Plugins.Loader
             string dllFileName = Path.GetFileName(dllPath);
             string shadowCopyPath = Path.Combine(_unmanagedDllShadowCopyDirectoryPath, dllFileName);
 
-            if (!File.Exists(shadowCopyPath))
-            {
-                File.Copy(dllPath, shadowCopyPath);
-            }
+            if (!File.Exists(shadowCopyPath)) File.Copy(dllPath, shadowCopyPath);
 
             return shadowCopyPath;
         }

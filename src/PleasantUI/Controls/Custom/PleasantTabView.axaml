@@ -36,7 +36,8 @@
                         </Grid.RowDefinitions>
                         <!--Item Presenter-->
                         <Grid>
-                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Disabled">
                                 <Grid Background="{TemplateBinding SecondaryBackground}"
                                       Name="PART_DockContainer"
                                       Width="{TemplateBinding Width}"
@@ -106,7 +107,7 @@
                                                       DockPanel.Dock="Right" HorizontalAlignment="Right" />
                                 </Grid>
                             </ScrollViewer>
-                            
+
                             <Border Name="PART_BoxShadow" Background="Transparent" Height="5"
                                     BoxShadow="inset 0 -5 3 -5 Black" VerticalAlignment="Bottom" />
                         </Grid>

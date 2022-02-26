@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace PleasantUI.Media.Colors
 {
@@ -40,15 +44,30 @@ namespace PleasantUI.Media.Colors
             B = rgb.B;
         }
 
-        public RGB WithR(double r) => new RGB(r, G, B);
+        public RGB WithR(double r)
+        {
+            return new RGB(r, G, B);
+        }
 
-        public RGB WithG(double g) => new RGB(R, g, B);
+        public RGB WithG(double g)
+        {
+            return new RGB(R, g, B);
+        }
 
-        public RGB WithB(double b) => new RGB(R, G, b);
+        public RGB WithB(double b)
+        {
+            return new RGB(R, G, b);
+        }
 
-        public HSV ToHSV() => ToHSV(R, G, B);
+        public HSV ToHSV()
+        {
+            return ToHSV(R, G, B);
+        }
 
-        public CMYK ToCMYK() => ToCMYK(R, G, B);
+        public CMYK ToCMYK()
+        {
+            return ToCMYK(R, G, B);
+        }
 
         public static HSV ToHSV(double r, double g, double b)
         {
@@ -64,7 +83,10 @@ namespace PleasantUI.Media.Colors
             if (max == 0.0) S = 0;
             else S = 100.0 * delta / max;
 
-            if (S == 0) H = 0;
+            if (S == 0)
+            {
+                H = 0;
+            }
             else
             {
                 if (r == max) H = 60.0 * (g - b) / delta;
@@ -80,7 +102,7 @@ namespace PleasantUI.Media.Colors
         public static CMYK ToCMYK(double r, double g, double b)
         {
             double division = 1.0 / 255.0;
-            
+
             double rr = r * division;
             double gg = g * division;
             double bb = b * division;

@@ -3,12 +3,12 @@
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
-    <Import Project="..\..\build\RegulVersion.props" />
-    <Import Project="..\..\build\Avalonia.props" />
+    <Import Project="..\..\build\RegulVersion.props"/>
+    <Import Project="..\..\build\Avalonia.props"/>
 
     <ItemGroup>
-      <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj" />
-      <ProjectReference Include="..\Onebeld.Plugins\Onebeld.Plugins.csproj" />
-      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
+        <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj"/>
+        <ProjectReference Include="..\Onebeld.Plugins\Onebeld.Plugins.csproj"/>
+        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
     </ItemGroup>
 </Project>

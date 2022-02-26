@@ -1,8 +1,12 @@
-﻿using Avalonia.Controls;
+﻿#region
+
+using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 using Regul.ModuleSystem;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -12,14 +16,11 @@ namespace Regul.Base.Views.Windows
         {
             AvaloniaXamlLoader.Load(this);
 
-            TemplateApplied += (s, e) =>
-            {
-                this.GetDataContext<SelectingEditorViewModel>().Initialize();
-            };
+            TemplateApplied += (s, e) => { this.GetDataContext<SelectingEditorViewModel>().Initialize(); };
         }
 
         public static async Task<(Editor, bool)> GetEditor(string fileName, bool showCheckBox = true)
-		{
+        {
             SelectingEditor selectingEditor = WindowsManager.CreateModalWindow<SelectingEditor>();
 
             if (selectingEditor == null)

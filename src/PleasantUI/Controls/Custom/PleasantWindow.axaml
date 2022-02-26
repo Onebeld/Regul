@@ -1,73 +1,73 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:v="using:System">
-	<Style Selector="PleasantWindow">
-		<Setter Property="Background" Value="{StaticResource BackgroundLevel1Brush}" />
-		<Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
-		<Setter Property="UseLayoutRounding" Value="True" />
-		<Setter Property="RenderOptions.BitmapInterpolationMode" Value="HighQuality" />
-		<Setter Property="FontSize" Value="12" />
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Panel Name="PART_Background">
-					<PleasantTitleBar Name="PART_PleasantTitleBar" ZIndex="5" VerticalAlignment="Top" />
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="PleasantWindow">
+        <Setter Property="Background" Value="{StaticResource BackgroundLevel1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="RenderOptions.BitmapInterpolationMode" Value="HighQuality" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Name="PART_Background">
+                    <PleasantTitleBar Name="PART_PleasantTitleBar" ZIndex="5" VerticalAlignment="Top" />
 
-					<VisualLayerManager>
-						<Panel Background="{TemplateBinding Background}">
-							<Panel Name="PART_ModalWindow" ZIndex="5" />
+                    <VisualLayerManager>
+                        <Panel Background="{TemplateBinding Background}">
+                            <Panel Name="PART_ModalWindow" ZIndex="5" />
 
-							<ContentPresenter Name="PART_ContentWindow"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  Content="{TemplateBinding Content}"
-											  Margin="{TemplateBinding Padding}"
-											  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-											  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-						</Panel>
-					</VisualLayerManager>
-				</Panel>
-			</ControlTemplate>
-		</Setter>
-	</Style>
-	<Style Selector="PleasantWindow[WindowState=FullScreen] /template/ PleasantTitleBar">
-		<Setter Property="Background" Value="{StaticResource TitleBarFullscreenBrush}" />
-	</Style>
+                            <ContentPresenter Name="PART_ContentWindow"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Panel>
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="PleasantWindow[WindowState=FullScreen] /template/ PleasantTitleBar">
+        <Setter Property="Background" Value="{StaticResource TitleBarFullscreenBrush}" />
+    </Style>
 
-	<Style Selector="PleasantWindow /template/ PleasantTitleBar">
-		<Setter Property="Height" Value="30" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=True][CompactMode=True] /template/ PleasantTitleBar">
-		<Setter Property="Height" Value="23" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=False] /template/ PleasantTitleBar">
-		<Setter Property="Height" Value="20" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=False][CompactMode=True] /template/ PleasantTitleBar">
-		<Setter Property="Height" Value="20" />
-	</Style>
+    <Style Selector="PleasantWindow /template/ PleasantTitleBar">
+        <Setter Property="Height" Value="30" />
+    </Style>
+    <Style Selector="PleasantWindow[ShowCustomTitleBar=True][CompactMode=True] /template/ PleasantTitleBar">
+        <Setter Property="Height" Value="23" />
+    </Style>
+    <Style Selector="PleasantWindow[ShowCustomTitleBar=False] /template/ PleasantTitleBar">
+        <Setter Property="Height" Value="20" />
+    </Style>
+    <Style Selector="PleasantWindow[ShowCustomTitleBar=False][CompactMode=True] /template/ PleasantTitleBar">
+        <Setter Property="Height" Value="20" />
+    </Style>
 
-	<Style Selector="PleasantWindow[WindowState=FullScreen] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0" />
-	</Style>
-	<Style Selector="PleasantWindow[WindowState=Maximized][ShowCustomTitleBar=True] /template/ Panel#PART_Background">
-		<Setter Property="Margin" Value="8" />
-	</Style>
+    <Style Selector="PleasantWindow[WindowState=FullScreen] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style Selector="PleasantWindow[WindowState=Maximized][ShowCustomTitleBar=True] /template/ Panel#PART_Background">
+        <Setter Property="Margin" Value="8" />
+    </Style>
 
-	<Style Selector="PleasantWindow /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 30 0 0" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=True] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 20 0 0" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=True][CompactMode=True] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 20 0 0" />
-	</Style>
-	<Style Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=False] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 0 0 0" />
-	</Style>
-	<Style Selector="PleasantWindow[WindowState=Maximized][CompactMode=True] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 23 0 0" />
-	</Style>
-	<Style Selector="PleasantWindow[WindowState=Normal][CompactMode=True] /template/ VisualLayerManager">
-		<Setter Property="Margin" Value="0 23 0 0" />
-	</Style>
+    <Style Selector="PleasantWindow /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 30 0 0" />
+    </Style>
+    <Style Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=True] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 20 0 0" />
+    </Style>
+    <Style
+        Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=True][CompactMode=True] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 20 0 0" />
+    </Style>
+    <Style Selector="PleasantWindow[ShowCustomTitleBar=False][ShowMenuBar=False] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 0 0 0" />
+    </Style>
+    <Style Selector="PleasantWindow[WindowState=Maximized][CompactMode=True] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 23 0 0" />
+    </Style>
+    <Style Selector="PleasantWindow[WindowState=Normal][CompactMode=True] /template/ VisualLayerManager">
+        <Setter Property="Margin" Value="0 23 0 0" />
+    </Style>
 </Styles>

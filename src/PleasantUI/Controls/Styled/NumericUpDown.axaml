@@ -42,7 +42,7 @@
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <ButtonSpinner.Styles>
                         <Style Selector="TextBox /template/ Border">
-                            <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                            <Setter Property="CornerRadius" Value="5 0 0 5" />
                         </Style>
                     </ButtonSpinner.Styles>
                     <TextBox Name="PART_TextBox"
@@ -50,13 +50,13 @@
                              BorderBrush="Transparent"
                              Margin="-1 -1 0 -1"
                              Padding="3 0 3 0"
-							 BorderThickness="1 1 0 1"
+                             BorderThickness="1 1 0 1"
                              Watermark="{TemplateBinding Watermark}"
                              IsReadOnly="{TemplateBinding IsReadOnly}"
                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                              Text="{TemplateBinding Text}"
-							 CornerRadius="0"
+                             CornerRadius="0"
                              AcceptsReturn="False"
                              TextWrapping="NoWrap" />
                 </ButtonSpinner>

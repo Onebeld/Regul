@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.IO;
 using Avalonia.Collections;
 using Onebeld.Extensions;
@@ -6,57 +8,23 @@ using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.ModuleSystem;
 
+#endregion
+
 namespace Regul.Base.Views.Windows
 {
     public class NewProjectViewModel : ViewModelBase
     {
-        private Project _selectedProject;
         private AvaloniaList<Project> _foundProjects;
-        
-        private int _selectedPatternSearch;
         private string _searchText;
 
-        #region Propetries
-
-        public Project SelectedProject
-        {
-            get => _selectedProject;
-            set => RaiseAndSetIfChanged(ref _selectedProject, value);
-        }
-        
-        public AvaloniaList<Project> FoundProjects
-        {
-            get => _foundProjects;
-            set => RaiseAndSetIfChanged(ref _foundProjects, value);
-        }
-        
-        public int SelectedPatternSearch
-        {
-            get => _selectedPatternSearch;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedPatternSearch, value); 
-                SearchProjects();
-            }
-        }
-
-        public string SearchText
-        {
-            get => _searchText;
-            set 
-            { 
-                RaiseAndSetIfChanged(ref _searchText, value);
-                SearchProjects();
-            }
-        }
-
-        #endregion
+        private int _selectedPatternSearch;
+        private Project _selectedProject;
 
         public NewProjectViewModel()
         {
             SearchProjects();
         }
-        
+
         private void OpenProject()
         {
             if (!File.Exists(SelectedProject.Path))
@@ -75,7 +43,7 @@ namespace Regul.Base.Views.Windows
 
                 GeneralSettings.Settings.Projects.Remove(SelectedProject);
                 SearchProjects();
-                
+
                 return;
             }
 
@@ -83,11 +51,11 @@ namespace Regul.Base.Views.Windows
 
             MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
 
-			//foreach (Editor editor1 in ModuleManager.Editors)
-			for (int i = 0; i < ModuleManager.Editors.Count; i++)
+            //foreach (Editor editor1 in ModuleManager.Editors)
+            for (int i = 0; i < ModuleManager.Editors.Count; i++)
             {
-				Editor editor1 = ModuleManager.Editors[i];
-				if (editor1.Id == SelectedProject.IdEditor)
+                Editor editor1 = ModuleManager.Editors[i];
+                if (editor1.Id == SelectedProject.IdEditor)
                 {
                     ed = editor1;
                     break;
@@ -97,7 +65,8 @@ namespace Regul.Base.Views.Windows
             if (ed == null)
             {
                 MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                    App.GetResource<string>("FailedFindEditor") + $" {ModuleManager.GetEditorById(SelectedProject.IdEditor).Name}", new List<MessageBoxButton>
+                    App.GetResource<string>("FailedFindEditor") +
+                    $" {ModuleManager.GetEditorById(SelectedProject.IdEditor).Name}", new List<MessageBoxButton>
                     {
                         new MessageBoxButton
                         {
@@ -107,29 +76,29 @@ namespace Regul.Base.Views.Windows
                             IsKeyDown = true
                         }
                     }, MessageBox.MessageBoxIcon.Error);
-                
+
                 return;
             }
 
             viewModel.CreateTab(SelectedProject.Path, ed, SelectedProject);
-            
+
             CloseWindow();
         }
-        
+
         private void CreateNew()
         {
             WindowsManager.MainWindow.GetDataContext<MainViewModel>().CreateNewFile();
-            
+
             CloseWindow();
         }
 
         private void OpenFile()
         {
             WindowsManager.MainWindow.GetDataContext<MainViewModel>().OpenFile();
-            
+
             CloseWindow();
         }
-        
+
         private void SearchProjects()
         {
             if (string.IsNullOrEmpty(SearchText))
@@ -139,22 +108,18 @@ namespace Regul.Base.Views.Windows
             }
 
             FoundProjects = new AvaloniaList<Project>();
-            
+
             switch (SelectedPatternSearch)
             {
                 case 0:
                     foreach (Project project in GeneralSettings.Settings.Projects)
-                    {
                         if (Path.GetFileNameWithoutExtension(project.Path).ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
-                    }
                     break;
                 case 1:
                     foreach (Project project in GeneralSettings.Settings.Projects)
-                    {
                         if (project.Path.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
-                    }
                     break;
                 case 2:
                     foreach (Project project in GeneralSettings.Settings.Projects)
@@ -163,6 +128,7 @@ namespace Regul.Base.Views.Windows
                         if (editor != null && editor.Name.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     }
+
                     break;
             }
         }
@@ -170,14 +136,53 @@ namespace Regul.Base.Views.Windows
         private void CloseWindow()
         {
             NewProject foundNewProject = WindowsManager.FindModalWindow<NewProject>();
-            
+
             foundNewProject?.Close();
 
             WindowsManager.OtherModalWindows.Remove(foundNewProject);
-            
+
             WindowsManager.MainWindow.GetDataContext<MainViewModel>().FindProjects();
         }
-        
-        private void DeleteProject() => GeneralSettings.Settings.Projects.Remove(SelectedProject);
+
+        private void DeleteProject()
+        {
+            GeneralSettings.Settings.Projects.Remove(SelectedProject);
+        }
+
+        #region Propetries
+
+        public Project SelectedProject
+        {
+            get => _selectedProject;
+            set => RaiseAndSetIfChanged(ref _selectedProject, value);
+        }
+
+        public AvaloniaList<Project> FoundProjects
+        {
+            get => _foundProjects;
+            set => RaiseAndSetIfChanged(ref _foundProjects, value);
+        }
+
+        public int SelectedPatternSearch
+        {
+            get => _selectedPatternSearch;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
+                SearchProjects();
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                RaiseAndSetIfChanged(ref _searchText, value);
+                SearchProjects();
+            }
+        }
+
+        #endregion
     }
 }

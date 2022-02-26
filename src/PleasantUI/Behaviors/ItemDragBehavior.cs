@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#region
+
+using System.Collections;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
@@ -10,19 +12,21 @@ using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
 using PleasantUI.Controls.Custom;
 
+#endregion
+
 namespace PleasantUI.Behaviors
 {
     public class ItemDragBehavior : Behavior<IControl>
     {
-        private bool _enableDrag;
-        private Point _start;
-        private int _draggedIndex;
-        private int _targetIndex;
-        private ItemsControl _itemsControl;
-        private IControl _draggedContainer;
-
-        public static readonly StyledProperty<Orientation> OrientationProperty = 
+        public static readonly StyledProperty<Orientation> OrientationProperty =
             AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
+
+        private IControl _draggedContainer;
+        private int _draggedIndex;
+        private bool _enableDrag;
+        private ItemsControl _itemsControl;
+        private Point _start;
+        private int _targetIndex;
 
         public Orientation Orientation
         {
@@ -41,7 +45,7 @@ namespace PleasantUI.Behaviors
                 AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Tunnel);
             }
         }
-        
+
         protected override void OnDetaching()
         {
             base.OnDetaching();
@@ -56,10 +60,9 @@ namespace PleasantUI.Behaviors
 
         private void Pressed(object sender, PointerPressedEventArgs e)
         {
-            if (!(AssociatedObject?.Parent is ItemsControl itemsControl) | (AssociatedObject?.Parent is PleasantTabView aw && !aw.ReorderableTabs) | (AssociatedObject is PleasantTabItem at && !at.CanBeDragged))
-            {
-                return;
-            }
+            if (!(AssociatedObject?.Parent is ItemsControl itemsControl) |
+                (AssociatedObject?.Parent is PleasantTabView aw && !aw.ReorderableTabs) |
+                (AssociatedObject is PleasantTabItem at && !at.CanBeDragged)) return;
 
             _enableDrag = true;
             _start = e.GetPosition(AssociatedObject.Parent);
@@ -93,96 +96,73 @@ namespace PleasantUI.Behaviors
 
         private void AddTransforms(ItemsControl itemsControl)
         {
-            if (itemsControl?.Items is null)
-            {
-                return;
-            }
+            if (itemsControl?.Items is null) return;
 
             int i = 0;
 
             foreach (object _ in itemsControl.Items)
             {
                 IControl container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
-                if (!(container is null))
-                {
-                    container.RenderTransform = new TranslateTransform();
-                }
-  
+                if (!(container is null)) container.RenderTransform = new TranslateTransform();
+
                 i++;
-            }  
+            }
         }
 
         private void RemoveTransforms(ItemsControl itemsControl)
         {
-            if (itemsControl?.Items is null)
-            {
-                return;
-            }
+            if (itemsControl?.Items is null) return;
 
             int i = 0;
 
             foreach (object _ in itemsControl.Items)
             {
                 IControl container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
-                if (!(container is null))
-                {
-                    container.RenderTransform = null;
-                }
-  
+                if (!(container is null)) container.RenderTransform = null;
+
                 i++;
-            }  
+            }
         }
 
         private void MoveDraggedItem(ItemsControl itemsControl, int draggedIndex, int targetIndex)
         {
-            if (!(itemsControl?.Items is IList items))
-            {
-                return;
-            }
+            if (!(itemsControl?.Items is IList items)) return;
 
             object draggedItem = items[draggedIndex];
             items.RemoveAt(draggedIndex);
             items.Insert(targetIndex, draggedItem);
 
             if (itemsControl is SelectingItemsControl selectingItemsControl)
-            {
                 selectingItemsControl.SelectedIndex = targetIndex;
-            }
         }
 
         private void Moved(object sender, PointerEventArgs e)
         {
-            if (_itemsControl?.Items is null || _draggedContainer is null || !_enableDrag)
-            {
-                return;
-            }
+            if (_itemsControl?.Items is null || _draggedContainer is null || !_enableDrag) return;
 
             Orientation orientation = Orientation;
             Point position = e.GetPosition(_itemsControl);
             double delta = orientation == Orientation.Horizontal ? position.X - _start.X : position.Y - _start.Y;
 
             if (orientation == Orientation.Horizontal)
-            {
-                ((TranslateTransform) _draggedContainer.RenderTransform).X = delta;
-            }
+                ((TranslateTransform)_draggedContainer.RenderTransform).X = delta;
             else
-            {
-                ((TranslateTransform) _draggedContainer.RenderTransform).Y = delta;
-            }
+                ((TranslateTransform)_draggedContainer.RenderTransform).Y = delta;
 
             _draggedIndex = _itemsControl.ItemContainerGenerator.IndexFromContainer(_draggedContainer);
             _targetIndex = -1;
 
             Rect draggedBounds = _draggedContainer.Bounds;
 
-            double draggedStart = orientation == Orientation.Horizontal ? 
-                draggedBounds.X : draggedBounds.Y;
+            double draggedStart = orientation == Orientation.Horizontal ? draggedBounds.X : draggedBounds.Y;
 
-            double draggedDeltaStart = orientation == Orientation.Horizontal ? 
-                draggedBounds.X + delta : draggedBounds.Y + delta;
+            double draggedDeltaStart = orientation == Orientation.Horizontal
+                ? draggedBounds.X + delta
+                : draggedBounds.Y + delta;
 
-            double draggedDeltaEnd = orientation == Orientation.Horizontal ?
-                draggedBounds.X + delta + draggedBounds.Width : draggedBounds.Y + delta + draggedBounds.Height;
+            double draggedDeltaEnd = orientation == Orientation.Horizontal
+                ? draggedBounds.X + delta + draggedBounds.Width
+                : draggedBounds.Y + delta + draggedBounds.Height;
 
             int i = 0;
 
@@ -197,56 +177,42 @@ namespace PleasantUI.Behaviors
 
                 Rect targetBounds = targetContainer.Bounds;
 
-                double targetStart = orientation == Orientation.Horizontal ? 
-                    targetBounds.X : targetBounds.Y;
+                double targetStart = orientation == Orientation.Horizontal ? targetBounds.X : targetBounds.Y;
 
-                double targetMid = orientation == Orientation.Horizontal ? 
-                    targetBounds.X + targetBounds.Width / 2 : targetBounds.Y + targetBounds.Height / 2;
+                double targetMid = orientation == Orientation.Horizontal
+                    ? targetBounds.X + targetBounds.Width / 2
+                    : targetBounds.Y + targetBounds.Height / 2;
 
                 int targetIndex = _itemsControl.ItemContainerGenerator.IndexFromContainer(targetContainer);
 
                 if (targetStart > draggedStart && draggedDeltaEnd >= targetMid)
                 {
                     if (orientation == Orientation.Horizontal)
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).X = -draggedBounds.Width;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).X = -draggedBounds.Width;
                     else
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).Y = -draggedBounds.Height;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).Y = -draggedBounds.Height;
 
-                    _targetIndex = _targetIndex == -1 ? 
-                        targetIndex : 
+                    _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex > _targetIndex ? targetIndex : _targetIndex;
                     Debug.WriteLine($"Moved Right {_draggedIndex} -> {_targetIndex}");
                 }
                 else if (targetStart < draggedStart && draggedDeltaStart <= targetMid)
                 {
                     if (orientation == Orientation.Horizontal)
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).X = draggedBounds.Width;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).X = draggedBounds.Width;
                     else
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).Y = draggedBounds.Height;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).Y = draggedBounds.Height;
 
-                    _targetIndex = _targetIndex == -1 ? 
-                        targetIndex : 
+                    _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex < _targetIndex ? targetIndex : _targetIndex;
                     Debug.WriteLine($"Moved Left {_draggedIndex} -> {_targetIndex}");
                 }
                 else
                 {
                     if (orientation == Orientation.Horizontal)
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).X = 0;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).X = 0;
                     else
-                    {
-                        ((TranslateTransform) targetContainer.RenderTransform).Y = 0;
-                    }
+                        ((TranslateTransform)targetContainer.RenderTransform).Y = 0;
                 }
 
                 i++;

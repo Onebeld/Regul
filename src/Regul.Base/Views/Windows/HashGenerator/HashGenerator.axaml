@@ -8,9 +8,9 @@
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                 CanResize="False"
                 Width="350"
-                Height="316"
+                Height="310"
                 WindowButtons="Close"
-				ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
+                ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
                 CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
                 Icon="avares://Regul.Assets/icon.ico"
                 ShowPinButton="True"
@@ -19,14 +19,14 @@
     <PleasantWindow.DataContext>
         <vm:HashGeneratorViewModel />
     </PleasantWindow.DataContext>
-    
+
     <PleasantWindow.Resources>
         <converters:ULongToStringConverter x:Key="ULongToStringConverter" />
     </PleasantWindow.Resources>
-    
+
     <StackPanel Spacing="5" Margin="5">
         <TextBlock Text="{DynamicResource NumberСonversion}" />
-        <Border CornerRadius="5" 
+        <Border CornerRadius="5"
                 BorderThickness="1"
                 Padding="5"
                 Background="{StaticResource BackgroundBrush}"
@@ -42,7 +42,7 @@
                 </DockPanel>
             </StackPanel>
         </Border>
-        
+
         <TextBlock Text="{DynamicResource TextСonversion}" Margin="0 5 0 0" />
         <Border CornerRadius="5"
                 BorderThickness="1"
@@ -77,7 +77,7 @@
                         <RadioButton GroupName="Type" IsChecked="{Binding Dec}" Content="{DynamicResource Decimal}" />
                     </StackPanel>
                 </DockPanel>
-                
+
                 <CheckBox x:Name="HighBit" IsChecked="{Binding HighBit}" Content="{DynamicResource HighBit}" />
             </StackPanel>
         </Border>

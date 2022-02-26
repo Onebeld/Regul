@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Collections;
@@ -7,25 +9,26 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
 
+#endregion
+
 namespace Regul.Base.Generators
 {
     public class RegulMenuItem : IRegulObject
     {
-        public string Id { get; }
-        public string KeyIcon { get; set; }
-
-        public List<Binding> Bindings { get; } = new List<Binding>();
-        public AvaloniaList<IRegulObject> Items { get; } = new AvaloniaList<IRegulObject>();
-        
-        public ICommand Command { get; set; }
-        public KeyGesture Gesture { get; set; }
-
         public RegulMenuItem(string id, ICommand command, KeyGesture gesture = null)
         {
             Id = id;
             Command = command;
             Gesture = gesture;
         }
+
+        public string KeyIcon { get; set; }
+
+        public List<Binding> Bindings { get; } = new List<Binding>();
+        public AvaloniaList<IRegulObject> Items { get; } = new AvaloniaList<IRegulObject>();
+
+        public ICommand Command { get; set; }
+        public KeyGesture Gesture { get; set; }
 
         public IRegulObject this[string id]
         {
@@ -35,7 +38,7 @@ namespace Regul.Base.Generators
                 for (int index = 0; index < Items.Count; index++)
                 {
                     IRegulObject regulObject = Items[index];
-                    
+
                     if (regulObject.Id == id)
                         return regulObject;
                 }
@@ -44,14 +47,15 @@ namespace Regul.Base.Generators
             }
         }
 
+        public string Id { get; }
+
         public static AvaloniaList<IAvaloniaObject> GenerateMenuItems(AvaloniaList<IRegulObject> list)
         {
             // TODO: Get rid of recursion in the function GenerateMenuItems
-            
+
             AvaloniaList<IAvaloniaObject> menuItems = new AvaloniaList<IAvaloniaObject>();
 
             foreach (IRegulObject regulObject in list)
-            {
                 if (regulObject is RegulMenuItem regulMenuItem)
                 {
                     MenuItem menuItem = new MenuItem
@@ -66,14 +70,13 @@ namespace Regul.Base.Generators
                         menuItem.Bind(bind.AvaloniaProperty, bind.Binder, bind.Anchor);
 
                     menuItem.Items = GenerateMenuItems(regulMenuItem.Items);
-                
+
                     menuItems.Add(menuItem);
                 }
                 else if (regulObject is RegulSeparator regulSeparator)
                 {
                     menuItems.Add(new Separator());
                 }
-            }
 
             return menuItems;
         }

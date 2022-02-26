@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
+
+#endregion
 
 namespace Regul.Base.Converters
 {
@@ -16,11 +20,7 @@ namespace Regul.Base.Converters
             try
             {
                 string str = value.ToString();
-                checked
-                {
-                    return System.Convert.ToUInt16(str, str.StartsWith("0x") ? 16 : 10);
-                }
-
+                return System.Convert.ToUInt16(str, str.StartsWith("0x") ? 16 : 10);
             }
             catch
             {

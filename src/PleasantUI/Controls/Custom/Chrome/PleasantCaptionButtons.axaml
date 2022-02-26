@@ -1,66 +1,72 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Style Selector="PleasantCaptionButtons">
-		<Setter Property="Template">
-			<ControlTemplate>
-				<StackPanel Orientation="Horizontal">
-					<StackPanel.Styles>
-						<Style Selector="Button">
-							<Setter Property="Width" Value="45"/>
+    <Style Selector="PleasantCaptionButtons">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Width" Value="45" />
 
-							<Setter Property="BorderThickness" Value="0"/>
-							<Setter Property="Background" Value="Transparent"/>
-						</Style>
-						<Style Selector="Button:not(:pointerover):not(:pressed):disabled">
-							<Setter Property="Opacity" Value="0.5" />
-						</Style>
-						<Style Selector="Button /template/ ContentPresenter">
-							<Setter Property="CornerRadius" Value="0"/>
-						</Style>
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="Button:not(:pointerover):not(:pressed):disabled">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Style>
+                        <Style Selector="Button /template/ ContentPresenter">
+                            <Setter Property="CornerRadius" Value="0" />
+                        </Style>
 
-						<Style Selector="PleasantCaptionButtons:isactive /template/ Button:not(:pointerover):not(:pressed)">
-							<Setter Property="Foreground" Value="{StaticResource ForegroundOpacityBrush}"/>
-						</Style>
-					</StackPanel.Styles>
+                        <Style
+                            Selector="PleasantCaptionButtons:isactive /template/ Button:not(:pointerover):not(:pressed)">
+                            <Setter Property="Foreground" Value="{StaticResource ForegroundOpacityBrush}" />
+                        </Style>
+                    </StackPanel.Styles>
 
-					<Button Name="PART_FullScreenButton" ToolTip.Tip="{DynamicResource FullscreenMode}" CornerRadius="0">
-						<Path Width="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					</Button>
-					<Button Name="PART_MinimizeButton" ToolTip.Tip="{DynamicResource Collapse}" CornerRadius="0">
-						<Path Data="{StaticResource MinimizeIcon}" Width="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					</Button>
-					<Button Name="PART_MaximizeButton" CornerRadius="0">
-						<Path Stretch="Uniform" Width="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					</Button>
-					<Button Name="PART_CloseButton" Classes="CloseButton" ToolTip.Tip="{DynamicResource Close}" CornerRadius="0">
-						<Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Width="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					</Button>
-				</StackPanel>
-			</ControlTemplate>
-		</Setter>
-	</Style>
+                    <Button Name="PART_FullScreenButton" ToolTip.Tip="{DynamicResource FullscreenMode}"
+                            CornerRadius="0">
+                        <Path Width="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <Button Name="PART_MinimizeButton" ToolTip.Tip="{DynamicResource Collapse}" CornerRadius="0">
+                        <Path Data="{StaticResource MinimizeIcon}" Width="12" Stretch="Uniform"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <Button Name="PART_MaximizeButton" CornerRadius="0">
+                        <Path Stretch="Uniform" Width="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <Button Name="PART_CloseButton" Classes="CloseButton" ToolTip.Tip="{DynamicResource Close}"
+                            CornerRadius="0">
+                        <Path Data="{StaticResource CloseIcon}" Stretch="Uniform" Width="12"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
-	<Style Selector="PleasantCaptionButtons:fullscreen Button#PART_MaximizeButton, PleasantCaptionButtons:fullscreen Button#PART_MinimizeButton">
-		<Setter Property="IsVisible" Value="False" />
-	</Style>
-	
-	<Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton > Path">
-		<Setter Property="Data" Value="{StaticResource ExpandIcon}"/>
-	</Style>
-	<Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton > Path">
-		<Setter Property="Data" Value="{StaticResource ReestablishIcon}"/>
-	</Style>
-	<Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton">
-		<Setter Property="ToolTip.Tip" Value="{DynamicResource Expand}"/>
-	</Style>
-	<Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton">
-		<Setter Property="ToolTip.Tip" Value="{DynamicResource Reestablish}"/>
-	</Style>
-	
-	<Style Selector="PleasantCaptionButtons /template/ Button#PART_FullScreenButton Path">
-		<Setter Property="Data" Value="{StaticResource FullScreenIcon}" />
-	</Style>
-	<Style Selector="PleasantCaptionButtons:fullscreen /template/ Button#PART_FullScreenButton Path">
-		<Setter Property="Data" Value="{StaticResource WindowedScreenIcon}" />
-	</Style>
+    <Style
+        Selector="PleasantCaptionButtons:fullscreen Button#PART_MaximizeButton, PleasantCaptionButtons:fullscreen Button#PART_MinimizeButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton > Path">
+        <Setter Property="Data" Value="{StaticResource ExpandIcon}" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton > Path">
+        <Setter Property="Data" Value="{StaticResource ReestablishIcon}" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton">
+        <Setter Property="ToolTip.Tip" Value="{DynamicResource Expand}" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton">
+        <Setter Property="ToolTip.Tip" Value="{DynamicResource Reestablish}" />
+    </Style>
+
+    <Style Selector="PleasantCaptionButtons /template/ Button#PART_FullScreenButton Path">
+        <Setter Property="Data" Value="{StaticResource FullScreenIcon}" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons:fullscreen /template/ Button#PART_FullScreenButton Path">
+        <Setter Property="Data" Value="{StaticResource WindowedScreenIcon}" />
+    </Style>
 </Styles>

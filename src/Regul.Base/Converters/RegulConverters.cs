@@ -1,7 +1,11 @@
-﻿using Avalonia.Data.Converters;
+﻿#region
+
+using System.IO;
+using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Regul.ModuleSystem;
-using System.IO;
+
+#endregion
 
 namespace Regul.Base.Converters
 {
@@ -11,33 +15,33 @@ namespace Regul.Base.Converters
             new FuncValueConverter<string, Geometry>(Geometry.Parse);
 
         public static readonly IValueConverter PathToFileName =
-            new FuncValueConverter<string, string>(Path.GetFileNameWithoutExtension);
+            new FuncValueConverter<string, string>(Path.GetFileName);
 
         public static readonly IValueConverter IdEditorToNameEditor =
             new FuncValueConverter<string, string>(id =>
-			{
+            {
                 //Editor editor = ModuleManager.Editors.FirstOrDefault(x => x.Id == id);
                 Editor editor = null;
-				for (int i = 0; i < ModuleManager.Editors.Count; i++)
-				{
-					Editor item = ModuleManager.Editors[i];
+                for (int i = 0; i < ModuleManager.Editors.Count; i++)
+                {
+                    Editor item = ModuleManager.Editors[i];
 
                     if (item.Id == id)
-					{
+                    {
                         editor = item;
                         break;
-					}
-				}
+                    }
+                }
                 //
 
                 if (editor != null)
                     return editor.Name;
-                else return "Undefined";
-			});
+                return "Undefined";
+            });
 
         public static readonly IValueConverter IdEditorToGeometry =
             new FuncValueConverter<string, Geometry>(id =>
-			{
+            {
                 //Editor editor = ModuleManager.Editors.FirstOrDefault(x => x.Id == id);
                 Editor editor = null;
                 for (int i = 0; i < ModuleManager.Editors.Count; i++)
@@ -54,7 +58,7 @@ namespace Regul.Base.Converters
 
                 if (editor != null)
                     return editor.Icon;
-                else return App.GetResource<Geometry>("UnknownIcon");
+                return App.GetResource<Geometry>("UnknownIcon");
             });
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -6,16 +8,21 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using PleasantUI.Controls.Custom;
 
+#endregion
+
 namespace PleasantUI.Windows
 {
     public class WindowColorPicker : PleasantDialogWindow
     {
-        public WindowColorPicker() => AvaloniaXamlLoader.Load(this);
-        
+        public WindowColorPicker()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+
         public static Task<Color> SelectColor(PleasantWindow parent, string defaultColor = null)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
-            
+
             WindowColorPicker windowColorPicker = new WindowColorPicker
             {
                 Icon = parent.Icon.ToBitmap()
@@ -26,15 +33,9 @@ namespace PleasantUI.Windows
             Color res = Color.Parse(defaultColor);
 
             picker.Color = res;
-            picker.ChangeColor += (s, e) =>
-            {
-                res = picker.Color;
-            };
+            picker.ChangeColor += (s, e) => { res = picker.Color; };
 
-            windowColorPicker.FindControl<Button>("Cancel").Click += (s, e) =>
-            {
-                windowColorPicker.Close();
-            };
+            windowColorPicker.FindControl<Button>("Cancel").Click += (s, e) => { windowColorPicker.Close(); };
             windowColorPicker.FindControl<Button>("OK").Click += (s, e) =>
             {
                 cancel = false;

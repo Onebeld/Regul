@@ -2,49 +2,49 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:vm="using:Regul.Base.Views.Windows"
+                xmlns:vm="using:Regul.Base.Views.Windows"
                 xmlns:settings="using:Regul"
-				xmlns:AvalonEdit="using:AvaloniaEdit"
+                xmlns:AvalonEdit="using:AvaloniaEdit"
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                 x:Class="Regul.Base.Views.Windows.LogsWindow"
-				WindowButtons="All"
-				ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
+                WindowButtons="All"
+                ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
                 CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
                 Icon="avares://Regul.Assets/icon.ico"
                 ShowPinButton="True"
-				Width="540"
-				Height="410"
-				MinWidth="380"
-				MinHeight="260"
+                Width="540"
+                Height="410"
+                MinWidth="380"
+                MinHeight="260"
                 Title="{DynamicResource LogsWindow}">
-	<PleasantWindow.DataContext>
-		<vm:LogsWindowViewModel />
-	</PleasantWindow.DataContext>
-	
-	<Grid RowDefinitions="*,37">
-		<Border Grid.Row="0"
-				Margin="5 5 5 0"
-				Background="{StaticResource BackgroundControlBrush}"
-				CornerRadius="5"
-				BorderThickness="1"
-				BorderBrush="{StaticResource BorderBrush}">
-			<Border ClipToBounds="True" CornerRadius="5">
-				<AvalonEdit:TextEditor x:Name="PART_AvaloniaEdit"
-									   IsReadOnly="True"
-									   Document="{Binding TextDocument}"
-									   BorderThickness="1"
-									   FontSize="12"
-									   HorizontalScrollBarVisibility="Auto"
-									   Background="Transparent"/>
-			</Border>
-		</Border>
+    <PleasantWindow.DataContext>
+        <vm:LogsWindowViewModel />
+    </PleasantWindow.DataContext>
+
+    <Grid RowDefinitions="*,37">
+        <Border Grid.Row="0"
+                Margin="5 5 5 0"
+                Background="{StaticResource BackgroundControlBrush}"
+                CornerRadius="5"
+                BorderThickness="1"
+                BorderBrush="{StaticResource BorderBrush}">
+            <Border ClipToBounds="True" CornerRadius="5">
+                <AvalonEdit:TextEditor x:Name="PART_AvaloniaEdit"
+                                       IsReadOnly="True"
+                                       Document="{Binding TextDocument}"
+                                       BorderThickness="1"
+                                       FontSize="12"
+                                       HorizontalScrollBarVisibility="Auto"
+                                       Background="Transparent" />
+            </Border>
+        </Border>
 
 
-		<Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource TitleBarBrush}">
-			<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5" Margin="5">
-				<Button Content="{DynamicResource Clear}" Padding="15 0" Command="{Binding ClearLogs}" />
-				<Button Content="{DynamicResource SaveLogs}" Padding="15 0" Command="{Binding SaveLogs}" />
-			</StackPanel>
-		</Grid>
-	</Grid>
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource TitleBarBrush}">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5" Margin="5">
+                <Button Content="{DynamicResource Clear}" Padding="15 0" Command="{Binding ClearLogs}" />
+                <Button Content="{DynamicResource SaveLogs}" Padding="15 0" Command="{Binding SaveLogs}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
 </PleasantWindow>

@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
+#endregion
 
 namespace Onebeld.Extensions
 {
@@ -16,10 +20,13 @@ namespace Onebeld.Extensions
                 RaisePropertyChanged(propertyName);
                 return true;
             }
+
             return false;
         }
 
         protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

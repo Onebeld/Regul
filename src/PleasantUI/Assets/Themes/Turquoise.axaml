@@ -1,35 +1,35 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Styles.Resources>
-		<Color x:Key="BackgroundColor">#FF71E4DC</Color>
-		<Color x:Key="BackgroundControlColor">#FF89EAE4</Color>
-		<Color x:Key="BackgroundLevel1Color">#FF59D9DB</Color>
-		<Color x:Key="HoverBackgroundColor">#FF4BBCBF</Color>
-		<Color x:Key="WindowBorderColor">#64679593</Color>
-		<Color x:Key="SelectionColor">#FF5FCAC2</Color>
-		<Color x:Key="BorderColor">#FF679593</Color>
-		<Color x:Key="ForegroundColor">#FF000000</Color>
-		<Color x:Key="ForegroundOpacityColor">#FF5E3B82</Color>
-		<Color x:Key="PressedForegroundColor">#FFFFFFFF</Color>
-		<Color x:Key="AccentColor">#FFB30101</Color>
-		<Color x:Key="ErrorColor">#FFBD0000</Color>
-		
-		<Color x:Key="TitleBarColor">#FF59D9DB</Color>
-		<Color x:Key="TitleBarFullscreenColor">#FF71E4DC</Color>
-		<Color x:Key="CloseButtonColor">#FFbf1411</Color>
-		
-		<Color x:Key="HoverScrollBoxColor">#FF1D6C68</Color>
-		<Color x:Key="ScrollBoxColor">#FF238A85</Color>
-		
-		<!-- MessageBox -->
-		<Color x:Key="MBDefaultButtonBackgroundColor">#FF681C8C</Color>
-		<Color x:Key="MBDefaultButtonForegroundColor">#FFFFFFFF</Color>
-		<Color x:Key="MBDefaultButtonHoverBackgroundColor">#FF7E21AA</Color>
-		
-		<Color x:Key="MBQuestionColor">#FF2060c7</Color>
-		<Color x:Key="MBSuccessColor">#FF28AF12</Color>
-		<Color x:Key="MBWarningColor">#FFd9b218</Color>
-		<Color x:Key="MBErrorColor">#FFbf1411</Color>
-		<!-- MessageBox -->
-	</Styles.Resources>
+    <Styles.Resources>
+        <Color x:Key="BackgroundColor">#FF71E4DC</Color>
+        <Color x:Key="BackgroundControlColor">#FF89EAE4</Color>
+        <Color x:Key="BackgroundLevel1Color">#FF59D9DB</Color>
+        <Color x:Key="HoverBackgroundColor">#FF4BBCBF</Color>
+        <Color x:Key="WindowBorderColor">#64679593</Color>
+        <Color x:Key="SelectionColor">#FF5FCAC2</Color>
+        <Color x:Key="BorderColor">#FF679593</Color>
+        <Color x:Key="ForegroundColor">#FF000000</Color>
+        <Color x:Key="ForegroundOpacityColor">#FF5E3B82</Color>
+        <Color x:Key="PressedForegroundColor">#FFFFFFFF</Color>
+        <Color x:Key="AccentColor">#FFB30101</Color>
+        <Color x:Key="ErrorColor">#FFBD0000</Color>
+
+        <Color x:Key="TitleBarColor">#FF59D9DB</Color>
+        <Color x:Key="TitleBarFullscreenColor">#FF71E4DC</Color>
+        <Color x:Key="CloseButtonColor">#FFbf1411</Color>
+
+        <Color x:Key="HoverScrollBoxColor">#FF1D6C68</Color>
+        <Color x:Key="ScrollBoxColor">#FF238A85</Color>
+
+        <!-- MessageBox -->
+        <Color x:Key="MBDefaultButtonBackgroundColor">#FF681C8C</Color>
+        <Color x:Key="MBDefaultButtonForegroundColor">#FFFFFFFF</Color>
+        <Color x:Key="MBDefaultButtonHoverBackgroundColor">#FF7E21AA</Color>
+
+        <Color x:Key="MBQuestionColor">#FF2060c7</Color>
+        <Color x:Key="MBSuccessColor">#FF28AF12</Color>
+        <Color x:Key="MBWarningColor">#FFd9b218</Color>
+        <Color x:Key="MBErrorColor">#FFbf1411</Color>
+        <!-- MessageBox -->
+    </Styles.Resources>
 </Styles>

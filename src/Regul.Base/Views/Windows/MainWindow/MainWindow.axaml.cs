@@ -1,4 +1,10 @@
-﻿using Avalonia;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -7,22 +13,20 @@ using PleasantUI;
 using PleasantUI.Controls.Custom;
 using Regul.Base.DragAndDrop;
 using Regul.Base.Other;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
+#endregion
 
 namespace Regul.Base.Views.Windows
 {
     public class MainWindow : PleasantWindow
     {
-        private bool _closing;
-        private bool _isDragging;
-
 #if DEBUG
         private bool _canGetAnException;
 #endif
+        private bool _closing;
+        private bool _isDragging;
 
-		public MainWindow()
+        public MainWindow()
         {
             AvaloniaXamlLoader.Load(this);
 
@@ -33,11 +37,11 @@ namespace Regul.Base.Views.Windows
             DataContext = viewModel;
 
             TemplateApplied += (s, e) =>
-			{
+            {
                 MainViewModel viewModel1 = this.GetDataContext<MainViewModel>();
 
                 viewModel1.Initialize();
-			};
+            };
 
             viewModel.NotificationManager = new WindowNotificationManager(this)
             {
@@ -47,20 +51,20 @@ namespace Regul.Base.Views.Windows
             };
 
 #if DEBUG
-            KeyDown += (s,e) =>
-			{
+            KeyDown += (s, e) =>
+            {
                 if (e.Key == Key.LeftShift)
                     _canGetAnException = true;
-			};
+            };
 
             KeyUp += (s, e) =>
-			{
+            {
                 if (e.Key == Key.LeftShift)
                     _canGetAnException = false;
             };
 #endif
 
-			
+
             Closing += async (s, e) =>
             {
                 e.Cancel = true;
@@ -81,7 +85,7 @@ namespace Regul.Base.Views.Windows
                         if (result == SavedResult.Cancel) return;
                     }
 
-                    foreach (Action action in App.ActionsWhenCompleting) 
+                    foreach (Action action in App.ActionsWhenCompleting)
                         action.Invoke();
 
                     _closing = true;
@@ -91,33 +95,37 @@ namespace Regul.Base.Views.Windows
                         throw new Exception("Debug exception");
 #endif
 
-					Close();
+                    Close();
                 }
-                else e.Cancel = false;
+                else
+                {
+                    e.Cancel = false;
+                }
             };
 
-			WindowsManager.OtherModalWindows.CollectionChanged += OtherModalWindows_CollectionChanged;
+            WindowsManager.OtherModalWindows.CollectionChanged += OtherModalWindows_CollectionChanged;
 
             SetupDragAndDrop();
         }
 
         public MainWindow(string[] args) : this()
-		{
+        {
             MainViewModel viewModel = this.GetDataContext<MainViewModel>();
             viewModel.GetFilesFromArguments(args);
-		}
+        }
 
         private void SetupDragAndDrop()
-		{
+        {
             void DragLeave(object s, RoutedEventArgs e)
-			{
+            {
                 _isDragging = false;
                 DragAndDropWindow window = WindowsManager.FindModalWindow<DragAndDropWindow>();
                 WindowsManager.OtherModalWindows.Remove(window);
                 window?.Close();
-			}
+            }
+
             void Drop(object sender, DragEventArgs e)
-			{
+            {
                 _isDragging = false;
 
                 if (e.Data.Contains(DataFormats.FileNames))
@@ -125,9 +133,9 @@ namespace Regul.Base.Views.Windows
                     IEnumerable<string> fileNames = e.Data.GetFileNames();
 
                     if (fileNames.Any(x => x.Contains(".dll") || x.Contains(".zip")))
-                        WindowsManager.GetDataContext<MainViewModel>(this).DropLoadModules(fileNames);
+                        this.GetDataContext<MainViewModel>().DropLoadModules(fileNames);
                     else
-                        WindowsManager.GetDataContext<MainViewModel>(this).DropOpenFile(fileNames);
+                        this.GetDataContext<MainViewModel>().DropOpenFile(fileNames);
                 }
 
                 DragAndDropWindow window = WindowsManager.FindModalWindow<DragAndDropWindow>();
@@ -138,8 +146,8 @@ namespace Regul.Base.Views.Windows
             AddHandler(DragDrop.DragEnterEvent, DragEnter);
             AddHandler(DragDrop.DragLeaveEvent, DragLeave);
             AddHandler(DragDrop.DropEvent, Drop);
-		}
-        
+        }
+
         private void DragEnter(object s, DragEventArgs e)
         {
             _isDragging = true;
@@ -149,16 +157,16 @@ namespace Regul.Base.Views.Windows
             DragAndDropWindow window = null;
 
             if (e.Data.Contains(DataFormats.FileNames))
-			{
+            {
                 IEnumerable<string> fileNames = e.Data.GetFileNames();
 
                 if (fileNames.Any(x => x.Contains(".dll") || x.Contains(".zip")))
                     window = new DragAndDropWindow(TypeDrop.Module);
-				else
+                else
                     window = new DragAndDropWindow(TypeDrop.File);
-			}
+            }
             else
-			{
+            {
                 e.DragEffects = DragDropEffects.None;
                 return;
             }
@@ -170,13 +178,13 @@ namespace Regul.Base.Views.Windows
             }
         }
 
-		private void OtherModalWindows_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
+        private void OtherModalWindows_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
             if (_isDragging) return;
 
             if (e.NewItems != null && e.NewItems.Count > 0)
                 DragDrop.SetAllowDrop(WindowsManager.MainWindow, false);
             else DragDrop.SetAllowDrop(WindowsManager.MainWindow, true);
-		}
-	}
+        }
+    }
 }

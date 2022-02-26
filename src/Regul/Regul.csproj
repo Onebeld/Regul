@@ -12,17 +12,17 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
-	</ItemGroup>
-    
-    <Import Project="..\..\build\RegulVersion.props" />
-    <Import Project="..\..\build\Avalonia.props" />
-    
     <ItemGroup>
-      <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj" />
-      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
-      <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
-      <ProjectReference Include="..\Regul.Base\Regul.Base.csproj" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
+    </ItemGroup>
+
+    <Import Project="..\..\build\RegulVersion.props"/>
+    <Import Project="..\..\build\Avalonia.props"/>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj"/>
+        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
+        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj"/>
+        <ProjectReference Include="..\Regul.Base\Regul.Base.csproj"/>
     </ItemGroup>
 </Project>

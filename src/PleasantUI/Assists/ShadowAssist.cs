@@ -1,10 +1,14 @@
-﻿using Avalonia.Media;
+﻿#region
+
 using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Styling;
+
+#endregion
 
 namespace PleasantUI.Assists
 {
@@ -12,7 +16,7 @@ namespace PleasantUI.Assists
     {
         Depth0,
         Depth1,
-        Depth2,
+        Depth2
     }
 
     public static class ShadowProvider
@@ -28,11 +32,11 @@ namespace PleasantUI.Assists
                     break;
                 case ShadowDepth.Depth1:
                     boxShadows = new BoxShadows(new BoxShadow
-                        {Blur = 5, OffsetX = 0, OffsetY = 1, Color = Color.FromArgb(130, 0, 0, 0)});
+                        { Blur = 5, OffsetX = 0, OffsetY = 1, Color = Color.FromArgb(130, 0, 0, 0) });
                     break;
                 case ShadowDepth.Depth2:
                     boxShadows = new BoxShadows(new BoxShadow
-                        {Blur = 20, OffsetX = 0, OffsetY = 1, Color = Color.FromArgb(110, 0, 0, 0)});
+                        { Blur = 20, OffsetX = 0, OffsetY = 1, Color = Color.FromArgb(110, 0, 0, 0) });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -62,7 +66,7 @@ namespace PleasantUI.Assists
             if (boxShadow == null) return;
 
             BoxShadows targetBoxShadows =
-                GetShadowDepth((AvaloniaObject) e.Sender).ToBoxShadows();
+                GetShadowDepth((AvaloniaObject)e.Sender).ToBoxShadows();
 
             if (!border.Classes.Contains("notransitions") && boxShadow.Value.Count > 0)
             {
@@ -73,24 +77,31 @@ namespace PleasantUI.Assists
                     new KeyFrame
                     {
                         Cue = Cue.Parse("0%", CultureInfo.CurrentCulture),
-                        Setters = {new Setter {Property = Border.BoxShadowProperty, Value = boxShadow}}
+                        Setters = { new Setter { Property = Border.BoxShadowProperty, Value = boxShadow } }
                     });
                 animation.Children.Add(
                     new KeyFrame
                     {
                         Cue = Cue.Parse("100%", CultureInfo.CurrentCulture),
-                        Setters = {new Setter {Property = Border.BoxShadowProperty, Value = targetBoxShadows}}
+                        Setters = { new Setter { Property = Border.BoxShadowProperty, Value = targetBoxShadows } }
                     });
 
                 animation.RunAsync(border, null, default);
             }
-            else border.SetValue(Border.BoxShadowProperty, targetBoxShadows);
+            else
+            {
+                border.SetValue(Border.BoxShadowProperty, targetBoxShadows);
+            }
         }
 
-        public static void SetShadowDepth(AvaloniaObject element, ShadowDepth value) =>
+        public static void SetShadowDepth(AvaloniaObject element, ShadowDepth value)
+        {
             element.SetValue(ShadowDepthProperty, value);
+        }
 
-        public static ShadowDepth GetShadowDepth(AvaloniaObject element) =>
-            (ShadowDepth) element.GetValue(ShadowDepthProperty);
+        public static ShadowDepth GetShadowDepth(AvaloniaObject element)
+        {
+            return (ShadowDepth)element.GetValue(ShadowDepthProperty);
+        }
     }
 }

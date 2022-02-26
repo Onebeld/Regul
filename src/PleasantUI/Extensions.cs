@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -13,22 +15,27 @@ using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using PleasantUI.Media;
 
+#endregion
+
 namespace PleasantUI
 {
     public static class Extensions
     {
-        public static IBrush ToBursh(this Color color) => new SolidColorBrush(color);
+        public static IBrush ToBursh(this Color color)
+        {
+            return new SolidColorBrush(color);
+        }
 
         public static string ToAxaml(this Theme theme)
         {
             StringBuilder sb = new StringBuilder();
-            
+
             sb.AppendLine("<Style xmlns=\"https://github.com/avaloniaui\"");
             sb.AppendLine("       xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
             sb.AppendLine("    <Style.Resources>");
 
-			foreach (PropertyInfo property in typeof(Theme).GetProperties())
-			{
+            foreach (PropertyInfo property in typeof(Theme).GetProperties())
+            {
                 if (property.Name == "Name" || property.Name == "ID")
                     continue;
 
@@ -37,7 +44,7 @@ namespace PleasantUI
 
             sb.AppendLine("    </Style.Resources>");
             sb.AppendLine("</Style>");
-            
+
             return sb.ToString();
         }
 
@@ -57,16 +64,23 @@ namespace PleasantUI
                     return null;
                 }
             }
-            else
-                return null;
-        }
-        
-        public static T GetParentTOfLogical<T>(this ILogical logical) where T : class => logical.GetSelfAndLogicalAncestors().OfType<T>().FirstOrDefault<T>();
 
-        public static T GetParentTOfVisual<T>(this IVisual visual) where T : class => visual.GetSelfAndVisualAncestors().OfType<T>().FirstOrDefault<T>();
-        
+            return null;
+        }
+
+        public static T GetParentTOfLogical<T>(this ILogical logical) where T : class
+        {
+            return logical.GetSelfAndLogicalAncestors().OfType<T>().FirstOrDefault();
+        }
+
+        public static T GetParentTOfVisual<T>(this IVisual visual) where T : class
+        {
+            return visual.GetSelfAndVisualAncestors().OfType<T>().FirstOrDefault();
+        }
+
         /// <summary>
-        /// Get an control in the indicated template, this method can be within "protected overrive void OnTemplateApplied(e)" method only
+        ///     Get an control in the indicated template, this method can be within "protected overrive void OnTemplateApplied(e)"
+        ///     method only
         /// </summary>
         /// <typeparam name="T">Type of the Control to return</typeparam>
         /// <param name="templatedControl">TemplatedControl owner of the IndicatedControl</param>
@@ -75,12 +89,14 @@ namespace PleasantUI
         /// <returns>a control with the indicated params</returns>
         public static T GetControl<T>(this TemplatedControl templatedControl,
             TemplateAppliedEventArgs e,
-            string name) 
+            string name)
             where T : AvaloniaObject
-            => e.NameScope.Find<T>(name);
-        
+        {
+            return e.NameScope.Find<T>(name);
+        }
+
         /// <summary>
-        /// Removes the TabItem.
+        ///     Removes the TabItem.
         /// </summary>
         /// <param name="tabControl">The TabControl Parent</param>
         /// <param name="tabItem">The TabItem to Remove</param>
@@ -105,7 +121,7 @@ namespace PleasantUI
         }
 
         /// <summary>
-        /// Removes a TabItem with its index number.
+        ///     Removes a TabItem with its index number.
         /// </summary>
         /// <param name="tabControl">A TabControl Parent</param>
         /// <param name="index">The TabItem Index</param>
@@ -114,7 +130,9 @@ namespace PleasantUI
             index--;
             try
             {
-                if (index < 0) { }
+                if (index < 0)
+                {
+                }
                 else
                 {
                     //var item = (tabControl.Items as List<TabItem>).Select(x => x.IsSelected == true);
@@ -129,11 +147,14 @@ namespace PleasantUI
         }
 
         /// <summary>
-        /// Add a TabItem
+        ///     Add a TabItem
         /// </summary>
         /// <param name="tabControl">The TabControl Parent</param>
         /// <param name="TabItemToAdd">The TabItem to Add</param>
-        /// <returns>If the method has been done correctly,returns bool if it has been done correctly or false if it has been done incorrectly</returns>
+        /// <returns>
+        ///     If the method has been done correctly,returns bool if it has been done correctly or false if it has been done
+        ///     incorrectly
+        /// </returns>
         public static bool AddTab(this TabControl tabControl, TabItem TabItemToAdd, bool Focus = true)
         {
             try

@@ -1,211 +1,212 @@
 ﻿<Style xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:v="using:System">
-	<Style.Resources>
-		<!-- English -->
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:v="using:System">
+    <Style.Resources>
+        <!-- English -->
 
-		<!--MainWindow-->
-		<v:String x:Key="FileMenu">_File</v:String>
-		<v:String x:Key="ToolsMenu">_Tools</v:String>
-		<v:String x:Key="ReferenceMenu">_Reference</v:String>
+        <!--MainWindow-->
+        <v:String x:Key="FileMenu">_File</v:String>
+        <v:String x:Key="ToolsMenu">_Tools</v:String>
+        <v:String x:Key="ReferenceMenu">_Reference</v:String>
 
-		<v:String x:Key="Save">Save</v:String>
-		<v:String x:Key="SaveAs">Save as</v:String>
-		<v:String x:Key="SaveAll">Save all</v:String>
-		<v:String x:Key="Settings">Settings</v:String>
-		<v:String x:Key="CheckForUpdates">Check for updates</v:String>
-		<v:String x:Key="AboutTheProgram">About the program</v:String>
-		<v:String x:Key="BackToTheHomePage">Back to the home page</v:String>
-		<v:String x:Key="ExitFromRegul">Exit from Regul</v:String>
+        <v:String x:Key="Save">Save</v:String>
+        <v:String x:Key="SaveAs">Save as</v:String>
+        <v:String x:Key="SaveAll">Save all</v:String>
+        <v:String x:Key="Settings">Settings</v:String>
+        <v:String x:Key="CheckForUpdates">Check for updates</v:String>
+        <v:String x:Key="AboutTheProgram">About the program</v:String>
+        <v:String x:Key="BackToTheHomePage">Back to the home page</v:String>
+        <v:String x:Key="ExitFromRegul">Exit from Regul</v:String>
 
-		<v:String x:Key="Create">Create</v:String>
-		<v:String x:Key="Open">Open</v:String>
-		<v:String x:Key="OpenProject">Open project</v:String>
-		<v:String x:Key="DeleteProject">Delete project</v:String>
-		<v:String x:Key="Delete">Delete</v:String>
-		<v:String x:Key="CreatorName">Creator name</v:String>
-		<v:String x:Key="AllFiles">All files</v:String>
-		<v:String x:Key="Files">files</v:String>
+        <v:String x:Key="Create">Create</v:String>
+        <v:String x:Key="Open">Open</v:String>
+        <v:String x:Key="OpenProject">Open project</v:String>
+        <v:String x:Key="DeleteProject">Delete project</v:String>
+        <v:String x:Key="Delete">Delete</v:String>
+        <v:String x:Key="CreatorName">Creator name</v:String>
+        <v:String x:Key="AllFiles">All files</v:String>
+        <v:String x:Key="Files">files</v:String>
 
-		<v:String x:Key="Welcome">Welcome!</v:String>
-		<v:String x:Key="RecentProjects">Recent projects</v:String>
-		<v:String x:Key="NoProjects">No projects</v:String>
-		<v:String x:Key="SearchByC">Search by:</v:String>
-		<v:String x:Key="ProjectsOpen">You have several projects open</v:String>
-		<v:String x:Key="GoTo">Go to</v:String>
+        <v:String x:Key="Welcome">Welcome!</v:String>
+        <v:String x:Key="RecentProjects">Recent projects</v:String>
+        <v:String x:Key="NoProjects">No projects</v:String>
+        <v:String x:Key="SearchByC">Search by:</v:String>
+        <v:String x:Key="ProjectsOpen">You have several projects open</v:String>
+        <v:String x:Key="GoTo">Go to</v:String>
 
-		<v:String x:Key="SearchName">Name</v:String>
-		<v:String x:Key="SearchPath">Path</v:String>
-		<v:String x:Key="SearchEditor">Editor</v:String>
+        <v:String x:Key="SearchName">Name</v:String>
+        <v:String x:Key="SearchPath">Path</v:String>
+        <v:String x:Key="SearchEditor">Editor</v:String>
 
-		<v:String x:Key="EditorС">Editor:</v:String>
-		<v:String x:Key="ExtensionFileС">Extension file:</v:String>
+        <v:String x:Key="EditorС">Editor:</v:String>
+        <v:String x:Key="ExtensionFileС">Extension file:</v:String>
 
-		<v:String x:Key="NoName">No name</v:String>
-		<v:String x:Key="Search">Search</v:String>
+        <v:String x:Key="NoName">No name</v:String>
+        <v:String x:Key="Search">Search</v:String>
 
-		<v:String x:Key="Successful">Successful!</v:String>
+        <v:String x:Key="Successful">Successful!</v:String>
 
-		<v:String x:Key="MemorySuccessfullyCleared">The memory has been successfully cleared!</v:String>
-		<v:String x:Key="FilesSuccessfullySaved">All files have been successfully saved!</v:String>
-		<v:String x:Key="FileSuccessfullySavedC">The file has been successfully saved:</v:String>
-		<v:String x:Key="FileExported">The file has been successfully exported!</v:String>
-		<v:String x:Key="FileImported">The file was successfully imported!</v:String>
-		<v:String x:Key="ModulesUploaded">Modules have been successfully uploaded!</v:String>
+        <v:String x:Key="MemorySuccessfullyCleared">The memory has been successfully cleared!</v:String>
+        <v:String x:Key="FilesSuccessfullySaved">All files have been successfully saved!</v:String>
+        <v:String x:Key="FileSuccessfullySavedC">The file has been successfully saved:</v:String>
+        <v:String x:Key="FileExported">The file has been successfully exported!</v:String>
+        <v:String x:Key="FileImported">The file was successfully imported!</v:String>
+        <v:String x:Key="ModulesUploaded">Modules have been successfully uploaded!</v:String>
 
-		<v:String x:Key="ChooseAnEditor">Choose an editor</v:String>
-		<v:String x:Key="AlwaysOpenFile">Always open these file types</v:String>
-		<v:String x:Key="InstalledEditorsC">Installed editors:</v:String>
-		<v:String x:Key="NewProject">New project</v:String>
-		<v:String x:Key="NoEditorsButton">Yes, most likely</v:String>
+        <v:String x:Key="ChooseAnEditor">Choose an editor</v:String>
+        <v:String x:Key="AlwaysOpenFile">Always open these file types</v:String>
+        <v:String x:Key="InstalledEditorsC">Installed editors:</v:String>
+        <v:String x:Key="NewProject">New project</v:String>
+        <v:String x:Key="NoEditorsButton">Yes, most likely</v:String>
 
-		<v:String x:Key="FailedInitModule">Failed to initialize module:</v:String>
-		<v:String x:Key="FailedLoadModule">This module in this path is not loaded correctly and cannot run in Regul:</v:String>
-		<v:String x:Key="FailedFindEditor">Regul did not find a suitable editor for the project:</v:String>
-		<v:String x:Key="FailedLoadFile">This file no longer exists on disk.</v:String>
-		<v:String x:Key="FailedSave">An error occurred while saving</v:String>
-		<v:String x:Key="NoEditors">There are no editors available in the program. What will you edit? By rail?</v:String>
-		<v:String x:Key="NoNewUpdate">No new updates at this time</v:String>
-		<v:String x:Key="UpdateIsAvailable">An update is available! Want to go to the site to download?</v:String>
-		<v:String x:Key="FailedCheckUpdate">Failed to check for an update</v:String>
-		<v:String x:Key="FailedOpenFile">An error occurred while opening the file:</v:String>
-		<v:String x:Key="FailedCopyModule">Unable to load a module because another module is currently loaded.</v:String>
-		<v:String x:Key="FileIsAlreadyOpen">This file is already open in the program</v:String>
-		<v:String x:Key="ModulesSuccessfullyUpdated">All modules have been successfully updated!</v:String>
+        <v:String x:Key="FailedInitModule">Failed to initialize module:</v:String>
+        <v:String x:Key="FailedLoadModule">This module in this path is not loaded correctly and cannot run in Regul:</v:String>
+        <v:String x:Key="FailedFindEditor">Regul did not find a suitable editor for the project:</v:String>
+        <v:String x:Key="FailedLoadFile">This file no longer exists on disk.</v:String>
+        <v:String x:Key="FailedSave">An error occurred while saving</v:String>
+        <v:String x:Key="NoEditors">There are no editors available in the program. What will you edit? By rail?</v:String>
+        <v:String x:Key="NoNewUpdate">No new updates at this time</v:String>
+        <v:String x:Key="UpdateIsAvailable">An update is available! Want to go to the site to download?</v:String>
+        <v:String x:Key="FailedCheckUpdate">Failed to check for an update</v:String>
+        <v:String x:Key="FailedOpenFile">An error occurred while opening the file:</v:String>
+        <v:String x:Key="FailedCopyModule">Unable to load a module because another module is currently loaded.</v:String>
+        <v:String x:Key="FileIsAlreadyOpen">This file is already open in the program</v:String>
+        <v:String x:Key="ModulesSuccessfullyUpdated">All modules have been successfully updated!</v:String>
 
-		<v:String x:Key="WarningSaveFile">You want to save the file: </v:String>
+        <v:String x:Key="WarningSaveFile">You want to save the file: </v:String>
 
-		<v:String x:Key="LoadingModules">Loading modules</v:String>
-		<v:String x:Key="EditingFiles">Editing files</v:String>
-		<!--MainWindow-->
+        <v:String x:Key="LoadingModules">Loading modules</v:String>
+        <v:String x:Key="EditingFiles">Editing files</v:String>
+        <!--MainWindow-->
 
-		<!-- TextBoxContextMenu -->
-		<v:String x:Key="Cut">Cut</v:String>
-		<v:String x:Key="Paste">Paste</v:String>
-		<v:String x:Key="Copy">Copy</v:String>
-		<!-- TextBoxContextMenu -->
+        <!-- TextBoxContextMenu -->
+        <v:String x:Key="Cut">Cut</v:String>
+        <v:String x:Key="Paste">Paste</v:String>
+        <v:String x:Key="Copy">Copy</v:String>
+        <!-- TextBoxContextMenu -->
 
-		<!--AvaloniaEdit-->
-		<v:String x:Key="ReplaceE">Replace...</v:String>
-		<v:String x:Key="FindE">Find...</v:String>
-		<v:String x:Key="ErrorC">Error:</v:String>
-		<v:String x:Key="FindNext">Find next (F3)</v:String>
-		<v:String x:Key="FindPrevious">Find previous (Shift+F3)</v:String>
-		<v:String x:Key="MatchCase">Match case</v:String>
-		<v:String x:Key="MatchWholeWords">Match whole words</v:String>
-		<v:String x:Key="NoMatchesFound">No matches found!</v:String>
-		<v:String x:Key="ReplaceAll">Replace all (Alt+A)</v:String>
-		<v:String x:Key="ReplaceNext">Replace next (Alt+R)</v:String>
-		<v:String x:Key="ToggleReplace">Toggle between find and replace modes</v:String>
-		<v:String x:Key="UseRegex">Use regular expressions</v:String>
-		<!--AvaloniaEdit-->
+        <!--AvaloniaEdit-->
+        <v:String x:Key="ReplaceE">Replace...</v:String>
+        <v:String x:Key="FindE">Find...</v:String>
+        <v:String x:Key="ErrorC">Error:</v:String>
+        <v:String x:Key="FindNext">Find next (F3)</v:String>
+        <v:String x:Key="FindPrevious">Find previous (Shift+F3)</v:String>
+        <v:String x:Key="MatchCase">Match case</v:String>
+        <v:String x:Key="MatchWholeWords">Match whole words</v:String>
+        <v:String x:Key="NoMatchesFound">No matches found!</v:String>
+        <v:String x:Key="ReplaceAll">Replace all (Alt+A)</v:String>
+        <v:String x:Key="ReplaceNext">Replace next (Alt+R)</v:String>
+        <v:String x:Key="ToggleReplace">Toggle between find and replace modes</v:String>
+        <v:String x:Key="UseRegex">Use regular expressions</v:String>
+        <!--AvaloniaEdit-->
 
-		<v:String x:Key="Collapse">Collapse</v:String>
-		<v:String x:Key="Expand">Expand</v:String>
-		<v:String x:Key="Reestablish">Reestablish</v:String>
-		<v:String x:Key="Close">Close</v:String>
-		<v:String x:Key="FastenOverTheWindows">Fasten over the windows</v:String>
-		<v:String x:Key="FullscreenMode">Fullscreen mode</v:String>
+        <v:String x:Key="Collapse">Collapse</v:String>
+        <v:String x:Key="Expand">Expand</v:String>
+        <v:String x:Key="Reestablish">Reestablish</v:String>
+        <v:String x:Key="Close">Close</v:String>
+        <v:String x:Key="FastenOverTheWindows">Fasten over the windows</v:String>
+        <v:String x:Key="FullscreenMode">Fullscreen mode</v:String>
 
-		<!-- MessageBox -->
-		<v:String x:Key="Yes">Yes</v:String>
-		<v:String x:Key="No">No</v:String>
-		<v:String x:Key="OK">OK</v:String>
-		<v:String x:Key="Cancel">Cancel</v:String>
-		<v:String x:Key="Proceed">Proceed</v:String>
+        <!-- MessageBox -->
+        <v:String x:Key="Yes">Yes</v:String>
+        <v:String x:Key="No">No</v:String>
+        <v:String x:Key="OK">OK</v:String>
+        <v:String x:Key="Cancel">Cancel</v:String>
+        <v:String x:Key="Proceed">Proceed</v:String>
 
-		<v:String x:Key="Error">Error</v:String>
-		<v:String x:Key="Warning">Warning</v:String>
-		<v:String x:Key="Successfully">Successfully</v:String>
-		<v:String x:Key="Information">Information</v:String>
-		<!-- MessageBox -->
+        <v:String x:Key="Error">Error</v:String>
+        <v:String x:Key="Warning">Warning</v:String>
+        <v:String x:Key="Successfully">Successfully</v:String>
+        <v:String x:Key="Information">Information</v:String>
+        <!-- MessageBox -->
 
-		<!--Settings-->
-		<v:String x:Key="General">General</v:String>
-		<v:String x:Key="Editing">Editing</v:String>
-		<v:String x:Key="Modules">Modules</v:String>
-		<v:String x:Key="Style">Style</v:String>
+        <!--Settings-->
+        <v:String x:Key="General">General</v:String>
+        <v:String x:Key="Editing">Editing</v:String>
+        <v:String x:Key="Modules">Modules</v:String>
+        <v:String x:Key="Style">Style</v:String>
 
-		<v:String x:Key="LanguageC">Language:</v:String>
-		<v:String x:Key="ThemeC">Theme:</v:String>
-		<v:String x:Key="CreatorNameC">Creator name:</v:String>
-		<v:String x:Key="HardwareAcceleration">Hardware acceleration</v:String>
-		<v:String x:Key="UseCustomTitleBar">Use a custom title bar</v:String>
-		<v:String x:Key="ShowFullscreenButton">Show full screen button</v:String>
-		<v:String x:Key="CompactMode">Compact mode</v:String>
-		<v:String x:Key="EnableShadowing">Enable shadowing</v:String>
+        <v:String x:Key="LanguageC">Language:</v:String>
+        <v:String x:Key="ThemeC">Theme:</v:String>
+        <v:String x:Key="CreatorNameC">Creator name:</v:String>
+        <v:String x:Key="HardwareAcceleration">Hardware acceleration</v:String>
+        <v:String x:Key="UseCustomTitleBar">Use a custom title bar</v:String>
+        <v:String x:Key="ShowFullscreenButton">Show full screen button</v:String>
+        <v:String x:Key="CompactMode">Compact mode</v:String>
+        <v:String x:Key="EnableShadowing">Enable shadowing</v:String>
 
-		<v:String x:Key="EnableShadowingDescription">Enables shadowing in modal windows, all windows must be restarted for the changes to take effect</v:String>
-		<v:String x:Key="UseCustomTitleBarDescription">If you are experiencing problems with the custom title bar, disable it</v:String>
+        <v:String x:Key="EnableShadowingDescription">Enables shadowing in modal windows, all windows must be restarted for the changes to take effect</v:String>
+        <v:String x:Key="UseCustomTitleBarDescription">If you are experiencing problems with the custom title bar, disable it</v:String>
 
-		<v:String x:Key="AddModules">Add modules</v:String>
-		<v:String x:Key="UpdateAllModules">Update all modules</v:String>
-		<v:String x:Key="ConnectedModulesC">Connected modules:</v:String>
-		<v:String x:Key="InstalledThemesC">Installed themes:</v:String>
-		<v:String x:Key="ModuleInformation">Module information</v:String>
+        <v:String x:Key="AddModules">Add modules</v:String>
+        <v:String x:Key="UpdateAllModules">Update all modules</v:String>
+        <v:String x:Key="ConnectedModulesC">Connected modules:</v:String>
+        <v:String x:Key="InstalledThemesC">Installed themes:</v:String>
+        <v:String x:Key="ModuleInformation">Module information</v:String>
 
-		<v:String x:Key="SelectModule">Select module</v:String>
-		<v:String x:Key="CreatorC">Creator:</v:String>
-		<v:String x:Key="VersionC">Version:</v:String>
-		<v:String x:Key="NewVersionC">New version:</v:String>
+        <v:String x:Key="SelectModule">Select module</v:String>
+        <v:String x:Key="CreatorC">Creator:</v:String>
+        <v:String x:Key="VersionC">Version:</v:String>
+        <v:String x:Key="NewVersionC">New version:</v:String>
 
-		<v:String x:Key="Update">Update</v:String>
-		<v:String x:Key="Initialize">Initialize</v:String>
-		
-		<v:String x:Key="FileTypes">File Types</v:String>
-		
-		<v:String x:Key="NotHaveEditorForTypeFile">You do not have default editors for certain types of file extensions</v:String>
+        <v:String x:Key="Update">Update</v:String>
+        <v:String x:Key="Initialize">Initialize</v:String>
 
-		<v:String x:Key="PreparationM">Preparation...</v:String>
-		<v:String x:Key="DownloadingM">Downloading...</v:String>
+        <v:String x:Key="FileTypes">File Types</v:String>
 
-		<v:String x:Key="NotInitialized">This module was not initialized correctly. Try to initialize again.</v:String>
-		<v:String x:Key="NoUpdate">You cannot update this module because the Regul version is lower than the one required for the module.</v:String>
-		<v:String x:Key="NextTimeModulesUpdate">The modules will be updated the next time you run Regul</v:String>
-		<v:String x:Key="UpdatesForModulesNotFound">Updates for modules not found</v:String>
-		<v:String x:Key="UpdatesForModulesAvailable">Updates are available for modules!</v:String>
+        <v:String x:Key="NotHaveEditorForTypeFile">You do not have default editors for certain types of file extensions</v:String>
 
-		<v:String x:Key="ThemeName">Theme name</v:String>
+        <v:String x:Key="PreparationM">Preparation...</v:String>
+        <v:String x:Key="DownloadingM">Downloading...</v:String>
 
-		<v:String x:Key="Light">Light</v:String>
-		<v:String x:Key="Dark">Dark</v:String>
-		<v:String x:Key="Mysterious">Mysterious</v:String>
-		<v:String x:Key="Turquoise">Turquoise</v:String>
-		<v:String x:Key="Emerald">Emerald</v:String>
-		<!--Settings-->
+        <v:String x:Key="NotInitialized">This module was not initialized correctly. Try to initialize again.</v:String>
+        <v:String x:Key="NoUpdate">You cannot update this module because the Regul version is lower than the one required for the module.</v:String>
+        <v:String x:Key="NextTimeModulesUpdate">The modules will be updated the next time you run Regul</v:String>
+        <v:String x:Key="UpdatesForModulesNotFound">Updates for modules not found</v:String>
+        <v:String x:Key="UpdatesForModulesAvailable">Updates are available for modules!</v:String>
 
-		<!--About-->
-		<v:String x:Key="LicenseC">License:</v:String>
-		<v:String x:Key="LibrariesUsedC">Libraries used:</v:String>
+        <v:String x:Key="ThemeName">Theme name</v:String>
+        <v:String x:Key="ChooseColor">Choose color</v:String>
 
-		<v:String x:Key="RegulDescription">Modular and modern file editor</v:String>
+        <v:String x:Key="Light">Light</v:String>
+        <v:String x:Key="Dark">Dark</v:String>
+        <v:String x:Key="Mysterious">Mysterious</v:String>
+        <v:String x:Key="Turquoise">Turquoise</v:String>
+        <v:String x:Key="Emerald">Emerald</v:String>
+        <!--Settings-->
 
-		<v:String x:Key="PatronsC">Patrons:</v:String>
-		<v:String x:Key="EarthlyPatronsC">Earthly Patrons:</v:String>
-		<v:String x:Key="HeavenlyPatronsC">Heavenly Patrons:</v:String>
-		<v:String x:Key="SpacePatronsC">Space Patrons:</v:String>
-		<!--About-->
+        <!--About-->
+        <v:String x:Key="LicenseC">License:</v:String>
+        <v:String x:Key="LibrariesUsedC">Libraries used:</v:String>
 
-		<!--Hash Generator-->
-		<v:String x:Key="HashGenerator">Hash generator</v:String>
+        <v:String x:Key="RegulDescription">Modular and modern file editor</v:String>
 
-		<v:String x:Key="NumberСonversion">Number conversion</v:String>
-		<v:String x:Key="TextСonversion">Text conversion</v:String>
+        <v:String x:Key="PatronsC">Patrons:</v:String>
+        <v:String x:Key="EarthlyPatronsC">Earthly Patrons:</v:String>
+        <v:String x:Key="HeavenlyPatronsC">Heavenly Patrons:</v:String>
+        <v:String x:Key="SpacePatronsC">Space Patrons:</v:String>
+        <!--About-->
 
-		<v:String x:Key="Decimal">Decimal</v:String>
-		<v:String x:Key="Hexadecimal">Hexadecimal</v:String>
+        <!--Hash Generator-->
+        <v:String x:Key="HashGenerator">Hash generator</v:String>
 
-		<v:String x:Key="TextC">Text:</v:String>
-		<v:String x:Key="TypeC">Type:</v:String>
-		<v:String x:Key="HighBit">High bit</v:String>
-		<!--Hash Generator-->
+        <v:String x:Key="NumberСonversion">Number conversion</v:String>
+        <v:String x:Key="TextСonversion">Text conversion</v:String>
 
-		<!--Logs Window-->
-		<v:String x:Key="LogsWindow">Logs Window</v:String>
-		<v:String x:Key="OpenLogsWindow">Open Logs Window</v:String>
+        <v:String x:Key="Decimal">Decimal</v:String>
+        <v:String x:Key="Hexadecimal">Hexadecimal</v:String>
 
-		<v:String x:Key="Clear">Clear</v:String>
-		<v:String x:Key="SaveLogs">Save logs</v:String>
-		<!--Logs Window-->
-	</Style.Resources>
+        <v:String x:Key="TextC">Text:</v:String>
+        <v:String x:Key="TypeC">Type:</v:String>
+        <v:String x:Key="HighBit">High bit</v:String>
+        <!--Hash Generator-->
+
+        <!--Logs Window-->
+        <v:String x:Key="LogsWindow">Logs Window</v:String>
+        <v:String x:Key="OpenLogsWindow">Open Logs Window</v:String>
+
+        <v:String x:Key="Clear">Clear</v:String>
+        <v:String x:Key="SaveLogs">Save logs</v:String>
+        <!--Logs Window-->
+    </Style.Resources>
 </Style>
