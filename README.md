@@ -10,6 +10,8 @@
 
 **Regul** - a modular, modern file editor. The goal of this project: to create a simple and feature-rich file editor.
 
+To find out what modules exist and how to install them, take a look at [this page](https://github.com/Onebeld/Regul/blob/main/modules.md).
+
 ## Features
 
 Here is a description of the main features of the Regul program at the moment.
