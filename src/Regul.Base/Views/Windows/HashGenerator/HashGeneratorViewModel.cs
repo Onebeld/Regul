@@ -1,9 +1,5 @@
-﻿#region
-
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using Onebeld.Extensions;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -30,10 +26,10 @@ namespace Regul.Base.Views.Windows
             {
                 if (!RaiseAndSetIfChanged(ref _text, value)) return;
 
-                RaisePropertyChanged(nameof(FNV24));
-                RaisePropertyChanged(nameof(FNV32));
-                RaisePropertyChanged(nameof(FNV56));
-                RaisePropertyChanged(nameof(FNV64));
+                RaisePropertyChanged(nameof(Fnv24));
+                RaisePropertyChanged(nameof(Fnv32));
+                RaisePropertyChanged(nameof(Fnv56));
+                RaisePropertyChanged(nameof(Fnv64));
             }
         }
 
@@ -44,10 +40,10 @@ namespace Regul.Base.Views.Windows
             {
                 if (!RaiseAndSetIfChanged(ref _hex, value)) return;
 
-                RaisePropertyChanged(nameof(FNV24));
-                RaisePropertyChanged(nameof(FNV32));
-                RaisePropertyChanged(nameof(FNV56));
-                RaisePropertyChanged(nameof(FNV64));
+                RaisePropertyChanged(nameof(Fnv24));
+                RaisePropertyChanged(nameof(Fnv32));
+                RaisePropertyChanged(nameof(Fnv56));
+                RaisePropertyChanged(nameof(Fnv64));
             }
         }
 
@@ -58,14 +54,14 @@ namespace Regul.Base.Views.Windows
             {
                 if (!RaiseAndSetIfChanged(ref _dec, value)) return;
 
-                RaisePropertyChanged(nameof(FNV24));
-                RaisePropertyChanged(nameof(FNV32));
-                RaisePropertyChanged(nameof(FNV56));
-                RaisePropertyChanged(nameof(FNV64));
+                RaisePropertyChanged(nameof(Fnv24));
+                RaisePropertyChanged(nameof(Fnv32));
+                RaisePropertyChanged(nameof(Fnv56));
+                RaisePropertyChanged(nameof(Fnv64));
             }
         }
 
-        public string FNV24
+        public string Fnv24
         {
             get
             {
@@ -76,7 +72,7 @@ namespace Regul.Base.Views.Windows
             }
         }
 
-        public string FNV32
+        public string Fnv32
         {
             get
             {
@@ -87,7 +83,7 @@ namespace Regul.Base.Views.Windows
             }
         }
 
-        public string FNV56
+        public string Fnv56
         {
             get
             {
@@ -98,7 +94,7 @@ namespace Regul.Base.Views.Windows
             }
         }
 
-        public string FNV64
+        public string Fnv64
         {
             get
             {
@@ -116,10 +112,10 @@ namespace Regul.Base.Views.Windows
             {
                 if (!RaiseAndSetIfChanged(ref _highBit, value)) return;
 
-                RaisePropertyChanged(nameof(FNV24));
-                RaisePropertyChanged(nameof(FNV32));
-                RaisePropertyChanged(nameof(FNV56));
-                RaisePropertyChanged(nameof(FNV64));
+                RaisePropertyChanged(nameof(Fnv24));
+                RaisePropertyChanged(nameof(Fnv32));
+                RaisePropertyChanged(nameof(Fnv56));
+                RaisePropertyChanged(nameof(Fnv64));
             }
         }
 

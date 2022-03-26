@@ -7,7 +7,7 @@
                       Background="{StaticResource BackgroundControlBrush}"
                       ShowTitleBar="False">
     <PleasantDialogWindow.Styles>
-        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
             <Setter Property="Width" Value="300" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />

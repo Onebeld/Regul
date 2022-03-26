@@ -1,11 +1,7 @@
-#region
-
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 using Regul.Base.Views.Windows;
-
-#endregion
 
 namespace Regul.Base.Views.Pages
 {

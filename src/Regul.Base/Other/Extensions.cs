@@ -1,13 +1,9 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-
-#endregion
 
 namespace Regul.Base.Other
 {

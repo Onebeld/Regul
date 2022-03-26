@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,8 +11,6 @@ using PleasantUI;
 using PleasantUI.Controls.Custom;
 using Regul.Base.DragAndDrop;
 using Regul.Base.Other;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -171,11 +167,8 @@ namespace Regul.Base.Views.Windows
                 return;
             }
 
-            if (window != null)
-            {
-                WindowsManager.OtherModalWindows.Add(window);
-                window.Show(this);
-            }
+            WindowsManager.OtherModalWindows.Add(window);
+            window.Show(this);
         }
 
         private void OtherModalWindows_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

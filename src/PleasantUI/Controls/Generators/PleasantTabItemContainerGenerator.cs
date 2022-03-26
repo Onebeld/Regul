@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
@@ -11,8 +9,6 @@ using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Data;
-
-#endregion
 
 namespace PleasantUI.Controls.Generators
 {

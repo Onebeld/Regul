@@ -50,9 +50,12 @@
                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                PlacementTarget="{TemplateBinding}"
                                IsLightDismissEnabled="False">
-                            <Border BorderBrush="{StaticResource WindowBorderBrush}" Margin="4 2 4 4" CornerRadius="4"
-                                    ShadowAssist.ShadowDepth="Depth1" BorderThickness="1"
-                                    Background="{StaticResource BackgroundBrush}">
+                            <PleasantBorder BorderBrush="{StaticResource WindowBorderBrush}"
+                                            Margin="4 2 4 4"
+                                            CornerRadius="4"
+                                            ShadowAssist.ShadowDepth="Depth1"
+                                            BorderThickness="1"
+                                            Background="{StaticResource BackgroundBrush}">
                                 <ScrollViewer>
                                     <ItemsPresenter Name="PART_ItemsPresenter"
                                                     Margin="2"
@@ -61,7 +64,7 @@
                                                     ItemTemplate="{TemplateBinding ItemTemplate}"
                                                     VirtualizationMode="{TemplateBinding VirtualizationMode}" />
                                 </ScrollViewer>
-                            </Border>
+                            </PleasantBorder>
                         </Popup>
                     </Grid>
                 </Border>

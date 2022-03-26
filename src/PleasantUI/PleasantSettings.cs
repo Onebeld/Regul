@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Onebeld.Extensions;
-
-#endregion
 
 namespace PleasantUI
 {
@@ -15,7 +11,7 @@ namespace PleasantUI
     {
         private bool _enableShadowing = true;
 
-        public static PleasantSettings Settings { get; set; }
+        public static PleasantSettings Instance;
 
         [DataMember]
         public bool EnableShadowing
@@ -48,7 +44,7 @@ namespace PleasantUI
             using (FileStream fileStream =
                    File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "pleasantUI.xml"))
             {
-                new XmlSerializer(typeof(PleasantSettings)).Serialize(fileStream, Settings);
+                new XmlSerializer(typeof(PleasantSettings)).Serialize(fileStream, Instance);
             }
         }
     }

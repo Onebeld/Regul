@@ -4,12 +4,21 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:vm="using:Regul.Base.Views.Windows"
                       xmlns:o="using:Regul.ModuleSystem"
+                      xmlns:i="using:Avalonia.Xaml.Interactivity"
+                      xmlns:b="using:Regul.Base.Behaviors"
+                      xmlns:c="using:Regul.Base.Converters"
                       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                       x:Class="Regul.Base.Views.Windows.SelectingEditor"
                       Title="{DynamicResource ChooseAnEditor}"
+                      x:DataType="vm:SelectingEditorViewModel"
                       Icon="avares://Regul.Assets/icon.ico">
+    <i:Interaction.Behaviors>
+        <b:CommandOnKeyPressedBehavior Key="Enter" Command="{Binding CloseWithSave}" />
+        <b:CommandOnKeyPressedBehavior Key="Escape" Command="{Binding Close}" />
+    </i:Interaction.Behaviors>
+    
     <PleasantDialogWindow.Styles>
-        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Width" Value="450" />
@@ -21,72 +30,78 @@
     </PleasantDialogWindow.DataContext>
 
     <Grid RowDefinitions="Auto,*,40">
-        <TextBlock Name="PART_FileName" TextAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0 5 0 0"
-                   IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        <TextBlock Grid.Row="0"
+                   Name="PART_FileName"
+                   TextAlignment="Center"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Margin="0 5 0 0"
+                   IsVisible="{CompiledBinding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
 
-        <Border Grid.Row="1"
-                Margin="5 5 5 0"
-                CornerRadius="5"
-                BorderBrush="{StaticResource BorderBrush}"
-                BorderThickness="1">
-            <Border CornerRadius="5" ClipToBounds="True">
-                <Grid RowDefinitions="Auto,*">
-                    <Panel Grid.Row="0" Height="25" Background="{StaticResource BackgroundBrush}">
-                        <DockPanel Width="200" HorizontalAlignment="Left" Margin="5 0 0 0">
-                            <Path Width="16"
-                                  VerticalAlignment="Center"
-                                  Fill="{StaticResource ForegroundBrush}"
-                                  Stretch="Uniform"
-                                  Margin="0 0 5 0"
-                                  Data="{StaticResource SearchIcon}" />
-                            <TextBox Watermark="{DynamicResource Search}"
-                                     VerticalAlignment="Center"
-                                     Text="{Binding SearchText}" />
-                        </DockPanel>
+        <PleasantBorder Grid.Row="1" Margin="5 5 5 0">
+            <Grid RowDefinitions="Auto,*">
+                <Panel Grid.Row="0"
+                       Height="25"
+                       Background="{StaticResource BackgroundBrush}">
+                    <DockPanel Width="200"
+                               HorizontalAlignment="Left"
+                               Margin="5 0 0 0">
+                        <Path Width="16"
+                              VerticalAlignment="Center"
+                              Fill="{StaticResource ForegroundBrush}"
+                              Stretch="Uniform"
+                              Margin="0 0 5 0"
+                              Data="{StaticResource SearchIcon}" />
+                        <TextBox Watermark="{DynamicResource Search}"
+                                 VerticalAlignment="Center"
+                                 Text="{CompiledBinding SearchText}" />
+                    </DockPanel>
 
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Margin="0 0 5 0">
-                            <TextBlock Text="{DynamicResource InstalledEditorsC}" Margin="0 0 5 0" />
-                            <TextBlock Text="{Binding Editors.Count}" />
-                        </StackPanel>
-                    </Panel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="0 0 5 0">
+                        <TextBlock Text="{DynamicResource InstalledEditorsC}" Margin="0 0 5 0" />
+                        <TextBlock Text="{CompiledBinding Editors.Count}" />
+                    </StackPanel>
+                </Panel>
 
-                    <ListBox Grid.Row="1"
-                             SelectedItem="{Binding SelectedItem}"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             Items="{Binding FoundEditors}"
-                             SelectedIndex="0"
-                             CornerRadius="0"
-                             BorderThickness="0"
-                             VerticalAlignment="Center">
-                        <ListBox.DataTemplates>
-                            <DataTemplate DataType="{x:Type o:Editor}">
-                                <Grid ColumnDefinitions="Auto,*">
-                                    <Path Grid.Column="0"
-                                          Width="20"
-                                          Margin="10 0"
-                                          VerticalAlignment="Center"
-                                          Data="{Binding Icon}"
-                                          Fill="{StaticResource ForegroundBrush}"
-                                          Stretch="Uniform" />
-                                    <TextBlock Grid.Column="1"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Text="{Binding Name}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.DataTemplates>
-                    </ListBox>
-                </Grid>
-            </Border>
-        </Border>
+                <ListBox Name="ListBox" 
+                         Grid.Row="1"
+                         SelectedItem="{CompiledBinding SelectedItem}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         Items="{CompiledBinding FoundEditors}"
+                         SelectedIndex="0"
+                         CornerRadius="0"
+                         BorderThickness="0"
+                         VerticalAlignment="Center">
+                    <ListBox.DataTemplates>
+                        <DataTemplate DataType="{x:Type o:Editor}">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Path Grid.Column="0"
+                                      Width="20"
+                                      Margin="10 0"
+                                      VerticalAlignment="Center"
+                                      Data="{CompiledBinding IconKey, Converter={x:Static c:RegulConverters.IconKeyToGeometry}}"
+                                      Fill="{StaticResource ForegroundBrush}"
+                                      Stretch="Uniform" />
+                                <TextBlock Grid.Column="1"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Text="{CompiledBinding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+            </Grid>
+        </PleasantBorder>
 
         <Grid Grid.Row="2">
-            <CheckBox Name="PART_AlwaysOpen" Content="{DynamicResource AlwaysOpenFile}" VerticalAlignment="Center"
+            <CheckBox Name="PART_AlwaysOpen"
+                      Content="{DynamicResource AlwaysOpenFile}"
+                      VerticalAlignment="Center"
                       Margin="8 0 0 0" />
 
             <Button Classes="mbdefault"

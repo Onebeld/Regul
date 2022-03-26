@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,8 +30,6 @@ using Regul.Settings;
 using Extensions = Regul.Base.Other.Extensions;
 using Module = Regul.ModuleSystem.Models.Module;
 
-#endregion
-
 namespace Regul.Base.Views.Windows
 {
     public class SettingsViewModel : ViewModelBase
@@ -52,6 +48,127 @@ namespace Regul.Base.Views.Windows
 
         private SynchronizationContext _synchronizationContext;
         private bool _thereAreUpdatesForModules;
+        
+        #region Properties
+
+        // The index is used, because there is a problem when loading the settings window, when the current theme is not selected
+        public int SelectedTheme
+        {
+            get => _selectedTheme;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedTheme, value);
+
+                if (value == -1) return;
+                CustomTheme = null;
+
+                DefaultTheme defaultTheme = (DefaultTheme)Themes[value].DataContext;
+
+                GeneralSettings.Instance.Theme = defaultTheme.Name;
+
+                Application.Current.Styles[1] = new StyleInclude(new Uri("resm:Style?assembly=Regul"))
+                {
+                    Source = new Uri($"avares://PleasantUI/Assets/Themes/{defaultTheme.Name}.axaml")
+                };
+            }
+        }
+
+        public AvaloniaList<Theme> CustomThemes
+        {
+            get => _customThemes;
+            set => RaiseAndSetIfChanged(ref _customThemes, value);
+        }
+
+        public Theme CustomTheme
+        {
+            get => _customTheme;
+            set
+            {
+                RaiseAndSetIfChanged(ref _customTheme, value);
+
+                if (value == null) return;
+
+                SelectedTheme = -1;
+
+                GeneralSettings.Instance.Theme = value.Name;
+
+                Application.Current.Styles[1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(value.ToAxaml());
+            }
+        }
+
+        public Language SelectedLanguage
+        {
+            get => _selectedLanguage;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedLanguage, value);
+
+                if (GeneralSettings.Instance.Language == value.Key)
+                    return;
+
+                GeneralSettings.Instance.Language = value.Key;
+
+                Application.Current.Styles[3] = new StyleInclude(new Uri("resm:Style?assembly=Regul"))
+                {
+                    Source = new Uri($"avares://Regul.Assets/Localization/{value.Key}.axaml")
+                };
+
+                //foreach (IModule module in ModuleManager.System.Modules)
+                for (int i = 0; i < ModuleManager.Modules.Count; i++)
+                    ModuleManager.Modules[i]
+                        .ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
+            }
+        }
+
+        public Module SelectedModule
+        {
+            get => _selectedModule;
+            set => RaiseAndSetIfChanged(ref _selectedModule, value);
+        }
+
+        public AvaloniaList<Module> Modules
+        {
+            get => _modules;
+            set => RaiseAndSetIfChanged(ref _modules, value);
+        }
+
+        public List<Language> Languages =>
+            //return App.Languages.ToList();
+            new List<Language>(App.Languages);
+
+        public List<ComboBoxItem> Themes
+        {
+            get
+            {
+                List<ComboBoxItem> themes = new List<ComboBoxItem>();
+
+                foreach (DefaultTheme item in PleasantUIDefaults.Themes)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem();
+                    comboBoxItem.Bind<ComboBoxItem>(ContentControl.ContentProperty,
+                        new DynamicResourceExtension(item.Name));
+                    comboBoxItem.DataContext = item;
+
+                    themes.Add(comboBoxItem);
+                }
+
+                return themes;
+            }
+        }
+
+        public bool IsChecksForUpdates
+        {
+            get => _isChecksForUpdates;
+            set => RaiseAndSetIfChanged(ref _isChecksForUpdates, value);
+        }
+
+        public bool ThereAreUpdatesForModules
+        {
+            get => _thereAreUpdatesForModules;
+            set => RaiseAndSetIfChanged(ref _thereAreUpdatesForModules, value);
+        }
+
+        #endregion
 
         private void Close()
         {
@@ -71,7 +188,7 @@ namespace Regul.Base.Views.Windows
             GetModules();
 
             SelectedTheme =
-                Themes.FindIndex(x => ((DefaultTheme)x.DataContext)?.Name == GeneralSettings.Settings.Theme);
+                Themes.FindIndex(x => ((DefaultTheme)x.DataContext)?.Name == GeneralSettings.Instance.Theme);
             if (SelectedTheme == -1)
             {
                 //Theme theme = CustomThemes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
@@ -80,7 +197,7 @@ namespace Regul.Base.Views.Windows
                 {
                     Theme item = CustomThemes[i];
 
-                    if (item.Name == GeneralSettings.Settings.Theme)
+                    if (item.Name == GeneralSettings.Instance.Theme)
                     {
                         theme = item;
                         break;
@@ -97,7 +214,7 @@ namespace Regul.Base.Views.Windows
             for (int i = 0; i < Languages.Count; i++)
             {
                 Language item = Languages[i];
-                if (item.Key == GeneralSettings.Settings.Language)
+                if (item.Key == GeneralSettings.Instance.Language)
                 {
                     SelectedLanguage = item;
                     break;
@@ -168,7 +285,7 @@ namespace Regul.Base.Views.Windows
             }
 
             if (CustomTheme != null)
-                GeneralSettings.Settings.Theme = CustomTheme.Name;
+                GeneralSettings.Instance.Theme = CustomTheme.Name;
         }
 
         private void LoadThemes()
@@ -211,8 +328,6 @@ namespace Regul.Base.Views.Windows
             List<Module> modules = new List<Module>();
             List<string> copiedFiles = new List<string>();
 
-            MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
-
             foreach (string file in result)
                 if (file.Contains(".zip"))
                 {
@@ -222,8 +337,7 @@ namespace Regul.Base.Views.Windows
                     }
                     catch
                     {
-                        viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                            App.GetResource<string>("FailedCopyModule"), NotificationType.Error));
+                        WindowsManager.ShowNotification(App.GetResource<string>("FailedCopyModule"), NotificationType.Error);
                         return;
                     }
                 }
@@ -236,8 +350,7 @@ namespace Regul.Base.Views.Windows
                     }
                     catch
                     {
-                        viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                            App.GetResource<string>("FailedCopyModule"), NotificationType.Error));
+                        WindowsManager.ShowNotification(App.GetResource<string>("FailedCopyModule"), NotificationType.Error);
                         return;
                     }
 
@@ -253,20 +366,10 @@ namespace Regul.Base.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to load module] {e}");
 
-                    await MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedLoadModule") + $" {copiedFile}", new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = "OK",
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    WindowsManager.ShowError(App.GetResource<string>("FailedLoadModule") + $" {copiedFile}", e.ToString());
                 }
 
             //foreach (ModuleSystem.Models.Module module in modules)
@@ -281,8 +384,7 @@ namespace Regul.Base.Views.Windows
 
             UpdateModulesList();
 
-            viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                App.GetResource<string>("ModulesUploaded"), NotificationType.Success));
+            WindowsManager.ShowNotification(App.GetResource<string>("ModulesUploaded"));
         }
 
         private void InitializeModule(Module module, bool updateList = true)
@@ -290,27 +392,15 @@ namespace Regul.Base.Views.Windows
             try
             {
                 module.Source.Execute();
-                module.ChangeLanguage(GeneralSettings.Settings.Language, App.ModulesLanguage);
+                module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
                 module.Source.CorrectlyInitialized = true;
             }
             catch (Exception e)
             {
-                Logger.Current.WriteLog(Log.Error,
+                Logger.Instance.WriteLog(Log.Error,
                     $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to initialize module] {e}");
 
-                MessageBox.Show(WindowsManager.MainWindow,
-                    App.GetResource<string>("Error"),
-                    App.GetResource<string>("FailedInitModule") + $" {SelectedModule.Source.Name}",
-                    new List<MessageBoxButton>
-                    {
-                        new MessageBoxButton
-                        {
-                            Default = true,
-                            Result = "OK",
-                            Text = "OK",
-                            IsKeyDown = true
-                        }
-                    }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                WindowsManager.ShowError(App.GetResource<string>("FailedInitModule") + $" {SelectedModule.Source.Name}", e.ToString());
             }
 
             if (updateList)
@@ -324,7 +414,7 @@ namespace Regul.Base.Views.Windows
 
         private void DeleteCorrespondingExtensionEditor(CorrespondingExtensionEditor ce)
         {
-            GeneralSettings.Settings.CorrespondingExtensionEditors.Remove(ce);
+            GeneralSettings.Instance.CorrespondingExtensionEditors.Remove(ce);
         }
 
         private void UpdateModulesList()
@@ -361,21 +451,21 @@ namespace Regul.Base.Views.Windows
             CustomThemes.Add(theme);
         }
 
-        private async void ChangeColor(Button buttom)
+        private async void ChangeColor(Button button)
         {
             try
             {
                 IBrush brush = (await WindowColorPicker.SelectColor(WindowsManager.MainWindow,
-                    ((ISolidColorBrush)buttom.Background)?.ToString())).ToBursh();
+                    ((ISolidColorBrush)button.Background)?.ToString())).ToBursh();
 
-                buttom.Background = brush;
+                button.Background = brush;
 
                 Application.Current.Styles[1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
             }
             catch (Exception ex)
             {
                 if (!(ex is TaskCanceledException))
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{ex.TargetSite?.DeclaringType}.{ex.TargetSite?.Name}()] [Failed to change the color of the theme] {ex}");
             }
         }
@@ -411,7 +501,7 @@ namespace Regul.Base.Views.Windows
             }
             catch (Exception ex)
             {
-                Logger.Current.WriteLog(Log.Error,
+                Logger.Instance.WriteLog(Log.Error,
                     $"[{ex.TargetSite?.DeclaringType}.{ex.TargetSite?.Name}()] [I couldn't insert the theme] {ex}");
             }
         }
@@ -432,132 +522,6 @@ namespace Regul.Base.Views.Windows
                 Application.Current.Styles[1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
             }
         }
-
-        #region Properties
-
-        // The index is used, because there is a problem when loading the settings window, when the current theme is not selected
-        private int SelectedTheme
-        {
-            get => _selectedTheme;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedTheme, value);
-
-                if (value == -1) return;
-
-                CustomTheme = null;
-
-                //DefaultTheme defaultTheme = (DefaultTheme)Themes.ElementAt(value).DataContext;
-                DefaultTheme defaultTheme = null;
-                for (int i = 0; i < Themes.Count; i++)
-                    if (i == value)
-                        defaultTheme = (DefaultTheme)Themes[i].DataContext;
-
-                GeneralSettings.Settings.Theme = defaultTheme.Name;
-
-                Application.Current.Styles[1] = new StyleInclude(new Uri("resm:Style?assembly=Regul"))
-                {
-                    Source = new Uri($"avares://PleasantUI/Assets/Themes/{defaultTheme.Name}.axaml")
-                };
-            }
-        }
-
-        private AvaloniaList<Theme> CustomThemes
-        {
-            get => _customThemes;
-            set => RaiseAndSetIfChanged(ref _customThemes, value);
-        }
-
-        private Theme CustomTheme
-        {
-            get => _customTheme;
-            set
-            {
-                RaiseAndSetIfChanged(ref _customTheme, value);
-
-                if (value == null) return;
-
-                SelectedTheme = -1;
-
-                GeneralSettings.Settings.Theme = value.Name;
-
-                Application.Current.Styles[1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(value.ToAxaml());
-            }
-        }
-
-        private Language SelectedLanguage
-        {
-            get => _selectedLanguage;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedLanguage, value);
-
-                if (GeneralSettings.Settings.Language == value.Key)
-                    return;
-
-                GeneralSettings.Settings.Language = value.Key;
-
-                Application.Current.Styles[3] = new StyleInclude(new Uri("resm:Style?assembly=Regul"))
-                {
-                    Source = new Uri($"avares://Regul.Assets/Localization/{value.Key}.axaml")
-                };
-
-                //foreach (IModule module in ModuleManager.System.Modules)
-                for (int i = 0; i < ModuleManager.Modules.Count; i++)
-                    ModuleManager.Modules[i]
-                        .ChangeLanguage(GeneralSettings.Settings.Language, App.ModulesLanguage);
-            }
-        }
-
-        public Module SelectedModule
-        {
-            get => _selectedModule;
-            set => RaiseAndSetIfChanged(ref _selectedModule, value);
-        }
-
-        public AvaloniaList<Module> Modules
-        {
-            get => _modules;
-            set => RaiseAndSetIfChanged(ref _modules, value);
-        }
-
-        public List<Language> Languages =>
-            //return App.Languages.ToList();
-            new List<Language>(App.Languages);
-
-        public List<ComboBoxItem> Themes
-        {
-            get
-            {
-                List<ComboBoxItem> themes = new List<ComboBoxItem>();
-
-                foreach (DefaultTheme item in PleasantUIDefaults.Themes)
-                {
-                    ComboBoxItem comboBoxItem = new ComboBoxItem();
-                    comboBoxItem.Bind<ComboBoxItem>(ContentControl.ContentProperty,
-                        new DynamicResourceExtension(item.Name));
-                    comboBoxItem.DataContext = item;
-
-                    themes.Add(comboBoxItem);
-                }
-
-                return themes;
-            }
-        }
-
-        public bool IsChecksForUpdates
-        {
-            get => _isChecksForUpdates;
-            set => RaiseAndSetIfChanged(ref _isChecksForUpdates, value);
-        }
-
-        public bool ThereAreUpdatesForModules
-        {
-            get => _thereAreUpdatesForModules;
-            set => RaiseAndSetIfChanged(ref _thereAreUpdatesForModules, value);
-        }
-
-        #endregion
 
         #region UpdateModule
 
@@ -591,7 +555,7 @@ namespace Regul.Base.Views.Windows
 
                     if (File.Exists(zipFile))
                     {
-                        GeneralSettings.Settings.ModulesForUpdate.Add(new ModuleForUpdate
+                        GeneralSettings.Instance.ModulesForUpdate.Add(new ModuleForUpdate
                         {
                             Path = zipFile,
                             PathToModule = pathToModule
@@ -620,7 +584,7 @@ namespace Regul.Base.Views.Windows
 
                     webClient.Dispose();
 
-                    GeneralSettings.Settings.ModulesForUpdate.Add(new ModuleForUpdate
+                    GeneralSettings.Instance.ModulesForUpdate.Add(new ModuleForUpdate
                     {
                         Path = zipFile,
                         PathToModule = pathToModule
@@ -631,7 +595,7 @@ namespace Regul.Base.Views.Windows
             }
             catch (Exception ex)
             {
-                Logger.Current.WriteLog(Log.Error, ex.ToString());
+                Logger.Instance.WriteLog(Log.Error, ex.ToString());
             }
         }
 
@@ -649,10 +613,8 @@ namespace Regul.Base.Views.Windows
 
             _loading.Close();
             UpdateModulesList();
-
-            MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
-            viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Information"),
-                App.GetResource<string>("NextTimeModulesUpdate")));
+            
+            WindowsManager.ShowNotification(App.GetResource<string>("NextTimeModulesUpdate"), NotificationType.Information);
         }
 
         private void Worker_ProgressChanged(int progress, string userState, bool isIndeterminate)
@@ -675,17 +637,14 @@ namespace Regul.Base.Views.Windows
 
             UpdateModulesList();
 
-            MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
             if (!ModuleManager.Modules.Any(x => x.Source.ThereIsAnUpdate))
             {
-                viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Information"),
-                    App.GetResource<string>("UpdatesForModulesNotFound")));
+                WindowsManager.ShowNotification(App.GetResource<string>("UpdatesForModulesNotFound"), NotificationType.Information);
             }
             else
             {
                 ThereAreUpdatesForModules = true;
-                viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Information"),
-                    App.GetResource<string>("UpdatesForModulesAvailable")));
+                WindowsManager.ShowNotification(App.GetResource<string>("UpdatesForModulesAvailable"), NotificationType.Information);
             }
         }
 

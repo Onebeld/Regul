@@ -5,23 +5,30 @@
                       xmlns:vm="using:Regul.Base.Views.Windows"
                       xmlns:settings="using:Regul"
                       xmlns:plesasantSettings="using:PleasantUI"
+                      xmlns:pb="using:PleasantUI.Behaviors"
                       xmlns:m="using:Regul.ModuleSystem.Models"
                       xmlns:ms="using:Regul.ModuleSystem"
                       xmlns:model="using:Regul.ModuleSystem.Models"
                       xmlns:page="using:Regul.Base.Views.Windows"
                       xmlns:ed="using:Regul.Settings"
                       xmlns:conv="using:Regul.Base.Converters"
+                      xmlns:themes="using:PleasantUI.Media"
+                      xmlns:i="using:Avalonia.Xaml.Interactivity"
                       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                       x:Class="Regul.Base.Views.Windows.SettingsWindow"
                       Icon="avares://Regul.Assets/icon.ico"
+                      x:DataType="vm:SettingsViewModel"
                       Title="{DynamicResource Settings}">
     <PleasantDialogWindow.DataContext>
         <vm:SettingsViewModel />
     </PleasantDialogWindow.DataContext>
     <PleasantDialogWindow.Styles>
-        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="PleasantTabItem">
+            <Setter Property="IsClosable" Value="False" />
         </Style>
 
         <Style Selector="Button.SelectionColor:pointerover">
@@ -33,74 +40,68 @@
         </Style>
     </PleasantDialogWindow.Styles>
 
-    <PleasantTabView AdderButtonIsVisible="False" ImmediateDrag="False">
-        <PleasantTabItem CanBeDragged="False" IsClosable="False" Header="{DynamicResource General}"
+    <PleasantTabView AdderButtonIsVisible="False" ReorderableTabs="False">
+        <PleasantTabItem Header="{DynamicResource General}"
                          Icon="{StaticResource SettingsIcon}">
             <ScrollViewer>
                 <StackPanel Spacing="5" Margin="5">
                     <DockPanel>
                         <TextBlock Text="{DynamicResource LanguageC}" />
-                        <ComboBox Margin="5 0 0 0" SelectedItem="{Binding SelectedLanguage}"
-                                  Items="{Binding Languages}">
+                        <ComboBox Margin="5 0 0 0" SelectedItem="{CompiledBinding SelectedLanguage}"
+                                  Items="{CompiledBinding Languages}">
                             <ComboBox.DataTemplates>
                                 <DataTemplate DataType="{x:Type model:Language}">
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{CompiledBinding Name}" />
                                 </DataTemplate>
                             </ComboBox.DataTemplates>
                         </ComboBox>
                     </DockPanel>
                     <CheckBox Content="{DynamicResource HardwareAcceleration}"
-                              IsChecked="{Binding HardwareAcceleration, Source={x:Static settings:GeneralSettings.Settings}}" />
+                              IsChecked="{CompiledBinding HardwareAcceleration, Source={x:Static settings:GeneralSettings.Instance}}" />
                     <CheckBox Content="{DynamicResource UseCustomTitleBar}"
                               ToolTip.Tip="{DynamicResource UseCustomTitleBarDescription}"
-                              IsChecked="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}" />
+                              IsChecked="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}" />
                     <CheckBox Content="{DynamicResource ShowFullscreenButton}"
-                              IsChecked="{Binding ShowFullscreenButton, Source={x:Static settings:GeneralSettings.Settings}}"
-                              IsEnabled="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}" />
+                              IsChecked="{CompiledBinding ShowFullscreenButton, Source={x:Static settings:GeneralSettings.Instance}}"
+                              IsEnabled="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}" />
                     <CheckBox Content="{DynamicResource CompactMode}"
-                              IsChecked="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
-                              IsEnabled="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}" />
+                              IsChecked="{CompiledBinding CompactMode, Source={x:Static settings:GeneralSettings.Instance}}"
+                              IsEnabled="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}" />
 
                     <Separator />
 
                     <CheckBox Content="{DynamicResource EnableShadowing}"
                               ToolTip.Tip="{DynamicResource EnableShadowingDescription}"
-                              IsChecked="{Binding EnableShadowing, Source={x:Static plesasantSettings:PleasantSettings.Settings}}" />
+                              IsChecked="{CompiledBinding EnableShadowing, Source={x:Static plesasantSettings:PleasantSettings.Instance}}" />
 
                     <Separator />
 
                     <DockPanel>
                         <TextBlock Text="{DynamicResource CreatorNameC}" Margin="0 0 5 0" />
-                        <TextBox Text="{Binding CreatorName, Source={x:Static settings:GeneralSettings.Settings}}" />
+                        <TextBox Text="{CompiledBinding CreatorName, Source={x:Static settings:GeneralSettings.Instance}}" />
                     </DockPanel>
                 </StackPanel>
             </ScrollViewer>
         </PleasantTabItem>
-        <PleasantTabItem CanBeDragged="False" IsClosable="False" Header="{DynamicResource Editing}"
+        <PleasantTabItem Header="{DynamicResource Editing}"
                          Icon="{StaticResource EditIcon}">
             <TabControl TabStripPlacement="Left" Margin="5">
                 <TabItem Header="{DynamicResource FileTypes}">
                     <Panel>
                         <ScrollViewer>
-                            <ItemsPresenter
-                                Items="{Binding CorrespondingExtensionEditors, Source={x:Static settings:GeneralSettings.Settings}}"
-                                Margin="5">
-                                <ItemsPresenter.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Spacing="5" />
-                                    </ItemsPanelTemplate>
-                                </ItemsPresenter.ItemsPanel>
-                                <ItemsPresenter.DataTemplates>
+                            <ItemsRepeater Items="{CompiledBinding CorrespondingExtensionEditors, Source={x:Static settings:GeneralSettings.Instance}}"
+                                           Margin="5">
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="5" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
                                     <DataTemplate DataType="{x:Type ed:CorrespondingExtensionEditor}">
-                                        <Border BorderBrush="{StaticResource BorderBrush}"
-                                                Background="{StaticResource BackgroundBrush}"
-                                                BorderThickness="1"
-                                                CornerRadius="5">
+                                        <PleasantBorder Background="{StaticResource BackgroundBrush}">
                                             <DockPanel Margin="5">
                                                 <Path VerticalAlignment="Center"
                                                       Fill="{StaticResource ForegroundBrush}"
                                                       DockPanel.Dock="Left"
-                                                      Data="{Binding IdEditor, Converter={x:Static conv:RegulConverters.IdEditorToGeometry}}"
+                                                      Data="{CompiledBinding IdEditor, Converter={x:Static conv:RegulConverters.IdEditorToGeometry}}"
                                                       Margin="7 0 10 0"
                                                       Height="25"
                                                       Width="25"
@@ -110,7 +111,7 @@
                                                         VerticalAlignment="Center" HorizontalAlignment="Right"
                                                         Padding="5"
                                                         Command="{Binding DataContext.DeleteCorrespondingExtensionEditor, RelativeSource={RelativeSource AncestorType={x:Type page:SettingsWindow}}}"
-                                                        CommandParameter="{Binding}"
+                                                        CommandParameter="{CompiledBinding}"
                                                         ToolTip.Tip="{DynamicResource Delete}">
                                                     <Path Data="{StaticResource TrashIcon}"
                                                           Height="16"
@@ -120,102 +121,100 @@
                                                 <StackPanel Spacing="2" HorizontalAlignment="Left">
                                                     <StackPanel Orientation="Horizontal" Spacing="4">
                                                         <TextBlock Text="{DynamicResource ExtensionFileС}" />
-                                                        <TextBlock Text="{Binding Extension}" />
+                                                        <TextBlock Text="{CompiledBinding Extension}" />
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Spacing="4">
                                                         <TextBlock Text="{DynamicResource EditorС}" />
                                                         <TextBlock
-                                                            Text="{Binding IdEditor, Converter={x:Static conv:RegulConverters.IdEditorToNameEditor}}" />
+                                                            Text="{CompiledBinding IdEditor, Converter={x:Static conv:RegulConverters.IdEditorToNameEditor}}" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </DockPanel>
-                                        </Border>
+                                        </PleasantBorder>
                                     </DataTemplate>
-                                </ItemsPresenter.DataTemplates>
-                            </ItemsPresenter>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
                         </ScrollViewer>
 
                         <TextBlock Text="{DynamicResource NotHaveEditorForTypeFile}" TextWrapping="Wrap"
                                    TextAlignment="Center" VerticalAlignment="Center"
                                    Foreground="{StaticResource ForegroundOpacityBrush}" Margin="10 0"
-                                   IsVisible="{Binding !CorrespondingExtensionEditors.Count, Source={x:Static settings:GeneralSettings.Settings}}" />
+                                   IsVisible="{CompiledBinding !CorrespondingExtensionEditors.Count, Source={x:Static settings:GeneralSettings.Instance}}" />
                     </Panel>
                 </TabItem>
             </TabControl>
         </PleasantTabItem>
-        <PleasantTabItem CanBeDragged="False" IsClosable="False" Header="{DynamicResource Modules}"
+        <PleasantTabItem Header="{DynamicResource Modules}"
                          Icon="{StaticResource ModulesIcon}">
             <Grid ColumnDefinitions="*,5,*" Margin="5">
                 <Grid Grid.Column="0" RowDefinitions="*,Auto">
-                    <Border Grid.Row="0" BorderThickness="1" CornerRadius="5"
-                            BorderBrush="{StaticResource BorderBrush}">
-                        <Border ClipToBounds="True" CornerRadius="5">
-                            <Grid RowDefinitions="Auto,*">
-                                <Panel Grid.Row="0"
-                                       Background="{StaticResource BackgroundLevel1Brush}"
-                                       Height="25">
-                                    <DockPanel Margin="5 0">
-                                        <StackPanel DockPanel.Dock="Left"
-                                                    Orientation="Horizontal"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center">
-                                            <TextBlock Text="{DynamicResource ConnectedModulesC}" Margin="0 0 5 0" />
-                                            <TextBlock
-                                                Text="{Binding Count, Source={x:Static ms:ModuleManager.Modules}}" />
-                                        </StackPanel>
-                                        <Button DockPanel.Dock="Right"
-                                                Command="{Binding UpdateModules}"
-                                                Padding="2"
-                                                Margin="2"
-                                                IsVisible="{Binding ThereAreUpdatesForModules}"
-                                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                ToolTip.Tip="{DynamicResource UpdateAllModules}">
-                                            <Path Fill="{StaticResource ForegroundBrush}"
-                                                  Data="{StaticResource UpdateIcon}"
-                                                  Stretch="Uniform" />
-                                        </Button>
+                    <PleasantBorder Grid.Row="0">
+                        <Grid RowDefinitions="Auto,*">
+                            <Panel Grid.Row="0"
+                                   Background="{StaticResource BackgroundLevel1Brush}"
+                                   Height="25">
+                                <DockPanel Margin="5 0">
+                                    <StackPanel DockPanel.Dock="Left"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{DynamicResource ConnectedModulesC}" Margin="0 0 5 0" />
+                                        <TextBlock Text="{CompiledBinding Count, Source={x:Static ms:ModuleManager.Modules}}" />
+                                    </StackPanel>
+                                    <Button DockPanel.Dock="Right"
+                                            Command="{Binding UpdateModules}"
+                                            Padding="2"
+                                            Margin="2"
+                                            IsVisible="{CompiledBinding ThereAreUpdatesForModules}"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            ToolTip.Tip="{DynamicResource UpdateAllModules}">
+                                        <Path Fill="{StaticResource ForegroundBrush}"
+                                              Data="{StaticResource UpdateIcon}"
+                                              Stretch="Uniform" />
+                                    </Button>
 
-                                        <ProgressBar Margin="5 0" Background="{StaticResource BackgroundBrush}"
-                                                     IsIndeterminate="{Binding IsChecksForUpdates}"
-                                                     IsVisible="{Binding IsChecksForUpdates}" />
-                                    </DockPanel>
+                                    <ProgressBar Margin="5 0" 
+                                                 Background="{StaticResource BackgroundBrush}"
+                                                 IsIndeterminate="{CompiledBinding IsChecksForUpdates}"
+                                                 IsVisible="{CompiledBinding IsChecksForUpdates}" />
+                                </DockPanel>
 
-                                </Panel>
+                            </Panel>
 
-                                <ListBox Grid.Row="1"
-                                         BorderThickness="0"
-                                         CornerRadius="0"
-                                         Items="{Binding Modules}"
-                                         SelectedItem="{Binding SelectedModule}">
-                                    <ListBox.DataTemplates>
-                                        <DataTemplate DataType="{x:Type m:Module}">
-                                            <Grid Margin="5 0">
-                                                <StackPanel Spacing="5" Orientation="Horizontal">
-                                                    <Image Source="{Binding Source.Icon}" Width="20" Height="20" />
-                                                    <TextBlock Text="{Binding Source.Name}" HorizontalAlignment="Left"
-                                                               VerticalAlignment="Center" />
-                                                </StackPanel>
+                            <ListBox Grid.Row="1"
+                                     BorderThickness="0"
+                                     CornerRadius="0"
+                                     Items="{CompiledBinding Modules}"
+                                     SelectedItem="{CompiledBinding SelectedModule}">
+                                <ListBox.DataTemplates>
+                                    <DataTemplate DataType="{x:Type m:Module}">
+                                        <Grid Margin="5 0">
+                                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                                <Image Source="{CompiledBinding Source.Icon}" Width="20" Height="20" />
+                                                <TextBlock Text="{CompiledBinding Source.Name}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
-                                                            Spacing="5">
-                                                    <Path IsVisible="{Binding Source.ThereIsAnUpdate}"
-                                                          Fill="{StaticResource ForegroundBrush}"
-                                                          Data="{StaticResource UpdateIcon}"
-                                                          Stretch="Uniform"
-                                                          Height="14" />
-                                                    <Path IsVisible="{Binding !Source.CorrectlyInitialized}"
-                                                          Fill="{StaticResource ErrorBrush}"
-                                                          Data="{StaticResource ErrorIcon}"
-                                                          Stretch="Uniform"
-                                                          Height="14" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.DataTemplates>
-                                </ListBox>
-                            </Grid>
-                        </Border>
-                    </Border>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                        Spacing="5">
+                                                <Path IsVisible="{CompiledBinding Source.ThereIsAnUpdate}"
+                                                      Fill="{StaticResource ForegroundBrush}"
+                                                      Data="{StaticResource UpdateIcon}"
+                                                      Stretch="Uniform"
+                                                      Height="14" />
+                                                <Path IsVisible="{CompiledBinding !Source.CorrectlyInitialized}"
+                                                      Fill="{StaticResource ErrorBrush}"
+                                                      Data="{StaticResource ErrorIcon}"
+                                                      Stretch="Uniform"
+                                                      Height="14" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.DataTemplates>
+                            </ListBox>
+                        </Grid>
+                    </PleasantBorder>
 
                     <StackPanel Grid.Row="1" Margin="0 5 0 0" Spacing="5">
                         <Button Content="{DynamicResource CheckForUpdates}"
@@ -232,95 +231,98 @@
                                Margin="0 0 0 5"
                                FontWeight="Bold" />
 
-                    <Border Grid.Row="1"
-                            CornerRadius="5"
-                            BorderThickness="1"
-                            BorderBrush="{StaticResource BorderBrush}"
-                            Background="{StaticResource BackgroundControlBrush}">
-                        <Border ClipToBounds="True" CornerRadius="5">
-                            <Grid>
-                                <Grid
-                                    IsVisible="{Binding SelectedModule, Converter={x:Static ObjectConverters.IsNotNull}}">
-                                    <ScrollViewer>
-                                        <StackPanel Margin="5">
-                                            <Image Source="{Binding SelectedModule.Source.Icon}" Width="50" Height="50" />
-                                            <TextBlock Text="{Binding SelectedModule.Source.Name}"
-                                                       FontSize="16"
-                                                       FontWeight="Bold"
-                                                       TextAlignment="Center"
-                                                       Margin="0 5 0 10" />
+                    <PleasantBorder Grid.Row="1"
+                                    Background="{StaticResource BackgroundControlBrush}">
+                        <Grid>
+                            <Grid IsVisible="{CompiledBinding SelectedModule, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <ScrollViewer>
+                                    <StackPanel Margin="5">
+                                        <Image Source="{CompiledBinding SelectedModule.Source.Icon}" 
+                                               Width="50"
+                                               Height="50" />
+                                        <TextBlock Text="{CompiledBinding SelectedModule.Source.Name}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   TextAlignment="Center"
+                                                   Margin="0 5 0 10" />
 
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="{DynamicResource CreatorC}" Margin="0 0 5 0" />
-                                                <TextBlock Text="{Binding SelectedModule.Source.Creator}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="{DynamicResource VersionC}" Margin="0 0 5 0" />
-                                                <TextBlock Text="{Binding SelectedModule.Source.Version}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                                                        IsVisible="{Binding SelectedModule.Source.ThereIsAnUpdate}">
-                                                <TextBlock Text="{DynamicResource NewVersionC}" Margin="0 0 5 0" />
-                                                <TextBlock Text="{Binding SelectedModule.InfoForUpdate.NewVersion}" />
-                                            </StackPanel>
-
-                                            <TextBlock Text="{Binding SelectedModule.Source.Description}"
-                                                       Margin="0 15 0 0"
-                                                       TextAlignment="Center"
-                                                       TextWrapping="Wrap" />
-
-                                            <TextBlock Text="{DynamicResource NotInitialized}"
-                                                       IsVisible="{Binding !SelectedModule.Source.CorrectlyInitialized}"
-                                                       Foreground="{StaticResource ErrorBrush}"
-                                                       Margin="0 25 0 0"
-                                                       TextAlignment="Center"
-                                                       TextWrapping="Wrap" />
-
-                                            <TextBlock Text="{DynamicResource NoUpdate}"
-                                                       IsVisible="{Binding !SelectedModule.InfoForUpdate.ItIsPossibleToUpdate}"
-                                                       Foreground="{StaticResource ErrorBrush}"
-                                                       Margin="0 25 0 0"
-                                                       TextAlignment="Center"
-                                                       TextWrapping="Wrap" />
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{DynamicResource CreatorC}" Margin="0 0 5 0" />
+                                            <TextBlock Text="{CompiledBinding SelectedModule.Source.Creator}" />
                                         </StackPanel>
-                                    </ScrollViewer>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{DynamicResource VersionC}" Margin="0 0 5 0" />
+                                            <TextBlock Text="{CompiledBinding SelectedModule.Source.Version}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                                                    IsVisible="{CompiledBinding SelectedModule.Source.ThereIsAnUpdate}">
+                                            <TextBlock Text="{DynamicResource NewVersionC}" Margin="0 0 5 0" />
+                                            <TextBlock Text="{CompiledBinding SelectedModule.InfoForUpdate.NewVersion}" />
+                                        </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Right" Margin="5" Spacing="5">
-                                        <Panel IsVisible="{Binding !SelectedModule.InfoForUpdate.ReadyForUpdate}">
-                                            <Panel IsVisible="{Binding SelectedModule.Source.ThereIsAnUpdate}">
-                                                <Button
-                                                    IsVisible="{Binding SelectedModule.InfoForUpdate.ItIsPossibleToUpdate}"
-                                                    Command="{Binding DataContext.XamlUpdateModule, RelativeSource={RelativeSource AncestorType={x:Type page:SettingsWindow}}}"
-                                                    CommandParameter="{Binding SelectedModule}"
-                                                    Content="{DynamicResource Update}" />
-                                            </Panel>
-                                        </Panel>
+                                        <TextBlock Text="{CompiledBinding SelectedModule.Source.Description}"
+                                                   Margin="0 15 0 0"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap" />
 
-                                        <Button IsVisible="{Binding !SelectedModule.Source.CorrectlyInitialized}"
-                                                Command="{Binding DataContext.XamlInitializeModule, RelativeSource={RelativeSource AncestorType={x:Type page:SettingsWindow}}}"
-                                                CommandParameter="{Binding SelectedModule}"
-                                                Content="{DynamicResource Initialize}" />
+                                        <TextBlock Text="{DynamicResource NotInitialized}"
+                                                   IsVisible="{CompiledBinding !SelectedModule.Source.CorrectlyInitialized}"
+                                                   Foreground="{StaticResource ErrorBrush}"
+                                                   Margin="0 25 0 0"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap" />
+
+                                        <TextBlock Text="{DynamicResource NoUpdate}"
+                                                   IsVisible="{CompiledBinding !SelectedModule.InfoForUpdate.ItIsPossibleToUpdate}"
+                                                   Foreground="{StaticResource ErrorBrush}"
+                                                   Margin="0 25 0 0"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap" />
                                     </StackPanel>
-                                </Grid>
+                                </ScrollViewer>
 
-                                <TextBlock Text="{DynamicResource SelectModule}"
-                                           IsVisible="{Binding SelectedModule, Converter={x:Static ObjectConverters.IsNull}}"
-                                           Foreground="{StaticResource ForegroundOpacityBrush}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" 
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Right" 
+                                            Margin="5" 
+                                            Spacing="5">
+                                    <Button Command="{Binding DataContext.XamlUpdateModule, RelativeSource={RelativeSource AncestorType={x:Type page:SettingsWindow}}}"
+                                            CommandParameter="{CompiledBinding SelectedModule}"
+                                            Content="{DynamicResource Update}">
+                                        <Button.IsVisible>
+                                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                                <CompiledBinding Path="SelectedModule.InfoForUpdate.ItIsPossibleToUpdate" />
+                                                <CompiledBinding Path="!SelectedModule.InfoForUpdate.ReadyForUpdate" />
+                                                <CompiledBinding Path="SelectedModule.Source.ThereIsAnUpdate" />
+                                            </MultiBinding>
+                                        </Button.IsVisible>
+                                    </Button>
+
+                                    <Button IsVisible="{CompiledBinding !SelectedModule.Source.CorrectlyInitialized}"
+                                            Command="{Binding DataContext.XamlInitializeModule, RelativeSource={RelativeSource AncestorType={x:Type page:SettingsWindow}}}"
+                                            CommandParameter="{CompiledBinding SelectedModule}"
+                                            Content="{DynamicResource Initialize}" />
+                                </StackPanel>
                             </Grid>
-                        </Border>
-                    </Border>
+
+                            <TextBlock Text="{DynamicResource SelectModule}"
+                                       IsVisible="{CompiledBinding SelectedModule, Converter={x:Static ObjectConverters.IsNull}}"
+                                       Foreground="{StaticResource ForegroundOpacityBrush}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </PleasantBorder>
                 </Grid>
             </Grid>
         </PleasantTabItem>
-        <PleasantTabItem CanBeDragged="False" IsClosable="False" Header="{DynamicResource Style}"
+        <PleasantTabItem Header="{DynamicResource Style}"
                          Icon="{StaticResource PaletteIcon}">
-            <Grid ColumnDefinitions="*,5,*" RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="5">
+            <Grid ColumnDefinitions="*,5,1.3*" RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="5">
                 <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 0 5">
                     <TextBlock Text="{DynamicResource ThemeC}" />
-                    <ComboBox Margin="5 0 0 0" SelectedIndex="{Binding SelectedTheme}" Items="{Binding Themes}"
+                    <ComboBox Margin="5 0 0 0"
+                              SelectedIndex="{CompiledBinding SelectedTheme}"
+                              Items="{CompiledBinding Themes}"
                               MinHeight="18" />
                 </DockPanel>
 
@@ -328,56 +330,64 @@
                          Grid.Row="1"
                          Watermark="{DynamicResource ThemeName}"
                          TextAlignment="Center"
-                         Text="{Binding CustomTheme.Name, Mode=TwoWay}"
-                         IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                         Text="{CompiledBinding CustomTheme.Name, Mode=TwoWay}"
+                         IsEnabled="{CompiledBinding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                <Border Grid.Row="1"
-                        Grid.RowSpan="2"
-                        Grid.Column="0"
-                        BorderThickness="1"
-                        BorderBrush="{StaticResource BorderBrush}"
-                        CornerRadius="5">
-                    <Border CornerRadius="5" ClipToBounds="True">
-                        <Grid RowDefinitions="Auto,*">
-                            <Panel Grid.Row="0"
-                                   Background="{StaticResource BackgroundLevel1Brush}"
-                                   Height="25">
-                                <StackPanel Margin="5 0 0 0"
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center">
-                                    <TextBlock Text="{DynamicResource InstalledThemesC}" Margin="0 0 5 0" />
-                                    <TextBlock Text="{Binding CustomThemes.Count}" />
-                                </StackPanel>
-                            </Panel>
+                <PleasantBorder Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="0">
+                    <Grid RowDefinitions="Auto,*">
+                        <Panel Grid.Row="0"
+                               Background="{StaticResource BackgroundLevel1Brush}"
+                               Height="25">
+                            <StackPanel Margin="5 0 0 0"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="{DynamicResource InstalledThemesC}" Margin="0 0 5 0" />
+                                <TextBlock Text="{CompiledBinding CustomThemes.Count}" />
+                            </StackPanel>
+                        </Panel>
 
-                            <ListBox Grid.Row="1"
-                                     Items="{Binding CustomThemes}"
-                                     SelectedItem="{Binding CustomTheme}"
-                                     BorderThickness="0"
-                                     CornerRadius="0">
-                                <ListBox.DataTemplates>
-                                    <DataTemplate>
-                                        <TextBlock Margin="5 0 0 0" Text="{Binding Name}" />
-                                    </DataTemplate>
-                                </ListBox.DataTemplates>
-                                <ListBox.ContextMenu>
-                                    <ContextMenu
-                                        IsVisible="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
-                                        <MenuItem Header="{DynamicResource Copy}" Command="{Binding CopyTheme}" />
-                                        <MenuItem Header="{DynamicResource Paste}" Command="{Binding PasteTheme}" />
-                                    </ContextMenu>
-                                </ListBox.ContextMenu>
-                            </ListBox>
-                        </Grid>
-                    </Border>
-                </Border>
+                        <ListBox Grid.Row="1"
+                                 Items="{CompiledBinding CustomThemes}"
+                                 SelectedItem="{CompiledBinding CustomTheme}"
+                                 BorderThickness="0"
+                                 CornerRadius="0">
+                            <ListBox.Styles>
+                                <Style Selector="ListBoxItem">
+                                    <Setter Property="(i:Interaction.Behaviors)">
+                                        <pb:SharedContentTemplate>
+                                            <pb:SharedContent>
+                                                <i:BehaviorCollection>
+                                                    <pb:ItemDragBehavior Orientation="Vertical" />
+                                                </i:BehaviorCollection>
+                                            </pb:SharedContent>
+                                        </pb:SharedContentTemplate>
+                                    </Setter>
+                                </Style>
+                            </ListBox.Styles>
+            
+                            <ListBox.DataTemplates>
+                                <DataTemplate DataType="themes:Theme">
+                                    <TextBlock Margin="5 0 0 0" Text="{CompiledBinding Name}" />
+                                </DataTemplate>
+                            </ListBox.DataTemplates>
+                            <ListBox.ContextMenu>
+                                <ContextMenu IsVisible="{CompiledBinding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <MenuItem Header="{DynamicResource Copy}" Command="{Binding CopyTheme}" />
+                                    <MenuItem Header="{DynamicResource Paste}" Command="{Binding PasteTheme}" />
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>
+                    </Grid>
+                </PleasantBorder>
 
                 <Button Grid.Column="0"
                         Grid.Row="3"
                         Content="{DynamicResource Delete}"
                         Command="{Binding DeleteTheme}" Margin="0 5"
-                        IsEnabled="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        IsEnabled="{CompiledBinding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 <Button Grid.Column="0"
                         Grid.Row="4"
                         Content="{DynamicResource Create}"

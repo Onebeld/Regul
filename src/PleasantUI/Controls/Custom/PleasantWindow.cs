@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
@@ -8,8 +6,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
-
-#endregion
 
 namespace PleasantUI.Controls.Custom
 {

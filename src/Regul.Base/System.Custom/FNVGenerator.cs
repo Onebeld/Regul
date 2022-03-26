@@ -1,14 +1,10 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#endregion
-
 namespace System.Security.Cryptography
 {
-    public static class FNVGenerator
+    public static class FnvGenerator
     {
         public static readonly Dictionary<int, Tuple<ulong, ulong>> consts = new Dictionary<int, Tuple<ulong, ulong>>
         {
@@ -33,7 +29,7 @@ namespace System.Security.Cryptography
             byte[] encoded = Encoding.Unicode.GetBytes(text?.ToLower() ?? string.Empty);
 
             ulong num2 = Enumerable.Range(0, encoded.Length >> 1).Select(i => BitConverter.ToUInt16(encoded, i << 1))
-                .ToArray().Aggregate(offset ?? num1, (hash_value, b) => ((hash_value * prime) ^ b) & baseMask);
+                .ToArray().Aggregate(offset ?? num1, (hashValue, b) => ((hashValue * prime) ^ b) & baseMask);
 
             if (key != size)
                 num2 = (num2 >> size) ^ (num2 & (ulong.MaxValue >> (64 - size)));

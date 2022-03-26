@@ -1,9 +1,5 @@
-﻿#region
-
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Metadata;
-
-#endregion
 
 namespace PleasantUI.Behaviors
 {

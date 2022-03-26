@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 using PleasantUI.Controls.Custom;
-
-#endregion
 
 namespace Regul.Base.DragAndDrop
 {

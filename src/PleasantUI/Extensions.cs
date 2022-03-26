@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -14,8 +12,6 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using PleasantUI.Media;
-
-#endregion
 
 namespace PleasantUI
 {

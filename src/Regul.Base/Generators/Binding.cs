@@ -1,9 +1,5 @@
-﻿#region
-
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Data;
-
-#endregion
 
 namespace Regul.Base.Generators
 {

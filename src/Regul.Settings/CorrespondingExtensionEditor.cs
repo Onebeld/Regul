@@ -1,8 +1,4 @@
-﻿#region
-
-using System.Xml.Serialization;
-
-#endregion
+﻿using System.Xml.Serialization;
 
 namespace Regul.Settings
 {

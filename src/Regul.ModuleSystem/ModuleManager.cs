@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Collections;
@@ -8,8 +6,6 @@ using Onebeld.Extensions;
 using Onebeld.Plugins;
 using Regul.ModuleSystem.Models;
 using Module = Regul.ModuleSystem.Models.Module;
-
-#endregion
 
 namespace Regul.ModuleSystem
 {

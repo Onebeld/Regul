@@ -1,6 +1,6 @@
 ﻿namespace PleasantUI.Structures
 {
-    public class MessageBoxButton
+    public struct MessageBoxButton
     {
         public string Result { get; set; }
         public string Text { get; set; }

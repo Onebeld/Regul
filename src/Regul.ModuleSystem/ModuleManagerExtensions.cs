@@ -1,14 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 using Regul.ModuleSystem.Models;
-
-#endregion
 
 namespace Regul.ModuleSystem
 {

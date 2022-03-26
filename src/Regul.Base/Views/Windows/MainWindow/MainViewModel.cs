@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +12,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Media;
 using Onebeld.Extensions;
 using Onebeld.Logging;
 using PleasantUI.Controls.Custom;
@@ -25,8 +24,6 @@ using Regul.Base.Views.Pages;
 using Regul.ModuleSystem;
 using Regul.ModuleSystem.Models;
 using Regul.Settings;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -48,6 +45,111 @@ namespace Regul.Base.Views.Windows
         private Project _selectedProject;
         private PleasantTabItem _selectedTab;
         private AvaloniaList<PleasantTabItem> _tabItems = new AvaloniaList<PleasantTabItem>();
+        
+        #region Properties
+
+        public IManagedNotificationManager NotificationManager
+        {
+            get => _notificationManager;
+            set => RaiseAndSetIfChanged(ref _notificationManager, value);
+        }
+
+        public object Page
+        {
+            get => _page;
+            set
+            {
+                RaiseAndSetIfChanged(ref _page, value);
+                RaisePropertyChanged(nameof(IsHomePage));
+            }
+        }
+
+        public AvaloniaList<IRegulObject> RegulMenuItems
+        {
+            get => _regulMenuItems;
+            set => RaiseAndSetIfChanged(ref _regulMenuItems, value);
+        }
+
+        public AvaloniaList<IAvaloniaObject> MenuItems => RegulMenuItem.GenerateMenuItems(RegulMenuItems);
+
+        public AvaloniaList<PleasantTabItem> TabItems
+        {
+            get => _tabItems;
+            set => RaiseAndSetIfChanged(ref _tabItems, value);
+        }
+
+        public PleasantTabItem SelectedTab
+        {
+            get => _selectedTab;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedTab, value);
+
+                if (value == null) return;
+
+                UserControl control = (UserControl)value.Content;
+                control?.Focus();
+            }
+        }
+
+        public Project SelectedProject
+        {
+            get => _selectedProject;
+            set => RaiseAndSetIfChanged(ref _selectedProject, value);
+        }
+
+        public AvaloniaList<Project> FoundProjects
+        {
+            get => _foundProjects;
+            set => RaiseAndSetIfChanged(ref _foundProjects, value);
+        }
+
+        public int SelectedPatternSearch
+        {
+            get => _selectedPatternSearch;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
+                FindProjects();
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                RaiseAndSetIfChanged(ref _searchText, value);
+                FindProjects();
+            }
+        }
+
+        public bool IsHomePage => Page is WelcomePage;
+        
+        private bool IsNoEditors
+        {
+            get
+            {
+                if (ModuleManager.Editors.Count != 0) return false;
+
+                MessageBox.Show(WindowsManager.MainWindow,
+                    App.GetResource<string>("Warning"),
+                    App.GetResource<string>("NoEditors"), new List<MessageBoxButton>
+                    {
+                        new MessageBoxButton
+                        {
+                            Default = true,
+                            Result = "OK",
+                            Text = App.GetResource<string>("NoEditorsButton"),
+                            IsKeyDown = true
+                        }
+                    }, MessageBox.MessageBoxIcon.Warning);
+                
+                return true;
+            }
+        }
+
+        #endregion
 
         public MainViewModel()
         {
@@ -93,7 +195,7 @@ namespace Regul.Base.Views.Windows
 
         public async void CreateNewFile()
         {
-            if (IsNoEditors()) return;
+            if (IsNoEditors) return;
 
             Editor editor;
             (editor, _) = await SelectingEditor.GetEditor(null, false);
@@ -103,7 +205,7 @@ namespace Regul.Base.Views.Windows
 
         public async void OpenFile()
         {
-            if (IsNoEditors()) return;
+            if (IsNoEditors) return;
 
             OpenFileDialog dialog = new OpenFileDialog { Filters = new List<FileDialogFilter>() };
             //foreach (Editor item in ModuleManager.Editors)
@@ -151,7 +253,7 @@ namespace Regul.Base.Views.Windows
             {
                 string arg = args[i];
 #if DEBUG
-                Logger.Current.WriteLog(Log.Debug, arg);
+                Logger.Instance.WriteLog(Log.Debug, arg);
 #endif
                 try
                 {
@@ -166,7 +268,7 @@ namespace Regul.Base.Views.Windows
 
         public async void DropOpenFile(IEnumerable<string> files)
         {
-            if (IsNoEditors()) return;
+            if (IsNoEditors) return;
 
             foreach (string file in files)
             {
@@ -200,8 +302,7 @@ namespace Regul.Base.Views.Windows
                     }
                     catch
                     {
-                        NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                            App.GetResource<string>("FailedCopyModule"), NotificationType.Error));
+                        WindowsManager.ShowNotification(App.GetResource<string>("FailedCopyModule"), NotificationType.Error);
                         return;
                     }
                 }
@@ -214,8 +315,7 @@ namespace Regul.Base.Views.Windows
                     }
                     catch
                     {
-                        NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                            App.GetResource<string>("FailedCopyModule"), NotificationType.Error));
+                        WindowsManager.ShowNotification(App.GetResource<string>("FailedCopyModule"), NotificationType.Error);
                         return;
                     }
 
@@ -234,20 +334,10 @@ namespace Regul.Base.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to load module] {e}");
-
-                    MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedLoadModule") + $" {module}", new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = "OK",
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    
+                    WindowsManager.ShowError(App.GetResource<string>("FailedLoadModule") + $" {module}", e.ToString());
                 }
             }
             //
@@ -260,32 +350,19 @@ namespace Regul.Base.Views.Windows
                 try
                 {
                     module.Source.Execute();
-                    module.ChangeLanguage(GeneralSettings.Settings.Language, App.ModulesLanguage);
+                    module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
                     module.Source.CorrectlyInitialized = true;
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to initialize module] {e}");
-
-                    MessageBox.Show(WindowsManager.MainWindow,
-                        App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedInitModule") + $" {module.Source.Name}",
-                        new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = "OK",
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    
+                    WindowsManager.ShowError(App.GetResource<string>("FailedInitModule") + $" {module.Source.Name}", e.ToString());
                 }
             }
 
-            NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                App.GetResource<string>("ModulesUploaded"), NotificationType.Success));
+            WindowsManager.ShowNotification(App.GetResource<string>("ModulesUploaded"));
         }
 
         private void OpenProject()
@@ -304,7 +381,7 @@ namespace Regul.Base.Views.Windows
                         }
                     }, MessageBox.MessageBoxIcon.Error);
 
-                GeneralSettings.Settings.Projects.Remove(SelectedProject);
+                GeneralSettings.Instance.Projects.Remove(SelectedProject);
                 FindProjects();
 
                 return;
@@ -324,18 +401,7 @@ namespace Regul.Base.Views.Windows
 
             if (editor == null)
             {
-                MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                    App.GetResource<string>("FailedFindEditor") +
-                    $" {ModuleManager.GetEditorById(SelectedProject.IdEditor).Name}", new List<MessageBoxButton>
-                    {
-                        new MessageBoxButton
-                        {
-                            Default = true,
-                            Result = "OK",
-                            Text = App.GetResource<string>("OK"),
-                            IsKeyDown = true
-                        }
-                    }, MessageBox.MessageBoxIcon.Error);
+                WindowsManager.ShowError(App.GetResource<string>("FailedFindEditor") + $" {ModuleManager.GetEditorById(SelectedProject.IdEditor).Name}", null);
 
                 return;
             }
@@ -347,9 +413,9 @@ namespace Regul.Base.Views.Windows
         {
             //CorrespondingExtensionEditor cE = GeneralSettings.Settings.CorrespondingExtensionEditors.FirstOrDefault(x => x.Extension == System.IO.Path.GetExtension(file));
             CorrespondingExtensionEditor cE = null;
-            for (int i = 0; i < GeneralSettings.Settings.CorrespondingExtensionEditors.Count; i++)
+            for (int i = 0; i < GeneralSettings.Instance.CorrespondingExtensionEditors.Count; i++)
             {
-                CorrespondingExtensionEditor item = GeneralSettings.Settings.CorrespondingExtensionEditors[i];
+                CorrespondingExtensionEditor item = GeneralSettings.Instance.CorrespondingExtensionEditors[i];
 
                 if (item.Extension == Path.GetExtension(file))
                 {
@@ -375,7 +441,7 @@ namespace Regul.Base.Views.Windows
             }
 
             if (alwaysOpenWithAnEditor)
-                GeneralSettings.Settings.CorrespondingExtensionEditors.Add(new CorrespondingExtensionEditor
+                GeneralSettings.Instance.CorrespondingExtensionEditors.Add(new CorrespondingExtensionEditor
                 {
                     Extension = Path.GetExtension(file),
                     IdEditor = editor.Id
@@ -392,8 +458,7 @@ namespace Regul.Base.Views.Windows
 
                 if (tabEditor.FileToPath.Contains(path))
                 {
-                    NotificationManager.Show(new Notification(App.GetResource<string>("Information"),
-                        App.GetResource<string>("FileIsAlreadyOpen")));
+                    WindowsManager.ShowNotification(App.GetResource<string>("FileIsAlreadyOpen"), NotificationType.Information);
 
                     return;
                 }
@@ -409,7 +474,7 @@ namespace Regul.Base.Views.Windows
                     Header = string.IsNullOrEmpty(path) ? App.GetResource<string>("NoName") : Path.GetFileName(path),
                     Content = editor,
                     IsClosable = true,
-                    Icon = ed.Icon,
+                    Icon = App.GetResource<Geometry>(ed.IconKey),
                     CanBeDragged = true
                 };
                 if (!string.IsNullOrEmpty(path))
@@ -446,9 +511,9 @@ namespace Regul.Base.Views.Windows
                 {
                     //Project foundedProject = GeneralSettings.Settings.Projects.FirstOrDefault(x => x.Path == project.Path);
                     Project foundedProject = null;
-                    for (int i = 0; i < GeneralSettings.Settings.Projects.Count; i++)
+                    for (int i = 0; i < GeneralSettings.Instance.Projects.Count; i++)
                     {
-                        Project item = GeneralSettings.Settings.Projects[i];
+                        Project item = GeneralSettings.Instance.Projects[i];
 
                         if (item.Path == project.Path)
                         {
@@ -458,9 +523,9 @@ namespace Regul.Base.Views.Windows
                     }
 
                     //
-                    GeneralSettings.Settings.Projects.Remove(foundedProject);
+                    GeneralSettings.Instance.Projects.Remove(foundedProject);
 
-                    GeneralSettings.Settings.Projects.Insert(0, project);
+                    GeneralSettings.Instance.Projects.Insert(0, project);
                 }
 
                 TabItems.Add(tabItem);
@@ -473,46 +538,15 @@ namespace Regul.Base.Views.Windows
             }
             catch (Exception ex)
             {
-                MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                    App.GetResource<string>("FailedOpenFile") + " " + Path.GetFileName(path), new List<MessageBoxButton>
-                    {
-                        new MessageBoxButton
-                        {
-                            Default = true,
-                            Result = "OK",
-                            Text = App.GetResource<string>("OK"),
-                            IsKeyDown = true
-                        }
-                    }, MessageBox.MessageBoxIcon.Error, ex.ToString());
+                WindowsManager.ShowError(App.GetResource<string>("FailedOpenFile") + " " + Path.GetFileName(path), ex.ToString());
             }
-        }
-
-        private bool IsNoEditors()
-        {
-            if (ModuleManager.Editors.Count != 0) return false;
-
-            MessageBox.Show(WindowsManager.MainWindow,
-                App.GetResource<string>("Warning"),
-                App.GetResource<string>("NoEditors"), new List<MessageBoxButton>
-                {
-                    new MessageBoxButton
-                    {
-                        Default = true,
-                        Result = "OK",
-                        Text = App.GetResource<string>("NoEditorsButton"),
-                        IsKeyDown = true
-                    }
-                }, MessageBox.MessageBoxIcon.Warning);
-
-            return true;
         }
 
         private async void SaveFile()
         {
             if (await SaveFile(SelectedTab, false) == SavedResult.Success)
-                NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                    $"{App.GetResource<string>("FileSuccessfullySavedC")} {SelectedTab.Header}",
-                    NotificationType.Success, TimeSpan.FromSeconds(3)));
+                WindowsManager.ShowNotification($"{App.GetResource<string>("FileSuccessfullySavedC")} {SelectedTab.Header}",
+                    NotificationType.Success, TimeSpan.FromSeconds(3));
         }
 
         public async Task<SavedResult> SaveFile(PleasantTabItem tab, bool askUser)
@@ -580,8 +614,7 @@ namespace Regul.Base.Views.Windows
 
                 if (!editor.Save(editor.FileToPath))
                 {
-                    NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedSave"), NotificationType.Error, TimeSpan.FromSeconds(3)));
+                    WindowsManager.ShowNotification(App.GetResource<string>("FailedSave"), NotificationType.Error, TimeSpan.FromSeconds(3));
 
                     return SavedResult.Error;
                 }
@@ -595,9 +628,9 @@ namespace Regul.Base.Views.Windows
                 {
                     //Project project = GeneralSettings.Settings.Projects.FirstOrDefault(x => x.Path == editor.CurrentProject.Path);
                     Project project = null;
-                    for (int i = 0; i < GeneralSettings.Settings.Projects.Count; i++)
+                    for (int i = 0; i < GeneralSettings.Instance.Projects.Count; i++)
                     {
-                        Project item = GeneralSettings.Settings.Projects[i];
+                        Project item = GeneralSettings.Instance.Projects[i];
 
                         if (item.Path == editor.CurrentProject.Path)
                         {
@@ -607,7 +640,7 @@ namespace Regul.Base.Views.Windows
                     }
 
                     //
-                    GeneralSettings.Settings.Projects.Remove(project);
+                    GeneralSettings.Instance.Projects.Remove(project);
                 }
 
                 editor.CurrentProject = new Project
@@ -616,7 +649,7 @@ namespace Regul.Base.Views.Windows
                     IdEditor = editor.Id
                 };
 
-                GeneralSettings.Settings.Projects.Insert(0, editor.CurrentProject);
+                GeneralSettings.Instance.Projects.Insert(0, editor.CurrentProject);
             }
 
             if (boolResult) return SavedResult.Success;
@@ -640,16 +673,16 @@ namespace Regul.Base.Views.Windows
                 if (editor.CurrentProject != null)
                 {
                     Project project =
-                        GeneralSettings.Settings.Projects.FirstOrDefault(x => x.Path == editor.CurrentProject.Path);
-                    GeneralSettings.Settings.Projects.Remove(project);
+                        GeneralSettings.Instance.Projects.FirstOrDefault(x => x.Path == editor.CurrentProject.Path);
+                    GeneralSettings.Instance.Projects.Remove(project);
                 }
 
                 editor.FileToPath = result;
 
                 if (await SaveFile(SelectedTab, false) == SavedResult.Success)
-                    NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                        $"{App.GetResource<string>("FileSuccessfullySavedC")} {SelectedTab.Header}",
-                        NotificationType.Success, TimeSpan.FromSeconds(3)));
+                    WindowsManager.ShowNotification($"{App.GetResource<string>("FileSuccessfullySavedC")} {SelectedTab.Header}",
+                        NotificationType.Success, TimeSpan.FromSeconds(3));
+                
             }
         }
 
@@ -658,9 +691,8 @@ namespace Regul.Base.Views.Windows
             //foreach (PleasantTabItem tab in TabItems)
             for (int i = 0; i < TabItems.Count; i++)
                 await SaveFile(TabItems[i], false);
-
-            NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                App.GetResource<string>("FilesSuccessfullySaved"), NotificationType.Success, TimeSpan.FromSeconds(3)));
+            
+            WindowsManager.ShowNotification(App.GetResource<string>("FilesSuccessfullySaved"), NotificationType.Success, TimeSpan.FromSeconds(3));
         }
 
         private async void OpenSettings()
@@ -701,7 +733,7 @@ namespace Regul.Base.Views.Windows
         {
             if (string.IsNullOrEmpty(SearchText))
             {
-                FoundProjects = GeneralSettings.Settings.Projects;
+                FoundProjects = GeneralSettings.Instance.Projects;
                 return;
             }
 
@@ -711,9 +743,9 @@ namespace Regul.Base.Views.Windows
             {
                 case 0:
                     //foreach (Project project in GeneralSettings.Settings.Projects)
-                    for (var index = 0; index < GeneralSettings.Settings.Projects.Count; index++)
+                    for (var index = 0; index < GeneralSettings.Instance.Projects.Count; index++)
                     {
-                        Project project = GeneralSettings.Settings.Projects[index];
+                        Project project = GeneralSettings.Instance.Projects[index];
                         if (Path.GetFileNameWithoutExtension(project.Path).ToLower()
                             .Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
@@ -722,9 +754,9 @@ namespace Regul.Base.Views.Windows
                     break;
                 case 1:
                     //foreach (Project project in GeneralSettings.Settings.Projects)
-                    for (var index = 0; index < GeneralSettings.Settings.Projects.Count; index++)
+                    for (var index = 0; index < GeneralSettings.Instance.Projects.Count; index++)
                     {
-                        Project project = GeneralSettings.Settings.Projects[index];
+                        Project project = GeneralSettings.Instance.Projects[index];
                         if (project.Path.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     }
@@ -732,9 +764,9 @@ namespace Regul.Base.Views.Windows
                     break;
                 case 2:
                     //foreach (Project project in GeneralSettings.Settings.Projects)
-                    for (var index = 0; index < GeneralSettings.Settings.Projects.Count; index++)
+                    for (var index = 0; index < GeneralSettings.Instance.Projects.Count; index++)
                     {
-                        Project project = GeneralSettings.Settings.Projects[index];
+                        Project project = GeneralSettings.Instance.Projects[index];
                         Editor editor = ModuleManager.GetEditorById(project.IdEditor);
                         if (editor != null && editor.Name.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
@@ -746,9 +778,8 @@ namespace Regul.Base.Views.Windows
 
         private void ClearGC()
         {
-            NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                App.GetResource<string>("MemorySuccessfullyCleared"), NotificationType.Success,
-                TimeSpan.FromSeconds(3)));
+            WindowsManager.ShowNotification(App.GetResource<string>("MemorySuccessfullyCleared"), 
+                NotificationType.Success, TimeSpan.FromSeconds(3));
 
             for (int i = 0; i < 10; i++)
             {
@@ -759,97 +790,15 @@ namespace Regul.Base.Views.Windows
 
         private void DeleteProject()
         {
-            GeneralSettings.Settings.Projects.Remove(SelectedProject);
+            GeneralSettings.Instance.Projects.Remove(SelectedProject);
         }
-
-        #region Properties
-
-        public IManagedNotificationManager NotificationManager
-        {
-            get => _notificationManager;
-            set => RaiseAndSetIfChanged(ref _notificationManager, value);
-        }
-
-        public object Page
-        {
-            get => _page;
-            set
-            {
-                RaiseAndSetIfChanged(ref _page, value);
-                RaisePropertyChanged(nameof(IsHomePage));
-            }
-        }
-
-        public AvaloniaList<IRegulObject> RegulMenuItems
-        {
-            get => _regulMenuItems;
-            set => RaiseAndSetIfChanged(ref _regulMenuItems, value);
-        }
-
-        public AvaloniaList<IAvaloniaObject> MenuItems => RegulMenuItem.GenerateMenuItems(RegulMenuItems);
-
-        public AvaloniaList<PleasantTabItem> TabItems
-        {
-            get => _tabItems;
-            set => RaiseAndSetIfChanged(ref _tabItems, value);
-        }
-
-        public PleasantTabItem SelectedTab
-        {
-            get => _selectedTab;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedTab, value);
-
-                if (value == null) return;
-
-                UserControl control = (UserControl)value.Content;
-                control?.Focus();
-            }
-        }
-
-        private Project SelectedProject
-        {
-            get => _selectedProject;
-            set => RaiseAndSetIfChanged(ref _selectedProject, value);
-        }
-
-        private AvaloniaList<Project> FoundProjects
-        {
-            get => _foundProjects;
-            set => RaiseAndSetIfChanged(ref _foundProjects, value);
-        }
-
-        private int SelectedPatternSearch
-        {
-            get => _selectedPatternSearch;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
-                FindProjects();
-            }
-        }
-
-        private string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                RaiseAndSetIfChanged(ref _searchText, value);
-                FindProjects();
-            }
-        }
-
-        public bool IsHomePage => Page is WelcomePage;
-
-        #endregion
 
         #region Initialize
 
         public void Initialize()
         {
-            if (GeneralSettings.Settings.Projects == null)
-                GeneralSettings.Settings.Projects = new AvaloniaList<Project>();
+            if (GeneralSettings.Instance.Projects == null)
+                GeneralSettings.Instance.Projects = new AvaloniaList<Project>();
 
             InitializeMenuItems();
             InitializeModules();
@@ -858,7 +807,7 @@ namespace Regul.Base.Views.Windows
 
             Page = new WelcomePage();
 
-            Logger.Current.WriteLog(Log.Info, "A new program session has been successfully created!");
+            Logger.Instance.WriteLog(Log.Info, "A new program session has been successfully created!");
 
             App.CheckUpdate(false);
 
@@ -947,7 +896,7 @@ namespace Regul.Base.Views.Windows
                                     new DynamicResourceExtension("Settings"))
                             }
                         },
-                        new RegulMenuItem("ExitFromRegul", Command.Create(() => { WindowsManager.MainWindow.Close(); }),
+                        new RegulMenuItem("ExitFromRegul", Command.Create(WindowsManager.MainWindow.Close),
                             KeyGesture.Parse("Ctrl+Q"))
                         {
                             KeyIcon = "ExitIcon",
@@ -1037,7 +986,7 @@ namespace Regul.Base.Views.Windows
 
             bool isSuccessfullyUpdateModules = false;
 
-            foreach (ModuleForUpdate moduleForUpdate in GeneralSettings.Settings.ModulesForUpdate)
+            foreach (ModuleForUpdate moduleForUpdate in GeneralSettings.Instance.ModulesForUpdate)
             {
                 if (!File.Exists(moduleForUpdate.Path)) continue;
 
@@ -1053,7 +1002,7 @@ namespace Regul.Base.Views.Windows
                 }
             }
 
-            GeneralSettings.Settings.ModulesForUpdate.Clear();
+            GeneralSettings.Instance.ModulesForUpdate.Clear();
 
             foreach (string module in
                      Directory.EnumerateFiles(RegulPaths.Modules, "*.dll", SearchOption.AllDirectories))
@@ -1063,20 +1012,10 @@ namespace Regul.Base.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to load module] {e}");
 
-                    MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedLoadModule") + $" {module}", new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = "OK",
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    WindowsManager.ShowError(App.GetResource<string>("FailedLoadModule") + $" {module}", e.ToString());
                 }
 
             //foreach (ModuleSystem.Models.Module module in ModuleManager.System.Modules)
@@ -1087,33 +1026,20 @@ namespace Regul.Base.Views.Windows
                 try
                 {
                     module.Source.Execute();
-                    module.ChangeLanguage(GeneralSettings.Settings.Language, App.ModulesLanguage);
+                    module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
                     module.Source.CorrectlyInitialized = true;
                 }
                 catch (Exception e)
                 {
-                    Logger.Current.WriteLog(Log.Error,
+                    Logger.Instance.WriteLog(Log.Error,
                         $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] [Failed to initialize module] {e}");
 
-                    MessageBox.Show(WindowsManager.MainWindow,
-                        App.GetResource<string>("Error"),
-                        App.GetResource<string>("FailedInitModule") + $" {module.Source.Name}",
-                        new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = "OK",
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    WindowsManager.ShowError(App.GetResource<string>("FailedInitModule") + $" {module.Source.Name}", e.ToString());
                 }
             }
 
             if (isSuccessfullyUpdateModules)
-                NotificationManager.Show(new Notification(App.GetResource<string>("Successful"),
-                    App.GetResource<string>("ModulesSuccessfullyUpdated"), NotificationType.Success));
+                WindowsManager.ShowNotification(App.GetResource<string>("ModulesSuccessfullyUpdated"));
         }
 
         #endregion

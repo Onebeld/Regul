@@ -1,14 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Styling;
-
-#endregion
 
 namespace PleasantUI.Assists
 {
@@ -58,7 +54,7 @@ namespace PleasantUI.Assists
 
         private static void ShadowDepthChangedCallback(AvaloniaPropertyChangedEventArgs e)
         {
-            if (!PleasantSettings.Settings.EnableShadowing) return;
+            if (!PleasantSettings.Instance.EnableShadowing) return;
 
             Border border = e.Sender as Border;
             BoxShadows? boxShadow = border?.BoxShadow;

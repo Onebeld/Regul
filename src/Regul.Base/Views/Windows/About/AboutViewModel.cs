@@ -1,20 +1,16 @@
-﻿#region
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Onebeld.Extensions;
 using PleasantUI.Controls.Custom;
 
-#endregion
-
 namespace Regul.Base.Views.Windows
 {
     public class AboutViewModel : ViewModelBase
     {
-        private string AppVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString();
-        private string FrameworkVersion => RuntimeInformation.FrameworkDescription;
-        private string PleasantUIVersion => Assembly.GetAssembly(typeof(PleasantWindow))?.GetName().Version?.ToString();
+        public string AppVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        public string FrameworkVersion => RuntimeInformation.FrameworkDescription;
+        public string PleasantUiVersion => Assembly.GetAssembly(typeof(PleasantWindow))?.GetName().Version?.ToString();
 
         public void Close()
         {

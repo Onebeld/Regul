@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,8 +14,6 @@ using Regul.Base;
 using Regul.Base.Other;
 using Regul.Base.Views.Windows;
 
-#endregion
-
 namespace Regul
 {
     public class Program
@@ -27,19 +23,13 @@ namespace Regul
         [STAThread]
         public static void Main(string[] args)
         {
-            try
-            {
-                _lockFile = File.Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"),
-                    FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-                _lockFile.Lock(0, 0);
-            }
-            catch
+            if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock")))
             {
                 if (!Directory.Exists(RegulPaths.Cache))
                     Directory.CreateDirectory(RegulPaths.Cache);
                 if (!Directory.Exists(Path.Combine(RegulPaths.Cache, "OpenFiles")))
                     Directory.CreateDirectory(Path.Combine(RegulPaths.Cache, "OpenFiles"));
-
+                
                 Guid guid = Guid.NewGuid();
 
                 string newArgs = string.Join("|", args);
@@ -53,17 +43,19 @@ namespace Regul
 
                 return;
             }
+            
+            _lockFile = File.Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"),
+                FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 
-            Logger.Current = new Logger();
+            Logger.Instance = new Logger();
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
-            GeneralSettings.Settings = GeneralSettings.Load();
-            PleasantSettings.Settings = PleasantSettings.Load();
+            GeneralSettings.Instance = GeneralSettings.Load();
+            PleasantSettings.Instance = PleasantSettings.Load();
 
             BuildAvaloniaApp().Start(AppMain, args);
-
-            _lockFile.Unlock(0, 0);
+            
             _lockFile.Dispose();
             File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"));
         }
@@ -72,7 +64,6 @@ namespace Regul
         {
             if (_lockFile != null)
             {
-                _lockFile.Unlock(0, 0);
                 _lockFile.Dispose();
                 File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"));
             }
@@ -84,9 +75,9 @@ namespace Regul
             {
                 string filename = $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyy}.log";
 
-                Logger.Current.WriteLog(Log.Fatal,
+                Logger.Instance.WriteLog(Log.Fatal,
                     $"[{ex.TargetSite?.DeclaringType}.{ex.TargetSite?.Name}()] {ex}\r\n");
-                Logger.Current.SaveLog(Path.Combine(pathToLog, filename));
+                Logger.Instance.SaveLog(Path.Combine(pathToLog, filename));
 
                 Process.Start(new ProcessStartInfo
                 {
@@ -130,7 +121,7 @@ namespace Regul
                 .LogToTrace()
                 .With(new Win32PlatformOptions
                 {
-                    AllowEglInitialization = GeneralSettings.Settings.HardwareAcceleration,
+                    AllowEglInitialization = GeneralSettings.Instance.HardwareAcceleration,
                     UseDeferredRendering = true,
                     OverlayPopups = false,
                     UseWgl = false
@@ -142,7 +133,7 @@ namespace Regul
                 })
                 .With(new AvaloniaNativePlatformOptions
                 {
-                    UseGpu = GeneralSettings.Settings.HardwareAcceleration,
+                    UseGpu = GeneralSettings.Instance.HardwareAcceleration,
                     UseDeferredRendering = true,
                     OverlayPopups = false
                 });

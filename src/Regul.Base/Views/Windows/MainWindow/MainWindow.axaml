@@ -3,24 +3,34 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:settings="using:Regul"
+                xmlns:vm="using:Regul.Base.Views.Windows"
                 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
                 MinWidth="700" MinHeight="400"
                 Width="1000" Height="600"
                 x:Class="Regul.Base.Views.Windows.MainWindow"
                 WindowStartupLocation="CenterScreen"
                 Logo="{StaticResource RegulText}"
-                ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
-                CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
-                FullScreenButton="{Binding ShowFullscreenButton, Source={x:Static settings:GeneralSettings.Settings}}"
+                x:DataType="vm:MainViewModel"
                 Icon="avares://Regul.Assets/icon.ico"
                 DragDrop.AllowDrop="True"
-                Content="{Binding Page}"
+                Content="{CompiledBinding Page}"
                 Title="Regul">
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+    
+    <PleasantWindow.Styles>
+        <Style Selector="PleasantWindow" x:DataType="settings:GeneralSettings">
+            <Setter Property="ShowCustomTitleBar" Value="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}" />
+            <Setter Property="CompactMode" Value="{CompiledBinding CompactMode, Source={x:Static settings:GeneralSettings.Instance}}" />
+            <Setter Property="FullScreenButton" Value="{CompiledBinding ShowFullscreenButton, Source={x:Static settings:GeneralSettings.Instance}}" />
+        </Style>
+    </PleasantWindow.Styles>
     <PleasantWindow.KeyBindings>
         <KeyBinding Command="{Binding ClearGC}" Gesture="Ctrl+Alt+Shift+F12" />
     </PleasantWindow.KeyBindings>
     <PleasantWindow.TitleBarMenu>
-        <Menu VerticalAlignment="Center" HorizontalAlignment="Left" Items="{Binding MenuItems}">
+        <Menu VerticalAlignment="Center" HorizontalAlignment="Left" Items="{CompiledBinding MenuItems}">
             <Menu.Styles>
                 <Style Selector="Path">
                     <Setter Property="Fill" Value="{StaticResource ForegroundBrush}" />

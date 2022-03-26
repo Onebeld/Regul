@@ -1,15 +1,10 @@
-﻿#region
-
-using PleasantUI.Media;
-
-#endregion
+﻿using PleasantUI.Media;
 
 namespace PleasantUI
 {
     public static class PleasantUIDefaults
     {
-        public static readonly DefaultTheme[] Themes = new DefaultTheme[5]
-        {
+        public static readonly DefaultTheme[] Themes = {
             new DefaultTheme("Light"),
             new DefaultTheme("Dark"),
             new DefaultTheme("Mysterious"),

@@ -1,10 +1,6 @@
-﻿#region
-
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Onebeld.Extensions;
-
-#endregion
 
 namespace Regul.ModuleSystem
 {

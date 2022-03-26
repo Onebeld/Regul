@@ -1,10 +1,5 @@
-﻿#region
-
-using Avalonia;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -13,8 +8,6 @@ namespace Regul.Base.Views.Windows
         public HashGenerator()
         {
             AvaloniaXamlLoader.Load(this);
-
-            this.AttachDevTools();
 
             Closed += (s, e) => { this.GetDataContext<HashGeneratorViewModel>().Close(this); };
         }

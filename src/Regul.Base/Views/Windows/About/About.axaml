@@ -6,9 +6,10 @@
                       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                       x:Class="Regul.Base.Views.Windows.About"
                       Title="{DynamicResource AboutTheProgram}"
+                      x:DataType="vm:AboutViewModel"
                       Icon="avares://Regul.Assets/icon.ico">
     <PleasantDialogWindow.Styles>
-        <Style Selector="PleasantDialogWindow /template/ Border#PART_ModalWindow">
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
             <Setter Property="Width" Value="500" />
             <Setter Property="Margin" Value="0 50" />
         </Style>
@@ -35,51 +36,49 @@
                        FontSize="14" />
         </StackPanel>
 
-        <Border Grid.Row="1" Margin="5 5 5 0" BorderBrush="{StaticResource BorderBrush}" CornerRadius="5"
-                BorderThickness="1" Background="{StaticResource BackgroundControlBrush}">
-            <Border CornerRadius="5" ClipToBounds="True">
-                <ScrollViewer>
-                    <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-                            <TextBlock Text="{DynamicResource VersionC}" />
-                            <TextBlock Text="{Binding AppVersion}" />
-                        </StackPanel>
-                        <TextBlock Text="{Binding FrameworkVersion}" HorizontalAlignment="Center" />
-                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-                            <TextBlock Text="{DynamicResource LicenseC}" />
-                            <TextBlock Text="MIT" />
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource RegulDescription}" TextAlignment="Center" Margin="0 10"
-                                   TextWrapping="Wrap" />
-
-                        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="5" />
-
-                        <TextBlock Text="{StaticResource PatronsC}" FontSize="16" TextAlignment="Center"
-                                   FontWeight="Bold" />
-                        <TextBlock Text="{StaticResource EarthlyPatronsC}" TextAlignment="Center" FontWeight="Bold" />
-                        <TextBlock Text="Anime_Boom" TextAlignment="Center" />
-
-                        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="5" />
-
-                        <TextBlock Text="{DynamicResource LibrariesUsedC}" TextAlignment="Center" FontWeight="Bold" />
-
-                        <StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Image x:Name="AvaloniaImage" Source="{StaticResource AvaloniaUIImage}" Height="16"
-                                   Cursor="Hand" />
-                            <TextBlock Text="Avalonia 0.10.12" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-                            <Image Source="{StaticResource PleasantUIImage}" Height="16" Cursor="Hand" />
-                            <TextBlock Text="PleasantUI by Onebeld" />
-                            <TextBlock Text="{Binding PleasantUIVersion}" />
-                        </StackPanel>
-                        <TextBlock TextAlignment="Center" Text="AvaloniaEdit" />
-                        <TextBlock TextAlignment="Center" Text="DotNetCorePlugins" />
+        <PleasantBorder Grid.Row="1"
+                        Margin="5 5 5 0"
+                        Background="{StaticResource BackgroundControlBrush}">
+            <ScrollViewer>
+                <StackPanel Margin="5">
+                    <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                        <TextBlock Text="{DynamicResource VersionC}" />
+                        <TextBlock Text="{CompiledBinding AppVersion}" />
                     </StackPanel>
-                </ScrollViewer>
-            </Border>
-        </Border>
+                    <TextBlock Text="{Binding FrameworkVersion}" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                        <TextBlock Text="{DynamicResource LicenseC}" />
+                        <TextBlock Text="MIT" />
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource RegulDescription}" TextAlignment="Center" Margin="0 10"
+                               TextWrapping="Wrap" />
 
+                    <Border Height="1" Background="{StaticResource BorderBrush}" Margin="5" />
+
+                    <TextBlock Text="{StaticResource PatronsC}" FontSize="16" TextAlignment="Center"
+                               FontWeight="Bold" />
+                    <TextBlock Text="{StaticResource EarthlyPatronsC}" TextAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Text="Anime_Boom" TextAlignment="Center" />
+
+                    <Border Height="1" Background="{StaticResource BorderBrush}" Margin="5" />
+
+                    <TextBlock Text="{DynamicResource LibrariesUsedC}" TextAlignment="Center" FontWeight="Bold" />
+
+                    <StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image x:Name="AvaloniaImage" Source="{StaticResource AvaloniaUIImage}" Height="16"
+                               Cursor="Hand" />
+                        <TextBlock Text="Avalonia 0.10.12" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                        <Image Source="{StaticResource PleasantUIImage}" Height="16" Cursor="Hand" />
+                        <TextBlock Text="PleasantUI by Onebeld" />
+                        <TextBlock Text="{CompiledBinding PleasantUiVersion}" />
+                    </StackPanel>
+                    <TextBlock TextAlignment="Center" Text="AvaloniaEdit" />
+                    <TextBlock TextAlignment="Center" Text="DotNetCorePlugins" />
+                </StackPanel>
+            </ScrollViewer>
+        </PleasantBorder>
 
         <Grid Grid.Row="2"
               ColumnDefinitions="Auto,*,Auto"

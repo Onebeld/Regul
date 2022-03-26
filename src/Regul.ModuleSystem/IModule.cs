@@ -1,10 +1,6 @@
-﻿#region
-
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using Avalonia.Styling;
 using Regul.ModuleSystem.Models;
-
-#endregion
 
 namespace Regul.ModuleSystem
 {

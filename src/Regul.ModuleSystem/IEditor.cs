@@ -1,8 +1,4 @@
-﻿#region
-
-using PleasantUI.Controls.Custom;
-
-#endregion
+﻿using PleasantUI.Controls.Custom;
 
 namespace Regul.ModuleSystem
 {

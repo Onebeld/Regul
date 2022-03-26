@@ -10,8 +10,9 @@
                 Width="350"
                 Height="310"
                 WindowButtons="Close"
-                ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
-                CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
+                x:DataType="vm:HashGeneratorViewModel"
+                ShowCustomTitleBar="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}"
+                CompactMode="{CompiledBinding CompactMode, Source={x:Static settings:GeneralSettings.Instance}}"
                 Icon="avares://Regul.Assets/icon.ico"
                 ShowPinButton="True"
                 Title="{DynamicResource HashGenerator}"
@@ -19,10 +20,6 @@
     <PleasantWindow.DataContext>
         <vm:HashGeneratorViewModel />
     </PleasantWindow.DataContext>
-
-    <PleasantWindow.Resources>
-        <converters:ULongToStringConverter x:Key="ULongToStringConverter" />
-    </PleasantWindow.Resources>
 
     <StackPanel Spacing="5" Margin="5">
         <TextBlock Text="{DynamicResource NumberСonversion}" />
@@ -34,11 +31,11 @@
             <StackPanel Spacing="5">
                 <DockPanel>
                     <TextBlock Text="{DynamicResource Decimal}" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding Number}" />
+                    <TextBox Text="{CompiledBinding Number}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="{DynamicResource Hexadecimal}" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding Number, Converter={StaticResource ULongToStringConverter}}" />
+                    <TextBox Text="{CompiledBinding Number, Converter={x:Static converters:ULongToStringConverter.Instance}}" />
                 </DockPanel>
             </StackPanel>
         </Border>
@@ -52,33 +49,33 @@
             <StackPanel Spacing="5">
                 <DockPanel>
                     <TextBlock Text="{DynamicResource TextC}" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding Text}" />
+                    <TextBox Text="{CompiledBinding Text}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="FNV24:" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding FNV24}" IsReadOnly="True" />
+                    <TextBox Text="{CompiledBinding Fnv24}" IsReadOnly="True" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="FNV32:" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding FNV32}" IsReadOnly="True" />
+                    <TextBox Text="{CompiledBinding Fnv32}" IsReadOnly="True" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="FNV56:" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding FNV56}" IsReadOnly="True" />
+                    <TextBox Text="{CompiledBinding Fnv56}" IsReadOnly="True" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="FNV64:" Margin="0 0 5 0" />
-                    <TextBox Text="{Binding FNV64}" IsReadOnly="True" />
+                    <TextBox Text="{CompiledBinding Fnv64}" IsReadOnly="True" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="{DynamicResource TypeC}" Margin="0 0 5 0" />
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <RadioButton GroupName="Type" IsChecked="{Binding Hex}" Content="{DynamicResource Hexadecimal}" />
-                        <RadioButton GroupName="Type" IsChecked="{Binding Dec}" Content="{DynamicResource Decimal}" />
+                        <RadioButton GroupName="Type" IsChecked="{CompiledBinding Hex}" Content="{DynamicResource Hexadecimal}" />
+                        <RadioButton GroupName="Type" IsChecked="{CompiledBinding Dec}" Content="{DynamicResource Decimal}" />
                     </StackPanel>
                 </DockPanel>
 
-                <CheckBox x:Name="HighBit" IsChecked="{Binding HighBit}" Content="{DynamicResource HighBit}" />
+                <CheckBox x:Name="HighBit" IsChecked="{CompiledBinding HighBit}" Content="{DynamicResource HighBit}" />
             </StackPanel>
         </Border>
     </StackPanel>

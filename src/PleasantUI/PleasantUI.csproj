@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.2.0</Version>
+        <Version>1.3.0</Version>
         <Authors>Dmitry Zhutkov (Onebeld)</Authors>
         <Copyright>©2021 Dmitry Zhutkov (Onebeld)</Copyright>
         <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
@@ -11,19 +11,19 @@
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     </PropertyGroup>
 
-    <Import Project="..\..\build\Avalonia.props"/>
+    <Import Project="..\..\build\Avalonia.props" />
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.11.5"/>
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
-        <AvaloniaResource Include="PleasantUI.axaml"/>
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaResource Include="PleasantUI.axaml" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj"/>
+        <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj" />
     </ItemGroup>
 </Project>

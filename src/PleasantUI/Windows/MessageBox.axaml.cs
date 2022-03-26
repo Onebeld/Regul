@@ -1,6 +1,4 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -11,8 +9,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Structures;
-
-#endregion
 
 namespace PleasantUI.Windows
 {

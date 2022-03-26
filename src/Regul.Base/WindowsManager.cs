@@ -1,13 +1,12 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using PleasantUI.Controls.Custom;
+using PleasantUI.Structures;
+using PleasantUI.Windows;
 using Regul.Base.Views.Windows;
-
-#endregion
 
 namespace Regul.Base
 {
@@ -15,10 +14,10 @@ namespace Regul.Base
     {
         public static MainWindow MainWindow { get; set; }
 
-        public static AvaloniaList<PleasantModalWindow> OtherModalWindows { get; set; } =
+        public static AvaloniaList<PleasantModalWindow> OtherModalWindows { get; } =
             new AvaloniaList<PleasantModalWindow>();
 
-        public static AvaloniaList<PleasantWindow> OtherWindows { get; set; } = new AvaloniaList<PleasantWindow>();
+        public static AvaloniaList<PleasantWindow> OtherWindows { get; } = new AvaloniaList<PleasantWindow>();
 
         public static T FindModalWindow<T>() where T : PleasantModalWindow
         {
@@ -115,6 +114,48 @@ namespace Regul.Base
         public static T GetDataContext<T>(this Control control)
         {
             return (T)control.DataContext;
+        }
+        
+        public static void ShowError(string message, string exception)
+        {
+            MessageBox.Show(MainWindow, App.GetResource<string>("Error"), message, new List<MessageBoxButton>
+            {
+                new MessageBoxButton
+                {
+                    Default = true,
+                    Result = "OK",
+                    Text = App.GetResource<string>("OK"),
+                    IsKeyDown = true
+                }
+            }, MessageBox.MessageBoxIcon.Error, exception);
+        }
+
+        public static void ShowNotification(string message, NotificationType type = NotificationType.Success, TimeSpan expiration = default)
+        {
+            string title;
+            
+            switch (type)
+            {
+                case NotificationType.Information:
+                    title = App.GetResource<string>("Error");
+                    break;
+                case NotificationType.Warning:
+                    title = App.GetResource<string>("Warning");
+                    break;
+                case NotificationType.Error:
+                    title = App.GetResource<string>("Error");
+                    break;
+                
+                case NotificationType.Success:
+                default:
+                    title = App.GetResource<string>("Successful");
+                    break;
+            }
+            
+            if (expiration == default)
+                expiration = TimeSpan.FromSeconds(5);
+            
+            MainWindow.GetDataContext<MainViewModel>().NotificationManager.Show(new Notification(title, message, type, expiration));
         }
     }
 }

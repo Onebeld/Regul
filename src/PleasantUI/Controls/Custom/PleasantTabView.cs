@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using Avalonia;
@@ -13,8 +11,6 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using PleasantUI.Controls.Base;
 using PleasantUI.Controls.Generators;
-
-#endregion
 
 namespace PleasantUI.Controls.Custom
 {

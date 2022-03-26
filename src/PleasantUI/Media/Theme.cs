@@ -1,9 +1,5 @@
-﻿#region
-
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Onebeld.Extensions;
-
-#endregion
 
 namespace PleasantUI.Media
 {

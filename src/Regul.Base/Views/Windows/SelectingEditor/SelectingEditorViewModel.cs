@@ -1,11 +1,7 @@
-﻿#region
-
-using System.Linq;
+﻿using System.Linq;
 using Avalonia.Collections;
 using Onebeld.Extensions;
 using Regul.ModuleSystem;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -54,7 +50,7 @@ namespace Regul.Base.Views.Windows
 
         #region Propeties
 
-        private Editor SelectedItem
+        public Editor SelectedItem
         {
             get => _selectedItem;
             set => RaiseAndSetIfChanged(ref _selectedItem, value);
@@ -66,13 +62,13 @@ namespace Regul.Base.Views.Windows
             set => RaiseAndSetIfChanged(ref _editors, value);
         }
 
-        private AvaloniaList<Editor> FoundEditors
+        public AvaloniaList<Editor> FoundEditors
         {
             get => _foundEditors;
             set => RaiseAndSetIfChanged(ref _foundEditors, value);
         }
 
-        private string SearchText
+        public string SearchText
         {
             get => _searchText;
             set

@@ -1,18 +1,15 @@
-﻿#region
-
+﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Generators;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Media;
+using Avalonia.Media.Transformation;
 using Avalonia.Xaml.Interactivity;
 using PleasantUI.Controls.Custom;
-
-#endregion
 
 namespace PleasantUI.Behaviors
 {
@@ -20,78 +17,168 @@ namespace PleasantUI.Behaviors
     {
         public static readonly StyledProperty<Orientation> OrientationProperty =
             AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly StyledProperty<double> HorizontalDragThresholdProperty = 
+            AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
 
-        private IControl _draggedContainer;
-        private int _draggedIndex;
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly StyledProperty<double> VerticalDragThresholdProperty =
+            AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
+
         private bool _enableDrag;
-        private ItemsControl _itemsControl;
+        private bool _dragStarted;
         private Point _start;
+        private int _draggedIndex;
         private int _targetIndex;
+        private ItemsControl _itemsControl;
+        private IControl _draggedContainer;
 
         public Orientation Orientation
         {
             get => GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
         }
-
-        protected override void OnAttached()
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public double HorizontalDragThreshold
         {
-            base.OnAttached();
+            get => GetValue(HorizontalDragThresholdProperty);
+            set => SetValue(HorizontalDragThresholdProperty, value);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public double VerticalDragThreshold
+        {
+            get => GetValue(VerticalDragThresholdProperty);
+            set => SetValue(VerticalDragThresholdProperty, value);
+        }
+
+        /// <inheritdoc />
+        protected override void OnAttachedToVisualTree()
+        {
             if (AssociatedObject != null)
             {
-                AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Tunnel);
-                AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Tunnel);
-                AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Tunnel);
+                AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Bubble);
+                AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Bubble);
+                AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Bubble);
+                AssociatedObject.AddHandler(InputElement.PointerCaptureLostEvent, CaptureLost, RoutingStrategies.Bubble);
             }
         }
 
-        protected override void OnDetaching()
+        /// <inheritdoc />
+        protected override void OnDetachedFromVisualTree()
         {
-            base.OnDetaching();
-
             if (AssociatedObject != null)
             {
                 AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
                 AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
                 AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
+                AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
             }
         }
 
         private void Pressed(object sender, PointerPressedEventArgs e)
         {
-            if (!(AssociatedObject?.Parent is ItemsControl itemsControl) |
+            if (!(AssociatedObject?.Parent is ItemsControl) |
                 (AssociatedObject?.Parent is PleasantTabView aw && !aw.ReorderableTabs) |
                 (AssociatedObject is PleasantTabItem at && !at.CanBeDragged)) return;
-
-            _enableDrag = true;
-            _start = e.GetPosition(AssociatedObject.Parent);
-            _draggedIndex = -1;
-            _targetIndex = -1;
-            _itemsControl = AssociatedObject.Parent as ItemsControl;
-            _draggedContainer = AssociatedObject;
-
-            AddTransforms(_itemsControl);
-        }
-
-        private void Released(object sender, PointerReleasedEventArgs e)
-        {
-            if (_enableDrag)
+            
+            PointerPointProperties properties = e.GetCurrentPoint(AssociatedObject).Properties;
+            if (properties.IsLeftButtonPressed && AssociatedObject?.Parent is ItemsControl itemsControl)
             {
-                RemoveTransforms(_itemsControl);
-
-                if (_draggedIndex >= 0 && _targetIndex >= 0 && _draggedIndex != _targetIndex)
-                {
-                    Debug.WriteLine($"MoveItem {_draggedIndex} -> {_targetIndex}");
-                    MoveDraggedItem(_itemsControl, _draggedIndex, _targetIndex);
-                }
-
+                _enableDrag = true;
+                _dragStarted = false;
+                _start = e.GetPosition(AssociatedObject.Parent);
                 _draggedIndex = -1;
                 _targetIndex = -1;
-                _enableDrag = false;
-                _itemsControl = null;
-                _draggedContainer = null;
+                _itemsControl = itemsControl;
+                _draggedContainer = AssociatedObject;
+                _draggedContainer.ZIndex = 1;
+
+                if (_draggedContainer != null)
+                {
+                    SetDraggingPseudoClasses(_draggedContainer, true);
+                }
+
+                AddTransforms(_itemsControl);
+
+                e.Pointer.Capture(AssociatedObject);
             }
+        }
+        
+        private void Released(object sender, PointerReleasedEventArgs e)
+        {
+            if (Equals(e.Pointer.Captured, AssociatedObject))
+            {
+                if (e.InitialPressMouseButton == MouseButton.Left)
+                {
+                    Released();
+                }
+
+                e.Pointer.Capture(null); 
+            }
+        }
+        
+        private void CaptureLost(object sender, PointerCaptureLostEventArgs e)
+        {
+            Released();
+        }
+
+        private void Released()
+        {
+            if (!_enableDrag)
+            {
+                return;
+            }
+
+            RemoveTransforms(_itemsControl);
+
+            if (_itemsControl != null)
+            {
+                foreach (ItemContainerInfo container in _itemsControl.ItemContainerGenerator.Containers)
+                {
+                    SetDraggingPseudoClasses(container.ContainerControl, true);
+                }
+            }
+
+            if (_dragStarted)
+            {
+                if (_draggedIndex >= 0 && _targetIndex >= 0 && _draggedIndex != _targetIndex)
+                {
+                    MoveDraggedItem(_itemsControl, _draggedIndex, _targetIndex);
+                }
+            }
+
+            if (_itemsControl != null)
+            {
+                foreach (ItemContainerInfo container in _itemsControl.ItemContainerGenerator.Containers)
+                {
+                    SetDraggingPseudoClasses(container.ContainerControl, false);
+                }
+            }
+
+            if (_draggedContainer != null)
+            {
+                _draggedContainer.ZIndex = 0;
+                SetDraggingPseudoClasses(_draggedContainer, false);
+            }
+
+            _draggedIndex = -1;
+            _targetIndex = -1;
+            _enableDrag = false;
+            _dragStarted = false;
+            _itemsControl = null;
+
+            _draggedContainer = null;
         }
 
         private void AddTransforms(ItemsControl itemsControl)
@@ -103,7 +190,7 @@ namespace PleasantUI.Behaviors
             foreach (object _ in itemsControl.Items)
             {
                 IControl container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
-                if (!(container is null)) container.RenderTransform = new TranslateTransform();
+                if (!(container is null)) SetTranslateTransform(container, 0, 0);
 
                 i++;
             }
@@ -118,7 +205,7 @@ namespace PleasantUI.Behaviors
             foreach (object _ in itemsControl.Items)
             {
                 IControl container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
-                if (!(container is null)) container.RenderTransform = null;
+                if (!(container is null)) SetTranslateTransform(container, 0, 0);
 
                 i++;
             }
@@ -138,16 +225,55 @@ namespace PleasantUI.Behaviors
 
         private void Moved(object sender, PointerEventArgs e)
         {
-            if (_itemsControl?.Items is null || _draggedContainer is null || !_enableDrag) return;
+            PointerPointProperties properties = e.GetCurrentPoint(AssociatedObject).Properties;
+        if (Equals(e.Pointer.Captured, AssociatedObject)
+            && properties.IsLeftButtonPressed)
+        {
+            if (_itemsControl?.Items is null || _draggedContainer?.RenderTransform is null || !_enableDrag)
+            {
+                return;
+            }
 
             Orientation orientation = Orientation;
             Point position = e.GetPosition(_itemsControl);
             double delta = orientation == Orientation.Horizontal ? position.X - _start.X : position.Y - _start.Y;
 
+            if (!_dragStarted)
+            {
+                Point diff = _start - position;
+
+                if (orientation == Orientation.Horizontal)
+                {
+                    if (Math.Abs(diff.X) > HorizontalDragThreshold)
+                    {
+                        _dragStarted = true;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Math.Abs(diff.Y) > VerticalDragThreshold)
+                    {
+                        _dragStarted = true;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+
             if (orientation == Orientation.Horizontal)
-                ((TranslateTransform)_draggedContainer.RenderTransform).X = delta;
+            {
+                SetTranslateTransform(_draggedContainer, delta, 0);
+            }
             else
-                ((TranslateTransform)_draggedContainer.RenderTransform).Y = delta;
+            {
+                SetTranslateTransform(_draggedContainer, 0, delta);
+            }
 
             _draggedIndex = _itemsControl.ItemContainerGenerator.IndexFromContainer(_draggedContainer);
             _targetIndex = -1;
@@ -180,45 +306,73 @@ namespace PleasantUI.Behaviors
                 double targetStart = orientation == Orientation.Horizontal ? targetBounds.X : targetBounds.Y;
 
                 double targetMid = orientation == Orientation.Horizontal
-                    ? targetBounds.X + targetBounds.Width / 2
-                    : targetBounds.Y + targetBounds.Height / 2;
+                    ? targetBounds.X + targetBounds.Width * 0.5
+                    : targetBounds.Y + targetBounds.Height * 0.5;
 
                 int targetIndex = _itemsControl.ItemContainerGenerator.IndexFromContainer(targetContainer);
 
                 if (targetStart > draggedStart && draggedDeltaEnd >= targetMid)
                 {
                     if (orientation == Orientation.Horizontal)
-                        ((TranslateTransform)targetContainer.RenderTransform).X = -draggedBounds.Width;
+                    {
+                        SetTranslateTransform(targetContainer, -draggedBounds.Width, 0);
+                    }
                     else
-                        ((TranslateTransform)targetContainer.RenderTransform).Y = -draggedBounds.Height;
+                    {
+                        SetTranslateTransform(targetContainer, 0, -draggedBounds.Height);
+                    }
 
                     _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex > _targetIndex ? targetIndex : _targetIndex;
-                    Debug.WriteLine($"Moved Right {_draggedIndex} -> {_targetIndex}");
                 }
                 else if (targetStart < draggedStart && draggedDeltaStart <= targetMid)
                 {
                     if (orientation == Orientation.Horizontal)
-                        ((TranslateTransform)targetContainer.RenderTransform).X = draggedBounds.Width;
+                    {
+                        SetTranslateTransform(targetContainer, draggedBounds.Width, 0);
+                    }
                     else
-                        ((TranslateTransform)targetContainer.RenderTransform).Y = draggedBounds.Height;
+                    {
+                        SetTranslateTransform(targetContainer, 0, draggedBounds.Height);
+                    }
 
                     _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex < _targetIndex ? targetIndex : _targetIndex;
-                    Debug.WriteLine($"Moved Left {_draggedIndex} -> {_targetIndex}");
                 }
                 else
                 {
                     if (orientation == Orientation.Horizontal)
-                        ((TranslateTransform)targetContainer.RenderTransform).X = 0;
+                    {
+                        SetTranslateTransform(targetContainer, 0, 0);
+                    }
                     else
-                        ((TranslateTransform)targetContainer.RenderTransform).Y = 0;
+                    {
+                        SetTranslateTransform(targetContainer, 0, 0);
+                    }
                 }
 
                 i++;
             }
+        }
+        }
+        
+        private void SetDraggingPseudoClasses(IControl control, bool isDragging)
+        {
+            if (isDragging)
+            {
+                ((IPseudoClasses)control.Classes).Add(":dragging");
+            }
+            else
+            {
+                ((IPseudoClasses)control.Classes).Remove(":dragging");
+            }
+        }
 
-            Debug.WriteLine($"Moved {_draggedIndex} -> {_targetIndex}");
+        private void SetTranslateTransform(IControl control, double x, double y)
+        {
+            TransformOperations.Builder transformBuilder = new TransformOperations.Builder(1);
+            transformBuilder.AppendTranslate(x, y);
+            control.RenderTransform = transformBuilder.Build();
         }
     }
 }

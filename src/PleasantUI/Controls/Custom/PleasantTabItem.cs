@@ -1,14 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-
-#endregion
 
 namespace PleasantUI.Controls.Custom
 {

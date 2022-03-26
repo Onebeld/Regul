@@ -1,11 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Media;
-
-#endregion
 
 namespace Regul.ModuleSystem
 {
@@ -14,7 +10,7 @@ namespace Regul.ModuleSystem
         public string Id { get; set; }
         public string Name { get; set; }
         public Func<IEditor> CreatingAnEditor { get; set; }
-        public PathGeometry Icon { get; set; }
+        public string IconKey { get; set; }
         public List<FileDialogFilter> DialogFilters { get; set; }
     }
 }

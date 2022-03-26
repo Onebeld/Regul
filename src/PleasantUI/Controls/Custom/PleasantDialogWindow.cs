@@ -1,14 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
-
-#endregion
 
 namespace PleasantUI.Controls.Custom
 {
@@ -27,7 +23,7 @@ namespace PleasantUI.Controls.Custom
             AvaloniaProperty.Register<PleasantDialogWindow, bool>(nameof(ShowTitleBar), true);
 
         private Grid _titleBar;
-        private Border _window;
+        private PleasantBorder _window;
 
         /*
         public bool DragWindow
@@ -99,7 +95,7 @@ namespace PleasantUI.Controls.Custom
             PseudoClasses.Set(":open", true);
 
             _titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
-            _window = e.NameScope.Find<Border>("PART_ModalWindow");
+            _window = e.NameScope.Find<PleasantBorder>("PART_ModalWindow");
 
             e.NameScope.Find<Button>("PART_CloseButton").Click += (s, _e) => Close();
 

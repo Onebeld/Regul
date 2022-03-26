@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
 using System.Text;
-
-#endregion
 
 namespace Onebeld.Logging
 {
@@ -31,11 +27,11 @@ namespace Onebeld.Logging
         /// <summary>
         ///     Gets the current instance of the logger
         /// </summary>
-        public static Logger Current { get; set; }
+        public static Logger Instance { get; set; }
 
         public event EventHandler SavedLog;
 
-        public event EventHandler Writed;
+        public event EventHandler Written;
 
         public void WriteLog(Log log, string value)
         {
@@ -43,7 +39,7 @@ namespace Onebeld.Logging
 
             Logs.Add(text);
 
-            Writed?.Invoke(text, EventArgs.Empty);
+            Written?.Invoke(text, EventArgs.Empty);
         }
 
         public void WriteLog(Log log, string value, Assembly assembly)
@@ -52,7 +48,7 @@ namespace Onebeld.Logging
 
             Logs.Add($"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | [{assembly?.GetName()}] | {log} | " + value);
 
-            Writed?.Invoke(text, EventArgs.Empty);
+            Written?.Invoke(text, EventArgs.Empty);
         }
 
         public void SaveLog()

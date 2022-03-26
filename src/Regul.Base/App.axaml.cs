@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -20,14 +18,11 @@ using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.ModuleSystem.Models;
 
-#endregion
-
 namespace Regul.Base
 {
     public class App : Application
     {
-        public static readonly Language[] Languages = new Language[2]
-        {
+        public static readonly Language[] Languages = {
             new Language("English (English)", "en"),
             new Language("Русский (Russian)", "ru")
         };
@@ -52,7 +47,7 @@ namespace Regul.Base
             //DefaultTheme defaultTheme = PleasantUIDefaults.Themes.FirstOrDefault(x => x.Name == GeneralSettings.Settings.Theme);
             DefaultTheme defaultTheme = null;
             foreach (DefaultTheme item in PleasantUIDefaults.Themes)
-                if (item.Name == GeneralSettings.Settings.Theme)
+                if (item.Name == GeneralSettings.Instance.Theme)
                 {
                     defaultTheme = item;
                     break;
@@ -76,7 +71,7 @@ namespace Regul.Base
                 {
                     Theme item = Themes[i];
 
-                    if (item.Name == GeneralSettings.Settings.Theme)
+                    if (item.Name == GeneralSettings.Instance.Theme)
                     {
                         theme = item;
                         break;
@@ -107,7 +102,7 @@ namespace Regul.Base
             //	?? Languages.First(x => x.Key == "en");
             Language language = null;
             foreach (Language item in Languages)
-                if (item.Key == GeneralSettings.Settings.Language)
+                if (item.Key == GeneralSettings.Instance.Language)
                 {
                     language = item;
                     break;
@@ -133,7 +128,6 @@ namespace Regul.Base
         public static async void CheckUpdate(bool b)
         {
             string resultCheckUpdate = string.Empty;
-            string errorResult = string.Empty;
 
             try
             {
@@ -142,10 +136,7 @@ namespace Regul.Base
                     webClient.DownloadStringCompleted += (s, e) =>
                     {
                         if (e.Error != null)
-                        {
-                            errorResult = e.Error.ToString();
                             return;
-                        }
 
                         resultCheckUpdate = e.Result;
                     };
@@ -200,17 +191,7 @@ namespace Regul.Base
             catch (Exception e)
             {
                 if (b)
-                    await MessageBox.Show(WindowsManager.MainWindow, GetResource<string>("Error"),
-                        GetResource<string>("FailedCheckUpdate"), new List<MessageBoxButton>
-                        {
-                            new MessageBoxButton
-                            {
-                                Default = true,
-                                Result = "OK",
-                                Text = GetResource<string>("OK"),
-                                IsKeyDown = true
-                            }
-                        }, MessageBox.MessageBoxIcon.Error, e.ToString());
+                    WindowsManager.ShowError(GetResource<string>("FailedCheckUpdate"), e.ToString());
             }
         }
 

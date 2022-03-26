@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -13,8 +11,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using PleasantUI.Media.Colors;
-
-#endregion
 
 namespace PleasantUI.Controls.Custom
 {
@@ -57,35 +53,30 @@ namespace PleasantUI.Controls.Custom
 
     public class UIntToBrushConverter : IValueConverter
     {
+        public static readonly UIntToBrushConverter Instance = new UIntToBrushConverter();
+    
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
-            {
-                return new SolidColorBrush((uint)value);
-            }
-            catch
-            {
+            if (!(value is uint u1))
                 return AvaloniaProperty.UnsetValue;
-            }
+
+            return new SolidColorBrush(u1);
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
-            {
-                uint v = ((ISolidColorBrush)value).Color.ToUint32();
+            if (!(value is ISolidColorBrush brush))
+                return 0;
 
-                return v;
-            }
-            catch
-            {
-                return AvaloniaProperty.UnsetValue;
-            }
+            return brush.Color.ToUint32();
         }
     }
 
     public class HexToBrushConverter : IValueConverter
     {
+        public static readonly HexToBrushConverter Instance = new HexToBrushConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s && targetType == typeof(IBrush))
@@ -119,6 +110,8 @@ namespace PleasantUI.Controls.Custom
 
     public class HueConverter : IValueConverter
     {
+        public static readonly HueConverter Instance = new HueConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
@@ -138,6 +131,8 @@ namespace PleasantUI.Controls.Custom
 
     public class SaturationConverter : IValueConverter
     {
+        public static readonly SaturationConverter Instance = new SaturationConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double)) return v * range * 0.01;
@@ -156,6 +151,8 @@ namespace PleasantUI.Controls.Custom
 
     public class ValueConverter : IValueConverter
     {
+        public static readonly ValueConverter Instance = new ValueConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double))
@@ -175,6 +172,8 @@ namespace PleasantUI.Controls.Custom
 
     public class AlphaConverter : IValueConverter
     {
+        public static readonly AlphaConverter Instance = new AlphaConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double v && parameter is double range && targetType == typeof(double)) return v * range * 0.01;
@@ -193,6 +192,8 @@ namespace PleasantUI.Controls.Custom
 
     public class HsvaToColorConverter : IMultiValueConverter
     {
+        public static readonly HsvaToColorConverter Instance = new HsvaToColorConverter();
+        
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
             double[] v = values.OfType<double>().ToArray();
@@ -204,6 +205,8 @@ namespace PleasantUI.Controls.Custom
 
     public class HueToColorConverter : IValueConverter
     {
+        public static readonly HueToColorConverter Instance = new HueToColorConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double h && targetType == typeof(Color)) return ColorHelpers.FromHSVA(h, 100, 100, 100);
@@ -303,21 +306,21 @@ namespace PleasantUI.Controls.Custom
 
         private static bool ValidateHue(double hue)
         {
-            if (hue < 0.0 || hue > 360.0) throw new ArgumentException("Invalid Hue value.");
+            if (hue < 0.0 || hue > 360.0) return false;
 
             return true;
         }
 
         private static bool ValidateSaturation(double saturation)
         {
-            if (saturation < 0.0 || saturation > 100.0) throw new ArgumentException("Invalid Saturation value.");
+            if (saturation < 0.0 || saturation > 100.0) return false;
 
             return true;
         }
 
         private static bool ValidateValue(double value)
         {
-            if (value < 0.0 || value > 100.0) throw new ArgumentException("Invalid Value value.");
+            if (value < 0.0 || value > 100.0) return false;
 
             return true;
         }
@@ -387,21 +390,21 @@ namespace PleasantUI.Controls.Custom
 
         private static bool ValidateRed(byte red)
         {
-            if (red > 255) throw new ArgumentException("Invalid Red value.");
+            if (red > 255) return false;
 
             return true;
         }
 
         private static bool ValidateGreen(byte green)
         {
-            if (green > 255) throw new ArgumentException("Invalid Green value.");
+            if (green > 255) return false;
 
             return true;
         }
 
         private static bool ValidateBlue(byte blue)
         {
-            if (blue > 255) throw new ArgumentException("Invalid Blue value.");
+            if (blue > 255) return false;
 
             return true;
         }
@@ -485,28 +488,28 @@ namespace PleasantUI.Controls.Custom
 
         private static bool ValidateCyan(double cyan)
         {
-            if (cyan < 0.0 || cyan > 100.0) throw new ArgumentException("Invalid Cyan value.");
+            if (cyan < 0.0 || cyan > 100.0) return false;
 
             return true;
         }
 
         private static bool ValidateMagenta(double magenta)
         {
-            if (magenta < 0.0 || magenta > 100.0) throw new ArgumentException("Invalid Magenta value.");
+            if (magenta < 0.0 || magenta > 100.0) return false;
 
             return true;
         }
 
         private static bool ValidateYellow(double yellow)
         {
-            if (yellow < 0.0 || yellow > 100.0) throw new ArgumentException("Invalid Yellow value.");
+            if (yellow < 0.0 || yellow > 100.0) return false;
 
             return true;
         }
 
         private static bool ValidateBlackKey(double blackKey)
         {
-            if (blackKey < 0.0 || blackKey > 100.0) throw new ArgumentException("Invalid BlackKey value.");
+            if (blackKey < 0.0 || blackKey > 100.0) return false;
 
             return true;
         }
@@ -561,7 +564,7 @@ namespace PleasantUI.Controls.Custom
 
         private static bool ValidateHex(string hex)
         {
-            if (!ColorHelpers.IsValidHexColor(hex)) throw new ArgumentException("Invalid Hex value.");
+            if (!ColorHelpers.IsValidHexColor(hex)) return false;
 
             return true;
         }
@@ -614,7 +617,7 @@ namespace PleasantUI.Controls.Custom
 
         private static bool ValidateAlpha(double alpha)
         {
-            if (alpha < 0.0 || alpha > 100.0) throw new ArgumentException("Invalid Alpha value.");
+            if (alpha < 0.0 || alpha > 100.0) return false;
 
             return true;
         }
@@ -714,7 +717,15 @@ namespace PleasantUI.Controls.Custom
         public double Value3
         {
             get => GetValue(Value3Property);
-            set => SetValue(Value3Property, value);
+            set
+            {
+                double val = value;
+                
+                if (val < 0)
+                    val = 0;
+                
+                SetValue(Value3Property, val);
+            }
         }
 
         public double Value4

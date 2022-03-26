@@ -1,12 +1,8 @@
-﻿#region
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {

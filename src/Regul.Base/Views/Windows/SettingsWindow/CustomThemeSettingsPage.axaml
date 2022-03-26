@@ -3,11 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Regul.Base.Views.Windows.CustomThemeSettingsPage">
-    <UserControl.Resources>
-        <UIntToBrushConverter x:Key="UIntToBrushConverter" />
-    </UserControl.Resources>
-
+             x:Class="Regul.Base.Views.Windows.CustomThemeSettingsPage"
+             xmlns:vm="using:Regul.Base.Views.Windows"
+             x:DataType="vm:SettingsViewModel">
+    <Design.DataContext>
+        <vm:SettingsViewModel />
+    </Design.DataContext>
     <StackPanel Margin="5" Spacing="5">
         <StackPanel.Styles>
             <Style Selector="Button">
@@ -31,7 +32,7 @@
             <Style Selector="Expander > StackPanel">
                 <Setter Property="Spacing" Value="5" />
                 <Setter Property="IsEnabled"
-                        Value="{Binding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        Value="{CompiledBinding CustomTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
             </Style>
         </StackPanel.Styles>
 
@@ -40,87 +41,87 @@
                 <DockPanel>
                     <TextBlock Text="Accent" />
                     <Button
-                        Background="{Binding CustomTheme.AccentColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.AccentColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Background" />
                     <Button
-                        Background="{Binding CustomTheme.BackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.BackgroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Background control" />
                     <Button
-                        Background="{Binding CustomTheme.BackgroundControlColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.BackgroundControlColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Hover Background" />
                     <Button
-                        Background="{Binding CustomTheme.HoverBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.HoverBackgroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Window Border Brush" />
                     <Button
-                        Background="{Binding CustomTheme.WindowBorderColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.WindowBorderColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Selection Text" />
                     <Button
-                        Background="{Binding CustomTheme.SelectionColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.SelectionColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Border" />
                     <Button
-                        Background="{Binding CustomTheme.BorderColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.BorderColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Foreground" />
                     <Button
-                        Background="{Binding CustomTheme.ForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.ForegroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Foreground Opacity" />
                     <Button
-                        Background="{Binding CustomTheme.ForegroundOpacityColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.ForegroundOpacityColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Pressed Foreground" />
                     <Button
-                        Background="{Binding CustomTheme.PressedForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.PressedForegroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Background Level1" />
                     <Button
-                        Background="{Binding CustomTheme.BackgroundLevel1Color, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.BackgroundLevel1Color, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Error" />
                     <Button
-                        Background="{Binding CustomTheme.ErrorColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.ErrorColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="ScrollBox" />
                     <Button
-                        Background="{Binding CustomTheme.ScrollBoxColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.ScrollBoxColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Hover ScrollBox" />
                     <Button
-                        Background="{Binding CustomTheme.HoverScrollBoxColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.HoverScrollBoxColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Title Bar" />
                     <Button
-                        Background="{Binding CustomTheme.TitleBarColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.TitleBarColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Title Bar Fullscreen" />
                     <Button
-                        Background="{Binding CustomTheme.TitleBarFullscreenColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.TitleBarFullscreenColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Close Button" />
                     <Button
-                        Background="{Binding CustomTheme.CloseButtonColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.CloseButtonColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
             </StackPanel>
         </Expander>
@@ -129,37 +130,37 @@
                 <DockPanel>
                     <TextBlock Text="DefaultButton Background" />
                     <Button
-                        Background="{Binding CustomTheme.MBDefaultButtonBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBDefaultButtonBackgroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="DefaultButton Foreground" />
                     <Button
-                        Background="{Binding CustomTheme.MBDefaultButtonForegroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBDefaultButtonForegroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="DefaultButton Hover Background" />
                     <Button
-                        Background="{Binding CustomTheme.MBDefaultButtonHoverBackgroundColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBDefaultButtonHoverBackgroundColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Warning Icon" />
                     <Button
-                        Background="{Binding CustomTheme.MBWarningColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBWarningColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Error Icon" />
                     <Button
-                        Background="{Binding CustomTheme.ErrorColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.ErrorColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Question Icon" />
                     <Button
-                        Background="{Binding CustomTheme.MBQuestionColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBQuestionColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="Success Icon" />
                     <Button
-                        Background="{Binding CustomTheme.MBSuccessColor, Converter={StaticResource UIntToBrushConverter}, Mode=TwoWay}" />
+                        Background="{CompiledBinding CustomTheme.MBSuccessColor, Converter={x:Static UIntToBrushConverter.Instance}, Mode=TwoWay}" />
                 </DockPanel>
             </StackPanel>
         </Expander>

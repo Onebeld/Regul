@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
@@ -9,8 +7,6 @@ using Avalonia.Collections;
 using Onebeld.Extensions;
 using Regul.ModuleSystem;
 using Regul.Settings;
-
-#endregion
 
 namespace Regul
 {
@@ -42,7 +38,7 @@ namespace Regul
             }
         }
 
-        public static GeneralSettings Settings { get; set; }
+        public static GeneralSettings Instance;
 
 
         [DataMember] public string Theme { get; set; }
@@ -132,7 +128,7 @@ namespace Regul
             using (FileStream fileStream =
                    File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "general.xml"))
             {
-                new XmlSerializer(typeof(GeneralSettings)).Serialize(fileStream, Settings);
+                new XmlSerializer(typeof(GeneralSettings)).Serialize(fileStream, Instance);
             }
         }
     }

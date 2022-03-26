@@ -8,8 +8,9 @@
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                 x:Class="Regul.Base.Views.Windows.LogsWindow"
                 WindowButtons="All"
-                ShowCustomTitleBar="{Binding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Settings}}"
-                CompactMode="{Binding CompactMode, Source={x:Static settings:GeneralSettings.Settings}}"
+                x:DataType="settings:GeneralSettings"
+                ShowCustomTitleBar="{CompiledBinding ShowCustomTitleBar, Source={x:Static settings:GeneralSettings.Instance}}"
+                CompactMode="{CompiledBinding CompactMode, Source={x:Static settings:GeneralSettings.Instance}}"
                 Icon="avares://Regul.Assets/icon.ico"
                 ShowPinButton="True"
                 Width="540"
@@ -21,29 +22,27 @@
         <vm:LogsWindowViewModel />
     </PleasantWindow.DataContext>
 
-    <Grid RowDefinitions="*,37">
-        <Border Grid.Row="0"
-                Margin="5 5 5 0"
-                Background="{StaticResource BackgroundControlBrush}"
-                CornerRadius="5"
-                BorderThickness="1"
-                BorderBrush="{StaticResource BorderBrush}">
-            <Border ClipToBounds="True" CornerRadius="5">
-                <AvalonEdit:TextEditor x:Name="PART_AvaloniaEdit"
-                                       IsReadOnly="True"
-                                       Document="{Binding TextDocument}"
-                                       BorderThickness="1"
-                                       FontSize="12"
-                                       HorizontalScrollBarVisibility="Auto"
-                                       Background="Transparent" />
-            </Border>
-        </Border>
-
-
+    <Grid RowDefinitions="*,37" x:DataType="vm:LogsWindowViewModel">
+        <PleasantBorder Grid.Row="0"
+                        Margin="5 5 5 0"
+                        Background="{StaticResource BackgroundControlBrush}">
+            <AvalonEdit:TextEditor x:Name="PART_AvaloniaEdit"
+                                   IsReadOnly="True"
+                                   Document="{CompiledBinding TextDocument}"
+                                   BorderThickness="1"
+                                   FontSize="12"
+                                   HorizontalScrollBarVisibility="Auto"
+                                   Background="Transparent" />
+        </PleasantBorder>
+        
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Background="{StaticResource TitleBarBrush}">
             <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5" Margin="5">
-                <Button Content="{DynamicResource Clear}" Padding="15 0" Command="{Binding ClearLogs}" />
-                <Button Content="{DynamicResource SaveLogs}" Padding="15 0" Command="{Binding SaveLogs}" />
+                <Button Content="{DynamicResource Clear}" 
+                        Padding="15 0" 
+                        Command="{Binding ClearLogs}" />
+                <Button Content="{DynamicResource SaveLogs}" 
+                        Padding="15 0" 
+                        Command="{Binding SaveLogs}" />
             </StackPanel>
         </Grid>
     </Grid>

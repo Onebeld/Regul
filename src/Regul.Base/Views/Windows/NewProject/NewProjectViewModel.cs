@@ -1,14 +1,10 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Avalonia.Collections;
 using Onebeld.Extensions;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.ModuleSystem;
-
-#endregion
 
 namespace Regul.Base.Views.Windows
 {
@@ -19,6 +15,42 @@ namespace Regul.Base.Views.Windows
 
         private int _selectedPatternSearch;
         private Project _selectedProject;
+        
+        #region Propetries
+
+        public Project SelectedProject
+        {
+            get => _selectedProject;
+            set => RaiseAndSetIfChanged(ref _selectedProject, value);
+        }
+
+        public AvaloniaList<Project> FoundProjects
+        {
+            get => _foundProjects;
+            set => RaiseAndSetIfChanged(ref _foundProjects, value);
+        }
+
+        public int SelectedPatternSearch
+        {
+            get => _selectedPatternSearch;
+            set
+            {
+                RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
+                SearchProjects();
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                RaiseAndSetIfChanged(ref _searchText, value);
+                SearchProjects();
+            }
+        }
+
+        #endregion
 
         public NewProjectViewModel()
         {
@@ -41,7 +73,7 @@ namespace Regul.Base.Views.Windows
                         }
                     }, MessageBox.MessageBoxIcon.Error);
 
-                GeneralSettings.Settings.Projects.Remove(SelectedProject);
+                GeneralSettings.Instance.Projects.Remove(SelectedProject);
                 SearchProjects();
 
                 return;
@@ -103,7 +135,7 @@ namespace Regul.Base.Views.Windows
         {
             if (string.IsNullOrEmpty(SearchText))
             {
-                FoundProjects = GeneralSettings.Settings.Projects;
+                FoundProjects = GeneralSettings.Instance.Projects;
                 return;
             }
 
@@ -112,17 +144,17 @@ namespace Regul.Base.Views.Windows
             switch (SelectedPatternSearch)
             {
                 case 0:
-                    foreach (Project project in GeneralSettings.Settings.Projects)
+                    foreach (Project project in GeneralSettings.Instance.Projects)
                         if (Path.GetFileNameWithoutExtension(project.Path).ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     break;
                 case 1:
-                    foreach (Project project in GeneralSettings.Settings.Projects)
+                    foreach (Project project in GeneralSettings.Instance.Projects)
                         if (project.Path.ToLower().Contains(SearchText.ToLower()))
                             FoundProjects.Add(project);
                     break;
                 case 2:
-                    foreach (Project project in GeneralSettings.Settings.Projects)
+                    foreach (Project project in GeneralSettings.Instance.Projects)
                     {
                         Editor editor = ModuleManager.GetEditorById(project.IdEditor);
                         if (editor != null && editor.Name.ToLower().Contains(SearchText.ToLower()))
@@ -146,43 +178,7 @@ namespace Regul.Base.Views.Windows
 
         private void DeleteProject()
         {
-            GeneralSettings.Settings.Projects.Remove(SelectedProject);
+            GeneralSettings.Instance.Projects.Remove(SelectedProject);
         }
-
-        #region Propetries
-
-        public Project SelectedProject
-        {
-            get => _selectedProject;
-            set => RaiseAndSetIfChanged(ref _selectedProject, value);
-        }
-
-        public AvaloniaList<Project> FoundProjects
-        {
-            get => _foundProjects;
-            set => RaiseAndSetIfChanged(ref _foundProjects, value);
-        }
-
-        public int SelectedPatternSearch
-        {
-            get => _selectedPatternSearch;
-            set
-            {
-                RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
-                SearchProjects();
-            }
-        }
-
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                RaiseAndSetIfChanged(ref _searchText, value);
-                SearchProjects();
-            }
-        }
-
-        #endregion
     }
 }

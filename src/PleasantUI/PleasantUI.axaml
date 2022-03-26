@@ -46,6 +46,7 @@
     <StyleInclude Source="/Controls/Custom/ColorPicker.axaml" />
     <StyleInclude Source="/Controls/Custom/PleasantTabItem.axaml" />
     <StyleInclude Source="/Controls/Custom/PleasantTabView.axaml" />
+    <StyleInclude Source="/Controls/Custom/PleasantBorder.axaml" />
     <!-- Custom controls -->
 
     <!-- Styled controls -->

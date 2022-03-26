@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Avalonia.Rendering;
-
-#endregion
 
 namespace Regul
 {

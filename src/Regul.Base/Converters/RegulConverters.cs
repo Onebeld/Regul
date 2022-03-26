@@ -1,11 +1,7 @@
-﻿#region
-
-using System.IO;
+﻿using System.IO;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Regul.ModuleSystem;
-
-#endregion
 
 namespace Regul.Base.Converters
 {
@@ -57,8 +53,11 @@ namespace Regul.Base.Converters
                 //
 
                 if (editor != null)
-                    return editor.Icon;
+                    return App.GetResource<Geometry>(editor.IconKey);
                 return App.GetResource<Geometry>("UnknownIcon");
             });
+        
+        public static readonly IValueConverter IconKeyToGeometry =
+            new FuncValueConverter<string, Geometry>(App.GetResource<Geometry>);
     }
 }

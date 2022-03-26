@@ -1,15 +1,13 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
-
-#endregion
 
 namespace Regul.Base.Converters
 {
     public class UIntToStringConverter : IValueConverter
     {
+        public static readonly UIntToStringConverter Instance = new UIntToStringConverter();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return "0x" + ((uint)value).ToString("X8");
@@ -17,15 +15,9 @@ namespace Regul.Base.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
-            {
-                string str = value.ToString();
-                return System.Convert.ToUInt32(str, str.StartsWith("0x") ? 16 : 10);
-            }
-            catch
-            {
-                return 0;
-            }
+            uint.TryParse(value.ToString().Replace("0x", ""), NumberStyles.HexNumber, CultureInfo.CurrentCulture, out uint result);
+
+            return result;
         }
     }
 }
