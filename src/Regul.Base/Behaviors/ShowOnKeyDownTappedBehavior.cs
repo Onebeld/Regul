@@ -4,9 +4,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
-namespace Regul.Base.Behaviors
-{
-    /// <summary>
+namespace Regul.Base.Behaviors;
+
+/// <summary>
 /// A behavior that allows to show control on key down event.
 /// </summary>
 public class ShowOnKeyDownTappedBehavior : Behavior<Control>
@@ -67,5 +67,4 @@ public class ShowOnKeyDownTappedBehavior : Behavior<Control>
             TargetControl.Focus();
         }
     }
-}
 }

@@ -4,24 +4,23 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 
-namespace Regul.Base.Views.Windows
+namespace Regul.Base.Views.Windows;
+
+public class About : PleasantDialogWindow
 {
-    public class About : PleasantDialogWindow
+    public About()
     {
-        public About()
-        {
-            AvaloniaXamlLoader.Load(this);
+        AvaloniaXamlLoader.Load(this);
 
-            this.FindControl<Image>("AvaloniaImage").PointerReleased += About_PointerReleased1;
-        }
+        this.FindControl<Image>("AvaloniaImage").PointerReleased += About_PointerReleased1;
+    }
 
-        private void About_PointerReleased1(object sender, PointerReleasedEventArgs e)
+    private void About_PointerReleased1(object sender, PointerReleasedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "https://avaloniaui.net/",
-                UseShellExecute = true
-            });
-        }
+            FileName = "https://avaloniaui.net/",
+            UseShellExecute = true
+        });
     }
 }

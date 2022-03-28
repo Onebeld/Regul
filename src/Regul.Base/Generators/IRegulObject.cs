@@ -1,7 +1,6 @@
-﻿namespace Regul.Base.Generators
+﻿namespace Regul.Base.Generators;
+
+public interface IRegulObject
 {
-    public interface IRegulObject
-    {
-        string Id { get; }
-    }
+    string Id { get; }
 }

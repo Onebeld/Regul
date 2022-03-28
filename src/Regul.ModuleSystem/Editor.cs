@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
-using Avalonia.Media;
 
-namespace Regul.ModuleSystem
+namespace Regul.ModuleSystem;
+
+public class Editor
 {
-    public class Editor
+    public Editor(string id, 
+        string name, 
+        string? iconKey, 
+        List<FileDialogFilter> dialogFilters,
+        Func<IEditor> creatingAnEditor)
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public Func<IEditor> CreatingAnEditor { get; set; }
-        public string IconKey { get; set; }
-        public List<FileDialogFilter> DialogFilters { get; set; }
+        Id = id;
+        Name = name;
+        IconKey = iconKey;
+        CreatingAnEditor = creatingAnEditor;
+        DialogFilters = dialogFilters;
     }
+    
+    public string Id { get; }
+    public string Name { get; set; }
+    public Func<IEditor> CreatingAnEditor { get; }
+    public string? IconKey { get; set; }
+    public List<FileDialogFilter> DialogFilters { get; }
 }

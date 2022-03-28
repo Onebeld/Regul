@@ -2,10 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Regul.Base.App">
     <Application.Styles>
-        <StyleInclude Source="avares://PleasantUI/PleasantUI.axaml" />
-        <StyleInclude Source="avares://PleasantUI/Assets/Themes/Light.axaml" />
+        <PleasantTheme Mode="Light" />
+        
         <StyleInclude Source="avares://Regul.Assets/Icons.axaml" />
-
         <StyleInclude Source="avares://Regul.Assets/Localization/en.axaml" />
 
         <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />

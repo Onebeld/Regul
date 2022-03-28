@@ -1,127 +1,126 @@
 ﻿using System.Security.Cryptography;
 using Onebeld.Extensions;
 
-namespace Regul.Base.Views.Windows
+namespace Regul.Base.Views.Windows;
+
+public class HashGeneratorViewModel : ViewModelBase
 {
-    public class HashGeneratorViewModel : ViewModelBase
+    private bool _dec;
+    private bool _hex = true;
+    private bool _highBit;
+
+    private ulong _number;
+
+    private string _text = string.Empty;
+
+    public ulong Number
     {
-        private bool _dec;
-        private bool _hex = true;
-        private bool _highBit;
+        get => _number;
+        set => RaiseAndSetIfChanged(ref _number, value);
+    }
 
-        private ulong _number;
-
-        private string _text;
-
-        public ulong Number
+    public string Text
+    {
+        get => _text;
+        set
         {
-            get => _number;
-            set => RaiseAndSetIfChanged(ref _number, value);
-        }
+            if (!RaiseAndSetIfChanged(ref _text, value)) return;
 
-        public string Text
+            RaisePropertyChanged(nameof(Fnv24));
+            RaisePropertyChanged(nameof(Fnv32));
+            RaisePropertyChanged(nameof(Fnv56));
+            RaisePropertyChanged(nameof(Fnv64));
+        }
+    }
+
+    public bool Hex
+    {
+        get => _hex;
+        set
         {
-            get => _text;
-            set
-            {
-                if (!RaiseAndSetIfChanged(ref _text, value)) return;
+            if (!RaiseAndSetIfChanged(ref _hex, value)) return;
 
-                RaisePropertyChanged(nameof(Fnv24));
-                RaisePropertyChanged(nameof(Fnv32));
-                RaisePropertyChanged(nameof(Fnv56));
-                RaisePropertyChanged(nameof(Fnv64));
-            }
+            RaisePropertyChanged(nameof(Fnv24));
+            RaisePropertyChanged(nameof(Fnv32));
+            RaisePropertyChanged(nameof(Fnv56));
+            RaisePropertyChanged(nameof(Fnv64));
         }
+    }
 
-        public bool Hex
+    public bool Dec
+    {
+        get => _dec;
+        set
         {
-            get => _hex;
-            set
-            {
-                if (!RaiseAndSetIfChanged(ref _hex, value)) return;
+            if (!RaiseAndSetIfChanged(ref _dec, value)) return;
 
-                RaisePropertyChanged(nameof(Fnv24));
-                RaisePropertyChanged(nameof(Fnv32));
-                RaisePropertyChanged(nameof(Fnv56));
-                RaisePropertyChanged(nameof(Fnv64));
-            }
+            RaisePropertyChanged(nameof(Fnv24));
+            RaisePropertyChanged(nameof(Fnv32));
+            RaisePropertyChanged(nameof(Fnv56));
+            RaisePropertyChanged(nameof(Fnv64));
         }
+    }
 
-        public bool Dec
+    public string Fnv24
+    {
+        get
         {
-            get => _dec;
-            set
-            {
-                if (!RaiseAndSetIfChanged(ref _dec, value)) return;
+            uint num = FNV.Hash24(Text, HighBit);
 
-                RaisePropertyChanged(nameof(Fnv24));
-                RaisePropertyChanged(nameof(Fnv32));
-                RaisePropertyChanged(nameof(Fnv56));
-                RaisePropertyChanged(nameof(Fnv64));
-            }
+            if (Hex) return "0x" + num.ToString("x8").ToUpper();
+            return Dec ? num.ToString() : string.Empty;
         }
+    }
 
-        public string Fnv24
+    public string Fnv32
+    {
+        get
         {
-            get
-            {
-                uint num = FNV.Hash24(Text, HighBit);
+            uint num = FNV.Hash32(Text, HighBit);
 
-                if (Hex) return "0x" + num.ToString("x8").ToUpper();
-                return Dec ? num.ToString() : string.Empty;
-            }
+            if (Hex) return "0x" + num.ToString("x8").ToUpper();
+            return Dec ? num.ToString() : string.Empty;
         }
+    }
 
-        public string Fnv32
+    public string Fnv56
+    {
+        get
         {
-            get
-            {
-                uint num = FNV.Hash32(Text, HighBit);
+            ulong num = FNV.Hash56(Text, HighBit);
 
-                if (Hex) return "0x" + num.ToString("x8").ToUpper();
-                return Dec ? num.ToString() : string.Empty;
-            }
+            if (Hex) return "0x" + num.ToString("x16").ToUpper();
+            return Dec ? num.ToString() : string.Empty;
         }
+    }
 
-        public string Fnv56
+    public string Fnv64
+    {
+        get
         {
-            get
-            {
-                ulong num = FNV.Hash56(Text, HighBit);
+            ulong num = FNV.Hash64(Text, HighBit);
 
-                if (Hex) return "0x" + num.ToString("x16").ToUpper();
-                return Dec ? num.ToString() : string.Empty;
-            }
+            if (Hex) return "0x" + num.ToString("x16").ToUpper();
+            return Dec ? num.ToString() : string.Empty;
         }
+    }
 
-        public string Fnv64
+    public bool HighBit
+    {
+        get => _highBit;
+        set
         {
-            get
-            {
-                ulong num = FNV.Hash64(Text, HighBit);
+            if (!RaiseAndSetIfChanged(ref _highBit, value)) return;
 
-                if (Hex) return "0x" + num.ToString("x16").ToUpper();
-                return Dec ? num.ToString() : string.Empty;
-            }
+            RaisePropertyChanged(nameof(Fnv24));
+            RaisePropertyChanged(nameof(Fnv32));
+            RaisePropertyChanged(nameof(Fnv56));
+            RaisePropertyChanged(nameof(Fnv64));
         }
+    }
 
-        public bool HighBit
-        {
-            get => _highBit;
-            set
-            {
-                if (!RaiseAndSetIfChanged(ref _highBit, value)) return;
-
-                RaisePropertyChanged(nameof(Fnv24));
-                RaisePropertyChanged(nameof(Fnv32));
-                RaisePropertyChanged(nameof(Fnv56));
-                RaisePropertyChanged(nameof(Fnv64));
-            }
-        }
-
-        public void Close(HashGenerator hashGenerator)
-        {
-            WindowsManager.OtherWindows.Remove(hashGenerator);
-        }
+    public void Close(HashGenerator hashGenerator)
+    {
+        WindowsManager.OtherWindows.Remove(hashGenerator);
     }
 }

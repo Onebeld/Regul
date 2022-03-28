@@ -1,19 +1,18 @@
 ﻿using PleasantUI.Controls.Custom;
 
-namespace Regul.ModuleSystem
+namespace Regul.ModuleSystem;
+
+public interface IEditor
 {
-    public interface IEditor
-    {
-        string FileToPath { get; set; }
+    string? FilePath { get; set; }
 
-        Editor CurrentEditor { get; set; }
+    Editor Editor { get; set; }
 
-        Project CurrentProject { get; set; }
+    Project? Project { get; set; }
 
-        string Id { get; set; }
+    string Id { get; set; }
 
-        void Load(string path, Project project, PleasantTabItem pleasantTabItem, Editor editor);
-        bool Save(string path);
-        void Release();
-    }
+    void Load(string? filePath, Project? project, PleasantTabItem pleasantTabItem, Editor editor);
+    bool Save(string path);
+    void Release();
 }

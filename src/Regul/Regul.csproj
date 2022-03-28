@@ -9,7 +9,8 @@
         <RepositoryUrl>https://github.com/Onebeld/Regul</RepositoryUrl>
         <Description>Modular modern file editor</Description>
         <TargetFrameworks>net461;net6.0</TargetFrameworks>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
+        <LangVersion>10.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

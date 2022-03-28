@@ -1,10 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Regul.Base.Views.Pages
+namespace Regul.Base.Views.Pages;
+
+public class WelcomePage : UserControl
 {
-    public class WelcomePage : UserControl
-    {
-        public WelcomePage() => AvaloniaXamlLoader.Load(this);
-    }
+    public WelcomePage() => AvaloniaXamlLoader.Load(this);
 }

@@ -1,10 +1,9 @@
-﻿namespace Regul.Base.Other
+﻿namespace Regul.Base.Other;
+
+public enum SavedResult
 {
-    public enum SavedResult
-    {
-        Success,
-        Disclaimer,
-        Cancel,
-        Error
-    }
+    Success,
+    Disclaimer,
+    Cancel,
+    Error
 }

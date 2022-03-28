@@ -3,21 +3,20 @@ using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 using Regul.Base.Views.Windows;
 
-namespace Regul.Base.Views.Pages
+namespace Regul.Base.Views.Pages;
+
+public class EditorsPage : UserControl
 {
-    public class EditorsPage : UserControl
+    public EditorsPage()
     {
-        public EditorsPage()
+        AvaloniaXamlLoader.Load(this);
+
+        this.FindControl<PleasantTabView>("PART_PleasantTabView").ClickOnAddingButton += (_, _) =>
         {
-            AvaloniaXamlLoader.Load(this);
+            NewProject newProject = new();
+            WindowsManager.OtherModalWindows.Add(newProject);
 
-            this.FindControl<PleasantTabView>("PART_PleasantTabView").ClickOnAddingButton += (s, e) =>
-            {
-                NewProject newProject = new NewProject();
-                WindowsManager.OtherModalWindows.Add(newProject);
-
-                newProject.Show(WindowsManager.MainWindow);
-            };
-        }
+            newProject.Show(WindowsManager.MainWindow);
+        };
     }
 }

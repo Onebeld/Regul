@@ -7,57 +7,59 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
 
-namespace Regul.Base.Generators
+namespace Regul.Base.Generators;
+
+public class RegulMenuItem : IRegulObject
 {
-    public class RegulMenuItem : IRegulObject
+    public RegulMenuItem(string id, ICommand? command, KeyGesture? gesture = null)
     {
-        public RegulMenuItem(string id, ICommand command, KeyGesture gesture = null)
+        Id = id;
+        Command = command;
+        Gesture = gesture;
+    }
+
+    public string KeyIcon { get; set; } = null!;
+
+    public List<Binding> Bindings { get; } = new();
+    public AvaloniaList<IRegulObject?> Items { get; } = new();
+
+    public ICommand? Command { get; set; }
+    public KeyGesture? Gesture { get; set; }
+
+    public IRegulObject? this[string id]
+    {
+        get
         {
-            Id = id;
-            Command = command;
-            Gesture = gesture;
-        }
-
-        public string KeyIcon { get; set; }
-
-        public List<Binding> Bindings { get; } = new List<Binding>();
-        public AvaloniaList<IRegulObject> Items { get; } = new AvaloniaList<IRegulObject>();
-
-        public ICommand Command { get; set; }
-        public KeyGesture Gesture { get; set; }
-
-        public IRegulObject this[string id]
-        {
-            get
+            //foreach (IRegulObject regulObject in Items)
+            for (int index = 0; index < Items.Count; index++)
             {
-                //foreach (IRegulObject regulObject in Items)
-                for (int index = 0; index < Items.Count; index++)
-                {
-                    IRegulObject regulObject = Items[index];
+                IRegulObject? regulObject = Items[index];
 
-                    if (regulObject.Id == id)
-                        return regulObject;
-                }
-
-                return null;
+                if (regulObject?.Id == id)
+                    return regulObject;
             }
+
+            return null;
         }
+    }
 
-        public string Id { get; }
+    public string Id { get; }
 
-        public static AvaloniaList<IAvaloniaObject> GenerateMenuItems(AvaloniaList<IRegulObject> list)
-        {
-            // TODO: Get rid of recursion in the function GenerateMenuItems
+    public static AvaloniaList<IAvaloniaObject> GenerateMenuItems(AvaloniaList<IRegulObject?> list)
+    {
+        // TODO: Get rid of recursion in the function GenerateMenuItems
 
-            AvaloniaList<IAvaloniaObject> menuItems = new AvaloniaList<IAvaloniaObject>();
+        AvaloniaList<IAvaloniaObject> menuItems = new();
 
-            foreach (IRegulObject regulObject in list)
-                if (regulObject is RegulMenuItem regulMenuItem)
+        foreach (IRegulObject? regulObject in list)
+            switch (regulObject)
+            {
+                case RegulMenuItem regulMenuItem:
                 {
-                    MenuItem menuItem = new MenuItem
+                    MenuItem menuItem = new()
                     {
                         Command = regulMenuItem.Command,
-                        InputGesture = regulMenuItem.Gesture,
+                        InputGesture = regulMenuItem.Gesture!,
                         HotKey = regulMenuItem.Gesture
                     };
                     if (!string.IsNullOrEmpty(regulMenuItem.KeyIcon))
@@ -68,13 +70,13 @@ namespace Regul.Base.Generators
                     menuItem.Items = GenerateMenuItems(regulMenuItem.Items);
 
                     menuItems.Add(menuItem);
+                    break;
                 }
-                else if (regulObject is RegulSeparator regulSeparator)
-                {
+                case RegulSeparator:
                     menuItems.Add(new Separator());
-                }
+                    break;
+            }
 
-            return menuItems;
-        }
+        return menuItems;
     }
 }

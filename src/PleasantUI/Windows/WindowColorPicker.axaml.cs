@@ -1,60 +1,56 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using PleasantUI.Controls.Custom;
 
-namespace PleasantUI.Windows
+namespace PleasantUI.Windows;
+
+public class WindowColorPicker : PleasantDialogWindow
 {
-    public class WindowColorPicker : PleasantDialogWindow
+    public WindowColorPicker()
     {
-        public WindowColorPicker()
+        AvaloniaXamlLoader.Load(this);
+    }
+
+    public static Task<Color> SelectColor(PleasantWindow parent, string? defaultColor = null)
+    {
+        WindowColorPicker windowColorPicker = new()
         {
-            AvaloniaXamlLoader.Load(this);
-        }
+            Icon = parent.Icon.ToBitmap()
+        };
 
-        public static Task<Color> SelectColor(PleasantWindow parent, string defaultColor = null)
+        ColorPicker picker = windowColorPicker.FindControl<ColorPicker>("ColorPicker");
+        bool cancel = true;
+        Color res = defaultColor is null ? new Color(255, 255, 255, 255) : Color.Parse(defaultColor);
+
+        picker.Color = res;
+        picker.ChangeColor += (_, _) => { res = picker.Color; };
+
+        windowColorPicker.FindControl<Button>("Cancel").Click += (_, _) => { windowColorPicker.Close(); };
+        windowColorPicker.FindControl<Button>("OK").Click += (_, _) =>
         {
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            cancel = false;
+            windowColorPicker.Close();
+        };
 
-            WindowColorPicker windowColorPicker = new WindowColorPicker
-            {
-                Icon = parent.Icon.ToBitmap()
-            };
-
-            ColorPicker picker = windowColorPicker.FindControl<ColorPicker>("ColorPicker");
-            bool cancel = true;
-            Color res = Color.Parse(defaultColor);
-
-            picker.Color = res;
-            picker.ChangeColor += (s, e) => { res = picker.Color; };
-
-            windowColorPicker.FindControl<Button>("Cancel").Click += (s, e) => { windowColorPicker.Close(); };
-            windowColorPicker.FindControl<Button>("OK").Click += (s, e) =>
+        windowColorPicker.KeyDown += (_, e) =>
+        {
+            if (e.Key == Key.Enter)
             {
                 cancel = false;
                 windowColorPicker.Close();
-            };
+            }
+        };
 
-            windowColorPicker.KeyDown += (s, e) =>
-            {
-                if (e.Key == Key.Enter)
-                {
-                    cancel = false;
-                    windowColorPicker.Close();
-                }
-            };
-
-            TaskCompletionSource<Color> tcs = new TaskCompletionSource<Color>();
-            windowColorPicker.Closed += (s, e) =>
-            {
-                if (!cancel) tcs.TrySetResult(res);
-                else tcs.TrySetCanceled();
-            };
-            windowColorPicker.Show(parent);
-            return tcs.Task;
-        }
+        TaskCompletionSource<Color> tcs = new();
+        windowColorPicker.Closed += (_, _) =>
+        {
+            if (!cancel) tcs.TrySetResult(res);
+            else tcs.TrySetCanceled();
+        };
+        windowColorPicker.Show(parent);
+        return tcs.Task;
     }
 }

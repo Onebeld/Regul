@@ -4,72 +4,71 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Onebeld.Logging
+namespace Onebeld.Logging;
+
+public enum Log
 {
-    public enum Log
+    Debug,
+    Info,
+    Warning,
+    Error,
+    Fatal
+}
+
+public class Logger
+{
+    public Logger()
     {
-        Debug,
-        Info,
-        Warning,
-        Error,
-        Fatal
+        Logs = new ObservableCollection<string>();
     }
 
-    public class Logger
+    public ObservableCollection<string> Logs { get; }
+
+    /// <summary>
+    ///     Gets the current instance of the logger
+    /// </summary>
+    public static Logger Instance = new();
+
+    public event EventHandler? SavedLog;
+
+    public event EventHandler? Written;
+
+    public void WriteLog(Log log, string? value)
     {
-        public Logger()
-        {
-            Logs = new ObservableCollection<string>();
-        }
+        string text = $"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | {log} | " + value;
 
-        public ObservableCollection<string> Logs { get; set; }
+        Logs.Add(text);
 
-        /// <summary>
-        ///     Gets the current instance of the logger
-        /// </summary>
-        public static Logger Instance { get; set; }
+        Written?.Invoke(text, EventArgs.Empty);
+    }
 
-        public event EventHandler SavedLog;
+    public void WriteLog(Log log, string value, Assembly? assembly)
+    {
+        string text = $"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | [{assembly?.GetName()}] | {log} | " + value;
 
-        public event EventHandler Written;
+        Logs.Add($"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | [{assembly?.GetName()}] | {log} | " + value);
 
-        public void WriteLog(Log log, string value)
-        {
-            string text = $"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | {log} | " + value;
+        Written?.Invoke(text, EventArgs.Empty);
+    }
 
-            Logs.Add(text);
+    public void SaveLog()
+    {
+        string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log");
+        string filename = $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyy}.log";
 
-            Written?.Invoke(text, EventArgs.Empty);
-        }
+        string path = Path.Combine(pathToLog, filename);
 
-        public void WriteLog(Log log, string value, Assembly assembly)
-        {
-            string text = $"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | [{assembly?.GetName()}] | {log} | " + value;
+        new FileInfo(path).Directory!.Create();
 
-            Logs.Add($"[{DateTime.Now:dd.MM.yyy HH:mm:ss.fff}] | [{assembly?.GetName()}] | {log} | " + value);
+        File.AppendAllText(path, string.Join("\n", Logs), Encoding.UTF8);
 
-            Written?.Invoke(text, EventArgs.Empty);
-        }
+        SavedLog?.Invoke(this, EventArgs.Empty);
+    }
 
-        public void SaveLog()
-        {
-            string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log");
-            string filename = $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyy}.log";
+    public void SaveLog(string? path)
+    {
+        File.AppendAllText(path, string.Join("\n", Logs), Encoding.UTF8);
 
-            string path = Path.Combine(pathToLog, filename);
-
-            new FileInfo(path).Directory.Create();
-
-            File.AppendAllText(path, string.Join("\n", Logs), Encoding.UTF8);
-
-            SavedLog?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SaveLog(string path)
-        {
-            File.AppendAllText(path, string.Join("\n", Logs), Encoding.UTF8);
-
-            SavedLog?.Invoke(this, EventArgs.Empty);
-        }
+        SavedLog?.Invoke(this, EventArgs.Empty);
     }
 }

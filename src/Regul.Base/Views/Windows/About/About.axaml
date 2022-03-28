@@ -67,7 +67,7 @@
                     <StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
                         <Image x:Name="AvaloniaImage" Source="{StaticResource AvaloniaUIImage}" Height="16"
                                Cursor="Hand" />
-                        <TextBlock Text="Avalonia 0.10.12" />
+                        <TextBlock Text="Avalonia 0.10.13" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
                         <Image Source="{StaticResource PleasantUIImage}" Height="16" Cursor="Hand" />

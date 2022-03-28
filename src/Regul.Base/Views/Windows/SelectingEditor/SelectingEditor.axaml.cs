@@ -4,39 +4,38 @@ using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 using Regul.ModuleSystem;
 
-namespace Regul.Base.Views.Windows
+namespace Regul.Base.Views.Windows;
+
+public class SelectingEditor : PleasantDialogWindow
 {
-    public class SelectingEditor : PleasantDialogWindow
+    public SelectingEditor()
     {
-        public SelectingEditor()
+        AvaloniaXamlLoader.Load(this);
+
+        TemplateApplied += (_, _) =>
         {
-            AvaloniaXamlLoader.Load(this);
+            this.GetDataContext<SelectingEditorViewModel>().Initialize();
+        };
+    }
 
-            TemplateApplied += (s, e) =>
-            {
-                this.GetDataContext<SelectingEditorViewModel>().Initialize();
-            };
-        }
+    public static async Task<(Editor?, bool)> GetEditor(string? fileName, bool showCheckBox = true)
+    {
+        SelectingEditor? selectingEditor = WindowsManager.CreateModalWindow<SelectingEditor>();
 
-        public static async Task<(Editor, bool)> GetEditor(string fileName, bool showCheckBox = true)
-        {
-            SelectingEditor selectingEditor = WindowsManager.CreateModalWindow<SelectingEditor>();
+        if (selectingEditor == null)
+            return (null, false);
 
-            if (selectingEditor == null)
-                return (null, false);
+        selectingEditor.FindControl<TextBlock>("PART_FileName").Text = fileName;
 
-            selectingEditor.FindControl<TextBlock>("PART_FileName").Text = fileName;
+        CheckBox checkBox = selectingEditor.FindControl<CheckBox>("PART_AlwaysOpen");
+        checkBox.IsVisible = showCheckBox;
 
-            CheckBox checkBox = selectingEditor.FindControl<CheckBox>("PART_AlwaysOpen");
-            checkBox.IsVisible = showCheckBox;
-
-            selectingEditor.GetDataContext<SelectingEditorViewModel>().Editors = ModuleManager.Editors;
-            selectingEditor.FindControl<ListBox>("ListBox").Focus();
+        selectingEditor.GetDataContext<SelectingEditorViewModel>().Editors = ModuleManager.Editors;
+        selectingEditor.FindControl<ListBox>("ListBox").Focus();
             
-            Editor editor = await selectingEditor.Show<Editor>(WindowsManager.MainWindow);
-            WindowsManager.OtherModalWindows.Remove(selectingEditor);
+        Editor editor = await selectingEditor.Show<Editor>(WindowsManager.MainWindow);
+        WindowsManager.OtherModalWindows.Remove(selectingEditor);
 
-            return (editor, editor != null && (checkBox.IsChecked ?? false));
-        }
+        return (editor, editor != null && (checkBox.IsChecked ?? false));
     }
 }

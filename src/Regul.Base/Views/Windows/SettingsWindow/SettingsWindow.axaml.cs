@@ -1,20 +1,15 @@
-﻿#region
-
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 
-#endregion
+namespace Regul.Base.Views.Windows;
 
-namespace Regul.Base.Views.Windows
+public class SettingsWindow : PleasantDialogWindow
 {
-    public class SettingsWindow : PleasantDialogWindow
+    public SettingsWindow()
     {
-        public SettingsWindow()
-        {
-            AvaloniaXamlLoader.Load(this);
+        AvaloniaXamlLoader.Load(this);
 
-            Closed += (s, e) => this.GetDataContext<SettingsViewModel>()?.Release();
-            TemplateApplied += (s, e) => this.GetDataContext<SettingsViewModel>()?.Initialize();
-        }
+        Closed += (_, _) => this.GetDataContext<SettingsViewModel>().Release();
+        TemplateApplied += (_, _) => this.GetDataContext<SettingsViewModel>().Initialize();
     }
 }

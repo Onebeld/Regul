@@ -27,7 +27,7 @@
         </Style>
     </PleasantWindow.Styles>
     <PleasantWindow.KeyBindings>
-        <KeyBinding Command="{Binding ClearGC}" Gesture="Ctrl+Alt+Shift+F12" />
+        <KeyBinding Command="{Binding ClearGc}" Gesture="Ctrl+Alt+Shift+F12" />
     </PleasantWindow.KeyBindings>
     <PleasantWindow.TitleBarMenu>
         <Menu VerticalAlignment="Center" HorizontalAlignment="Left" Items="{CompiledBinding MenuItems}">

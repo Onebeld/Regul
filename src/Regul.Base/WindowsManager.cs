@@ -8,154 +8,152 @@ using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Base.Views.Windows;
 
-namespace Regul.Base
+namespace Regul.Base;
+
+public static class WindowsManager
 {
-    public static class WindowsManager
+    public static MainWindow MainWindow { get; set; } = null!;
+
+    public static AvaloniaList<PleasantModalWindow?> OtherModalWindows { get; } = new();
+
+    public static AvaloniaList<PleasantWindow?> OtherWindows { get; } = new();
+
+    public static T? FindModalWindow<T>() where T : PleasantModalWindow
     {
-        public static MainWindow MainWindow { get; set; }
-
-        public static AvaloniaList<PleasantModalWindow> OtherModalWindows { get; } =
-            new AvaloniaList<PleasantModalWindow>();
-
-        public static AvaloniaList<PleasantWindow> OtherWindows { get; } = new AvaloniaList<PleasantWindow>();
-
-        public static T FindModalWindow<T>() where T : PleasantModalWindow
+        //return (T)OtherModalWindows.FirstOrDefault(x => x is T);
+        for (int i = 0; i < OtherModalWindows.Count; i++)
         {
-            //return (T)OtherModalWindows.FirstOrDefault(x => x is T);
-            for (int i = 0; i < OtherModalWindows.Count; i++)
-            {
-                PleasantModalWindow item = OtherModalWindows[i];
+            PleasantModalWindow? item = OtherModalWindows[i];
 
-                if (item is T window)
-                    return window;
-            }
-
-            return null;
+            if (item is T window)
+                return window;
         }
 
-        public static T FindWindow<T>() where T : PleasantWindow
+        return null;
+    }
+
+    public static T? FindWindow<T>() where T : PleasantWindow
+    {
+        //return (T) OtherWindows.FirstOrDefault(x => x is T);
+        for (int i = 0; i < OtherWindows.Count; i++)
         {
-            //return (T) OtherWindows.FirstOrDefault(x => x is T);
-            for (int i = 0; i < OtherWindows.Count; i++)
-            {
-                PleasantWindow item = OtherWindows[i];
+            PleasantWindow? item = OtherWindows[i];
 
-                if (item is T window)
-                    return window;
-            }
-
-            return null;
+            if (item is T window)
+                return window;
         }
 
-        public static List<T> FindAllModalWindows<T>() where T : PleasantModalWindow
+        return null;
+    }
+
+    public static List<T> FindAllModalWindows<T>() where T : PleasantModalWindow
+    {
+        List<T> otherWindows = new();
+
+        //foreach (PleasantDialogWindow window in OtherModalWindows)
+        for (int i = 0; i < OtherModalWindows.Count; i++)
         {
-            List<T> otherWindows = new List<T>();
-
-            //foreach (PleasantDialogWindow window in OtherModalWindows)
-            for (int i = 0; i < OtherModalWindows.Count; i++)
-            {
-                PleasantDialogWindow window = (PleasantDialogWindow)OtherModalWindows[i];
-                if (window is T pleasantModalWindow)
-                    otherWindows.Add(pleasantModalWindow);
-            }
-
-            return otherWindows;
+            PleasantDialogWindow window = (PleasantDialogWindow)OtherModalWindows[i]!;
+            if (window is T pleasantModalWindow)
+                otherWindows.Add(pleasantModalWindow);
         }
 
-        public static List<T> FindAllWindows<T>() where T : PleasantWindow
+        return otherWindows;
+    }
+
+    public static List<T> FindAllWindows<T>() where T : PleasantWindow
+    {
+        List<T> otherWindows = new();
+
+        //foreach (PleasantWindow window in OtherWindows)
+        for (int i = 0; i < OtherWindows.Count; i++)
         {
-            List<T> otherWindows = new List<T>();
+            PleasantWindow? window = OtherWindows[i];
 
-            //foreach (PleasantWindow window in OtherWindows)
-            for (int i = 0; i < OtherWindows.Count; i++)
-            {
-                PleasantWindow window = OtherWindows[i];
-
-                if (window is T pleasantWindow)
-                    otherWindows.Add(pleasantWindow);
-            }
-
-            return otherWindows;
+            if (window is T pleasantWindow)
+                otherWindows.Add(pleasantWindow);
         }
 
-        public static T CreateModalWindow<T>(PleasantWindow host = null, params object[] args)
-            where T : PleasantModalWindow
-        {
-            T foundWindow = FindModalWindow<T>();
+        return otherWindows;
+    }
 
-            if (foundWindow != null && foundWindow.CanOpen) return null;
+    public static T? CreateModalWindow<T>(PleasantWindow? host = null, params object[] args)
+        where T : PleasantModalWindow
+    {
+        T? foundWindow = FindModalWindow<T>();
 
-            T window = (T)Activator.CreateInstance(typeof(T), args);
-            OtherModalWindows.Add(window);
+        if (foundWindow is { CanOpen: true }) return null;
 
-            if (host != null)
-                window.Show(host);
+        T window = (T)Activator.CreateInstance(typeof(T), args);
+        OtherModalWindows.Add(window);
 
-            return window;
-        }
+        if (host != null)
+            window.Show(host);
 
-        public static T CreateWindow<T>(PleasantWindow host = null, params object[] args) where T : PleasantWindow
-        {
-            T foundWindow = FindWindow<T>();
+        return window;
+    }
 
-            if (foundWindow != null) return null;
+    public static T? CreateWindow<T>(PleasantWindow? host = null, params object[] args) where T : PleasantWindow
+    {
+        T? foundWindow = FindWindow<T>();
 
-            T window = (T)Activator.CreateInstance(typeof(T), args);
-            OtherWindows.Add(window);
+        if (foundWindow != null) return null;
 
-            if (host != null)
-                window.Show(host);
-            else
-                window.Show();
+        T window = (T)Activator.CreateInstance(typeof(T), args);
+        OtherWindows.Add(window);
 
-            return window;
-        }
+        if (host != null)
+            window.Show(host);
+        else
+            window.Show();
 
-        public static T GetDataContext<T>(this Control control)
-        {
-            return (T)control.DataContext;
-        }
+        return window;
+    }
+
+    public static T GetDataContext<T>(this Control? control)
+    {
+        return (T)control?.DataContext!;
+    }
         
-        public static void ShowError(string message, string exception)
+    public static void ShowError(string? message, string? exception)
+    {
+        MessageBox.Show(MainWindow, App.GetResource<string>("Error"), message, new List<MessageBoxButton>
         {
-            MessageBox.Show(MainWindow, App.GetResource<string>("Error"), message, new List<MessageBoxButton>
+            new()
             {
-                new MessageBoxButton
-                {
-                    Default = true,
-                    Result = "OK",
-                    Text = App.GetResource<string>("OK"),
-                    IsKeyDown = true
-                }
-            }, MessageBox.MessageBoxIcon.Error, exception);
-        }
-
-        public static void ShowNotification(string message, NotificationType type = NotificationType.Success, TimeSpan expiration = default)
-        {
-            string title;
-            
-            switch (type)
-            {
-                case NotificationType.Information:
-                    title = App.GetResource<string>("Error");
-                    break;
-                case NotificationType.Warning:
-                    title = App.GetResource<string>("Warning");
-                    break;
-                case NotificationType.Error:
-                    title = App.GetResource<string>("Error");
-                    break;
-                
-                case NotificationType.Success:
-                default:
-                    title = App.GetResource<string>("Successful");
-                    break;
+                Default = true,
+                Result = "OK",
+                Text = App.GetResource<string>("OK"),
+                IsKeyDown = true
             }
+        }, MessageBox.MessageBoxIcon.Error, exception);
+    }
+
+    public static void ShowNotification(string? message, NotificationType type = NotificationType.Success, TimeSpan expiration = default)
+    {
+        string? title;
             
-            if (expiration == default)
-                expiration = TimeSpan.FromSeconds(5);
-            
-            MainWindow.GetDataContext<MainViewModel>().NotificationManager.Show(new Notification(title, message, type, expiration));
+        switch (type)
+        {
+            case NotificationType.Information:
+                title = App.GetResource<string>("Error");
+                break;
+            case NotificationType.Warning:
+                title = App.GetResource<string>("Warning");
+                break;
+            case NotificationType.Error:
+                title = App.GetResource<string>("Error");
+                break;
+                
+            case NotificationType.Success:
+            default:
+                title = App.GetResource<string>("Successful");
+                break;
         }
+            
+        if (expiration == default)
+            expiration = TimeSpan.FromSeconds(5);
+            
+        MainWindow.GetDataContext<MainViewModel>().NotificationManager.Show(new Notification(title, message, type, expiration));
     }
 }

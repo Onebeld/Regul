@@ -4,44 +4,43 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 using PleasantUI.Controls.Custom;
 
-namespace Regul.Base.DragAndDrop
+namespace Regul.Base.DragAndDrop;
+
+public enum TypeDrop
 {
-    public enum TypeDrop
+    File,
+    Module
+}
+
+public class DragAndDropWindow : PleasantModalWindow, IStyleable
+{
+    private Border _fileDrop;
+
+    private Border _moduleDrop;
+    private readonly TypeDrop _typeDrop;
+
+    public DragAndDropWindow(TypeDrop typeDrop)
     {
-        File,
-        Module
+        _typeDrop = typeDrop;
     }
 
-    public class DragAndDropWindow : PleasantModalWindow, IStyleable
+    Type IStyleable.StyleKey => typeof(DragAndDropWindow);
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        private Border _fileDrop;
+        base.OnApplyTemplate(e);
 
-        private Border _moduleDrop;
-        private readonly TypeDrop _typeDrop;
+        _moduleDrop = e.NameScope.Get<Border>("PART_ModuleDrop");
+        _fileDrop = e.NameScope.Get<Border>("Part_FileDrop");
 
-        public DragAndDropWindow(TypeDrop typeDrop)
+        switch (_typeDrop)
         {
-            _typeDrop = typeDrop;
-        }
-
-        Type IStyleable.StyleKey => typeof(DragAndDropWindow);
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            base.OnApplyTemplate(e);
-
-            _moduleDrop = e.NameScope.Get<Border>("PART_ModuleDrop");
-            _fileDrop = e.NameScope.Get<Border>("Part_FileDrop");
-
-            switch (_typeDrop)
-            {
-                case TypeDrop.File:
-                    _moduleDrop.IsVisible = false;
-                    break;
-                case TypeDrop.Module:
-                    _fileDrop.IsVisible = false;
-                    break;
-            }
+            case TypeDrop.File:
+                _moduleDrop.IsVisible = false;
+                break;
+            case TypeDrop.Module:
+                _fileDrop.IsVisible = false;
+                break;
         }
     }
 }

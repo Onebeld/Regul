@@ -7,147 +7,146 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
 
-namespace PleasantUI.Controls.Custom
+namespace PleasantUI.Controls.Custom;
+
+[Flags]
+public enum WindowButtons
 {
-    [Flags]
-    public enum WindowButtons
+    Close = 0,
+    CloseAndCollapse = 1,
+    CloseAndExpand = 2,
+    All = 3
+}
+
+public class PleasantWindow : Window, IStyleable
+{
+    public static readonly StyledProperty<WindowButtons> WindowButtonsProperty =
+        AvaloniaProperty.Register<PleasantWindow, WindowButtons>(nameof(WindowButtons), WindowButtons.All);
+
+    public static readonly StyledProperty<bool> FullScreenButtonProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(FullScreenButton));
+
+    public static readonly StyledProperty<IControl> TitleBarMenuProperty =
+        AvaloniaProperty.Register<PleasantWindow, IControl>(nameof(TitleBarMenu));
+
+    public static readonly StyledProperty<bool> CancelCloseProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(CancelClose));
+
+    public static readonly StyledProperty<Geometry> LogoProperty =
+        AvaloniaProperty.Register<PleasantWindow, Geometry>(nameof(Logo));
+
+    public static readonly StyledProperty<bool> CompactModeProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(CompactMode));
+
+    public static readonly StyledProperty<bool> ShowPinButtonProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowPinButton));
+
+    public static readonly StyledProperty<bool> ShowCustomTitleBarProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowCustomTitleBar), true);
+
+    public static readonly StyledProperty<bool> ShowMenuBarProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowMenuBar), true);
+
+    private Panel? _modalWindows;
+
+    /// <summary>
+    ///     Shows or hides the Expand and Collapse buttons
+    /// </summary>
+    public WindowButtons WindowButtons
     {
-        Close = 0,
-        CloseAndCollapse = 1,
-        CloseAndExpand = 2,
-        All = 3
+        get => GetValue(WindowButtonsProperty);
+        set => SetValue(WindowButtonsProperty, value);
     }
 
-    public class PleasantWindow : Window, IStyleable
+    /// <summary>
+    ///     Shows full screen button
+    /// </summary>
+    public bool FullScreenButton
     {
-        public static readonly StyledProperty<WindowButtons> WindowButtonsProperty =
-            AvaloniaProperty.Register<PleasantWindow, WindowButtons>(nameof(WindowButtons), WindowButtons.All);
+        get => GetValue(FullScreenButtonProperty);
+        set => SetValue(FullScreenButtonProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> FullScreenButtonProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(FullScreenButton));
+    public IControl TitleBarMenu
+    {
+        get => GetValue(TitleBarMenuProperty);
+        set => SetValue(TitleBarMenuProperty, value);
+    }
 
-        public static readonly StyledProperty<IControl> TitleBarMenuProperty =
-            AvaloniaProperty.Register<PleasantWindow, IControl>(nameof(TitleBarMenu));
+    /// <summary>
+    ///     Required if the logo is drawn in vector graphics
+    /// </summary>
+    public Geometry Logo
+    {
+        get => GetValue(LogoProperty);
+        set => SetValue(LogoProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> CancelCloseProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(CancelClose));
+    public bool CompactMode
+    {
+        get => GetValue(CompactModeProperty);
+        set => SetValue(CompactModeProperty, value);
+    }
 
-        public static readonly StyledProperty<Geometry> LogoProperty =
-            AvaloniaProperty.Register<PleasantWindow, Geometry>(nameof(Logo));
+    public bool CancelClose
+    {
+        get => GetValue(CancelCloseProperty);
+        set => SetValue(CancelCloseProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> CompactModeProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(CompactMode));
+    public bool ShowPinButton
+    {
+        get => GetValue(ShowPinButtonProperty);
+        set => SetValue(ShowPinButtonProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> ShowPinButtonProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowPinButton));
+    public bool ShowCustomTitleBar
+    {
+        get => GetValue(ShowCustomTitleBarProperty);
+        set => SetValue(ShowCustomTitleBarProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> ShowCustomTitleBarProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowCustomTitleBar), true);
+    public bool ShowMenuBar
+    {
+        get => GetValue(ShowMenuBarProperty);
+        set => SetValue(ShowMenuBarProperty, value);
+    }
 
-        public static readonly StyledProperty<bool> ShowMenuBarProperty =
-            AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowMenuBar), true);
+    Type IStyleable.StyleKey => typeof(PleasantWindow);
 
-        private Panel _modalWindows;
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        base.OnClosing(e);
+        if (e.Cancel == false)
+            e.Cancel = CancelClose;
+    }
 
-        /// <summary>
-        ///     Shows or hides the Expand and Collapse buttons
-        /// </summary>
-        public WindowButtons WindowButtons
-        {
-            get => GetValue(WindowButtonsProperty);
-            set => SetValue(WindowButtonsProperty, value);
-        }
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
 
-        /// <summary>
-        ///     Shows full screen button
-        /// </summary>
-        public bool FullScreenButton
-        {
-            get => GetValue(FullScreenButtonProperty);
-            set => SetValue(FullScreenButtonProperty, value);
-        }
+        SizeToContent content = SizeToContent;
 
-        public IControl TitleBarMenu
-        {
-            get => GetValue(TitleBarMenuProperty);
-            set => SetValue(TitleBarMenuProperty, value);
-        }
+        ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.PreferSystemChrome |
+                                      ExtendClientAreaChromeHints.OSXThickTitleBar;
+        ExtendClientAreaTitleBarHeightHint = -1;
 
-        /// <summary>
-        ///     Required if the logo is drawn in vector graphics
-        /// </summary>
-        public Geometry Logo
-        {
-            get => GetValue(LogoProperty);
-            set => SetValue(LogoProperty, value);
-        }
+        SizeToContent = content;
 
-        public bool CompactMode
-        {
-            get => GetValue(CompactModeProperty);
-            set => SetValue(CompactModeProperty, value);
-        }
+        _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
 
-        public bool CancelClose
-        {
-            get => GetValue(CancelCloseProperty);
-            set => SetValue(CancelCloseProperty, value);
-        }
+        this.GetObservable(ShowCustomTitleBarProperty)
+            .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
+        this.GetObservable(TitleBarMenuProperty).Subscribe(val => { ShowMenuBar = val is null == false; });
+    }
 
-        public bool ShowPinButton
-        {
-            get => GetValue(ShowPinButtonProperty);
-            set => SetValue(ShowPinButtonProperty, value);
-        }
+    public void AddModalWindow(PleasantModalWindow modalWindow)
+    {
+        _modalWindows?.Children.Add(modalWindow);
+    }
 
-        public bool ShowCustomTitleBar
-        {
-            get => GetValue(ShowCustomTitleBarProperty);
-            set => SetValue(ShowCustomTitleBarProperty, value);
-        }
-
-        public bool ShowMenuBar
-        {
-            get => GetValue(ShowMenuBarProperty);
-            set => SetValue(ShowMenuBarProperty, value);
-        }
-
-        Type IStyleable.StyleKey => typeof(PleasantWindow);
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            if (e.Cancel == false)
-                e.Cancel = CancelClose;
-        }
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            base.OnApplyTemplate(e);
-
-            SizeToContent content = SizeToContent;
-
-            ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.PreferSystemChrome |
-                                          ExtendClientAreaChromeHints.OSXThickTitleBar;
-            ExtendClientAreaTitleBarHeightHint = -1;
-
-            SizeToContent = content;
-
-            _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
-
-            this.GetObservable(ShowCustomTitleBarProperty)
-                .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
-            this.GetObservable(TitleBarMenuProperty).Subscribe(val => { ShowMenuBar = val is null == false; });
-        }
-
-        public void AddModalWindow(PleasantModalWindow modalWindow)
-        {
-            _modalWindows.Children.Add(modalWindow);
-        }
-
-        public void RemoveModalWindow(PleasantModalWindow modalWindow)
-        {
-            _modalWindows.Children.Remove(modalWindow);
-        }
+    public void RemoveModalWindow(PleasantModalWindow modalWindow)
+    {
+        _modalWindows?.Children.Remove(modalWindow);
     }
 }

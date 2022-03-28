@@ -8,128 +8,109 @@ using Onebeld.Extensions;
 using Regul.ModuleSystem;
 using Regul.Settings;
 
-namespace Regul
+namespace Regul;
+
+[DataContract]
+public class GeneralSettings : ViewModelBase
 {
-    [DataContract]
-    public class GeneralSettings : ViewModelBase
+    private static readonly string SettingsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings");
+    
+    private bool _compactMode;
+
+    private AvaloniaList<CorrespondingExtensionEditor> _correspondingExtensionEditors = new();
+
+    private string _creatorName;
+    private bool _hardwareAcceleration = true;
+    private AvaloniaList<ModuleForUpdate> _modulesForUpdate = new();
+    private AvaloniaList<Project> _projects;
+    private bool _showCustomTitleBar = true;
+    private bool _showFullscreenButton;
+
+    public static GeneralSettings Instance;
+    
+    [DataMember] 
+    public string Theme { get; set; } = "Light";
+
+    [XmlAttribute]
+    [DataMember]
+    public string Language { get; set; } = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+    [DataMember]
+    public bool HardwareAcceleration
     {
-        private bool _compactMode;
+        get => _hardwareAcceleration;
+        set => RaiseAndSetIfChanged(ref _hardwareAcceleration, value);
+    }
 
-        private AvaloniaList<CorrespondingExtensionEditor> _correspondingExtensionEditors =
-            new AvaloniaList<CorrespondingExtensionEditor>();
+    [DataMember]
+    public bool ShowFullscreenButton
+    {
+        get => _showFullscreenButton;
+        set => RaiseAndSetIfChanged(ref _showFullscreenButton, value);
+    }
 
-        private string _creatorName;
-        private bool _hardwareAcceleration;
-        private AvaloniaList<ModuleForUpdate> _modulesForUpdate = new AvaloniaList<ModuleForUpdate>();
-        private AvaloniaList<Project> _projects;
-        private bool _showCustomTitleBar;
-        private bool _showFullscreenButton;
+    [DataMember]
+    public bool CompactMode
+    {
+        get => _compactMode;
+        set => RaiseAndSetIfChanged(ref _compactMode, value);
+    }
 
-        public GeneralSettings()
+    [DataMember]
+    public bool ShowCustomTitleBar
+    {
+        get => _showCustomTitleBar;
+        set => RaiseAndSetIfChanged(ref _showCustomTitleBar, value);
+    }
+
+    [XmlAttribute]
+    [DataMember]
+    public string CreatorName
+    {
+        get => _creatorName;
+        set => RaiseAndSetIfChanged(ref _creatorName, value);
+    }
+
+    [DataMember]
+    public AvaloniaList<Project> Projects
+    {
+        get => _projects;
+        set => RaiseAndSetIfChanged(ref _projects, value);
+    }
+
+    [DataMember]
+    public AvaloniaList<ModuleForUpdate> ModulesForUpdate
+    {
+        get => _modulesForUpdate;
+        set => RaiseAndSetIfChanged(ref _modulesForUpdate, value);
+    }
+
+    [DataMember]
+    public AvaloniaList<CorrespondingExtensionEditor> CorrespondingExtensionEditors
+    {
+        get => _correspondingExtensionEditors;
+        set => RaiseAndSetIfChanged(ref _correspondingExtensionEditors, value);
+    }
+
+    public static GeneralSettings Load()
+    {
+        if (!Directory.Exists(SettingsFolder))
+            Directory.CreateDirectory(SettingsFolder);
+
+        try
         {
-            if (FirstRun)
-            {
-                Theme = "Light";
-                Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-                ShowCustomTitleBar = true;
-                HardwareAcceleration = true;
-
-                FirstRun = false;
-            }
+            using FileStream fileStream = File.OpenRead(Path.Combine(SettingsFolder, "general.xml"));
+            return (GeneralSettings)new XmlSerializer(typeof(GeneralSettings)).Deserialize(fileStream);
         }
-
-        public static GeneralSettings Instance;
-
-
-        [DataMember] public string Theme { get; set; }
-
-        [XmlAttribute] [DataMember] public string Language { get; set; }
-
-        [XmlAttribute] [DataMember] public bool FirstRun { get; set; } = true;
-
-        [DataMember]
-        public bool HardwareAcceleration
+        catch
         {
-            get => _hardwareAcceleration;
-            set => RaiseAndSetIfChanged(ref _hardwareAcceleration, value);
+            return new GeneralSettings();
         }
+    }
 
-        [DataMember]
-        public bool ShowFullscreenButton
-        {
-            get => _showFullscreenButton;
-            set => RaiseAndSetIfChanged(ref _showFullscreenButton, value);
-        }
-
-        [DataMember]
-        public bool CompactMode
-        {
-            get => _compactMode;
-            set => RaiseAndSetIfChanged(ref _compactMode, value);
-        }
-
-        [DataMember]
-        public bool ShowCustomTitleBar
-        {
-            get => _showCustomTitleBar;
-            set => RaiseAndSetIfChanged(ref _showCustomTitleBar, value);
-        }
-
-        [XmlAttribute]
-        [DataMember]
-        public string CreatorName
-        {
-            get => _creatorName;
-            set => RaiseAndSetIfChanged(ref _creatorName, value);
-        }
-
-        [DataMember]
-        public AvaloniaList<Project> Projects
-        {
-            get => _projects;
-            set => RaiseAndSetIfChanged(ref _projects, value);
-        }
-
-        [DataMember]
-        public AvaloniaList<ModuleForUpdate> ModulesForUpdate
-        {
-            get => _modulesForUpdate;
-            set => RaiseAndSetIfChanged(ref _modulesForUpdate, value);
-        }
-
-        [DataMember]
-        public AvaloniaList<CorrespondingExtensionEditor> CorrespondingExtensionEditors
-        {
-            get => _correspondingExtensionEditors;
-            set => RaiseAndSetIfChanged(ref _correspondingExtensionEditors, value);
-        }
-
-        public static GeneralSettings Load()
-        {
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "Settings"))
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "Settings");
-
-            try
-            {
-                using (FileStream fileStream =
-                       File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "general.xml"))
-                {
-                    return (GeneralSettings)new XmlSerializer(typeof(GeneralSettings)).Deserialize(fileStream);
-                }
-            }
-            catch
-            {
-                return new GeneralSettings();
-            }
-        }
-
-        public static void Save()
-        {
-            using (FileStream fileStream =
-                   File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "general.xml"))
-            {
-                new XmlSerializer(typeof(GeneralSettings)).Serialize(fileStream, Instance);
-            }
-        }
+    public static void Save()
+    {
+        using FileStream fileStream = File.Create(Path.Combine(SettingsFolder, "general.xml"));
+        new XmlSerializer(typeof(GeneralSettings)).Serialize(fileStream, Instance);
     }
 }

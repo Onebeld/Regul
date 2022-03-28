@@ -2,19 +2,18 @@
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 
-namespace Regul.Base.Views.Windows
+namespace Regul.Base.Views.Windows;
+
+public class Loading : PleasantDialogWindow
 {
-    public class Loading : PleasantDialogWindow
+    public readonly ProgressBar ProgressBar;
+    public readonly TextBlock TextBlock;
+
+    public Loading()
     {
-        public ProgressBar ProgressBar;
-        public TextBlock TextBlock;
+        AvaloniaXamlLoader.Load(this);
 
-        public Loading()
-        {
-            AvaloniaXamlLoader.Load(this);
-
-            ProgressBar = this.FindControl<ProgressBar>("progressBar");
-            TextBlock = this.FindControl<TextBlock>("textBlock");
-        }
+        ProgressBar = this.FindControl<ProgressBar>("progressBar");
+        TextBlock = this.FindControl<TextBlock>("textBlock");
     }
 }
