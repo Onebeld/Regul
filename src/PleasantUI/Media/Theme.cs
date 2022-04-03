@@ -1,10 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Onebeld.Extensions;
 
 namespace PleasantUI.Media;
 
 [DataContract]
-public class Theme : ViewModelBase
+public class Theme : ViewModelBase, ICloneable
 {
     private uint _accentColor;
 
@@ -211,4 +212,6 @@ public class Theme : ViewModelBase
         get => _mbErrorColor;
         set => RaiseAndSetIfChanged(ref _mbErrorColor, value);
     }
+
+    public object Clone() => MemberwiseClone();
 }

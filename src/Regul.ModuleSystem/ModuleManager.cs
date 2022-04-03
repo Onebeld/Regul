@@ -9,11 +9,13 @@ using Module = Regul.ModuleSystem.Models.Module;
 
 namespace Regul.ModuleSystem;
 
-public class ModuleManager : ViewModelBase
+public static class ModuleManager
 {
     public static AvaloniaList<Module> Modules { get; } = new();
 
     public static AvaloniaList<Editor?> Editors { get; } = new();
+
+    public static AvaloniaList<ModuleSettingsView> ModulesSettings { get; } = new();
 
     public static Editor? GetEditorById(string? id)
     {

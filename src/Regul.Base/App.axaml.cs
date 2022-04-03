@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -67,19 +68,7 @@ public class App : Application
                     themes.Add((Theme)new XmlSerializer(typeof(Theme)).Deserialize(fs));
                 }
 
-            //Theme theme = Themes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
-            Theme? customTheme = null;
-            for (int i = 0; i < themes.Count; i++)
-            {
-                Theme item = themes[i] ?? throw new NullReferenceException();
-
-                if (item.Name == GeneralSettings.Instance.Theme)
-                {
-                    customTheme = item;
-                    break;
-                }
-            }
-            //
+            Theme? customTheme = themes.FirstOrDefault(t => t.Name == GeneralSettings.Instance.Theme);
 
             if (customTheme is not null)
             {
@@ -96,24 +85,8 @@ public class App : Application
 
     private void InitializeLanguage()
     {
-        //Language language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language)
-        //	?? Languages.First(x => x.Key == "en");
-        Language? language = null;
-        foreach (Language? item in Languages)
-            if (item?.Key == GeneralSettings.Instance.Language)
-            {
-                language = item;
-                break;
-            }
-
-        if (language == null)
-            foreach (Language? item in Languages)
-                if (item?.Key == "en")
-                {
-                    language = item;
-                    break;
-                }
-        //
+        Language? language = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Instance.Language)
+                             ?? Languages.First(x => x.Key == "en");
 
         Current!.Styles[2] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
         {

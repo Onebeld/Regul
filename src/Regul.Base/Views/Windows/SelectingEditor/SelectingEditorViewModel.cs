@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reactive.Linq;
 using Avalonia.Collections;
 using Onebeld.Extensions;
 using Regul.ModuleSystem;
@@ -8,9 +9,6 @@ namespace Regul.Base.Views.Windows;
 
 public class SelectingEditorViewModel : ViewModelBase
 {
-    private AvaloniaList<Editor?> _editors = new();
-    private AvaloniaList<Editor?> _foundEditors = new();
-
     private string _searchText = string.Empty;
     private Editor? _selectedItem;
     
@@ -22,34 +20,21 @@ public class SelectingEditorViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _selectedItem, value);
     }
 
-    public AvaloniaList<Editor?> Editors
-    {
-        get => _editors;
-        set => RaiseAndSetIfChanged(ref _editors, value);
-    }
-
-    public AvaloniaList<Editor?> FoundEditors
-    {
-        get => _foundEditors;
-        set => RaiseAndSetIfChanged(ref _foundEditors, value);
-    }
+    public AvaloniaList<Editor?> FoundEditors { get; } = new();
 
     public string SearchText
     {
         get => _searchText;
-        set
-        {
-            RaiseAndSetIfChanged(ref _searchText, value);
-            FindEditor();
-        }
+        set => RaiseAndSetIfChanged(ref _searchText, value);
     }
 
     #endregion
 
-    public void Initialize()
+    public SelectingEditorViewModel()
     {
-        FindEditor();
-        SelectedItem = Editors.First();
+        this.WhenAnyValue(x => x.SearchText)
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .Subscribe(_ => FindEditor());
     }
 
     public void CloseWithSave()
@@ -62,21 +47,19 @@ public class SelectingEditorViewModel : ViewModelBase
         WindowsManager.FindModalWindow<SelectingEditor>()?.Close(null);
     }
 
-    public void FindEditor()
+    private void FindEditor()
     {
+        FoundEditors.Clear();
+        
         if (string.IsNullOrEmpty(SearchText))
         {
-            FoundEditors = Editors;
+            FoundEditors.AddRange(ModuleManager.Editors);
             return;
         }
 
-        FoundEditors = new AvaloniaList<Editor?>();
-
-        //foreach (Editor editor in Editors)
-        for (int i = 0; i < Editors.Count; i++)
+        foreach (Editor? editor in ModuleManager.Editors)
         {
-            Editor editor = Editors[i] ?? throw new NullReferenceException();
-            if (editor.Name!.ToLower().Contains(SearchText.ToLower()))
+            if (editor is not null && editor.Name.ToLower().Contains(SearchText.ToLower()))
                 FoundEditors.Add(editor);
         }
     }

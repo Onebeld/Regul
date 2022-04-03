@@ -118,9 +118,4 @@ public class HashGeneratorViewModel : ViewModelBase
             RaisePropertyChanged(nameof(Fnv64));
         }
     }
-
-    public void Close(HashGenerator hashGenerator)
-    {
-        WindowsManager.OtherWindows.Remove(hashGenerator);
-    }
 }

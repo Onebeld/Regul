@@ -1,5 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:pb="using:PleasantUI.Behaviors"
+        xmlns:i="using:Avalonia.Xaml.Interactivity">
     <Style Selector="PleasantBorder">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
@@ -12,8 +14,13 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         Background="{TemplateBinding Background}"
-                        ShadowAssist.ShadowDepth="{TemplateBinding ShadowAssist.ShadowDepth}"
                         ClipToBounds="False">
+                    <i:Interaction.Behaviors>
+                        <pb:ShadowBehavior x:DataType="PleasantSettings"
+                                           ShadowDepth="{Binding Path=(ShadowAssist.ShadowDepth), Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                           EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantSettings.Instance}}"/>
+                    </i:Interaction.Behaviors>
+                    
                     <Border CornerRadius="{TemplateBinding CornerRadius}"
                             ClipToBounds="True">
                         <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"

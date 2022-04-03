@@ -11,11 +11,10 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Markup.Xaml;
+using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
-using Avalonia.Styling;
 using Onebeld.Extensions;
 using Onebeld.Logging;
 using PleasantUI;
@@ -34,17 +33,16 @@ namespace Regul.Base.Views.Windows;
 public class SettingsViewModel : ViewModelBase
 {
     private Theme? _customTheme;
-    private AvaloniaList<Theme?> _customThemes = new();
     private readonly PleasantTheme _pleasantTheme = (Application.Current?.Styles[0] as PleasantTheme)!;
 
     private bool _isChecksForUpdates;
 
     private readonly Loading _loading = new();
-
-    private AvaloniaList<Module?> _modules = new();
+    
     private Language? _selectedLanguage;
     private Module? _selectedModule;
     private int _selectedTheme;
+    private ModuleSettingsView? _selectedModuleSettingsView;
 
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
     private bool _thereAreUpdatesForModules;
@@ -69,11 +67,7 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
-    public AvaloniaList<Theme?> CustomThemes
-    {
-        get => _customThemes;
-        set => RaiseAndSetIfChanged(ref _customThemes, value);
-    }
+    public AvaloniaList<Theme?> CustomThemes { get; } = new();
 
     public Theme? CustomTheme
     {
@@ -111,8 +105,8 @@ public class SettingsViewModel : ViewModelBase
             };
 
             //foreach (IModule module in ModuleManager.System.Modules)
-            for (int i = 0; i < ModuleManager.Modules.Count; i++)
-                ModuleManager.Modules[i].ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
+            foreach (Module module in ModuleManager.Modules)
+                module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
         }
     }
 
@@ -122,15 +116,11 @@ public class SettingsViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _selectedModule, value);
     }
 
-    public AvaloniaList<Module?> Modules
+    public ModuleSettingsView? SelectedModuleSettingsView
     {
-        get => _modules;
-        set => RaiseAndSetIfChanged(ref _modules, value);
+        get => _selectedModuleSettingsView;
+        set => RaiseAndSetIfChanged(ref _selectedModuleSettingsView, value);
     }
-
-    public List<Language?> Languages =>
-        //return App.Languages.ToList();
-        new(App.Languages);
 
     public List<ComboBoxItem> Themes
     {
@@ -140,6 +130,8 @@ public class SettingsViewModel : ViewModelBase
 
             foreach (string mode in Enum.GetNames(typeof(PleasantThemeMode)))
             {
+                if (mode is "None" or "Custom") continue;
+                
                 ComboBoxItem comboBoxItem = new();
                 comboBoxItem.Bind(ContentControl.ContentProperty, new DynamicResourceExtension(mode));
                 comboBoxItem.DataContext = mode;
@@ -162,8 +154,23 @@ public class SettingsViewModel : ViewModelBase
         get => _thereAreUpdatesForModules;
         set => RaiseAndSetIfChanged(ref _thereAreUpdatesForModules, value);
     }
+    
+    public IModuleSettings? ModuleSettings { get; set; }
 
     #endregion
+
+    public SettingsViewModel()
+    {
+        this.WhenAnyValue(x => x.SelectedModuleSettingsView)
+            .Subscribe(OnNext);
+    }
+
+    private void OnNext(ModuleSettingsView? obj)
+    {
+        ModuleSettings = obj?.Settings.Invoke();
+        
+        RaisePropertyChanged(nameof(ModuleSettings));
+    }
 
     private void Close()
     {
@@ -179,59 +186,18 @@ public class SettingsViewModel : ViewModelBase
 
         LoadThemes();
 
-        GetModules();
-
         SelectedTheme = Themes.FindIndex(x => (string)x.DataContext! == GeneralSettings.Instance.Theme);
         if (SelectedTheme == -1)
         {
-            //Theme theme = CustomThemes.FirstOrDefault(t => t.Name == GeneralSettings.Settings.Theme);
-            Theme? theme = null;
-            for (int i = 0; i < CustomThemes.Count; i++)
-            {
-                Theme item = CustomThemes[i] ?? throw new NullReferenceException();
-
-                if (item.Name == GeneralSettings.Instance.Theme)
-                {
-                    theme = item;
-                    break;
-                }
-            }
-
+            Theme? theme = CustomThemes.FirstOrDefault(t => t?.Name == GeneralSettings.Instance.Theme);
+            
             if (theme != null)
                 CustomTheme = theme;
             else SelectedTheme = 0;
         }
-
-        //SelectedLanguage = Languages.FirstOrDefault(x => x.Key == GeneralSettings.Settings.Language)
-        //	?? App.Languages.First(x => x.Key == "en");
-        for (int i = 0; i < Languages.Count; i++)
-        {
-            Language item = Languages[i] ?? throw new NullReferenceException();
-            if (item.Key == GeneralSettings.Instance.Language)
-            {
-                SelectedLanguage = item;
-                break;
-            }
-        }
-
-        if (SelectedLanguage == null)
-            for (int i = 0; i < Languages.Count; i++)
-            {
-                Language item = Languages[i] ?? throw new NullReferenceException();
-                if (item.Key == "en")
-                {
-                    SelectedLanguage = item;
-                    break;
-                }
-            }
-        //
-    }
-
-    private void GetModules()
-    {
-        //foreach (ModuleSystem.Models.Module module in ModuleManager.System.Modules) Modules.Add(module);
-        for (int i = 0; i < ModuleManager.Modules.Count; i++)
-            Modules.Add(ModuleManager.Modules[i]);
+        
+        SelectedLanguage = App.Languages.FirstOrDefault(x => x?.Key == GeneralSettings.Instance.Language)
+            ?? App.Languages.First(x => x?.Key == "en");
     }
 
     public void Release()
@@ -248,10 +214,7 @@ public class SettingsViewModel : ViewModelBase
             foreach (string mode in Enum.GetNames(typeof(PleasantThemeMode)))
                 if (mode == theme.Name)
                     theme.Name += " New";
-
-
-            //if (CustomThemes.Any(x => x.Name == customTheme.Name))
-            //	customTheme.Name += " New";
+            
             int count = 0;
             while (true)
             {
@@ -268,7 +231,6 @@ public class SettingsViewModel : ViewModelBase
                 if (count >= CustomThemes.Count)
                     break;
             }
-            //
 
             if (!string.IsNullOrEmpty(theme.Name))
             {
@@ -369,31 +331,24 @@ public class SettingsViewModel : ViewModelBase
                 WindowsManager.ShowError(App.GetResource<string>("FailedLoadModule") + $" {copiedFile}", e.ToString());
             }
 
-        //foreach (ModuleSystem.Models.Module module in modules)
-        for (int i = 0; i < modules.Count; i++)
+        foreach (Module? module in modules)
         {
-            Module module = modules[i] ?? throw new NullReferenceException();
-            if (ModuleManager.Modules.Contains(module))
+            if (module is null || ModuleManager.Modules.Contains(module))
                 continue;
-
-            InitializeModule(module, false);
+            
+            InitializeModule(module);
         }
-
-        UpdateModulesList();
 
         WindowsManager.ShowNotification(App.GetResource<string>("ModulesUploaded"));
     }
 
-    private void InitializeModule(Module? module, bool updateList = true)
+    private void InitializeModule(Module module)
     {
         try
         {
-            if (module is not null)
-            {
-                module.Source.Execute();
-                module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
-                module.Source.CorrectlyInitialized = true;
-            }
+            module.Source.Execute();
+            module.ChangeLanguage(GeneralSettings.Instance.Language, App.ModulesLanguage);
+            module.Source.CorrectlyInitialized = true;
         }
         catch (Exception e)
         {
@@ -402,36 +357,18 @@ public class SettingsViewModel : ViewModelBase
 
             WindowsManager.ShowError(App.GetResource<string>("FailedInitModule") + $" {SelectedModule?.Source.Name}", e.ToString());
         }
-
-        if (updateList)
-            UpdateModulesList();
     }
 
     private void XamlInitializeModule(Module? module)
     {
+        if (module is null) return;
+        
         InitializeModule(module);
     }
 
     private void DeleteCorrespondingExtensionEditor(CorrespondingExtensionEditor ce)
     {
         GeneralSettings.Instance.CorrespondingExtensionEditors.Remove(ce);
-    }
-
-    private void UpdateModulesList()
-    {
-        if (SelectedModule == null) return;
-        
-        int index = ModuleManager.Modules.IndexOf(SelectedModule);
-
-        Modules.Clear();
-        GetModules();
-
-        if (index != -1)
-            //SelectedModule = Modules.ElementAt(index);
-
-            for (int i = 0; i < Modules.Count; i++)
-                if (i == index)
-                    SelectedModule = Modules[i];
     }
 
     private void CreateTheme()
@@ -453,7 +390,7 @@ public class SettingsViewModel : ViewModelBase
         CustomThemes.Add(theme);
     }
 
-    private async void ChangeColor(Button button)
+    private async void ChangeColor(TemplatedControl button)
     {
         try
         {
@@ -462,7 +399,7 @@ public class SettingsViewModel : ViewModelBase
 
             button.Background = brush;
 
-            _pleasantTheme.CustomMode = CustomTheme;
+            _pleasantTheme.CustomMode = (Theme)CustomTheme?.Clone()!;
         }
         catch (Exception ex)
         {
@@ -519,7 +456,7 @@ public class SettingsViewModel : ViewModelBase
         if (ColorHelpers.IsValidHexColor(copingColor))
         {
             button.Background = new SolidColorBrush(Color.Parse(copingColor));
-            Application.Current.Styles[1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
+            _pleasantTheme.CustomMode = (Theme)CustomTheme?.Clone()!;
         }
     }
 
@@ -532,7 +469,6 @@ public class SettingsViewModel : ViewModelBase
         UpdateModule(module);
 
         _loading.Close();
-        UpdateModulesList();
 
         MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
         viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Information"),
@@ -610,8 +546,7 @@ public class SettingsViewModel : ViewModelBase
         }
 
         _loading.Close();
-        UpdateModulesList();
-            
+
         WindowsManager.ShowNotification(App.GetResource<string>("NextTimeModulesUpdate"), NotificationType.Information);
     }
 
@@ -632,8 +567,6 @@ public class SettingsViewModel : ViewModelBase
         await Task.Run(() => { Parallel.ForEach(ModuleManager.Modules, module => { module.CheckUpdate(); }); });
 
         IsChecksForUpdates = false;
-
-        UpdateModulesList();
 
         if (!ModuleManager.Modules.Any(x => x.Source.ThereIsAnUpdate))
         {

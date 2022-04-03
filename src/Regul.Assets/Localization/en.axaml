@@ -143,6 +143,9 @@
         <v:String x:Key="ConnectedModulesC">Connected modules:</v:String>
         <v:String x:Key="InstalledThemesC">Installed themes:</v:String>
         <v:String x:Key="ModuleInformation">Module information</v:String>
+        
+        <v:String x:Key="ModuleSettings">Module settings</v:String>
+        <v:String x:Key="Empty">Empty</v:String>
 
         <v:String x:Key="SelectModule">Select module</v:String>
         <v:String x:Key="CreatorC">Creator:</v:String>

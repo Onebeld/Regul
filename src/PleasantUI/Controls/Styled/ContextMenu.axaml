@@ -1,10 +1,22 @@
-﻿<Style xmlns="https://github.com/avaloniaui" Selector="ContextMenu"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Style xmlns="https://github.com/avaloniaui" 
+       Selector="ContextMenu"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:pb="using:PleasantUI.Behaviors"
+       xmlns:i="using:Avalonia.Xaml.Interactivity">
     <Setter Property="WindowManagerAddShadowHint" Value="False" />
     <Setter Property="Template">
         <ControlTemplate>
-            <Border BorderBrush="{StaticResource WindowBorderBrush}" Margin="4 2 4 4" CornerRadius="4"
-                    ShadowAssist.ShadowDepth="Depth1" BorderThickness="1" Background="{StaticResource BackgroundBrush}">
+            <Border BorderBrush="{StaticResource WindowBorderBrush}" 
+                    Margin="4 2 4 4" 
+                    CornerRadius="4"
+                    BorderThickness="1" 
+                    Background="{StaticResource BackgroundBrush}">
+                <i:Interaction.Behaviors>
+                    <pb:ShadowBehavior x:DataType="PleasantSettings"
+                                       ShadowDepth="Depth1"
+                                       EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantSettings.Instance}}"/>
+                </i:Interaction.Behaviors>
+                
                 <ScrollViewer>
                     <ItemsPresenter Name="PART_ItemsPresenter"
                                     Margin="2"

@@ -25,6 +25,8 @@ public class MainWindow : PleasantWindow
     public MainWindow()
     {
         AvaloniaXamlLoader.Load(this);
+        
+        this.AttachDevTools();
 
         MainViewModel viewModel = new();
 

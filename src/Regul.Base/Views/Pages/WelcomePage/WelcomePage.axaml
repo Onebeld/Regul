@@ -14,13 +14,11 @@
     </Design.DataContext>
     
     <Grid ColumnDefinitions="*,1.3*">
-        <Path Grid.Column="0"
-              Data="{StaticResource RegulIcon}"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              Fill="#FF9100BF"
-              Stretch="Uniform"
-              Margin="70 100" />
+        <Image Grid.Column="0" 
+               Source="{StaticResource RegulIcon}"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="70 100"></Image>
         <TextBlock Grid.Column="0"
                    Text="{DynamicResource Welcome}"
                    FontSize="25"

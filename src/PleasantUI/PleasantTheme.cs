@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
@@ -13,6 +11,8 @@ namespace PleasantUI;
 
 public enum PleasantThemeMode
 {
+    None = -1,
+    
     Light = 0,
     Dark = 1,
     Mysterious = 2,
@@ -49,7 +49,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     }
 
     public static readonly StyledProperty<PleasantThemeMode> ModeProperty =
-        AvaloniaProperty.Register<PleasantTheme, PleasantThemeMode>(nameof(Mode));
+        AvaloniaProperty.Register<PleasantTheme, PleasantThemeMode>(nameof(Mode), PleasantThemeMode.None);
 
     public static readonly StyledProperty<Theme> CustomModeProperty =
         AvaloniaProperty.Register<PleasantTheme, Theme>(nameof(CustomMode));
@@ -69,6 +69,8 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
     {
         base.OnPropertyChanged(change);
+        
+        if (Mode == PleasantThemeMode.None) return;
 
         if (change.Property == ModeProperty)
         {
@@ -91,12 +93,14 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
                     break;
                     
                 case PleasantThemeMode.Custom:
-                default:
                     if (CustomMode is { })
                     {
                         (Loaded as Styles)![1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomMode.ToAxaml());
                         _isLoadedCustomMode = true;
                     }
+                    break;
+                
+                default:
                     break;
             }
         }
@@ -118,9 +122,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     public bool TryGetResource(object key, out object? value)
     {
         if (!_isLoading && Loaded is IResourceProvider provider)
-        {
             return provider.TryGetResource(key, out value);
-        }
 
         value = null;
         return false;
@@ -136,17 +138,13 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     {
         add
         {
-            if (Loaded is IResourceProvider provider)
-            {
+            if (Loaded is IResourceProvider provider) 
                 provider.OwnerChanged += value;
-            }
         }
         remove
         {
-            if (Loaded is IResourceProvider provider)
-            {
+            if (Loaded is IResourceProvider provider) 
                 provider.OwnerChanged -= value;
-            }
         }
     }
 
@@ -177,8 +175,11 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
                         break;
                         
                     case PleasantThemeMode.Custom:
-                    default:
                         _loaded = new Styles { _sharedStyles, null! };
+                        break;
+                    
+                    default:
+                        _loaded = new Styles { null!, null! };
                         break;
                 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -18,42 +19,19 @@ public static class WindowsManager
 
     public static AvaloniaList<PleasantWindow?> OtherWindows { get; } = new();
 
-    public static T? FindModalWindow<T>() where T : PleasantModalWindow
-    {
-        //return (T)OtherModalWindows.FirstOrDefault(x => x is T);
-        for (int i = 0; i < OtherModalWindows.Count; i++)
-        {
-            PleasantModalWindow? item = OtherModalWindows[i];
+    public static T? FindModalWindow<T>() where T : PleasantModalWindow => 
+        (T)OtherModalWindows.FirstOrDefault(x => x is T)!;
 
-            if (item is T window)
-                return window;
-        }
-
-        return null;
-    }
-
-    public static T? FindWindow<T>() where T : PleasantWindow
-    {
-        //return (T) OtherWindows.FirstOrDefault(x => x is T);
-        for (int i = 0; i < OtherWindows.Count; i++)
-        {
-            PleasantWindow? item = OtherWindows[i];
-
-            if (item is T window)
-                return window;
-        }
-
-        return null;
-    }
+    public static T? FindWindow<T>() where T : PleasantWindow => 
+        (T)OtherWindows.FirstOrDefault(x => x is T)!;
 
     public static List<T> FindAllModalWindows<T>() where T : PleasantModalWindow
     {
         List<T> otherWindows = new();
-
-        //foreach (PleasantDialogWindow window in OtherModalWindows)
-        for (int i = 0; i < OtherModalWindows.Count; i++)
+        
+        foreach (PleasantModalWindow? w in OtherModalWindows)
         {
-            PleasantDialogWindow window = (PleasantDialogWindow)OtherModalWindows[i]!;
+            PleasantDialogWindow window = (PleasantDialogWindow)w!;
             if (window is T pleasantModalWindow)
                 otherWindows.Add(pleasantModalWindow);
         }
@@ -64,12 +42,9 @@ public static class WindowsManager
     public static List<T> FindAllWindows<T>() where T : PleasantWindow
     {
         List<T> otherWindows = new();
-
-        //foreach (PleasantWindow window in OtherWindows)
-        for (int i = 0; i < OtherWindows.Count; i++)
+        
+        foreach (PleasantWindow? window in OtherWindows)
         {
-            PleasantWindow? window = OtherWindows[i];
-
             if (window is T pleasantWindow)
                 otherWindows.Add(pleasantWindow);
         }
@@ -85,6 +60,7 @@ public static class WindowsManager
         if (foundWindow is { CanOpen: true }) return null;
 
         T window = (T)Activator.CreateInstance(typeof(T), args);
+        window.Closed += OnClosedModalWindow;
         OtherModalWindows.Add(window);
 
         if (host != null)
@@ -93,13 +69,20 @@ public static class WindowsManager
         return window;
     }
 
+    private static void OnClosedModalWindow(object sender, EventArgs e)
+    {
+        if (sender is PleasantModalWindow window)
+            OtherModalWindows.Remove(window);
+    }
+
     public static T? CreateWindow<T>(PleasantWindow? host = null, params object[] args) where T : PleasantWindow
     {
         T? foundWindow = FindWindow<T>();
 
-        if (foundWindow != null) return null;
+        if (foundWindow is not null) return null;
 
         T window = (T)Activator.CreateInstance(typeof(T), args);
+        window.Closed += OnClosedWindow;
         OtherWindows.Add(window);
 
         if (host != null)
@@ -110,11 +93,14 @@ public static class WindowsManager
         return window;
     }
 
-    public static T GetDataContext<T>(this Control? control)
+    private static void OnClosedWindow(object sender, EventArgs e)
     {
-        return (T)control?.DataContext!;
+        if (sender is PleasantWindow window) 
+            OtherWindows.Remove(window);
     }
-        
+
+    public static T GetDataContext<T>(this Control? control) => (T)control?.DataContext!;
+
     public static void ShowError(string? message, string? exception)
     {
         MessageBox.Show(MainWindow, App.GetResource<string>("Error"), message, new List<MessageBoxButton>
@@ -136,7 +122,7 @@ public static class WindowsManager
         switch (type)
         {
             case NotificationType.Information:
-                title = App.GetResource<string>("Error");
+                title = App.GetResource<string>("Information");
                 break;
             case NotificationType.Warning:
                 title = App.GetResource<string>("Warning");

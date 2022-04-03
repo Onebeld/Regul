@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12.2" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.13" />
     </ItemGroup>
 
     <ItemGroup>
@@ -22,10 +23,5 @@
         <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
         <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
         <ProjectReference Include="..\Regul.Settings\Regul.Settings.csproj" />
-        <ProjectReference Include="..\System.Custom\System.Custom.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Models" />
     </ItemGroup>
 </Project>

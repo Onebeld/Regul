@@ -22,7 +22,7 @@ public class GeneralSettings : ViewModelBase
     private string _creatorName;
     private bool _hardwareAcceleration = true;
     private AvaloniaList<ModuleForUpdate> _modulesForUpdate = new();
-    private AvaloniaList<Project> _projects;
+    private AvaloniaList<Project> _projects = new();
     private bool _showCustomTitleBar = true;
     private bool _showFullscreenButton;
 

@@ -62,7 +62,7 @@
                                 VerticalAlignment="Center"
                                 Margin="0 0 5 0">
                         <TextBlock Text="{DynamicResource InstalledEditorsC}" Margin="0 0 5 0" />
-                        <TextBlock Text="{CompiledBinding Editors.Count}" />
+                        <TextBlock Text="{CompiledBinding Count, Source={x:Static o:ModuleManager.Editors}}" />
                     </StackPanel>
                 </Panel>
 
@@ -70,11 +70,12 @@
                          Grid.Row="1"
                          SelectedItem="{CompiledBinding SelectedItem}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         Items="{CompiledBinding FoundEditors}"
+                         Items="{x:Static o:ModuleManager.Editors}"
                          SelectedIndex="0"
                          CornerRadius="0"
                          BorderThickness="0"
-                         VerticalAlignment="Center">
+                         VerticalAlignment="Center"
+                         SelectionMode="AlwaysSelected">
                     <ListBox.DataTemplates>
                         <DataTemplate DataType="{x:Type o:Editor}">
                             <Grid ColumnDefinitions="Auto,*">

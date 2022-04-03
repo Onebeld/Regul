@@ -2,7 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="PleasantDialogWindow">
         <Setter Property="Background" Value="{StaticResource BackgroundLevel1Brush}" />
-        <Setter Property="ShadowAssist.ShadowDepth" Value="Depth2" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -11,13 +10,13 @@
 
                     <PleasantBorder Name="PART_ModalWindow"
                                     CornerRadius="{TemplateBinding CornerRadius}"
-                                    ShadowAssist.ShadowDepth="{TemplateBinding ShadowAssist.ShadowDepth}"
                                     BorderBrush="{StaticResource WindowBorderBrush}"
                                     Background="{TemplateBinding Background}"
                                     MinWidth="{TemplateBinding MinWidth}"
                                     MinHeight="{TemplateBinding MinHeight}"
                                     MaxWidth="{TemplateBinding MaxWidth}"
-                                    MaxHeight="{TemplateBinding MaxHeight}">
+                                    MaxHeight="{TemplateBinding MaxHeight}"
+                                    ShadowAssist.ShadowDepth="Depth2">
                         <DockPanel>
                             <Grid Name="PART_TitleBar"
                                   ColumnDefinitions="Auto,*,Auto"

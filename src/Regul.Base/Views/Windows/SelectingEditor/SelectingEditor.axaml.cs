@@ -8,15 +8,7 @@ namespace Regul.Base.Views.Windows;
 
 public class SelectingEditor : PleasantDialogWindow
 {
-    public SelectingEditor()
-    {
-        AvaloniaXamlLoader.Load(this);
-
-        TemplateApplied += (_, _) =>
-        {
-            this.GetDataContext<SelectingEditorViewModel>().Initialize();
-        };
-    }
+    public SelectingEditor() => AvaloniaXamlLoader.Load(this);
 
     public static async Task<(Editor?, bool)> GetEditor(string? fileName, bool showCheckBox = true)
     {
@@ -30,11 +22,9 @@ public class SelectingEditor : PleasantDialogWindow
         CheckBox checkBox = selectingEditor.FindControl<CheckBox>("PART_AlwaysOpen");
         checkBox.IsVisible = showCheckBox;
 
-        selectingEditor.GetDataContext<SelectingEditorViewModel>().Editors = ModuleManager.Editors;
         selectingEditor.FindControl<ListBox>("ListBox").Focus();
             
-        Editor editor = await selectingEditor.Show<Editor>(WindowsManager.MainWindow);
-        WindowsManager.OtherModalWindows.Remove(selectingEditor);
+        Editor? editor = await selectingEditor.Show<Editor?>(WindowsManager.MainWindow);
 
         return (editor, editor != null && (checkBox.IsChecked ?? false));
     }

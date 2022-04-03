@@ -143,6 +143,9 @@
         <v:String x:Key="ConnectedModulesC">Подключено модулей:</v:String>
         <v:String x:Key="InstalledThemesC">Установлено тем:</v:String>
         <v:String x:Key="ModuleInformation">Информация о модуле</v:String>
+        
+        <v:String x:Key="ModuleSettings">Настройки модулей</v:String>
+        <v:String x:Key="Empty">Пусто</v:String>
 
         <v:String x:Key="SelectModule">Выберите модуль</v:String>
         <v:String x:Key="CreatorC">Создатель:</v:String>

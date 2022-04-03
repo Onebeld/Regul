@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reactive.Linq;
 using Avalonia.Collections;
 using Onebeld.Extensions;
 using PleasantUI.Structures;
@@ -11,12 +12,11 @@ namespace Regul.Base.Views.Windows;
 
 public class NewProjectViewModel : ViewModelBase
 {
-    private AvaloniaList<Project> _foundProjects;
     private string _searchText;
 
     private int _selectedPatternSearch;
     private Project _selectedProject;
-        
+
     #region Propetries
 
     public Project SelectedProject
@@ -25,54 +25,34 @@ public class NewProjectViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _selectedProject, value);
     }
 
-    public AvaloniaList<Project> FoundProjects
-    {
-        get => _foundProjects;
-        set => RaiseAndSetIfChanged(ref _foundProjects, value);
-    }
+    public AvaloniaList<Project> FoundProjects { get; } = new();
 
     public int SelectedPatternSearch
     {
         get => _selectedPatternSearch;
-        set
-        {
-            RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
-            SearchProjects();
-        }
+        set => RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
     }
 
     public string SearchText
     {
         get => _searchText;
-        set
-        {
-            RaiseAndSetIfChanged(ref _searchText, value);
-            SearchProjects();
-        }
+        set => RaiseAndSetIfChanged(ref _searchText, value);
     }
 
     #endregion
 
     public NewProjectViewModel()
     {
-        SearchProjects();
+        this.WhenAnyValue(x => x.SearchText, x => x.SelectedPatternSearch)
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .Subscribe(_ => SearchProjects());
     }
 
     private void OpenProject()
     {
         if (!File.Exists(SelectedProject.Path))
         {
-            MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                App.GetResource<string>("FailedLoadFile"), new List<MessageBoxButton>
-                {
-                    new()
-                    {
-                        Default = true,
-                        Result = "OK",
-                        Text = App.GetResource<string>("OK"),
-                        IsKeyDown = true
-                    }
-                }, MessageBox.MessageBoxIcon.Error);
+            WindowsManager.ShowError(App.GetResource<string>("FailedLoadFile"), null);
 
             GeneralSettings.Instance.Projects.Remove(SelectedProject);
             SearchProjects();
@@ -134,13 +114,13 @@ public class NewProjectViewModel : ViewModelBase
 
     private void SearchProjects()
     {
+        FoundProjects.Clear();
+        
         if (string.IsNullOrEmpty(SearchText))
         {
-            FoundProjects = GeneralSettings.Instance.Projects;
+            FoundProjects.AddRange(GeneralSettings.Instance.Projects);
             return;
         }
-
-        FoundProjects = new AvaloniaList<Project>();
 
         switch (SelectedPatternSearch)
         {
@@ -169,10 +149,7 @@ public class NewProjectViewModel : ViewModelBase
     private void CloseWindow()
     {
         NewProject? foundNewProject = WindowsManager.FindModalWindow<NewProject>();
-
         foundNewProject?.Close();
-
-        WindowsManager.OtherModalWindows.Remove(foundNewProject);
 
         WindowsManager.MainWindow.GetDataContext<MainViewModel>().FindProjects();
     }

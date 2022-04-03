@@ -6,8 +6,7 @@
 
         <converters:CornerRadiusFilterConverter x:Key="TopCornerRadiusFilterConverter" Filter="TopLeft, TopRight" />
         <converters:CornerRadiusFilterConverter x:Key="RightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
-        <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter"
-                                                Filter="BottomLeft, BottomRight" />
+        <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter" Filter="BottomLeft, BottomRight" />
         <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
     </Styles.Resources>
 

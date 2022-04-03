@@ -44,39 +44,4 @@ public class RegulMenuItem : IRegulObject
     }
 
     public string Id { get; }
-
-    public static AvaloniaList<IAvaloniaObject> GenerateMenuItems(AvaloniaList<IRegulObject?> list)
-    {
-        // TODO: Get rid of recursion in the function GenerateMenuItems
-
-        AvaloniaList<IAvaloniaObject> menuItems = new();
-
-        foreach (IRegulObject? regulObject in list)
-            switch (regulObject)
-            {
-                case RegulMenuItem regulMenuItem:
-                {
-                    MenuItem menuItem = new()
-                    {
-                        Command = regulMenuItem.Command,
-                        InputGesture = regulMenuItem.Gesture!,
-                        HotKey = regulMenuItem.Gesture
-                    };
-                    if (!string.IsNullOrEmpty(regulMenuItem.KeyIcon))
-                        menuItem.Icon = new Path { Data = App.GetResource<Geometry>(regulMenuItem.KeyIcon) };
-                    foreach (Binding bind in regulMenuItem.Bindings)
-                        menuItem.Bind(bind.AvaloniaProperty, bind.Binder, bind.Anchor);
-
-                    menuItem.Items = GenerateMenuItems(regulMenuItem.Items);
-
-                    menuItems.Add(menuItem);
-                    break;
-                }
-                case RegulSeparator:
-                    menuItems.Add(new Separator());
-                    break;
-            }
-
-        return menuItems;
-    }
 }

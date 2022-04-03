@@ -12,15 +12,6 @@ public class AboutViewModel : ViewModelBase
     public string FrameworkVersion => RuntimeInformation.FrameworkDescription;
     public string? PleasantUiVersion => Assembly.GetAssembly(typeof(PleasantWindow))?.GetName().Version?.ToString();
 
-    public void Close()
-    {
-        About? window = WindowsManager.FindModalWindow<About>();
-
-        WindowsManager.OtherModalWindows.Remove(window);
-
-        window?.Close();
-    }
-
     private void GoToGitHub()
     {
         Process.Start(new ProcessStartInfo

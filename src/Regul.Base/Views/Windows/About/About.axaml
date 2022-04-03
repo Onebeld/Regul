@@ -21,10 +21,8 @@
     <Grid RowDefinitions="Auto,*,40">
         <StackPanel Margin="5 5 5 0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Height="55"
-                      Fill="#FF9100BF"
-                      Data="{StaticResource RegulIcon}"
-                      Stretch="Uniform" />
+                <Image Source="{StaticResource RegulIcon}"
+                       Height="55" />
                 <Path Width="200"
                       Margin="10 0 0 0"
                       VerticalAlignment="Center"

@@ -4,6 +4,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:vm="using:Regul.Base.Views.Windows"
                       xmlns:settings="using:Regul"
+                      xmlns:app="using:Regul.Base"
                       xmlns:plesasantSettings="using:PleasantUI"
                       xmlns:pb="using:PleasantUI.Behaviors"
                       xmlns:m="using:Regul.ModuleSystem.Models"
@@ -49,7 +50,7 @@
                         <TextBlock Text="{DynamicResource LanguageC}" />
                         <ComboBox Margin="5 0 0 0" 
                                   SelectedItem="{CompiledBinding SelectedLanguage}"
-                                  Items="{CompiledBinding Languages}">
+                                  Items="{x:Static app:App.Languages}">
                             <ComboBox.DataTemplates>
                                 <DataTemplate DataType="{x:Type model:Language}">
                                     <TextBlock Text="{CompiledBinding Name}" />
@@ -184,7 +185,7 @@
                             <ListBox Grid.Row="1"
                                      BorderThickness="0"
                                      CornerRadius="0"
-                                     Items="{CompiledBinding Modules}"
+                                     Items="{x:Static ms:ModuleManager.Modules}"
                                      SelectedItem="{CompiledBinding SelectedModule}">
                                 <ListBox.DataTemplates>
                                     <DataTemplate DataType="{x:Type m:Module}">
@@ -402,6 +403,42 @@
                         </ScrollViewer>
                     </Border>
                 </Border>
+            </Grid>
+        </PleasantTabItem>
+        <PleasantTabItem Header="{DynamicResource ModuleSettings}"
+                         Icon="{StaticResource SettingsIcon}">
+            <Grid ColumnDefinitions="*,5,2*" Margin="5">
+                <ListBox Grid.Column="0"
+                         Items="{x:Static ms:ModuleManager.ModulesSettings}"
+                         SelectedItem="{CompiledBinding SelectedModuleSettingsView}">
+                    <ListBox.DataTemplates>
+                        <DataTemplate DataType="{x:Type m:ModuleSettingsView}">
+                            <StackPanel Margin="5 0" Spacing="5" Orientation="Horizontal">
+                                <Image Source="{CompiledBinding ModuleImage}" Width="20" Height="20" />
+                                <TextBlock Text="{CompiledBinding ModuleName}"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.DataTemplates>
+                </ListBox>
+                <TextBlock Grid.Column="0"
+                           Text="{DynamicResource Empty}" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource ForegroundOpacityBrush}"
+                           IsVisible="{CompiledBinding !Count, Source={x:Static ms:ModuleManager.ModulesSettings}}" />
+                
+                <PleasantBorder Grid.Column="2"
+                                Padding="5"
+                                Background="{StaticResource BackgroundLevel1Brush}"
+                                Content="{CompiledBinding ModuleSettings}"/>
+                <TextBlock Grid.Column="2"
+                           Text="{DynamicResource SelectModule}" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource ForegroundOpacityBrush}"
+                           IsVisible="{CompiledBinding SelectedModuleSettingsView, Converter={x:Static ObjectConverters.IsNull}}" />
             </Grid>
         </PleasantTabItem>
     </PleasantTabView>

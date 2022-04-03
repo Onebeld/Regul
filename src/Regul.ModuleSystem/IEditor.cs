@@ -12,7 +12,7 @@ public interface IEditor
 
     string Id { get; set; }
 
-    void Load(string? filePath, Project? project, PleasantTabItem pleasantTabItem, Editor editor);
+    void Load(string? filePath, PleasantTabItem pleasantTabItem, Editor editor);
     bool Save(string path);
     void Release();
 }

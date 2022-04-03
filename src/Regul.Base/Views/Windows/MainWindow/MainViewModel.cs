@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -33,19 +34,17 @@ public class MainViewModel : ViewModelBase
         new(false, EventResetMode.AutoReset, "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
 
     private readonly List<string?> _fileArgs = new();
-
-    private AvaloniaList<Project> _foundProjects;
+    
     private IManagedNotificationManager _notificationManager;
     private object _page;
-
-    private AvaloniaList<IRegulObject?> _regulMenuItems;
     private string _searchText;
 
     private int _selectedPatternSearch;
     private Project _selectedProject;
     private PleasantTabItem _selectedTab;
-    private AvaloniaList<PleasantTabItem> _tabItems = new();
         
+    public AvaloniaList<IRegulObject?> RegulMenuItems { get; set; }
+
     #region Properties
 
     public IManagedNotificationManager NotificationManager
@@ -57,37 +56,17 @@ public class MainViewModel : ViewModelBase
     public object Page
     {
         get => _page;
-        set
-        {
-            RaiseAndSetIfChanged(ref _page, value);
-            RaisePropertyChanged(nameof(IsHomePage));
-        }
+        set => RaiseAndSetIfChanged(ref _page, value);
     }
 
-    public AvaloniaList<IRegulObject?> RegulMenuItems
-    {
-        get => _regulMenuItems;
-        set => RaiseAndSetIfChanged(ref _regulMenuItems, value);
-    }
+    public AvaloniaList<IAvaloniaObject> MenuItems => MenuGenerator.Generate(RegulMenuItems);
 
-    public AvaloniaList<IAvaloniaObject> MenuItems => RegulMenuItem.GenerateMenuItems(RegulMenuItems);
-
-    public AvaloniaList<PleasantTabItem> TabItems
-    {
-        get => _tabItems;
-        set => RaiseAndSetIfChanged(ref _tabItems, value);
-    }
+    public AvaloniaList<PleasantTabItem> TabItems { get; } = new();
 
     public PleasantTabItem SelectedTab
     {
         get => _selectedTab;
-        set
-        {
-            RaiseAndSetIfChanged(ref _selectedTab, value);
-
-            UserControl control = (UserControl)value.Content;
-            control?.Focus();
-        }
+        set => RaiseAndSetIfChanged(ref _selectedTab, value);
     }
 
     public Project SelectedProject
@@ -96,30 +75,18 @@ public class MainViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _selectedProject, value);
     }
 
-    public AvaloniaList<Project> FoundProjects
-    {
-        get => _foundProjects;
-        set => RaiseAndSetIfChanged(ref _foundProjects, value);
-    }
+    public AvaloniaList<Project> FoundProjects { get; } = new();
 
     public int SelectedPatternSearch
     {
         get => _selectedPatternSearch;
-        set
-        {
-            RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
-            FindProjects();
-        }
+        set => RaiseAndSetIfChanged(ref _selectedPatternSearch, value);
     }
 
     public string SearchText
     {
         get => _searchText;
-        set
-        {
-            RaiseAndSetIfChanged(ref _searchText, value);
-            FindProjects();
-        }
+        set => RaiseAndSetIfChanged(ref _searchText, value);
     }
 
     public bool IsHomePage => Page is WelcomePage;
@@ -157,6 +124,29 @@ public class MainViewModel : ViewModelBase
         App.Threads.Add(thread);
 
         thread.Start(context);
+
+        this.WhenAnyValue(x => x.SearchText, x => x.SelectedPatternSearch)
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .Subscribe(_ => FindProjects());
+
+        this.WhenAnyValue(x => x.RegulMenuItems)
+            .Subscribe(_ => RaiseMenuItemsProperty());
+        
+        this.WhenAnyValue(x => x.SelectedTab)
+            .Subscribe(DoSelectTab);
+        this.WhenAnyValue(x => x.Page)
+            .Subscribe(DoRaisePageProperty);
+    }
+
+    private void DoRaisePageProperty(object obj)
+    {
+        RaisePropertyChanged(nameof(IsHomePage));
+    }
+
+    private void DoSelectTab(PleasantTabItem? tab)
+    {
+        UserControl control = (UserControl)tab?.Content;
+        control?.Focus();
     }
 
     private void CheckBytesWritten(object state)
@@ -363,17 +353,7 @@ public class MainViewModel : ViewModelBase
     {
         if (!File.Exists(SelectedProject.Path))
         {
-            MessageBox.Show(WindowsManager.MainWindow, App.GetResource<string>("Error"),
-                App.GetResource<string>("FailedLoadFile"), new List<MessageBoxButton>
-                {
-                    new()
-                    {
-                        Default = true,
-                        Result = "OK",
-                        Text = App.GetResource<string>("OK"),
-                        IsKeyDown = true
-                    }
-                }, MessageBox.MessageBoxIcon.Error);
+            WindowsManager.ShowError(App.GetResource<string>("FailedLoadFile"), null);
 
             GeneralSettings.Instance.Projects.Remove(SelectedProject);
             FindProjects();
@@ -381,21 +361,11 @@ public class MainViewModel : ViewModelBase
             return;
         }
 
-        Editor? editor = null;
-
-        for (int index = 0; index < ModuleManager.Editors.Count; index++)
-        {
-            Editor editor1 = ModuleManager.Editors[index] ?? throw new NullReferenceException();
-            if (editor1.Id == SelectedProject.IdEditor)
-            {
-                editor = editor1;
-                break;
-            }
-        }
+        Editor? editor = ModuleManager.Editors.FirstOrDefault(x => x?.Id == SelectedProject.IdEditor);
 
         if (editor is null)
         {
-            WindowsManager.ShowError(App.GetResource<string>("FailedFindEditor") + $" {ModuleManager.GetEditorById(SelectedProject.IdEditor)?.Name}", null);
+            WindowsManager.ShowError(App.GetResource<string>("FailedFindEditor") + $" {Path.GetFileName(SelectedProject.Path)}", null);
 
             return;
         }
@@ -405,19 +375,8 @@ public class MainViewModel : ViewModelBase
 
     private async Task<Editor?> GetEditor(string? file)
     {
-        //CorrespondingExtensionEditor cE = GeneralSettings.Settings.CorrespondingExtensionEditors.FirstOrDefault(x => x.Extension == System.IO.Path.GetExtension(file));
-        CorrespondingExtensionEditor? cE = null;
-        for (int i = 0; i < GeneralSettings.Instance.CorrespondingExtensionEditors.Count; i++)
-        {
-            CorrespondingExtensionEditor item = GeneralSettings.Instance.CorrespondingExtensionEditors[i] ?? throw new NullReferenceException();
-
-            if (item.Extension == Path.GetExtension(file))
-            {
-                cE = item;
-                break;
-            }
-        }
-        //
+        CorrespondingExtensionEditor? cE = GeneralSettings.Instance.CorrespondingExtensionEditors
+            .FirstOrDefault(x => x.Extension == Path.GetExtension(file));
 
         Editor? editor;
         bool alwaysOpenWithAnEditor = false;
@@ -437,7 +396,7 @@ public class MainViewModel : ViewModelBase
         if (alwaysOpenWithAnEditor)
             GeneralSettings.Instance.CorrespondingExtensionEditors.Add(new CorrespondingExtensionEditor
             {
-                Extension = Path.GetExtension(file),
+                Extension = Path.GetExtension(file)!,
                 IdEditor = editor?.Id
             });
 
@@ -450,7 +409,7 @@ public class MainViewModel : ViewModelBase
         {
             IEditor tabEditor = (IEditor)pleasantTabItem.Content;
 
-            if (tabEditor.FilePath != null && tabEditor.FilePath.Contains(path ?? string.Empty))
+            if (tabEditor.FilePath != null && path != null && tabEditor.FilePath.Contains(path))
             {
                 WindowsManager.ShowNotification(App.GetResource<string>("FileIsAlreadyOpen"), NotificationType.Information);
 
@@ -471,8 +430,7 @@ public class MainViewModel : ViewModelBase
                 Icon = App.GetResource<Geometry>(ed.IconKey!),
                 CanBeDragged = true
             };
-            if (!string.IsNullOrEmpty(path))
-                tabItem.SetValue(ToolTip.TipProperty, $"{tabItem.Header}\n{path}");
+            if (!string.IsNullOrEmpty(path)) tabItem.SetValue(ToolTip.TipProperty, $"{tabItem.Header}\n{path}");
             tabItem.Closing += async (_, _) =>
             {
                 if (tabItem.IsEditedIndicator)
@@ -495,27 +453,19 @@ public class MainViewModel : ViewModelBase
                 if (TabItems.Count == 0) Page = new WelcomePage();
             };
 
-            editor.Load(path, project, tabItem, ed);
+            editor.Load(path, tabItem, ed);
+            editor.Project = project;
 
             if (project is not null)
             {
-                //Project foundedProject = GeneralSettings.Settings.Projects.FirstOrDefault(x => x.Path == project.Path);
-                Project? foundedProject = null;
-                for (int i = 0; i < GeneralSettings.Instance.Projects.Count; i++)
+                Project? foundedProject = GeneralSettings.Instance.Projects.FirstOrDefault(x => x.Path == project.Path);
+
+                if (foundedProject is not null)
                 {
-                    Project? item = GeneralSettings.Instance.Projects[i];
+                    GeneralSettings.Instance.Projects.Remove(foundedProject);
 
-                    if (item.Path == project.Path)
-                    {
-                        foundedProject = item;
-                        break;
-                    }
+                    GeneralSettings.Instance.Projects.Insert(0, project);
                 }
-
-                //
-                GeneralSettings.Instance.Projects.Remove(foundedProject);
-
-                GeneralSettings.Instance.Projects.Insert(0, project);
             }
 
             TabItems.Add(tabItem);
@@ -616,20 +566,8 @@ public class MainViewModel : ViewModelBase
 
             if (editor.Project is not null)
             {
-                //Project project = GeneralSettings.Settings.Projects.FirstOrDefault(x => x.Path == editor.CurrentProject.Path);
-                Project? project = null;
-                for (int i = 0; i < GeneralSettings.Instance.Projects.Count; i++)
-                {
-                    Project item = GeneralSettings.Instance.Projects[i] ?? throw new NullReferenceException();
-
-                    if (item.Path == editor.Project.Path)
-                    {
-                        project = item;
-                        break;
-                    }
-                }
-
-                //
+                Project? project = GeneralSettings.Instance.Projects.FirstOrDefault(x => x.Path == editor.Project.Path);
+                
                 GeneralSettings.Instance.Projects.Remove(project);
             }
 
@@ -711,13 +649,13 @@ public class MainViewModel : ViewModelBase
 
     public void FindProjects()
     {
+        FoundProjects.Clear();
+        
         if (string.IsNullOrEmpty(SearchText))
         {
-            FoundProjects = GeneralSettings.Instance.Projects;
+            FoundProjects.AddRange(GeneralSettings.Instance.Projects);
             return;
         }
-
-        FoundProjects = new AvaloniaList<Project>();
 
         switch (SelectedPatternSearch)
         {
@@ -777,8 +715,6 @@ public class MainViewModel : ViewModelBase
 
     public void Initialize()
     {
-        GeneralSettings.Instance.Projects ??= new AvaloniaList<Project>();
-
         InitializeMenuItems();
         InitializeModules();
 
@@ -941,7 +877,7 @@ public class MainViewModel : ViewModelBase
 
                     new RegulMenuItem("AboutTheProgram", Command.Create(OpenAbout))
                     {
-                        KeyIcon = "RegulIcon",
+                        KeyIcon = "RegulAltIcon",
                         Bindings =
                         {
                             new Binding(HeaderedSelectingItemsControl.HeaderProperty,
@@ -951,8 +887,6 @@ public class MainViewModel : ViewModelBase
                 }
             }
         };
-
-        RaisePropertyChanged(nameof(MenuItems));
     }
 
     private void InitializeModules()

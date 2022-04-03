@@ -39,7 +39,7 @@
                                   Stretch="Uniform"
                                   Margin="0 0 5 0"
                                   Data="{StaticResource SearchIcon}" />
-                            <TextBox Watermark="Search" Text="{CompiledBinding SearchText}" />
+                            <TextBox Watermark="{DynamicResource Search}" Text="{CompiledBinding SearchText}" />
                         </DockPanel>
 
                         <DockPanel Grid.Column="2" Width="150">
