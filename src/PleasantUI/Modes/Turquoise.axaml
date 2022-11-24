@@ -1,0 +1,59 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style.Resources>
+        <Color x:Key="TextFillColorPrimary">#E4000000</Color>
+        <Color x:Key="TextFillColorSecondary">#9E000000</Color>
+        <Color x:Key="TextFillColorTertiary">#72000000</Color>
+        <Color x:Key="TextFillColorDisabled">#5C000000</Color>
+        <Color x:Key="TextFillColorInverse">#FFFFFF</Color>
+        <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+
+        <Color x:Key="ControlFillColorDefault">#B377F9FF</Color>
+        <Color x:Key="ControlFillColorSecondary">#8057E5E4</Color>
+        <Color x:Key="ControlFillColorTertiary">#4D54CBC2</Color>
+        <Color x:Key="ControlFillColorDisabled">#4D58F9F8</Color>
+        <Color x:Key="ControlFillColorInputActive">#FF55E7EA</Color>
+
+        <Color x:Key="ControlStrongFillColorDefault">#72316564</Color>
+
+        <Color x:Key="ControlAltFillColorSecondary">#0637797A</Color>
+        <Color x:Key="ControlAltFillColorTertiary">#0F3E9A95</Color>
+        <Color x:Key="ControlAltFillColorQuarternary">#18000000</Color>
+
+        <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
+        <Color x:Key="ControlStrongStrokeColorDefault">#7232908F</Color>
+        <Color x:Key="ControlStrokeColorSecondary">#2932928A</Color>
+
+        <Color x:Key="ControlSolidFillColorDefault">#FF5BE1D9</Color>
+
+        <Color x:Key="SubtleFillColorSecondary">#09399392</Color>
+        <Color x:Key="SubtleFillColorTertiary">#06000000</Color>
+
+        <Color x:Key="CardBackgroundFillColorDefault">#B346F0EB</Color>
+
+        <Color x:Key="CardStrokeColorDefault">#0F000000</Color>
+
+        <Color x:Key="NavigationViewBackground">#A84BD8D9</Color>
+
+        <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
+        <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
+
+        <Color x:Key="SolidBackgroundFillColorBase">#FF64FFF6</Color>
+        <Color x:Key="SolidBackgroundFillColorSecondary">#FF389194</Color>
+        <Color x:Key="SolidBackgroundFillColorTertiary">#FF49CCCC</Color>
+        <Color x:Key="SolidBackgroundFillColorQuarternary">#FF61E9E1</Color>
+
+        <Color x:Key="AcrylicInAppFillColorDefault">#FF61FFF9</Color>
+
+        <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+        <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+        <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+        <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+        <Color x:Key="DangerColor">#FFD72F1E</Color>
+        <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+        <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+
+        <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
+    </Style.Resources>
+</Style>

@@ -1,0 +1,247 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--RepeatButton-->
+    <Style Selector="RepeatButton > Path, RepeatButton > Viewbox > Path">
+        <Setter Property="Fill"
+                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+    </Style>
+    
+    <!--Button-->
+    <Style Selector="Button > Path,
+                     Button > Viewbox > Path,
+                     Button > StackPanel > Path,
+                     ToggleButton > Path,
+                     ToggleButton > Viewbox > Path,
+                     ToggleButton > StackPanel > Path,
+                     RadioButton > Viewbox > Path">
+        <Setter Property="Fill"
+                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+        <Setter Property="Stroke"
+                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+    </Style>
+    
+    <Style Selector="Button.CloseButton:pointerover > Viewbox > Path,
+                     ToggleButton.CloseButton:pointerover > Viewbox > Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorDangerBrush}" />
+    </Style>
+    <Style Selector="Button.CloseButton:pressed > Viewbox > Path,
+                     ToggleButton.CloseButton:pressed > Viewbox > Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorDangerBrush}" />
+    </Style>
+    
+    <!--MenuItem-->
+    
+    <Style Selector="MenuItem > Separator, ContextMenu > Separator">
+        <Setter Property="Background" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="-4 1 -4 1" />
+        <Setter Property="Height" Value="1" />
+    </Style>
+    
+    <!--TextBox-->
+    <Style Selector="TextBox.WithoutDataValidation">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            RenderTransform="scaleY(-1)"
+                            IsHitTestVisible="False" />
+                    
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
+                        <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}" Cursor="Ibeam">
+                            <SmoothScrollViewer
+                                HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                <Panel>
+                                    <TextBlock Name="PART_Watermark"
+                                               Text="{TemplateBinding Watermark}"
+                                               Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                               TextAlignment="{TemplateBinding TextAlignment}"
+                                               TextWrapping="{TemplateBinding TextWrapping}"
+                                               IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               IsHitTestVisible="False" />
+                                    <TextPresenter Name="PART_TextPresenter"
+                                                   Text="{TemplateBinding Text, Mode=TwoWay}"
+                                                   CaretIndex="{TemplateBinding CaretIndex}"
+                                                   SelectionStart="{TemplateBinding SelectionStart}"
+                                                   SelectionEnd="{TemplateBinding SelectionEnd}"
+                                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                                   PasswordChar="{TemplateBinding PasswordChar}"
+                                                   RevealPassword="{TemplateBinding RevealPassword}"
+                                                   SelectionBrush="{TemplateBinding SelectionBrush}"
+                                                   SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                                   CaretBrush="{TemplateBinding CaretBrush}"
+                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Panel>
+                            </SmoothScrollViewer>
+                        </DockPanel>
+                        <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
+                    </Grid>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <!--ButtonSpinner-->
+    <Style Selector="ButtonSpinner.WithoutDataValidation">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            RenderTransform="scaleY(-1)"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Name="BorderElement" />
+
+                    <Panel>
+                        <Border CornerRadius="{TemplateBinding CornerRadius}"
+                                MinHeight="{TemplateBinding MinHeight}">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <ContentPresenter Name="PART_ContentPresenter"
+                                                  Grid.Column="1"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Content="{TemplateBinding Content}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Padding="{TemplateBinding Padding}" />
+
+                                <StackPanel Name="PART_SpinnerPanel"
+                                            Orientation="Horizontal"
+                                            IsVisible="{TemplateBinding ShowButtonSpinner}">
+                                    <RepeatButton Name="PART_IncreaseButton"
+                                                  Theme="{StaticResource ButtonSpinnerRepeatButton}"
+                                                  VerticalContentAlignment="Center"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  Background="{TemplateBinding Background}"
+                                                  FontSize="18"
+                                                  Margin="4 4 2 4">
+                                        <Path Data="{StaticResource chevron_up_regular}"
+                                              Stretch="Uniform"
+                                              Width="15" />
+                                    </RepeatButton>
+
+                                    <RepeatButton Name="PART_DecreaseButton"
+                                                  Theme="{StaticResource ButtonSpinnerRepeatButton}"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  Background="{TemplateBinding Background}"
+                                                  VerticalContentAlignment="Center"
+                                                  FontSize="18"
+                                                  Margin="0 4 4 4">
+                                        <Path Data="{StaticResource chevron_down_regular}"
+                                              Stretch="Uniform"
+                                              Width="15" />
+                                    </RepeatButton>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Panel>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <!--NavigationView-->
+    <Style Selector="NavigationView > Separator">
+        <Setter Property="DockPanel.Dock" Value="Top" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Decorator Padding="5">
+                    <Border Height="1"
+                            Background="{StaticResource ControlStrokeColorDefaultBrush}" />
+                </Decorator>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="NavigationViewItemBase.header /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Padding" Value="5" />
+    </Style>
+    
+    <!--PleasantCaptionButton-->
+    <Style
+        Selector="PleasantCaptionButtons:isactive /template/ Button:not(:pointerover):not(:pressed) > Viewbox > Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_CloseButton /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FFFE4C40" />
+    </Style>
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_MinimizeButton /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FFF9B900" />
+    </Style>
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_MaximizeButton /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FF00D124" />
+    </Style>
+
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True]:isactive /template/ Button:not(:pointerover):not(:pressed) /template/ ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource TextFillColorTertiaryBrush}" />
+    </Style>
+
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_CloseButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FFCC362C" />
+    </Style>
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_MinimizeButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FFBF8E00" />
+    </Style>
+    <Style
+        Selector="PleasantCaptionButtons[IsMacOs=True] /template/ Button#PART_MaximizeButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#FF00B61F" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton > Viewbox > Path">
+        <Setter Property="Data" Value="{StaticResource maximize_regular}" />
+    </Style>
+    <Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton > Viewbox > Path">
+        <Setter Property="Data" Value="{StaticResource square_multiple_regular}" />
+        <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+    
+    <!--Buttons animation-->
+    <Style Selector="Button.EnabledIconAnimation /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector="Button.EnabledIconAnimation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="RenderTransform" Value="scale(0.8)" />
+    </Style>
+    <Style Selector="ToggleButton.EnabledIconAnimation /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector="ToggleButton.EnabledIconAnimation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="RenderTransform" Value="scale(0.8)" />
+    </Style>
+    <Style Selector="RadioButton.EnabledIconAnimation /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector="RadioButton.EnabledIconAnimation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="RenderTransform" Value="scale(0.8)" />
+    </Style>
+</Styles>

@@ -1,0 +1,74 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://PleasantUI/Assets/Icons.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/TextBlock.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/DataTemplates/FontItemTemplate.axaml" />
+                
+                <!-- Custom controls -->
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantCaptionButtons.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTitleBar.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/ProgressRing.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/OptionsDisplayItem.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/NumericUpDownWithSymbol.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/ContentDialog.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/NavigationView.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/ModalBackground.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/SmoothScrollViewer.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/TextBoxWithSymbol.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantWindow.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantMiniWindow.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTabView.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTabItem.axaml" />
+                
+                <!-- Styled controls -->
+                <ResourceInclude Source="avares://PleasantUI/Styles/ProgressBar.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/NumericUpDown.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/RepeatButton.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/PopupRoot.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Slider.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ComboBox.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ComboBoxItem.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ToggleSwitch.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/WindowNotificationManager.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/TabControl.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/TabItem.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ColorView.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ColorSpectrum.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ColorPreviewer.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ColorSlider.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Menu.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/MenuItem.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Separator.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/RadioButton.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/NotificationCard.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Window.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/OverlayPopupHost.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ToolTip.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/CheckBox.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/FlyoutPresenter.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ButtonSpinner.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/TextBox.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/DataValidationErrors.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/EmbeddableControlRoot.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/SplitView.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/Button.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ToggleButton.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ListBox.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ListBoxItem.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ScrollBar.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <StyleInclude Source="/Styles/OtherStyles.axaml" />
+    
+    <!-- Custom controls -->
+    <StyleInclude Source="/Styles/Custom/NavigationViewItem.axaml" />
+    
+    <!-- Styled controls -->
+    <StyleInclude Source="/Styles/UserControl.axaml" />
+    <StyleInclude Source="/Styles/FocusAdorner.axaml" />
+</Styles>

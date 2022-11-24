@@ -1,0 +1,154 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:Regul.Converters"
+                    xmlns:views="clr-namespace:Regul.Views"
+                    xmlns:structures1="clr-namespace:Regul.Structures"
+                    xmlns:w="using:Regul.Views.Windows">
+    <DataTemplate x:Key="ProjectMainPageItemTemplate" DataType="structures1:Project">
+        <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="5">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Image Grid.Column="0"
+                       Width="28"
+                       Height="28"
+                       Margin="10 0 15 0"
+                       Source="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToImageConverter.Instance}}" />
+                <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Spacing="2">
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                   Text="{CompiledBinding Path, Converter={x:Static c:PathToFileNameConverter.Instance}}" />
+                        <TextBlock
+                            Text="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToNameConverter.Instance}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 0 2"
+                            FontSize="12"
+                            TextTrimming="CharacterEllipsis"
+                            Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                    
+                    <TextBlock FontSize="12"
+                               Text="{CompiledBinding Path}"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                    
+                    <TextBlock Margin="0 -4 0 0"
+                               FontSize="12"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource TextFillColorSecondaryBrush}">
+                        <Run Text="{StaticResource LastChange}" /><Run Text=":" />
+                        &#8203;<Run Text="{CompiledBinding DateTime}" />
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Margin="0 0 5 0"
+                            Spacing="5">
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                            Classes="EnabledIconAnimation"
+                            ToolTip.Tip="{StaticResource OpenProject}"
+                            Padding="5"
+                            Command="{CompiledBinding $parent[views:MainWindow].ViewModel.OpenProject}"
+                            CommandParameter="{CompiledBinding}">
+                        <Path Data="{StaticResource open_regular}"
+                              Stretch="Uniform"
+                              Width="16"
+                              Height="16" />
+                    </Button>
+                    <Button Theme="{StaticResource DangerButtonTheme}"
+                            BorderThickness="0"
+                            Classes="EnabledIconAnimation"
+                            ToolTip.Tip="{StaticResource DeleteProject}"
+                            Padding="5"
+                            Command="{CompiledBinding $parent[views:MainWindow].ViewModel.DeleteProject}"
+                            CommandParameter="{CompiledBinding}">
+                        <Path Data="{StaticResource delete_regular}"
+                              Stretch="Uniform"
+                              Width="16"
+                              Height="16" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ProjectWindowItemTemplate" DataType="structures1:Project">
+        <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="5">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Image Grid.Column="0"
+                       Width="28"
+                       Height="28"
+                       Margin="10 0 15 0"
+                       Source="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToImageConverter.Instance}}" />
+                <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Spacing="2">
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                   Text="{CompiledBinding Path, Converter={x:Static c:PathToFileNameConverter.Instance}}" />
+                        <TextBlock
+                            Text="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToNameConverter.Instance}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 0 2"
+                            FontSize="12"
+                            TextTrimming="CharacterEllipsis"
+                            Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                    
+                    <TextBlock FontSize="12"
+                               Text="{CompiledBinding Path}"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                    
+                    <TextBlock Margin="0 -4 0 0"
+                               FontSize="12"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource TextFillColorSecondaryBrush}">
+                        <Run Text="{StaticResource LastChange}" /><Run Text=":" />
+                        &#8203;<Run Text="{CompiledBinding DateTime}" />
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Margin="0 0 5 0"
+                            Spacing="5">
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                            Classes="EnabledIconAnimation"
+                            ToolTip.Tip="{StaticResource OpenProject}"
+                            Padding="5"
+                            Command="{CompiledBinding $parent[w:OpenProjectWindow].ViewModel.OpenProject}"
+                            CommandParameter="{CompiledBinding}">
+                        <Path Data="{StaticResource open_regular}"
+                              Stretch="Uniform"
+                              Width="16"
+                              Height="16" />
+                    </Button>
+                    <Button Theme="{StaticResource DangerButtonTheme}"
+                            BorderThickness="0"
+                            Classes="EnabledIconAnimation"
+                            ToolTip.Tip="{StaticResource DeleteProject}"
+                            Padding="5"
+                            Command="{CompiledBinding $parent[w:OpenProjectWindow].ViewModel.DeleteProject}"
+                            CommandParameter="{CompiledBinding}">
+                        <Path Data="{StaticResource delete_regular}"
+                              Stretch="Uniform"
+                              Width="16"
+                              Height="16" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

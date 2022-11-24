@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:structures="clr-namespace:Regul.Structures"
+        xmlns:c="clr-namespace:Regul.Converters"
+        xmlns:pages="clr-namespace:Regul.Views.Pages">
+    <DataTemplate x:Key="EditorRelatedExtensionItemTemplate" DataType="structures:EditorRelatedExtension">
+        <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="5">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Image Grid.Column="0"
+                       Width="28"
+                       Height="28"
+                       Margin="10 0 15 0"
+                       Source="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToImageConverter.Instance}}" />
+                <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Spacing="2">
+                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                               Text="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToNameConverter.Instance}}" />
+                    
+                    <TextBlock Margin="0 -4 0 0"
+                               FontSize="12"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource TextFillColorSecondaryBrush}">
+                        <Run Text="{StaticResource Extension}" /><Run Text=":" />
+                        &#8203;<Run Text="{CompiledBinding Extension}" />
+                    </TextBlock>
+                </StackPanel>
+
+                <Button Grid.Column="2"
+                        Theme="{StaticResource DangerButtonTheme}"
+                        BorderThickness="0"
+                        Margin="0 0 5 0"
+                        VerticalAlignment="Center"
+                        Classes="EnabledIconAnimation"
+                        ToolTip.Tip="{StaticResource Delete}"
+                        Padding="5"
+                        Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.DeleteEditorRelatedExtension}"
+                        CommandParameter="{CompiledBinding}">
+                    <Path Data="{StaticResource delete_regular}"
+                          Stretch="Uniform"
+                          Width="16"
+                          Height="16" />
+                </Button>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

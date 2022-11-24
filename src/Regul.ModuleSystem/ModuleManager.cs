@@ -2,44 +2,50 @@
 using System.Linq;
 using System.Reflection;
 using Avalonia.Collections;
-using Onebeld.Extensions;
-using Onebeld.Plugins;
-using Regul.ModuleSystem.Models;
-using Module = Regul.ModuleSystem.Models.Module;
+using Regul.ModuleSystem.Structures;
+using Module = Regul.ModuleSystem.Structures.Module;
 
 namespace Regul.ModuleSystem;
 
+/// <summary>
+/// ModuleManager allows you to manage modules
+/// </summary>
 public static class ModuleManager
 {
+    /// <summary>
+    /// List of loaded modules in the program
+    /// </summary>
     public static AvaloniaList<Module> Modules { get; } = new();
+    /// <summary>
+    /// The list of loaded editors in the program. You must add an editor to the list yourself.
+    /// </summary>
+    public static AvaloniaList<Editor> Editors { get; } = new();
 
-    public static AvaloniaList<Editor?> Editors { get; } = new();
+    // <summary>
+    /// Logic when closing the program. Recommended if the module has any settings and you want to save them.
+    /// </summary>
+    public static event EventHandler? ReleasingModules;
 
-    public static AvaloniaList<ModuleSettingsView> ModulesSettings { get; } = new();
+    /// <summary>
+    /// Allows you to get an instance of an <see cref="Editor"/> by its ID
+    /// </summary>
+    /// <param name="id">Editor ID</param>
+    /// <returns>Editor's copy</returns>
+    public static Editor? GetEditorById(ulong id) => Editors.FirstOrDefault(editor => editor.Id == id);
 
-    public static Editor? GetEditorById(string? id)
-    {
-        //return Editors.FirstOrDefault(x => x.Id == id);
-        for (int i = 0; i < Editors.Count; i++)
-        {
-            Editor? item = Editors[i];
-
-            if (item?.Id == id)
-                return item;
-        }
-
-        return null;
-    }
-
+    /// <summary>
+    /// Allows you to load a module into the program
+    /// </summary>
+    /// <param name="path">The path to the module</param>
+    /// <returns>A module instance, it is already automatically added to the list of modules.</returns>
     public static Module? InitializeModule(string path)
     {
-        PluginLoader loader = PluginLoader.CreateFromAssemblyFile(path);
+        ModuleLoader moduleLoader = ModuleLoader.CreateFromAssemblyFile(path);
 
-        Assembly assembly = loader.LoadDefaultAssembly();
+        Assembly assembly = moduleLoader.LoadDefaultAssembly();
 
-        Type[] types;
+        Type?[] types;
 
-        // This was done to run both the .NET and the .NET Framework simultaneously
         try
         {
             types = assembly.GetTypes();
@@ -51,18 +57,22 @@ public static class ModuleManager
 
         IModule? source = null;
 
-        foreach (Type type in types)
-            if (typeof(IModule).IsAssignableFrom(type))
+        foreach (Type? type in types)
+        {
+            if (type != null && typeof(IModule).IsAssignableFrom(type))
             {
                 source = Activator.CreateInstance(type) as IModule;
                 break;
             }
+        }
 
         if (source is null) return null;
 
-        Module module = new(source, loader, assembly, new InfoForUpdate());
-
+        Module module = new(source, assembly);
         Modules.Add(module);
+        
         return module;
     }
+
+    public static void ReleaseModules() => ReleasingModules?.Invoke(null, EventArgs.Empty);
 }

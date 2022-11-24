@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="using:PleasantUI.Xaml.Interactivity"
+                    xmlns:b="using:PleasantUI.Xaml.Behaviors"
+                    x:DataType="PleasantUiSettings">
+    <Design.PreviewWith>
+        <Grid RowDefinitions="Auto,Auto"
+              ColumnDefinitions="Auto,Auto"
+              HorizontalAlignment="Center">
+            <Border Grid.Column="0"
+                    Grid.Row="1"
+                    CornerRadius="4"
+                    Background="{StaticResource AccentFillColorDefaultBrush}"
+                    Margin="5"
+                    Padding="50"
+                    ToolTip.Tip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+                <TextBlock Text="Hover Here" Foreground="{StaticResource AccentTextFillColorBrush}" />
+            </Border>
+            <CheckBox Grid.Column="1"
+                      Margin="5"
+                      Grid.Row="0"
+                      IsChecked="{Binding ElementName=Border, Path=(ToolTip.IsOpen)}"
+                      Content="ToolTip Open" />
+            <Border Name="Border"
+                    CornerRadius="4"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Background="{StaticResource AccentFillColorDefaultBrush}"
+                    Margin="5"
+                    Padding="50"
+                    ToolTip.Placement="Bottom">
+                <ToolTip.Tip>
+                    <StackPanel>
+                        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="ToolTip" />
+                        <TextBlock Text="A control which pops up a hint when a control is hovered" />
+                    </StackPanel>
+                </ToolTip.Tip>
+                <TextBlock Text="ToolTip bottom placement" Foreground="{StaticResource AccentTextFillColorBrush}" />
+            </Border>
+        </Grid>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+        <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8 6" />
+        <Setter Property="MaxWidth" Value="450" />
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="TextBlock.FontSize" Value="12" />
+        <Setter Property="TextBlock.FontWeight" Value="Normal" />
+        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_LayoutRoot"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Padding="{TemplateBinding Padding}"
+                        Margin="6 4 6 6"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <i:Interaction.Behaviors>
+                        <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                    </i:Interaction.Behaviors>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      MaxWidth="{TemplateBinding MaxWidth}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:open">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

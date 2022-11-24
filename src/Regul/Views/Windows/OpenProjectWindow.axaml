@@ -1,0 +1,228 @@
+﻿<ContentDialog xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.Views.Windows.OpenProjectWindow"
+             xmlns:vm="using:Regul.ViewModels.Windows"
+             xmlns:s="clr-namespace:Regul"
+             x:DataType="vm:OpenProjectViewModel">
+    <ContentDialog.KeyBindings>
+        <KeyBinding Command="{CompiledBinding Close}"
+                    Gesture="Escape" />
+    </ContentDialog.KeyBindings>
+    
+    <Grid RowDefinitions="Auto,*">
+        <TextBlock Grid.Row="0"
+                   Theme="{StaticResource SubtitleTextBlockTheme}"
+                   Text="{StaticResource OpenProject}"
+                   Margin="20 15 0 0"
+                   HorizontalAlignment="Left" />
+        
+        <StackPanel Grid.Row="0"
+                    Spacing="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0 15 20 0">
+            <Button Padding="6"
+                    Classes="EnabledIconAnimation"
+                    Theme="{StaticResource AppBarButtonTheme}"
+                    ToolTip.Tip="{StaticResource Search}">
+                <Button.Flyout>
+                    <Flyout Placement="Bottom" ShowMode="Transient">
+                        <Grid RowDefinitions="*,Auto">
+                            <StackPanel Spacing="5" Margin="10">
+                                <Panel>
+                                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                               Text="{StaticResource Search}"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" />
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="5"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center">
+                                        <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="4"
+                                                ToolTip.Tip="{StaticResource NumberOfElementsFound}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8"
+                                                        Margin="8 5">
+                                                <Path Data="{StaticResource search}"
+                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                      VerticalAlignment="Center"
+                                                      Width="14"
+                                                      Height="14"
+                                                      Stretch="Uniform" />
+                                                <TextBlock
+                                                    Text="{CompiledBinding SortedProjects.Count}"
+                                                    FontSize="12" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Panel>
+
+                                <Grid ColumnDefinitions="Auto,5,*" RowDefinitions="Auto,5,Auto,5,Auto">
+                                    <Grid.Styles>
+                                        <Style Selector="TextBox">
+                                            <Setter Property="Width" Value="200" />
+                                            <Setter Property="MinHeight" Value="20" />
+                                            <Setter Property="Padding" Value="6 3 6 3" />
+                                        </Style>
+                                    </Grid.Styles>
+                                    
+                                    <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+                                        <Run Text="{StaticResource Name}" /><Run Text=":" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
+                                        <Run Text="{StaticResource Path}" /><Run Text=":" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">
+                                        <Run Text="{StaticResource Editor}" /><Run Text=":" />
+                                    </TextBlock>
+
+                                    <TextBox Grid.Column="2" Grid.Row="0"
+                                             Classes="WithoutDataValidation ClearTextBox"
+                                             Text="{CompiledBinding SearchName}" />
+                                    <TextBox Grid.Column="2" Grid.Row="2"
+                                             Classes="WithoutDataValidation ClearTextBox"
+                                             Text="{CompiledBinding SearchPath}" />
+                                    <TextBox Grid.Column="2" Grid.Row="4"
+                                             Classes="WithoutDataValidation ClearTextBox"
+                                             Text="{CompiledBinding SearchEditor}" />
+                                </Grid>
+                            </StackPanel>
+
+                            <Border Grid.Row="1"
+                                    Background="{StaticResource SolidBackgroundFillColorBaseBrush}"
+                                    BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                                    BorderThickness="0 1 0 0"
+                                    Height="40"
+                                    CornerRadius="0 0 8 8">
+                                <Panel Margin="5 0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <RadioButton Classes="EnabledIconAnimation"
+                                                     IsThreeState="False"
+                                                     GroupName="SortingProjects"
+                                                     Theme="{StaticResource RadioButtonLikeButton}"
+                                                     CornerRadius="4 0 0 4"
+                                                     Padding="7"
+                                                     IsChecked="{CompiledBinding SortByAlphabetical}">
+                                            <ToolTip.Tip>
+                                                <ToolTip>
+                                                    <TextBlock
+                                                        Text="{StaticResource SortByAlphabetical}"
+                                                        Opacity="1"
+                                                        Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                        FontWeight="Normal" />
+                                                </ToolTip>
+                                            </ToolTip.Tip>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource alphabet}"
+                                                      Stretch="Uniform" />
+                                            </Viewbox>
+                                        </RadioButton>
+                                        <RadioButton Classes="EnabledIconAnimation"
+                                                     IsThreeState="False"
+                                                     GroupName="SortingProjects"
+                                                     Theme="{StaticResource RadioButtonLikeButton}"
+                                                     CornerRadius="0 4 4 0"
+                                                     IsChecked="{CompiledBinding SortByDateOfChange}"
+                                                     Padding="7">
+                                            <ToolTip.Tip>
+                                                <ToolTip>
+                                                    <TextBlock
+                                                        Text="{StaticResource SortByDateOfChange}"
+                                                        Opacity="1"
+                                                        Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                        FontWeight="Normal" />
+                                                </ToolTip>
+                                            </ToolTip.Tip>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource calendar}"
+                                                      Stretch="Uniform" />
+                                            </Viewbox>
+                                        </RadioButton>
+                                    </StackPanel>
+
+                                    <ToggleButton Classes="EnabledIconAnimation"
+                                                  HorizontalAlignment="Right"
+                                                  Margin="0 3"
+                                                  IsChecked="{CompiledBinding ReverseProjectList}"
+                                                  Theme="{StaticResource AppBarToggleButtonTheme}"
+                                                  Padding="7">
+                                        <ToolTip.Tip>
+                                            <ToolTip>
+                                                <TextBlock Text="{StaticResource InvertList}"
+                                                           Opacity="1"
+                                                           Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                           FontWeight="Normal" />
+                                            </ToolTip>
+                                        </ToolTip.Tip>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource arrow_repeat}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </ToggleButton>
+                                </Panel>
+                            </Border>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+
+                <Viewbox Width="17"
+                         Height="17">
+                    <Path Data="{StaticResource search}"
+                          Stretch="Uniform" />
+                </Viewbox>
+            </Button>
+
+            <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    ToolTip.Tip="{StaticResource NumberOfAllProjectsInTheProgram}">
+                <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                    <Path Data="{StaticResource navigation_regular}"
+                          Fill="{StaticResource TextFillColorPrimaryBrush}"
+                          Width="14"
+                          VerticalAlignment="Center"
+                          Stretch="Uniform" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{CompiledBinding Projects.Count, Source={x:Static s:ApplicationSettings.Current}}"
+                               FontSize="12" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        
+        <SmoothScrollViewer Grid.Row="1" Margin="0 10 0 0">
+            <ItemsRepeater Items="{CompiledBinding SortedProjects}"
+                           Margin="20 0 20 10"
+                           ItemTemplate="{StaticResource ProjectWindowItemTemplate}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="5" />
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </SmoothScrollViewer>
+        
+        <TextBlock Grid.Row="1"
+                   Margin="0 20"
+                   Text="{StaticResource NoProjects}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                   IsVisible="{CompiledBinding !SortedProjects.Count}" />
+    </Grid>
+    
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid Margin="15 0" Rows="1">
+            <Panel />
+            <Button Content="{StaticResource Cancel}" 
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    Command="{CompiledBinding Close}"
+                    CommandParameter="{CompiledBinding $parent[ContentDialog]}"/>
+        </UniformGrid>
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

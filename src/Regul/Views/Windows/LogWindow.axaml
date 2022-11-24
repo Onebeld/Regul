@@ -1,0 +1,45 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels.Windows"
+             xmlns:logging="clr-namespace:Regul.Logging;assembly=Regul.Logging"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+             x:Class="Regul.Views.Windows.LogWindow"
+             x:DataType="vm:LogWindowViewModel">
+    <Grid RowDefinitions="*,Auto">
+        <TextBox Grid.Row="0"
+                 VerticalContentAlignment="Stretch"
+                 FontSize="12"
+                 Margin="20" 
+                 IsReadOnly="True"
+                 AcceptsReturn="True"
+                 Text="{CompiledBinding Logs}"
+                 SmoothScrollViewer.VerticalScrollBarVisibility="Auto"
+                 SmoothScrollViewer.HorizontalScrollBarVisibility="Auto" />
+        
+        <TextBlock Grid.Row="0"
+                   Text="{StaticResource Empty}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                   IsVisible="{CompiledBinding !Logs.Count, Source={x:Static logging:Logger.Instance}}" />
+
+        <Border Grid.Row="1"
+                BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                Background="{StaticResource SolidBackgroundFillColorBase}"
+                BorderThickness="0 1 0 0"
+                Height="80">
+            <UniformGrid Margin="15 0" Rows="1">
+                <Button Content="{StaticResource SaveLogs}"
+                        Command="{CompiledBinding SaveLogs}"
+                        VerticalAlignment="Center" 
+                        Margin="5"/>
+                <Button Content="{StaticResource Clear}" 
+                        VerticalAlignment="Center"
+                        Margin="5"
+                        Command="{CompiledBinding ClearLogs}"/>
+            </UniformGrid>
+        </Border>
+    </Grid>
+</UserControl>

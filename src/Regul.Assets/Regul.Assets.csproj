@@ -1,15 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>net7.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <TieredPGO>true</TieredPGO>
     </PropertyGroup>
 
-    <Import Project="..\..\build\RegulVersion.props" />
     <Import Project="..\..\build\Avalonia.props" />
+    <Import Project="..\..\build\PlatformDependentCompilation.props" />
 
     <ItemGroup>
         <AvaloniaResource Include="Localization\**" />
-        <AvaloniaXaml Remove="Localization\ru.axaml" />
-        <AvaloniaResource Include="icon.ico" />
         <AvaloniaResource Include="Icons.axaml" />
+        <AvaloniaResource Include="icon.ico" />
     </ItemGroup>
 </Project>

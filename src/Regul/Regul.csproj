@@ -1,29 +1,37 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <TargetFrameworks>net7.0</TargetFrameworks>
         <OutputType>WinExe</OutputType>
-        <ApplicationIcon>icon.ico</ApplicationIcon>
-        <Authors>Dmitry Zhutkov (Onebeld)</Authors>
-        <Version>0.2.0</Version>
-        <Copyright>©2021 Dmitry Zhutkov (Onebeld)</Copyright>
-        <RepositoryType>public</RepositoryType>
-        <RepositoryUrl>https://github.com/Onebeld/Regul</RepositoryUrl>
-        <Description>Modular modern file editor</Description>
-        <TargetFrameworks>net461;net6.0</TargetFrameworks>
         <Nullable>enable</Nullable>
-        <LangVersion>10.0</LangVersion>
+        <LangVersion>preview</LangVersion>
+        <ApplicationIcon>..\Regul.Assets\icon.ico</ApplicationIcon>
+        <TieredPGO>true</TieredPGO>
+        <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <ErrorReport>none</ErrorReport>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
+        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
+        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
+        <ProjectReference Include="..\Regul.Logging\Regul.Logging.csproj" />
+        <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
     </ItemGroup>
 
-    <Import Project="..\..\build\RegulVersion.props"/>
-    <Import Project="..\..\build\Avalonia.props"/>
-
+    <Import Project="..\..\build\Avalonia.props" />
+    <Import Project="..\..\build\AvaloniaDesktop.props" />
+    <Import Project="..\..\build\AvaloniaDiagnostics.props" />
+    <Import Project="..\..\build\PlatformDependentCompilation.props" />
+    
     <ItemGroup>
-        <ProjectReference Include="..\Onebeld.Logger\Onebeld.Logging.csproj"/>
-        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
-        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj"/>
-        <ProjectReference Include="..\Regul.Base\Regul.Base.csproj"/>
+        <None Remove=".gitignore" />
+        <None Include="..\Regul.Assets\icon.ico">
+          <Link>icon.ico</Link>
+        </None>
     </ItemGroup>
 </Project>

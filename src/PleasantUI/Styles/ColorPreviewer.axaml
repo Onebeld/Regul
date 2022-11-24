@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:primitives="clr-namespace:PleasantUI.Controls.Primitives"
+                    xmlns:i="using:PleasantUI.Xaml.Interactivity"
+                    xmlns:b="using:PleasantUI.Xaml.Behaviors"
+                    x:DataType="primitives:ColorPreviewer">
+    <ControlTheme x:Key="{x:Type primitives:ColorPreviewer}" TargetType="primitives:ColorPreviewer">
+        <Setter Property="Height" Value="70" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*,Auto" Background="{TemplateBinding Background}">
+                    <!-- Left accent colors -->
+                    <Grid Grid.Column="0"
+                          Height="40"
+                          Width="80"
+                          ColumnDefinitions="*,*"
+                          Margin="10 0 -10 0"
+                          VerticalAlignment="Center"
+                          IsVisible="{TemplateBinding ShowAccentColors}">
+                        <Border Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{StaticResource CheckeredBackgroundBrush}" />
+                        <Border x:Name="_accentDec2Border"
+                                Grid.Column="0"
+                                CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static GlobalConverters.LeftCornerRadiusFilter}}"
+                                Tag="-2"
+                                Background="{TemplateBinding HsvColor, Converter={x:Static AccentColorConverter.Instance}, ConverterParameter='-2'}" />
+                        <Border x:Name="_accentDec1Border"
+                                Grid.Column="1"
+                                Tag="-1"
+                                Background="{TemplateBinding HsvColor, Converter={x:Static AccentColorConverter.Instance}, ConverterParameter='-1'}" />
+                    </Grid>
+                    <!-- Right accent colors -->
+                    <Grid Grid.Column="2"
+                          Height="40"
+                          Width="80"
+                          ColumnDefinitions="*,*"
+                          Margin="-10,0,10,0"
+                          VerticalAlignment="Center"
+                          IsVisible="{TemplateBinding ShowAccentColors}">
+                        <Border Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{StaticResource CheckeredBackgroundBrush}" />
+                        <Border x:Name="_accentInc1Border"
+                                Grid.Column="0"
+                                Tag="1"
+                                Background="{TemplateBinding HsvColor, Converter={x:Static AccentColorConverter.Instance}, ConverterParameter='1'}" />
+                        <Border x:Name="_accentInc2Border"
+                                Grid.Column="1"
+                                CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static GlobalConverters.RightCornerRadiusFilter}}"
+                                Tag="2"
+                                Background="{TemplateBinding HsvColor, Converter={x:Static AccentColorConverter.Instance}, ConverterParameter='2'}" />
+                    </Grid>
+                    <!-- Must be last for drop shadow Z-index -->
+                    <Border Grid.Column="1"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Margin="10">
+                        <i:Interaction.Behaviors>
+                            <b:ShadowBehavior ShadowDepth="ColorPreviewer"
+                                              EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                        </i:Interaction.Behaviors>
+                        <Panel>
+                            <Border Background="{StaticResource CheckeredBackgroundBrush}"
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
+                            <Border x:Name="PreviewBorder"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    Background="{TemplateBinding HsvColor, Converter={x:Static ToBrushConverter.Instance}}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                        </Panel>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

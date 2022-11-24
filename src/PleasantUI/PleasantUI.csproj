@@ -1,32 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.3.0</Version>
+        <TargetFrameworks>net7.0</TargetFrameworks>
         <Authors>Dmitry Zhutkov (Onebeld)</Authors>
-        <Copyright>©2021 Dmitry Zhutkov (Onebeld)</Copyright>
-        <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
-        <RepositoryType>public</RepositoryType>
-        <PackageTags>style, pleasant, pleasantui, avalonia, ui, avaloniaui</PackageTags>
-        <Description>Dynamic user interface for Avalonia</Description>
+        <AssemblyVersion>2.0.1</AssemblyVersion>
+        <FileVersion>2.0.1</FileVersion>
+        <Version>2.0.1</Version>
+        <ImplicitUsings>enable</ImplicitUsings>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <TieredPGO>true</TieredPGO>
     </PropertyGroup>
 
     <Import Project="..\..\build\Avalonia.props" />
-
-    <ItemGroup>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12.2" />
-        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="$(AvaloniaVersion)" />
-    </ItemGroup>
-
+    <Import Project="..\..\build\AvaloniaXamlLoader.props" />
+    <Import Project="..\..\build\AvaloniaWin32.props" />
+    <Import Project="..\..\build\PlatformDependentCompilation.props" />
+    
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
-        <AvaloniaResource Include="PleasantUI.axaml" />
+        <AvaloniaResource Include="Styles\**" />
+        <AvaloniaResource Include="PleasantTheme.Common.axaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
+        <AvaloniaResource Include="PleasantTheme.Controls.axaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
     </ItemGroup>
-
+    
     <ItemGroup>
-        <ProjectReference Include="..\Onebeld.Extensions\Onebeld.Extensions.csproj" />
+      <Folder Include="Animations" />
     </ItemGroup>
 </Project>

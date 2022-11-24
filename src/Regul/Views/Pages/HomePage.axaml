@@ -1,0 +1,432 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels"
+             xmlns:s="using:Regul"
+             xmlns:e="clr-namespace:PleasantUI.Enums;assembly=PleasantUI"
+             xmlns:moduleSystem="clr-namespace:Regul.ModuleSystem;assembly=Regul.ModuleSystem"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.Pages.HomePage"
+             x:DataType="vm:MainWindowViewModel">
+    <UserControl.KeyBindings>
+        <KeyBinding Command="{CompiledBinding CreateProject}"
+                    Gesture="Ctrl+N" />
+    </UserControl.KeyBindings>
+    
+    <SmoothScrollViewer>
+        <Panel Margin="25">
+            <Grid RowDefinitions="Auto,*">
+                <StackPanel Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Image Source="{StaticResource RegulIcon}"
+                               Width="26"
+                               Height="26"/>
+                        <TextBlock Theme="{StaticResource TitleTextBlockTheme}" Text="{StaticResource Welcome}" />
+                    </StackPanel>
+                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{StaticResource General}" />
+
+                    <OptionsDisplayItem Header="{StaticResource CreatorName}"
+                                        Icon="{StaticResource person_regular}">
+                        <OptionsDisplayItem.ActionButton>
+                            <TextBox Width="150"
+                                     Text="{CompiledBinding CreatorName, Source={x:Static s:ApplicationSettings.Current}}" />
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+
+                    <OptionsDisplayItem Header="{StaticResource YouHaveOpenProjects}"
+                                        Icon="{StaticResource tab_desktop}"
+                                        IsVisible="{CompiledBinding !!Workbenches.Count}">
+                        <OptionsDisplayItem.ActionButton>
+                            <Button Theme="{StaticResource AccentButtonTheme}"
+                                    Content="{DynamicResource GoTo}"
+                                    Padding="20 5"
+                                    Command="{CompiledBinding GoToEditors}" />
+                        </OptionsDisplayItem.ActionButton>
+                    </OptionsDisplayItem>
+
+                    <Panel>
+                        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                   Text="{StaticResource AllProjects}"
+                                   VerticalAlignment="Center" />
+
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
+                            <Button Padding="6"
+                                    Classes="EnabledIconAnimation"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    ToolTip.Tip="{StaticResource Search}">
+                                <Button.Flyout>
+                                    <Flyout Placement="Bottom" ShowMode="Transient">
+                                        <Grid RowDefinitions="*,Auto">
+                                            <StackPanel Spacing="5" Margin="10">
+                                                <Panel>
+                                                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                                               Text="{StaticResource Search}"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center" />
+
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Spacing="5"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center">
+                                                        <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="4"
+                                                                ToolTip.Tip="{StaticResource NumberOfElementsFound}">
+                                                            <StackPanel Orientation="Horizontal" Spacing="8"
+                                                                        Margin="8 5">
+                                                                <Path Data="{StaticResource search}"
+                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                                      VerticalAlignment="Center"
+                                                                      Width="14"
+                                                                      Height="14"
+                                                                      Stretch="Uniform" />
+                                                                <TextBlock Text="{CompiledBinding SortedProjects.Count}"
+                                                                           FontSize="12" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Panel>
+
+                                                <Grid ColumnDefinitions="Auto,5,*" RowDefinitions="Auto,5,Auto,5,Auto">
+                                                    <Grid.Styles>
+                                                        <Style Selector="TextBox">
+                                                            <Setter Property="Width" Value="200" />
+                                                            <Setter Property="MinHeight" Value="20" />
+                                                            <Setter Property="Padding" Value="6 3 6 3" />
+                                                        </Style>
+                                                    </Grid.Styles>
+                                                    
+                                                    <TextBlock Grid.Column="0"
+                                                               Grid.Row="0" VerticalAlignment="Center">
+                                                        <Run Text="{StaticResource Name}" /><Run Text=":" />
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Column="0"
+                                                               Grid.Row="2" VerticalAlignment="Center">
+                                                        <Run Text="{StaticResource Path}" /><Run Text=":" />
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Column="0"
+                                                               Grid.Row="4" VerticalAlignment="Center">
+                                                        <Run Text="{StaticResource Editor}" /><Run Text=":" />
+                                                    </TextBlock>
+
+                                                    <TextBox Grid.Column="2" Grid.Row="0"
+                                                             Classes="WithoutDataValidation ClearTextBox"
+                                                             Text="{CompiledBinding SearchName}" />
+                                                    <TextBox Grid.Column="2" Grid.Row="2"
+                                                             Classes="WithoutDataValidation ClearTextBox"
+                                                             Text="{CompiledBinding SearchPath}" />
+                                                    <TextBox Grid.Column="2" Grid.Row="4"
+                                                             Classes="WithoutDataValidation ClearTextBox"
+                                                             Text="{CompiledBinding SearchEditor}" />
+                                                </Grid>
+                                            </StackPanel>
+
+                                            <Border Grid.Row="1"
+                                                    Background="{StaticResource SolidBackgroundFillColorBaseBrush}"
+                                                    BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                                                    BorderThickness="0 1 0 0"
+                                                    Height="40"
+                                                    CornerRadius="0 0 8 8">
+                                                <Panel Margin="5 0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <RadioButton Classes="EnabledIconAnimation"
+                                                                     IsThreeState="False"
+                                                                     GroupName="SortingProjects"
+                                                                     Theme="{StaticResource RadioButtonLikeButton}"
+                                                                     CornerRadius="4 0 0 4"
+                                                                     Padding="7"
+                                                                     IsChecked="{CompiledBinding SortByAlphabetical}">
+                                                            <ToolTip.Tip>
+                                                                <ToolTip>
+                                                                    <TextBlock Text="{StaticResource SortByAlphabetical}"
+                                                                               Opacity="1"
+                                                                               Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                                               FontWeight="Normal" />
+                                                                </ToolTip>
+                                                            </ToolTip.Tip>
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource alphabet}" />
+                                                            </Viewbox>
+                                                        </RadioButton>
+                                                        <RadioButton Classes="EnabledIconAnimation"
+                                                                     IsThreeState="False"
+                                                                     GroupName="SortingProjects"
+                                                                     Theme="{StaticResource RadioButtonLikeButton}"
+                                                                     CornerRadius="0 4 4 0"
+                                                                     IsChecked="{CompiledBinding SortByDateOfChange}"
+                                                                     Padding="7">
+                                                            <ToolTip.Tip>
+                                                                <ToolTip>
+                                                                    <TextBlock Text="{StaticResource SortByDateOfChange}"
+                                                                               Opacity="1"
+                                                                               Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                                               FontWeight="Normal" />
+                                                                </ToolTip>
+                                                            </ToolTip.Tip>
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource calendar}" />
+                                                            </Viewbox>
+                                                        </RadioButton>
+                                                    </StackPanel>
+
+                                                    <ToggleButton HorizontalAlignment="Right"
+                                                                  Classes="EnabledIconAnimation"
+                                                                  Margin="0 3"
+                                                                  IsChecked="{CompiledBinding ReverseProjectList}"
+                                                                  Theme="{StaticResource AppBarToggleButtonTheme}"
+                                                                  Padding="7">
+                                                        <ToolTip.Tip>
+                                                            <ToolTip>
+                                                                <TextBlock Text="{StaticResource InvertList}"
+                                                                           Opacity="1"
+                                                                           Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                                                           FontWeight="Normal" />
+                                                            </ToolTip>
+                                                        </ToolTip.Tip>
+                                                        <Viewbox Width="16" Height="16">
+                                                            <Path Data="{StaticResource arrow_repeat}" />
+                                                        </Viewbox>
+                                                    </ToggleButton>
+                                                </Panel>
+                                            </Border>
+                                        </Grid>
+                                    </Flyout>
+                                </Button.Flyout>
+
+                                <Viewbox Width="17" Height="17">
+                                    <Path Data="{StaticResource search}" />
+                                </Viewbox>
+                            </Button>
+                            
+                            <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                                    ToolTip.Tip="{StaticResource NumberOfAllProjectsInTheProgram}">
+                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                                    <Path Data="{StaticResource navigation_regular}"
+                                          Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                          Width="14"
+                                          VerticalAlignment="Center"
+                                          Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               Text="{CompiledBinding Projects.Count, Source={x:Static s:ApplicationSettings.Current}}"
+                                               FontSize="12" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Panel>
+                </StackPanel>
+
+                <Panel Grid.Row="1" Margin="0 5 0 0">
+                    <ItemsRepeater x:Name="ProjectList"
+                                   Items="{CompiledBinding SortedProjects}"
+                                   ItemTemplate="{StaticResource ProjectMainPageItemTemplate}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="5" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+
+                    <TextBlock Text="{StaticResource NoProjects}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                               IsVisible="{CompiledBinding !SortedProjects.Count}" />
+                </Panel>
+            </Grid>
+            
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0 8 0 0">
+                <StackPanel.Styles>
+                    <Style Selector="Border.Separator">
+                        <Setter Property="Width" Value="1" />
+                        <Setter Property="Background" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+                        <Setter Property="Margin" Value="5 0" />
+                    </Style>
+                </StackPanel.Styles>
+                
+                <Button Theme="{StaticResource AppBarButtonTheme}"
+                        Command="{CompiledBinding CreateProject}">
+                    <ToolTip.Tip>
+                        <TextBlock>
+                            <Run Text="{StaticResource NewProject}" />
+                            &#8203;<Run Text="(Ctrl+N)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                        </TextBlock>
+                    </ToolTip.Tip>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Viewbox Width="18" Height="18">
+                            <Path Data="{StaticResource add_regular}"
+                                  Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                        </Viewbox>
+                        <TextBlock Text="{StaticResource NewProject}" />
+                    </StackPanel>
+                </Button>
+                
+                <Border Classes="Separator" />
+                
+                <Button x:Name="MenuButton"
+                        Padding="11 5 11 6"
+                        Theme="{StaticResource AppBarButtonTheme}">
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom" ShowMode="Transient">
+                            <Grid RowDefinitions="Auto,*,Auto">
+                                <TextBlock Grid.Row="0"
+                                           Margin="20 15 0 0"
+                                           Theme="{StaticResource SubtitleTextBlockTheme}"
+                                           HorizontalAlignment="Left"
+                                           Text="{StaticResource Menu}" />
+                                <StackPanel Grid.Row="0" 
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Spacing="5"
+                                            Margin="0 15 20 5">
+                                    <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                                            ToolTip.Tip="{StaticResource NumberOfOpenWorkbenches}"
+                                            IsVisible="{CompiledBinding !!Workbenches.Count}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                                            <Path Data="{StaticResource tab_desktop}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Width="14"
+                                                  Height="14"
+                                                  Stretch="Uniform" />
+                                            <TextBlock Text="{CompiledBinding Workbenches.Count}" FontSize="12" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                                            ToolTip.Tip="{StaticResource NumberOfLoadedModules}"
+                                            IsVisible="{CompiledBinding !!Count, Source={x:Static moduleSystem:ModuleManager.Modules}}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                                            <Path Data="{StaticResource app_folder_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Width="14"
+                                                  Height="14"
+                                                  Stretch="Uniform" />
+                                            <TextBlock Text="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}" FontSize="12" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                                
+                                <UniformGrid Grid.Row="1" Columns="3" Margin="15 0 15 15">
+                                    <DockPanel Margin="5">
+                                        <TextBlock Text="{StaticResource OpenFile}" 
+                                                   DockPanel.Dock="Bottom"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0 5 0 0"
+                                                   FontSize="12"/>
+                                        <ToolTip.Tip>
+                                            <TextBlock>
+                                                <Run Text="{StaticResource OpenFile}" />
+                                                &#8203;<Run Text="(Ctrl+O)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                            </TextBlock>
+                                        </ToolTip.Tip>
+                                        <Button Padding="40 14"
+                                                Classes="EnabledIconAnimation"
+                                                Command="{CompiledBinding OpenFile}"
+                                                Click="MenuButtonsOnClick">
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource open_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                    </DockPanel>
+                                    <DockPanel Margin="5">
+                                        <TextBlock Text="{StaticResource Instruments}" 
+                                                   DockPanel.Dock="Bottom"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0 5 0 0"
+                                                   FontSize="12"/>
+                                        <Button Padding="40 14"
+                                                Classes="EnabledIconAnimation"
+                                                Command="{CompiledBinding OpenTools}"
+                                                Click="MenuButtonsOnClick">
+                                            <ToolTip.Tip>
+                                                <TextBlock>
+                                                    <Run Text="{StaticResource Instruments}" />
+                                                    &#8203;<Run Text="(Ctrl+T)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                </TextBlock>
+                                            </ToolTip.Tip>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource wrench_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                    </DockPanel>
+                                    <DockPanel Margin="5">
+                                        <TextBlock Text="{StaticResource Workbenches}" 
+                                                   DockPanel.Dock="Bottom"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0 5 0 0"
+                                                   FontSize="12"/>
+                                        <Button Padding="40 14"
+                                                Classes="EnabledIconAnimation"
+                                                IsEnabled="{CompiledBinding !!Workbenches.Count}"
+                                                Command="{CompiledBinding GoToEditors}">
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource tab_desktop}" />
+                                            </Viewbox>
+                                        </Button>
+                                    </DockPanel>
+                                </UniformGrid>
+                                
+                                <Border Grid.Row="2"
+                                        Background="{StaticResource SolidBackgroundFillColorBaseBrush}"
+                                        BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                                        BorderThickness="0 1 0 0"
+                                        Height="50"
+                                        CornerRadius="0 0 8 8">
+                                    <Panel Margin="8 5">
+                                        <Button Padding="10 7"
+                                                Classes="EnabledIconAnimation"
+                                                Theme="{StaticResource AppBarButtonTheme}" 
+                                                HorizontalAlignment="Left"
+                                                ToolTip.Tip="{StaticResource Settings}"
+                                                Command="{CompiledBinding OpenSettings}"
+                                                CommandParameter="{x:Static e:TitleBarType.Classic}">
+                                            <Viewbox Width="15" Height="15">
+                                                <Path Data="{StaticResource settings_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                        
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="5"
+                                                    HorizontalAlignment="Right">
+                                            <Button Padding="10 7"
+                                                    Classes="EnabledIconAnimation"
+                                                    Theme="{StaticResource AppBarButtonTheme}"
+                                                    ToolTip.Tip="{StaticResource Logs}"
+                                                    Command="{CompiledBinding OpenLogWindow}">
+                                                <Viewbox Width="15" Height="15">
+                                                    <Path Data="{StaticResource window_text_regular}" />
+                                                </Viewbox>
+                                            </Button>
+                                            
+                                            <Button Padding="10 7"
+                                                    Classes="EnabledIconAnimation"
+                                                    Theme="{StaticResource AppBarButtonTheme}"
+                                                    ToolTip.Tip="{StaticResource ExitFromRegul}"
+                                                    Command="{CompiledBinding Exit}">
+                                                <Viewbox Width="15" Height="15">
+                                                    <Path Data="{StaticResource arrow_enter_regular}" />
+                                                </Viewbox>
+                                            </Button>
+                                        </StackPanel>
+                                    </Panel>
+                                </Border>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                    
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Viewbox Width="18" Height="18">
+                            <Path Data="{StaticResource navigation_regular}"
+                                  Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                        </Viewbox>
+                        <TextBlock Text="{StaticResource Menu}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Panel>
+    </SmoothScrollViewer>
+</UserControl>

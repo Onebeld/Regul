@@ -1,54 +1,64 @@
-﻿using Avalonia.Media;
-using Avalonia.Styling;
-using Regul.ModuleSystem.Models;
+﻿using System;
+using System.Threading.Tasks;
+using Avalonia.Collections;
+using Avalonia.Media;
+using Regul.ModuleSystem.Structures;
 
 namespace Regul.ModuleSystem;
 
+/// <summary>
+/// The module is loaded with it.
+/// </summary>
 public interface IModule
 {
-	/// <summary>
-	///     The image that will be shown in the program settings
-	/// </summary>
-	IImage Icon { get; set; }
+    /// <summary>
+    /// Image of the module.
+    /// </summary>
+    IImage? Icon { get; }
+    
+    /// <summary>
+    /// Module name. Can also be a key for localization.
+    /// </summary>
+    string Name { get; }
+    
+    /// <summary>
+    /// The name of the author, who created this module.
+    /// </summary>
+    string Author { get; }
+    
+    /// <summary>
+    /// Module description. Can also be a key for localization.
+    /// </summary>
+    string Description { get; }
 
-	/// <summary>
-	///     Module name
-	/// </summary>
-	string Name { get; }
+    /// <summary>
+    /// The list of tools that your module supports. Their number can be unlimited.
+    /// </summary>
+    AvaloniaList<Instrument>? Instruments { get; }
 
-	/// <summary>
-	///     Name of the creator who created this module
-	/// </summary>
-	string Creator { get; }
+    /// <summary>
+    /// Module version.
+    /// </summary>
+    Version Version { get; }
+    
+    /// <summary>
+    /// Module localization
+    /// </summary>
+    Localization? Localization { get; }
 
-	/// <summary>
-	///     Module Description
-	/// </summary>
-	string Description { get; }
+    /// <summary>
+    /// The entry point of any module.
+    /// </summary>
+    void Execute();
+    
+    /// <summary>
+    /// If you want users to be able to change module settings, specify type here.
+    /// </summary>
+    Type? SettingsViewType { get; }
 
-	/// <summary>
-	///     Module version
-	/// </summary>
-	string Version { get; }
-
-	/// <summary>
-	///     If the module is incorrectly initialized, it can be reinitialized.
-	/// </summary>
-	bool CorrectlyInitialized { get; set; }
-
-	/// <summary>
-	///     Indicates if the module needs to be updated
-	/// </summary>
-	bool ThereIsAnUpdate { get; set; }
-
-	Language[] Languages { get; }
-
-	IStyle LanguageStyle { get; set; }
-	string PathToLocalization { get; }
-	string? LinkForCheckUpdates { get; }
-
-	/// <summary>
-	///     Starting the module
-	/// </summary>
-	void Execute();
+    /// <summary>
+    /// Allows the module to implement getting a new version, thereby updating the module.
+    /// </summary>
+    /// <returns>The new version and a link to download the new version. If you don't want to update the module, you can return null.</returns>
+    Task<Version?> GetNewVersion(out string? link, out Version? requiredRegulVersion);
 }

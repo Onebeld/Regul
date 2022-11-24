@@ -1,0 +1,145 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="0 50">
+            <PleasantTitleBar />
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="32" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Border Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            x:Name="PART_DragWindow">
+                        <Border.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem Name="PART_ReestablishMenuItem"
+                                          Header="{DynamicResource Reestablish}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource square_multiple_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_CollapseMenuItem"
+                                          Header="{DynamicResource Collapse}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource subtract_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_ExpandMenuItem"
+                                          Header="{DynamicResource Expand}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource maximize_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <Separator Name="PART_SeparatorMenuItem"
+                                           Background="{StaticResource ControlStrokeColorDefaultBrush}"
+                                           Height="1"
+                                           Margin="-4 1 -4 1" />
+                                
+                                <MenuItem Name="PART_CloseMenuItem"
+                                          Header="{DynamicResource Close}"
+                                          InputGesture="Ctrl+Q">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource dismiss_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuFlyout>
+                        </Border.ContextFlyout>
+                    </Border>
+
+                    <StackPanel Grid.Column="0"
+                                x:Name="PART_TitlePanel"
+                                Orientation="Horizontal"
+                                Margin="2 0 0 0"
+                                Spacing="5"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False">
+                        <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
+                        <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />
+                        <TextBlock x:Name="PART_Description" FontSize="12" Margin="3 0 0 0" VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+
+
+                    <PleasantCaptionButtons Grid.Column="2"
+                                            ZIndex="5"
+                                            x:Name="PART_CaptionButtons"
+                                            VerticalAlignment="Stretch"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Path#PART_LogoPath">
+            <Setter Property="Fill" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        </Style>
+
+        <Style Selector="^:isactive /template/ Path#PART_LogoPath">
+            <Setter Property="Fill" Value="{StaticResource TextFillColorSecondaryBrush}" />
+        </Style>
+        <Style Selector="^:isactive /template/ TextBlock#PART_Title">
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
+        </Style>
+
+        <Style Selector="^[IsMacOs=False] /template/ Image#PART_Icon">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^[IsMacOs=False] /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Grid.ColumnSpan" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="^[IsMacOs=False] /template/ PleasantCaptionButtons#PART_CaptionButtons">
+            <Setter Property="Grid.Column" Value="2" />
+        </Style>
+        <Style Selector="^[IsMacOs=False] /template/ Border#PART_DragWindow">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <!--macOS implementation-->
+        <Style Selector="^[IsMacOs=True] /template/ Border#PART_DragWindow">
+            <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="0 0 0 1" />
+        </Style>
+        <Style Selector="^[IsMacOs=True] /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Grid.ColumnSpan" Value="3" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="^[IsMacOs=True] /template/ PleasantCaptionButtons#PART_CaptionButtons">
+            <Setter Property="Grid.Column" Value="0" />
+        </Style>
+
+        <Style Selector="^[IsMacOs=True] /template/ Image#PART_Icon">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

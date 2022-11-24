@@ -1,0 +1,40 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels.Pages"
+             xmlns:c="using:Regul.Views.SettingsContent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.Pages.SettingsPage"
+             x:DataType="vm:SettingsPageViewModel">
+    <NavigationView x:Name="NavigationView"
+                    Header="{x:Null}"
+                    IsOpen="False"
+                    SelectionMode="AlwaysSelected"
+                    BackButtonCommand="{CompiledBinding BackToPreviousContent}">
+        <NavigationView.NotMakeOffsetForContentPanel>
+            <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                <CompiledBinding Path="!EnableCustomTitleBar" Source="{x:Static PleasantUiSettings.Instance}" />
+            </MultiBinding>
+        </NavigationView.NotMakeOffsetForContentPanel>
+        
+        <NavigationViewItem Header="{StaticResource General}"
+                            Icon="{StaticResource settings_regular}"
+                            TypeContent="{x:Type c:GeneralSettingsContent}" />
+        <NavigationViewItem Header="{StaticResource Style}"
+                            Margin="0 5"
+                            Icon="{StaticResource color_regular}"
+                            TypeContent="{x:Type c:StyleSettingsContent}" />
+        <NavigationViewItem Header="{StaticResource Modules}"
+                            Icon="{StaticResource app_folder_regular}"
+                            TypeContent="{x:Type c:ModulesSettingsContent}" />
+        
+        <NavigationViewItem DockPanel.Dock="Bottom"
+                            Margin="0 0 0 5"
+                            Header="{StaticResource About}"
+                            Icon="{StaticResource question_circle_regular}"
+                            TypeContent="{x:Type c:AboutSettingsContent}" />
+        
+        <Panel />
+    </NavigationView>
+</UserControl>

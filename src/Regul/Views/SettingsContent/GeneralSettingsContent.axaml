@@ -1,0 +1,102 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels.Pages"
+             xmlns:s="using:Regul"
+             xmlns:structures="clr-namespace:Regul.Structures"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.SettingsContent.GeneralSettingsContent"
+             x:DataType="vm:SettingsPageViewModel">
+    <SmoothScrollViewer>
+        <VirtualizingStackPanel Spacing="5" Margin="25">
+            <TextBlock Text="{StaticResource General}"
+                       Margin="0 0 0 10"
+                       Theme="{StaticResource TitleTextBlockTheme}" />
+            
+            <OptionsDisplayItem Header="{StaticResource Language}"
+                                Icon="{StaticResource local_language_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox Items="{CompiledBinding Source={x:Static s:App.Languages}}"
+                              SelectedItem="{CompiledBinding SelectedLanguage}"
+                              MinWidth="150">
+                        <ComboBox.DataTemplates>
+                            <DataTemplate DataType="{x:Type structures:Language}">
+                                <TextBlock Text="{CompiledBinding Name}" />
+                            </DataTemplate>
+                        </ComboBox.DataTemplates>
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource CreatorName}"
+                                Icon="{StaticResource person_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <TextBox Width="150"
+                             Text="{CompiledBinding CreatorName, Source={x:Static s:ApplicationSettings.Current}}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource EnableHardwareAcceleration}"
+                                Icon="{StaticResource fast_acceleration_regular}"
+                                Description="{StaticResource EnableHardwareAccelerationDescription}"
+                                IsVisible="{CompiledBinding IsWindows}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  MinWidth="0"
+                                  IsChecked="{CompiledBinding HardwareAcceleration, Source={x:Static s:ApplicationSettings.Current}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource UpdateCheckInterval}"
+                                Icon="{StaticResource arrow_counterclockwise_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox SelectedIndex="{CompiledBinding SelectedIndexCheckUpdateInterval}"
+                              MinWidth="150">
+                        <ComboBoxItem Content="{StaticResource EveryDay}" />
+                        <ComboBoxItem Content="{StaticResource EveryWeek}" />
+                        <ComboBoxItem Content="{StaticResource EveryMonth}" />
+                        <ComboBoxItem Content="{StaticResource EveryYear}" />
+                        <ComboBoxItem Content="{StaticResource Never}" />
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource ResetToDefaultSettings}"
+                                Icon="{StaticResource arrow_repeat}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Theme="{StaticResource DangerButtonTheme}"
+                            Content="{StaticResource Reset}"
+                            Padding="20 5"
+                            Command="{CompiledBinding ResetSettings}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <Panel>
+                <TextBlock Text="{StaticResource EditorRelatedExtensions}"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+                
+                <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right"
+                        ToolTip.Tip="{StaticResource NumberOfEditorRelatedExtensions}">
+                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                        <Path Data="{StaticResource open_regular}"
+                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                              Width="14"
+                              Height="14"
+                              Stretch="Uniform" />
+                        <TextBlock Text="{CompiledBinding EditorRelatedExtensions.Count, Source={x:Static s:ApplicationSettings.Current}}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+            </Panel>
+            
+            <ItemsRepeater ItemTemplate="{StaticResource EditorRelatedExtensionItemTemplate}"
+                           Items="{CompiledBinding EditorRelatedExtensions, Source={x:Static s:ApplicationSettings.Current}}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="5" />
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </VirtualizingStackPanel>
+    </SmoothScrollViewer>
+</UserControl>

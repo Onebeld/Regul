@@ -1,0 +1,430 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels"
+             xmlns:s="using:Regul.Structures"
+             xmlns:e="using:PleasantUI.Enums"
+             xmlns:controls="clr-namespace:Regul.Controls"
+             xmlns:c="clr-namespace:Regul.Converters"
+             xmlns:moduleSystem="clr-namespace:Regul.ModuleSystem;assembly=Regul.ModuleSystem"
+             xmlns:views="clr-namespace:Regul.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.Pages.EditorsPage"
+             x:DataType="vm:MainWindowViewModel">
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Panel>
+        <Panel x:Name="DragPanel" Background="Transparent" />
+        <Panel Height="44"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Left">
+            <Button x:Name="GlobalMenu"
+                    Classes="EnabledIconAnimation"
+                    Theme="{StaticResource AppBarButtonTheme}"
+                    Padding="7"
+                    Margin="10 0 0 0"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="{StaticResource Menu}">
+                <Button.Flyout>
+                    <Flyout Placement="Bottom" ShowMode="Transient">
+                        <Grid RowDefinitions="Auto,*,Auto">
+                            <TextBlock Grid.Row="0"
+                                       Margin="20 15 0 0"
+                                       Theme="{StaticResource SubtitleTextBlockTheme}"
+                                       HorizontalAlignment="Left"
+                                       Text="{StaticResource Menu}" />
+                            <StackPanel Grid.Row="0"
+                                        Spacing="5"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        Margin="0 15 20 5">
+                                <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                                        ToolTip.Tip="{StaticResource NumberOfOpenWorkbenches}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                                        <Path Data="{StaticResource tab_desktop}"
+                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                              Width="14"
+                                              Height="14"
+                                              Stretch="Uniform" />
+                                        <TextBlock Text="{CompiledBinding Workbenches.Count}" FontSize="12" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Theme="{StaticResource BorderBlockInformationTheme}"
+                                        ToolTip.Tip="{StaticResource NumberOfLoadedModules}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                                        <Path Data="{StaticResource app_folder_regular}"
+                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                              Width="14"
+                                              Height="14"
+                                              Stretch="Uniform" />
+                                        <TextBlock Text="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}" FontSize="12" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <UniformGrid Grid.Row="1" Columns="3" Margin="15 0 15 15">
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource NewProject}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+                                    <Button Padding="40 14"
+                                            Classes="EnabledIconAnimation"
+                                            Command="{CompiledBinding CreateProject}"
+                                            Click="MenuButtonsOnClick">
+                                        <ToolTip.Tip>
+                                            <TextBlock>
+                                                <Run Text="{StaticResource NewProject}" />
+                                                &#8203;<Run Text="(Ctrl+N)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                            </TextBlock>
+                                        </ToolTip.Tip>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource add_regular}" />
+                                        </Viewbox>
+                                    </Button>
+                                </DockPanel>
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource OpenFile}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+                                    <Button Padding="40 14"
+                                            Classes="EnabledIconAnimation"
+                                            Command="{CompiledBinding OpenFile}"
+                                            Click="MenuButtonsOnClick">
+                                        <ToolTip.Tip>
+                                            <TextBlock>
+                                                <Run Text="{StaticResource OpenFile}" />
+                                                &#8203;<Run Text="(Ctrl+O)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                            </TextBlock>
+                                        </ToolTip.Tip>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource open_regular}" />
+                                        </Viewbox>
+                                    </Button>
+                                </DockPanel>
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource OpenProject}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+                                    <Button Padding="40 14"
+                                            Classes="EnabledIconAnimation"
+                                            Command="{CompiledBinding OpenProjectsWindow}"
+                                            Click="MenuButtonsOnClick">
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource open_folder}" />
+                                        </Viewbox>
+                                    </Button>
+                                </DockPanel>
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource Save}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Button Grid.Column="0"
+                                                Classes="EnabledIconAnimation"
+                                                Padding="0 14"
+                                                CornerRadius="4 0 0 4"
+                                                Command="{CompiledBinding SaveWorkbench}"
+                                                CommandParameter="{CompiledBinding SelectedWorkbench}"
+                                                Click="MenuButtonsOnClick">
+                                            <ToolTip.Tip>
+                                                <TextBlock>
+                                                    <Run Text="{StaticResource Save}" />
+                                                    &#8203;<Run Text="(Ctrl+S)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                </TextBlock>
+                                            </ToolTip.Tip>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource save_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                        <Button Grid.Column="1"
+                                                Classes="EnabledIconAnimation"
+                                                Padding="0 14"
+                                                CornerRadius="0 4 4 0"
+                                                ToolTip.Tip="{StaticResource MoreOptions}">
+                                            <Button.Flyout>
+                                                <Flyout Placement="Bottom" ShowMode="Transient">
+                                                    <StackPanel Margin="3" Spacing="2">
+                                                        <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                Command="{CompiledBinding SaveAsWorkbench}"
+                                                                Click="MenuButtonsOnClick">
+                                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                                <Path Data="{StaticResource save_edit}"
+                                                                      Stretch="Uniform"
+                                                                      Width="16"
+                                                                      Height="16"/>
+                                                                <TextBlock Text="{StaticResource SaveAs}" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                Command="{CompiledBinding SaveAllWorkbenches}"
+                                                                Click="MenuButtonsOnClick">
+                                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                                <Path Data="{StaticResource save_all}"
+                                                                      Stretch="Uniform"
+                                                                      Width="16"
+                                                                      Height="16"/>
+                                                                <TextBlock Text="{StaticResource SaveAll}" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
+
+                                            <Viewbox Width="12" Height="12">
+                                                <Path Data="{StaticResource chevron_down_regular}"
+                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                      Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                      StrokeThickness="2" />
+                                            </Viewbox>
+                                        </Button>
+                                    </Grid>
+                                </DockPanel>
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource Instruments}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+                                    <Button Padding="40 14"
+                                            Classes="EnabledIconAnimation"
+                                            Command="{CompiledBinding OpenTools}"
+                                            Click="MenuButtonsOnClick">
+                                        <ToolTip.Tip>
+                                            <TextBlock>
+                                                <Run Text="{StaticResource Instruments}" />
+                                                &#8203;<Run Text="(Ctrl+T)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                            </TextBlock>
+                                        </ToolTip.Tip>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource wrench_regular}" />
+                                        </Viewbox>
+                                    </Button>
+                                </DockPanel>
+                                <DockPanel Margin="5">
+                                    <TextBlock Text="{StaticResource HomeScreen}"
+                                               DockPanel.Dock="Bottom"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Margin="0 5 0 0"
+                                               FontSize="12" />
+                                    <Button Padding="40 14"
+                                            Classes="EnabledIconAnimation"
+                                            Command="{CompiledBinding GoToHome}">
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource home_screen}" />
+                                        </Viewbox>
+                                    </Button>
+                                </DockPanel>
+                            </UniformGrid>
+
+                            <Border Grid.Row="2"
+                                    Background="{StaticResource SolidBackgroundFillColorBaseBrush}"
+                                    BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                                    BorderThickness="0 1 0 0"
+                                    Height="50"
+                                    CornerRadius="0 0 8 8">
+                                <Panel Margin="8 5">
+                                    <Button Padding="10 7"
+                                            Classes="EnabledIconAnimation"
+                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            HorizontalAlignment="Left"
+                                            ToolTip.Tip="{StaticResource Settings}"
+                                            Command="{CompiledBinding OpenSettings}"
+                                            CommandParameter="{x:Static e:TitleBarType.ExtendedWithoutContent}">
+                                        <Viewbox Width="15" Height="15">
+                                            <Path Data="{StaticResource settings_regular}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </Button>
+                                    
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="5"
+                                                HorizontalAlignment="Right">
+                                        <Button Padding="10 7"
+                                                Classes="EnabledIconAnimation"
+                                                Theme="{StaticResource AppBarButtonTheme}"
+                                                ToolTip.Tip="{StaticResource Logs}"
+                                                Command="{CompiledBinding OpenLogWindow}">
+                                            <Viewbox Width="15" Height="15">
+                                                <Path Data="{StaticResource window_text_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                        
+                                        <Button Padding="10 7"
+                                                Classes="EnabledIconAnimation"
+                                                Theme="{StaticResource AppBarButtonTheme}"
+                                                ToolTip.Tip="{StaticResource ExitFromRegul}"
+                                                Command="{CompiledBinding Exit}">
+                                            <Viewbox Width="15" Height="15">
+                                                <Path Data="{StaticResource arrow_enter_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                    </StackPanel>
+                                </Panel>
+                            </Border>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+
+                <Image Width="16"
+                       Height="16"
+                       Source="{StaticResource RegulIcon}"/>
+            </Button>
+        </Panel>
+
+        <controls:EditorsTabView x:Name="TabView"
+                                 Items="{CompiledBinding Workbenches}"
+                                 SelectedItem="{CompiledBinding SelectedWorkbench}"
+                                 Margin="0 2 0 0">
+            <controls:EditorsTabView.Styles>
+                <Style Selector="PleasantTabItem">
+                    <Setter Property="IsClosable" Value="True" />
+                    <Setter Property="CanBeDragged" Value="True" />
+                    <Setter Property="ToolTip.Tip">
+                        <Template>
+                            <StackPanel x:DataType="s:Workbench">
+                                <TextBlock Text="{CompiledBinding PathToFile, Converter={x:Static c:PathToFileNameConverter.Instance}}"
+                                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                                <TextBlock Text="{CompiledBinding PathToFile}"
+                                           IsVisible="{CompiledBinding PathToFile, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                           FontSize="12"
+                                           TextTrimming="CharacterEllipsis"
+                                           FontWeight="Normal"
+                                           Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                                <TextBlock Text="{StaticResource ChangesHaveBeenMadeToThisProject}"
+                                           IsVisible="{CompiledBinding IsDirty}"
+                                           FontSize="12"
+                                           TextTrimming="CharacterEllipsis"
+                                           FontWeight="Normal"
+                                           Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </Template>
+                    </Setter>
+                    <Setter Property="ContextFlyout">
+                        <MenuFlyout x:DataType="s:Workbench">
+                            <MenuItem Header="{StaticResource OpenInExplorer}" 
+                                      FontSize="14" 
+                                      FontWeight="Normal"
+                                      Command="{CompiledBinding $parent[views:MainWindow].ViewModel.OpenFileBrowser}"
+                                      CommandParameter="{CompiledBinding}"
+                                      IsEnabled="{CompiledBinding PathToFile, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <MenuItem.Icon>
+                                    <Viewbox Width="16" Height="16">
+                                        <Path Data="{StaticResource folder_regular}"
+                                              Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                                    </Viewbox>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuFlyout>
+                    </Setter>
+                </Style>
+                <Style Selector="PleasantTabView /template/ Button#PART_AdderButton">
+                    <Setter Property="ToolTip.Tip" Value="{StaticResource AddWorkbench}" />
+                    <Setter Property="Flyout">
+                        <Flyout Placement="Bottom" ShowMode="Transient">
+                            <StackPanel Spacing="5" Margin="10">
+                                <Button Command="{CompiledBinding CreateProject}"
+                                        Click="MenuButtonsOnClick"
+                                        HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Spacing="15">
+                                        <Path Width="16"
+                                              Height="16"
+                                              Data="{StaticResource add_regular}"
+                                              Margin="5 0 0 0"
+                                              Stretch="Uniform" />
+                                        <StackPanel>
+                                            <TextBlock Text="{StaticResource NewProject}" FontWeight="Bold" />
+                                            <TextBlock Text="{StaticResource CreatingNewProject}"
+                                                       Theme="{StaticResource CaptionTextBlockTheme}"
+                                                       Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{CompiledBinding OpenFile}"
+                                        Click="MenuButtonsOnClick"
+                                        HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Spacing="15">
+                                        <Path Width="16"
+                                              Height="16"
+                                              Data="{StaticResource open_regular}"
+                                              Margin="5 0 0 0"
+                                              Stretch="Uniform" />
+                                        <StackPanel>
+                                            <TextBlock Text="{StaticResource OpenFile}" FontWeight="Bold" />
+                                            <TextBlock Text="{StaticResource OpeningExistingFile}"
+                                                       Theme="{StaticResource CaptionTextBlockTheme}"
+                                                       Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{CompiledBinding OpenProjectsWindow}"
+                                        Click="MenuButtonsOnClick"
+                                        HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Spacing="15">
+                                        <Path Width="16"
+                                              Height="16"
+                                              Data="{StaticResource open_folder}"
+                                              Margin="5 0 0 0"
+                                              Stretch="Uniform" />
+                                        <StackPanel>
+                                            <TextBlock Text="{StaticResource OpenProject}" FontWeight="Bold" />
+                                            <TextBlock Text="{StaticResource OpenProjectYouRecentlyStarted}"
+                                                       Theme="{StaticResource CaptionTextBlockTheme}"
+                                                       Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </Setter>
+                </Style>
+            </controls:EditorsTabView.Styles>
+
+            <controls:EditorsTabView.ItemTemplate>
+                <DataTemplate DataType="s:Workbench">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Image Grid.Column="0"
+                               Source="{CompiledBinding EditorId, Converter={x:Static c:IdEditorToImageConverter.Instance}, TargetNullValue={StaticResource PleasantUIImage}}"
+                               Width="16"
+                               Height="16"
+                               Margin="5 0 10 0" />
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{CompiledBinding PathToFile, Converter={x:Static c:PathToFileNameConverter.Instance}}" />
+
+                        <Border Grid.Column="2"
+                                Margin="5 0 0 0"
+                                Background="{StaticResource TextFillColorSecondaryBrush}"
+                                CornerRadius="10"
+                                Width="8"
+                                Height="8"
+                                IsVisible="{CompiledBinding IsDirty}" />
+                    </Grid>
+                </DataTemplate>
+            </controls:EditorsTabView.ItemTemplate>
+            <controls:EditorsTabView.ContentTemplate>
+                <DataTemplate DataType="s:Workbench">
+                    <Border DataContext="{CompiledBinding EditorViewModel}" 
+                            Child="{CompiledBinding EditorType, Converter={x:Static c:CreateObjectByTypeConverter.Instance}}" />
+                </DataTemplate>
+            </controls:EditorsTabView.ContentTemplate>
+        </controls:EditorsTabView>
+    </Panel>
+</UserControl>

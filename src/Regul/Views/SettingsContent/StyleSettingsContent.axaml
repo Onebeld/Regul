@@ -1,0 +1,447 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels.Pages"
+             xmlns:s="using:Regul"
+             xmlns:interactivity="clr-namespace:PleasantUI.Xaml.Interactivity;assembly=PleasantUI"
+             xmlns:behaviors="clr-namespace:Regul.Behaviors"
+             xmlns:other="clr-namespace:PleasantUI.Other;assembly=PleasantUI"
+             xmlns:media="clr-namespace:PleasantUI.Media;assembly=PleasantUI"
+             xmlns:pages="clr-namespace:Regul.Views.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.SettingsContent.StyleSettingsContent"
+             x:DataType="vm:SettingsPageViewModel"
+             DetachedFromLogicalTree="OnDetachedFromLogicalTree">
+    <SmoothScrollViewer>
+        <VirtualizingStackPanel Spacing="5" Margin="25">
+            <TextBlock Text="{StaticResource Style}"
+                       Margin="0 0 0 10"
+                       Theme="{StaticResource TitleTextBlockTheme}"/>
+            
+            <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
+                    Padding="16"
+                    CornerRadius="4"
+                    IsVisible="{CompiledBinding !IsSupportedOperatingSystem}">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Path Grid.Column="0" Data="{StaticResource info_regular}"
+                          Fill="{StaticResource SystemFillColorCautionBrush}"
+                          Stretch="Uniform"
+                          Width="16"
+                          Height="16"
+                          Margin="0 0 10 0" />
+                    <TextBlock Grid.Column="1" Foreground="{StaticResource SystemFillColorCautionBrush}"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               Text="{StaticResource SettingsNotBeSupported}" />
+                </Grid>
+            </Border>
+            
+            <OptionsDisplayItem Header="{StaticResource Font}"
+                                Icon="{StaticResource text_font_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              DataTemplates="{StaticResource FontItemTemplate}"
+                              SelectedItem="{CompiledBinding SelectedFont}"
+                              Items="{CompiledBinding Fonts}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource EnableShadow}"
+                                Icon="{StaticResource sparkle_regular}"
+                                Description="{StaticResource EnableShadowDescription}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  MinWidth="0"
+                                  IsChecked="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource EnableCustomTitleBar}"
+                                Icon="{StaticResource window_regular}"
+                                IsEnabled="{CompiledBinding IsSupportedOperatingSystem}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  MinWidth="0"
+                                  IsChecked="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource EnableBlur}"
+                                Icon="{StaticResource window_inprivate_regular}"
+                                Expands="True">
+                <OptionsDisplayItem.IsEnabled>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <CompiledBinding Path="IsSupportedOperatingSystem" />
+                        <CompiledBinding Path="HardwareAcceleration" Source="{x:Static s:ApplicationSettings.Current}" />
+                    </MultiBinding>
+                </OptionsDisplayItem.IsEnabled>
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  MinWidth="0"
+                                  IsChecked="{CompiledBinding EnableTransparency, Source={x:Static PleasantUiSettings.Instance}}" />
+                </OptionsDisplayItem.ActionButton>
+                <OptionsDisplayItem.Content>
+                    <StackPanel Margin="-12">
+                        <DockPanel Margin="48 10 33 0">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <NumericUpDown Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}"
+                                               Maximum="1"
+                                               Minimum="0"
+                                               Increment="0.1"
+                                               FormatString="P0"
+                                               Width="115"
+                                               VerticalAlignment="Center"
+                                               ParsingNumberStyle="Integer"
+                                               Margin="0 0 5 0"/>
+                                <Slider Width="150"
+                                        Maximum="1"
+                                        Minimum="0"
+                                        TickFrequency="0.01"
+                                        Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}"/>
+                            </StackPanel>
+                        
+                            <TextBlock VerticalAlignment="Center" Text="{StaticResource OpacityLevel}" TextWrapping="Wrap" />
+                        </DockPanel>
+                        
+                        <Separator Background="{StaticResource CardStrokeColorDefaultBrush}"
+                                   Margin="-5 10"/>
+                        
+                        <DockPanel Margin="48 0 33 10">
+                            <ComboBox Width="100" DockPanel.Dock="Right" SelectedIndex="{CompiledBinding SelectedIndexBlurType}">
+                                <ComboBoxItem Content="Mica" />
+                                <ComboBoxItem Content="Acrylic" />
+                            </ComboBox>
+                        
+                            <TextBlock VerticalAlignment="Center" Text="{StaticResource BlurType}" TextWrapping="Wrap" />
+                        </DockPanel>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource AccentColor}"
+                                Icon="{StaticResource color_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <CheckBox Content="{StaticResource UseAccentFromSystem}"
+                                  VerticalAlignment="Center"
+                                  Margin="0 0 5 0"
+                                  IsChecked="{CompiledBinding UseAccentColorFromSystem, Source={x:Static PleasantUiSettings.Instance}}"
+                                  IsEnabled="{CompiledBinding IsSupportedOperatingSystem}"
+                                  IsVisible="{CompiledBinding IsWindows}" />
+                        <Border Background="{StaticResource CheckeredBackgroundBrush}"
+                                Width="40"
+                                Height="25"
+                                CornerRadius="4"
+                                ToolTip.Tip="{CompiledBinding UIntAccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static UIntToHexConverter.Instance}}">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:CommandOnDoubleTappedBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Border Background="{CompiledBinding UIntAccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.UIntToBrush}}"
+                                    CornerRadius="4" />
+                        </Border>
+                        
+                        <Menu VerticalAlignment="Center"
+                              Height="25">
+                            <MenuItem Width="30"
+                                      Margin="0"
+                                      ToolTip.Tip="{StaticResource Menu}">
+                                <MenuItem.Header>
+                                    <Path Data="{StaticResource more_regular}"
+                                          VerticalAlignment="Center"
+                                          Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                          Stretch="Uniform"
+                                          Margin="5 0"
+                                          Width="16" />
+                                </MenuItem.Header>
+                                
+                                <MenuItem Header="{StaticResource Copy}"
+                                          Command="{CompiledBinding CopyAccentColor}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource copy_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="{StaticResource Paste}"
+                                          IsEnabled="{CompiledBinding !UseAccentColorFromSystem, Source={x:Static PleasantUiSettings.Instance}}"
+                                          Command="{CompiledBinding PasteAccentColor}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource clipboard_paste_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <Separator />
+                                
+                                <MenuItem Header="{StaticResource Change}"
+                                          IsEnabled="{CompiledBinding !UseAccentColorFromSystem, Source={x:Static PleasantUiSettings.Instance}}"
+                                          Command="{CompiledBinding ChangeAccentColor}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource edit_regular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource Theme}"
+                                Description="{StaticResource ThemeDescription}"
+                                Icon="{StaticResource paint_brush_regular}"
+                                Expands="True">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              SelectedIndex="{CompiledBinding SelectedIndexMode}">
+                        <ComboBoxItem Content="{StaticResource Light}" />
+                        <ComboBoxItem Content="{StaticResource Dark}" />
+                        <ComboBoxItem Content="{StaticResource Mysterious}" />
+                        <ComboBoxItem Content="{StaticResource Emerald}" />
+                        <ComboBoxItem Content="{StaticResource Turquoise}" />
+                        <ComboBoxItem Content="{StaticResource Custom}" />
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+                <OptionsDisplayItem.Content>
+                    <StackPanel>
+                        <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
+                                   Text="{StaticResource CreatingATheme}"
+                                   Margin="0 0 0 5" />
+                        
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <ComboBox PlaceholderText="{DynamicResource ThemeNotSelected}"
+                                      MinWidth="250"
+                                      Items="{CompiledBinding Themes}"
+                                      SelectedItem="{CompiledBinding SelectedTheme}"
+                                      IsVisible="{CompiledBinding !InRenameProcess}">
+                                <ComboBox.DataTemplates>
+                                    <DataTemplate DataType="media:Theme">
+                                        <TextBlock Text="{CompiledBinding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.DataTemplates>
+                            </ComboBox>
+                            
+                            <TextBox x:Name="RenameTextBox"
+                                     Text="{CompiledBinding RenameText}"
+                                     MinWidth="250"
+                                     IsVisible="{CompiledBinding InRenameProcess}" />
+                            
+                            <Button Theme="{StaticResource AccentButtonTheme}"
+                                    IsVisible="{CompiledBinding InRenameProcess}"
+                                    Command="{CompiledBinding ApplyRenameTheme}">
+                                <ToolTip.Tip>
+                                    <TextBlock Text="{StaticResource Apply}"
+                                               Foreground="{StaticResource TextFillColorPrimaryBrush}"
+                                               FontWeight="Normal" />
+                                </ToolTip.Tip>
+                                <Path Data="{StaticResource checkmark_regular}"
+                                      VerticalAlignment="Center"
+                                      Stroke="{CompiledBinding $parent[Button].Foreground}"
+                                      StrokeThickness="0.5"
+                                      Width="14"
+                                      Stretch="Uniform" />
+                            </Button>
+                            <Button IsVisible="{CompiledBinding InRenameProcess}"
+                                    Command="{CompiledBinding CancelRenameTheme}"
+                                    ToolTip.Tip="{StaticResource Cancel}">
+                                <Path Data="{StaticResource dismiss_regular}"
+                                      VerticalAlignment="Center"
+                                      Stroke="{CompiledBinding $parent[Button].Foreground}"
+                                      StrokeThickness="0.5"
+                                      Width="14"
+                                      Stretch="Uniform" />
+                            </Button>
+                            
+                            <Button ToolTip.Tip="{StaticResource Rename}"
+                                    IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    IsVisible="{CompiledBinding !InRenameProcess}"
+                                    Command="{CompiledBinding RenameTheme}">
+                                <Path Data="{StaticResource rename_regular}"
+                                      VerticalAlignment="Center"
+                                      Width="16"
+                                      Stretch="Uniform" />
+                            </Button>
+                            <Button IsVisible="{CompiledBinding !InRenameProcess}"
+                                    Command="{CompiledBinding CreateTheme}">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Path Data="{StaticResource add_regular}"
+                                          StrokeThickness="0.5"
+                                          Width="16"
+                                          VerticalAlignment="Center"
+                                          Stretch="Uniform" />
+                                    <TextBlock Text="{StaticResource AddNew}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Menu IsVisible="{CompiledBinding !InRenameProcess}"
+                                  VerticalAlignment="Center"
+                                  Height="25">
+                                <MenuItem Width="30"
+                                          Margin="0"
+                                          ToolTip.Tip="{StaticResource Menu}">
+                                    <MenuItem.Header>
+                                        <Path Data="{StaticResource more_regular}"
+                                              VerticalAlignment="Center"
+                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                              Stretch="Uniform"
+                                              Margin="5 0"
+                                              Width="16" />
+                                    </MenuItem.Header>
+
+                                    <MenuItem Header="{StaticResource CopyTheme}"
+                                              Command="{CompiledBinding CopyTheme}"
+                                              IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource copy_regular}"
+                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                      Stretch="Uniform" />
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{StaticResource PasteTheme}"
+                                              IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                              Command="{CompiledBinding PasteTheme}"
+                                              CommandParameter="False">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource clipboard_paste_regular}"
+                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                      Stretch="Uniform" />
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{StaticResource PasteThemeWithoutName}"
+                                              IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                              Command="{CompiledBinding PasteTheme}"
+                                              CommandParameter="True" />
+                                </MenuItem>
+                            </Menu>
+                        </StackPanel>
+                        
+                        <Button Margin="0 5 0 0"
+                                Theme="{StaticResource DangerButtonTheme}"
+                                HorizontalAlignment="Left"
+                                IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Command="{CompiledBinding DeleteTheme}">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <Path Data="{StaticResource delete_regular}"
+                                      StrokeThickness="0.5"
+                                      Width="16"
+                                      VerticalAlignment="Center"
+                                      Stretch="Uniform" />
+                                <TextBlock Text="{StaticResource DeleteTheme}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        
+                        <Separator IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   Margin="-12 10 -12 0" 
+                                   Background="{StaticResource CardStrokeColorDefaultBrush}" />
+                        
+                        <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" 
+                                   Text="{StaticResource Colors}" 
+                                   Margin="0 5"
+                                   IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        
+                        <ItemsRepeater Items="{CompiledBinding Colors}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="10" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate DataType="other:KeyColor">
+                                    <Panel>
+                                        <TextBlock Text="{CompiledBinding Key}"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center" />
+                                        
+                                        <StackPanel HorizontalAlignment="Right" 
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Center"
+                                                    Spacing="5">
+                                            <Border Background="{StaticResource CheckeredBackgroundBrush}" 
+                                                    Width="40" 
+                                                    Height="25" 
+                                                    CornerRadius="4"
+                                                    ToolTip.Tip="{CompiledBinding Value, Converter={x:Static UIntToHexConverter.Instance}}">
+                                                <interactivity:Interaction.Behaviors>
+                                                    <behaviors:CommandOnDoubleTappedBehavior 
+                                                        Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.CopyColor}"
+                                                        CommandParameter="{CompiledBinding}" />
+                                                </interactivity:Interaction.Behaviors>
+                                                <Border CornerRadius="4" Background="{CompiledBinding Value, Converter={x:Static GlobalConverters.UIntToBrush}}" />
+                                            </Border>
+                                            
+                                            <Menu VerticalAlignment="Center"
+                                                  Height="25">
+                                                <MenuItem Width="30" 
+                                                          Margin="0"
+                                                          ToolTip.Tip="{StaticResource Menu}">
+                                                    <MenuItem.Header>
+                                                        <Path Data="{StaticResource more_regular}"
+                                                              VerticalAlignment="Center"
+                                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                              Stretch="Uniform"
+                                                              Margin="5 0"
+                                                              Width="16"/>
+                                                    </MenuItem.Header>
+                                                    
+                                                    <MenuItem Header="{StaticResource Copy}"
+                                                              Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.CopyColor}"
+                                                              CommandParameter="{CompiledBinding}">
+                                                        <MenuItem.Icon>
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource copy_regular}"
+                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                                      Stretch="Uniform"/>
+                                                            </Viewbox>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <MenuItem Header="{StaticResource Paste}"
+                                                              Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.PasteColor}"
+                                                              CommandParameter="{CompiledBinding}">
+                                                        <MenuItem.Icon>
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource clipboard_paste_regular}"
+                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                                      Stretch="Uniform"/>
+                                                            </Viewbox>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    
+                                                    <Separator />
+                                                    
+                                                    <MenuItem Header="{StaticResource Change}"
+                                                              Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.ChangeColor}"
+                                                              CommandParameter="{CompiledBinding}">
+                                                        <MenuItem.Icon>
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource edit_regular}"
+                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                                      Stretch="Uniform"/>
+                                                            </Viewbox>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </MenuItem>
+                                            </Menu>
+                                        </StackPanel>
+                                    </Panel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+        </VirtualizingStackPanel>
+    </SmoothScrollViewer>
+</UserControl>

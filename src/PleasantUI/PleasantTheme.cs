@@ -1,58 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
+using PleasantUI.Enums;
+using PleasantUI.Extensions;
 using PleasantUI.Media;
 
 namespace PleasantUI;
 
-public enum PleasantThemeMode
-{
-    None = -1,
-    
-    Light = 0,
-    Dark = 1,
-    Mysterious = 2,
-    Turquoise = 3,
-    Emerald = 4,
-        
-    Custom
-}
-    
 public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 {
-    private readonly Uri _baseUri;
-    private Styles _pleasantLight = new();
-    private Styles _pleasantDark = new();
-    private Styles _pleasantMysterious = new();
-    private Styles _pleasantEmerald = new();
-    private Styles _pleasantTurquoise = new();
-    private Styles _sharedStyles = new();
+    private StyleInclude _styleCommon = null!;
+    private StyleInclude _styleControls = null!;
+    private StyleInclude _pleasantLight = null!;
+    private StyleInclude _pleasantDark = null!;
+    private StyleInclude _pleasantMysterious = null!;
+    private StyleInclude _pleasantEmerald = null!;
+    private StyleInclude _pleasantTurquoise = null!;
     private bool _isLoading;
     private IStyle? _loaded;
 
-    private bool _isLoadedCustomMode;
-        
-    public PleasantTheme(Uri baseUri)
+    public PleasantTheme(IServiceProvider serviceProvider)
     {
-        _baseUri = baseUri;
+        Uri baseUri = ((IUriContext)serviceProvider.GetService(typeof(IUriContext))!).BaseUri;
         InitStyles(baseUri);
     }
 
-    public PleasantTheme(IServiceProvider serviceProvider)
-    {
-        _baseUri = ((IUriContext)serviceProvider.GetService(typeof(IUriContext))).BaseUri;
-        InitStyles(_baseUri);
-    }
-
     public static readonly StyledProperty<PleasantThemeMode> ModeProperty =
-        AvaloniaProperty.Register<PleasantTheme, PleasantThemeMode>(nameof(Mode), PleasantThemeMode.None);
+        AvaloniaProperty.Register<PleasantTheme, PleasantThemeMode>(nameof(Mode));
 
-    public static readonly StyledProperty<Theme> CustomModeProperty =
-        AvaloniaProperty.Register<PleasantTheme, Theme>(nameof(CustomMode));
+    public static readonly StyledProperty<Theme?> CustomThemeProperty =
+        AvaloniaProperty.Register<PleasantTheme, Theme?>(nameof(CustomTheme));
+    
+    public bool DisableUpdateTheme { get; set; }
 
     public PleasantThemeMode Mode
     {
@@ -60,65 +42,95 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         set => SetValue(ModeProperty, value);
     }
 
-    public Theme? CustomMode
+    public Theme? CustomTheme
     {
-        get => GetValue(CustomModeProperty);
-        set => SetValue(CustomModeProperty!, value);
+        get => GetValue(CustomThemeProperty);
+        set => SetValue(CustomThemeProperty, value);
     }
-        
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
         
-        if (Mode == PleasantThemeMode.None) return;
-
-        if (change.Property == ModeProperty)
-        {
-            switch (Mode)
-            {
-                case PleasantThemeMode.Light:
-                    (Loaded as Styles)![1] = _pleasantLight[0];
-                    break;
-                case PleasantThemeMode.Dark:
-                    (Loaded as Styles)![1] = _pleasantDark[0];
-                    break;
-                case PleasantThemeMode.Mysterious:
-                    (Loaded as Styles)![1] = _pleasantMysterious[0];
-                    break;
-                case PleasantThemeMode.Emerald:
-                    (Loaded as Styles)![1] = _pleasantEmerald[0];
-                    break;
-                case PleasantThemeMode.Turquoise:
-                    (Loaded as Styles)![1] = _pleasantTurquoise[0];
-                    break;
-                    
-                case PleasantThemeMode.Custom:
-                    if (CustomMode is { })
-                    {
-                        (Loaded as Styles)![1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomMode.ToAxaml());
-                        _isLoadedCustomMode = true;
-                    }
-                    break;
-                
-                default:
-                    break;
-            }
-        }
-
-        if (change.Property == CustomModeProperty 
-            && CustomMode is { } 
-            && Mode == PleasantThemeMode.Custom
-            && !_isLoadedCustomMode)
-        {
-            (Loaded as Styles)![1] = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomMode.ToAxaml());
-        }
-
-        _isLoadedCustomMode = false;
+        if (change.Property == ModeProperty || change.Property == CustomThemeProperty)
+            EnsureTheme();
     }
 
-    public SelectorMatchResult TryAttach(IStyleable target, IStyleHost? host) => Loaded.TryAttach(target, host);
+    public IStyle Loaded
+    {
+        get
+        {
+            if (_loaded is null)
+            {
+                _isLoading = true;
 
-    public IReadOnlyList<IStyle> Children => _loaded?.Children ?? Array.Empty<IStyle>();
+                StyleInclude styleInclude = Mode switch
+                {
+                    PleasantThemeMode.Dark => _pleasantDark,
+                    PleasantThemeMode.Mysterious => _pleasantMysterious,
+                    PleasantThemeMode.Emerald => _pleasantEmerald,
+                    PleasantThemeMode.Turquoise => _pleasantTurquoise,
+
+                    PleasantThemeMode.Light => _pleasantLight,
+                    PleasantThemeMode.Custom => _pleasantLight,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                
+                _loaded = new Styles { _styleCommon, _styleControls, styleInclude };
+
+                _isLoading = false;
+            }
+
+            return _loaded!;
+        }
+    }
+
+    public Theme GetTheme(bool makeClone = false)
+    {
+        if (Mode != PleasantThemeMode.Custom)
+        {
+            Theme theme = new()
+            {
+                Name = Mode.ToString()
+            };
+
+            IStyle? style = (Loaded as Styles)!.ElementAtOrDefault(2);
+
+            theme.Colors = ((Style)((StyleInclude)style!).Loaded).ToColorDictionary();
+
+            return theme;
+        }
+        if (CustomTheme is not null)
+            return makeClone ? (Theme)CustomTheme.Clone() : CustomTheme;
+
+        return new Theme
+        {
+            Name = "Default",
+            Colors = ((Style)_pleasantLight.Loaded).ToColorDictionary()
+        };
+    }
+
+    public AvaloniaDictionary<string, uint> GetColorDictionaryFromDefaultTheme() => ((Style)_pleasantLight.Loaded).ToColorDictionary();
+
+    public (Theme, bool) CompareWithDefaultTheme(Theme theme)
+    {
+        bool colorsChanged = false;
+
+        Theme newTheme = GetTheme(true);
+        newTheme.Name = theme.Name;
+
+        foreach (KeyValuePair<string,uint> color in newTheme.Colors)
+        {
+            if (theme.Colors.TryGetValue(color.Key, out uint value))
+            {
+                newTheme.Colors[color.Key] = value;
+                colorsChanged = true;
+            }
+        }
+        
+        return (newTheme, colorsChanged);
+    }
+    
     public bool TryGetResource(object key, out object? value)
     {
         if (!_isLoading && Loaded is IResourceProvider provider)
@@ -128,116 +140,97 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         return false;
     }
 
+    public SelectorMatchResult TryAttach(IStyleable target, object? host) => Loaded.TryAttach(target, host);
+    
+    public IReadOnlyList<IStyle> Children => _loaded?.Children ?? Array.Empty<IStyle>();
+    
+    public void UpdateCustomTheme() => RaisePropertyChanged(CustomThemeProperty, CustomTheme, CustomTheme);
+
     public bool HasResources => (Loaded as IResourceProvider)?.HasResources ?? false;
+    
     public void AddOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.AddOwner(owner);
 
     public void RemoveOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.RemoveOwner(owner);
 
     public IResourceHost? Owner => (Loaded as IResourceProvider)?.Owner;
-    public event EventHandler OwnerChanged
+    
+    public event EventHandler? OwnerChanged
     {
         add
         {
-            if (Loaded is IResourceProvider provider) 
-                provider.OwnerChanged += value;
+            if (Loaded is IResourceProvider resourceProvider) 
+                resourceProvider.OwnerChanged += value;
         }
         remove
         {
-            if (Loaded is IResourceProvider provider) 
-                provider.OwnerChanged -= value;
+            if (Loaded is IResourceProvider resourceProvider) 
+                resourceProvider.OwnerChanged -= value;
         }
     }
 
-    public IStyle Loaded
+    private void EnsureTheme()
     {
-        get
+        if (DisableUpdateTheme) return;
+
+        IStyle style = Mode switch
         {
-            if (_loaded == null)
-            {
-                _isLoading = true;
+            PleasantThemeMode.Dark => _pleasantDark,
+            PleasantThemeMode.Mysterious => _pleasantMysterious,
+            PleasantThemeMode.Emerald => _pleasantEmerald,
+            PleasantThemeMode.Turquoise => _pleasantTurquoise,
 
-                switch (Mode)
-                {
-                    case PleasantThemeMode.Light:
-                        _loaded = new Styles { _sharedStyles, _pleasantLight[0] };
-                        break;
-                    case PleasantThemeMode.Dark:
-                        _loaded = new Styles { _sharedStyles, _pleasantDark[0] };
-                        break;
-                    case PleasantThemeMode.Mysterious:
-                        _loaded = new Styles { _sharedStyles, _pleasantMysterious[0] };
-                        break;
-                    case PleasantThemeMode.Emerald:
-                        _loaded = new Styles { _sharedStyles, _pleasantEmerald[0] };
-                        break;
-                    case PleasantThemeMode.Turquoise:
-                        _loaded = new Styles { _sharedStyles, _pleasantTurquoise[0] };
-                        break;
-                        
-                    case PleasantThemeMode.Custom:
-                        _loaded = new Styles { _sharedStyles, null! };
-                        break;
-                    
-                    default:
-                        _loaded = new Styles { null!, null! };
-                        break;
-                }
+            PleasantThemeMode.Light => _pleasantLight,
+            PleasantThemeMode.Custom => _pleasantLight
+        };
 
-                _isLoading = false;
-            }
-
-            return _loaded!;
-        }
+        if (Mode == PleasantThemeMode.Custom && CustomTheme is not null)
+            style = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
+        
+        (Loaded as Styles)![2] = style;
     }
 
     private void InitStyles(Uri baseUri)
     {
-        _sharedStyles = new Styles
+        PleasantUiSettings.Load();
+        
+#if Windows
+        if (PleasantUiSettings.Instance.UseAccentColorFromSystem)
+            PleasantUiSettings.Instance.UIntAccentColor = ColorExtensions.GetWindowsAccentColor();
+#endif
+        
+        _styleCommon = new StyleInclude(baseUri)
         {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/PleasantUI.axaml")
-            }
-        };
-            
-        _pleasantLight = new Styles
-        {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/Assets/Themes/Light.axaml")
-            }
+            Source = new Uri("avares://PleasantUI/PleasantTheme.Common.axaml")
         };
 
-        _pleasantDark = new Styles
+        _styleControls = new StyleInclude(baseUri)
         {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/Assets/Themes/Dark.axaml")
-            }
+            Source = new Uri("avares://PleasantUI/PleasantTheme.Controls.axaml")
         };
 
-        _pleasantMysterious = new Styles
+        _pleasantLight = new StyleInclude(baseUri)
         {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/Assets/Themes/Mysterious.axaml")
-            }
+            Source = new Uri("avares://PleasantUI/Modes/Light.axaml")
         };
 
-        _pleasantEmerald = new Styles
+        _pleasantDark = new StyleInclude(baseUri)
         {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/Assets/Themes/Emerald.axaml")
-            }
+            Source = new Uri("avares://PleasantUI/Modes/Dark.axaml")
         };
 
-        _pleasantTurquoise = new Styles
+        _pleasantMysterious = new StyleInclude(baseUri)
         {
-            new StyleInclude(baseUri)
-            {
-                Source = new Uri("avares://PleasantUI/Assets/Themes/Turquoise.axaml")
-            }
+            Source = new Uri("avares://PleasantUI/Modes/Mysterious.axaml")
+        };
+        
+        _pleasantEmerald = new StyleInclude(baseUri)
+        {
+            Source = new Uri("avares://PleasantUI/Modes/Emerald.axaml")
+        };
+        
+        _pleasantTurquoise = new StyleInclude(baseUri)
+        {
+            Source = new Uri("avares://PleasantUI/Modes/Turquoise.axaml")
         };
     }
 }

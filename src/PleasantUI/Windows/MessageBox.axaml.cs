@@ -1,111 +1,117 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
-using PleasantUI.Controls.Custom;
+using Avalonia.Styling;
+using PleasantUI.Controls;
+using PleasantUI.Interfaces;
 using PleasantUI.Structures;
 
 namespace PleasantUI.Windows;
 
-public class MessageBox : PleasantDialogWindow
+public class MessageBox : ContentDialog
 {
-    public enum MessageBoxIcon
-    {
-        Information,
-        Error,
-        Warning,
-        Question,
-        None
-    }
-
     public MessageBox() => AvaloniaXamlLoader.Load(this);
 
-    public static Task<string> Show(PleasantWindow parent, string title, string text,
-        IList<MessageBoxButton> buttons, MessageBoxIcon icon = MessageBoxIcon.None, string? textException = null)
+    public static Task<string> Show(IPleasantWindowModal parent, string title, string text,
+        IList<MessageBoxButton>? buttons = null, string? additionalText = null)
     {
-        MessageBox messageBox = new()
+        MessageBox messageBox = new();
+        
+        string titleValue, textValue;
+        
+        if (Application.Current!.TryFindResource(title, out object? objectTitleValue))
+            titleValue = objectTitleValue as string ?? string.Empty;
+        else titleValue = title;
+        if (Application.Current!.TryFindResource(text, out object? objectTextValue))
+            textValue = objectTextValue as string ?? string.Empty;
+        else textValue = text;
+
+        messageBox.FindControl<TextBlock>("Title")!.Text = titleValue;
+        messageBox.FindControl<TextBlock>("Text")!.Text = textValue;
+        TextBox textBox = messageBox.FindControl<TextBox>("AdditionalText")!;
+        UniformGrid uniformGrid = messageBox.FindControl<UniformGrid>("Buttons")!;
+
+        string result = "OK";
+
+        void AddButton(MessageBoxButton messageBoxButton)
         {
-            Title = title,
-            Icon = parent.Icon.ToBitmap()
-        };
-
-        messageBox.FindControl<TextBlock>("Text").Text = text;
-        StackPanel buttonPanel = messageBox.FindControl<StackPanel>("Buttons");
-        Path iconControl = messageBox.FindControl<Path>("Icon");
-        TextBox errorText = messageBox.FindControl<TextBox>("ErrorText");
-        ToggleButton toggleButton = messageBox.FindControl<ToggleButton>("toggleButton");
-
-        string res = "OK";
-
-        void AddButton(MessageBoxButton r)
-        {
-            Button btn = new() { Content = r.Text, Padding = Thickness.Parse("15 0") };
-            btn.Click += (_, _) =>
+            string textValue;
+            
+            if (Application.Current!.TryFindResource(messageBoxButton.Text, out object? objectTextValue))
+                textValue = objectTextValue as string ?? string.Empty;
+            else textValue = messageBoxButton.Text;
+            
+            Button button = new()
             {
-                res = r.Result;
+                Content = textValue, 
+                Margin = Thickness.Parse("5"),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            button.Click += (_, _) =>
+            {
+                result = messageBoxButton.Result;
                 messageBox.Close();
             };
-            buttonPanel.Children.Add(btn);
-            if (r.Default)
+            uniformGrid.Children.Add(button);
+
+            if (messageBoxButton.IsKeyDown)
             {
-                res = r.Result;
-                btn.Classes.Add("mbdefault");
-            }
-        }
-
-        void ChangeIcon(string icn)
-        {
-            iconControl.Data = (Geometry)Application.Current!.FindResource($"{icn}Icon")!;
-        }
-
-        foreach (MessageBoxButton button in buttons)
-        {
-            if (button.IsKeyDown)
                 messageBox.KeyDown += (_, e) =>
                 {
-                    if (e.Key == Key.Enter)
-                    {
-                        res = button.Result;
-                        messageBox.Close();
-                    }
+                    if (e.Key != Key.Enter) return;
+
+                    result = messageBoxButton.Result;
+                    messageBox.Close();
                 };
+            }
 
-            AddButton(button);
+            if (!messageBoxButton.Default) return;
+            result = messageBoxButton.Result;
+            button.Classes.Add("Accent");
+            
+            if (Application.Current != null)
+                button.Theme = (ControlTheme)Application.Current.FindResource("AccentButtonTheme")!;
         }
 
-        switch (icon)
+        if (buttons is null || buttons.Count == 0)
         {
-            case MessageBoxIcon.Error:
-                ChangeIcon("Error");
-                iconControl.Fill = (IBrush)Application.Current!.FindResource("MBErrorBrush")!;
-                break;
-            case MessageBoxIcon.Information:
-                ChangeIcon("Information");
-                iconControl.Fill = (IBrush)Application.Current!.FindResource("MBQuestionBrush")!;
-                break;
-            case MessageBoxIcon.Question:
-                ChangeIcon("Question");
-                iconControl.Fill = (IBrush)Application.Current!.FindResource("MBQuestionBrush")!;
-                break;
-            case MessageBoxIcon.Warning:
-                ChangeIcon("Warning");
-                iconControl.Fill = (IBrush)Application.Current!.FindResource("MBWarningBrush")!;
-                break;
+            uniformGrid.Columns = 2;
+            uniformGrid.Children.Add(new Panel());
+            AddButton(new MessageBoxButton
+            {
+                Text = (string)Application.Current!.FindResource("Ok")!,
+                Result = "OK",
+                Default = true,
+                IsKeyDown = true
+            });
+        }
+        else if (buttons.Count == 1)
+        {
+            uniformGrid.Columns = 2;
+            uniformGrid.Children.Add(new Panel());
+            
+            AddButton(buttons[0]);
+        }
+        else
+        {
+            uniformGrid.Columns = buttons.Count;
+
+            foreach (MessageBoxButton messageBoxButton in buttons) 
+                AddButton(messageBoxButton);
         }
 
-        if (!string.IsNullOrEmpty(textException))
-            errorText.Text = textException;
-        else toggleButton.IsVisible = false;
+        if (!string.IsNullOrWhiteSpace(additionalText))
+            textBox.Text = additionalText;
+        else textBox.IsVisible = false;
 
-        TaskCompletionSource<string> tcs = new();
-        messageBox.Closed += (_, _) => { tcs.TrySetResult(res); };
+        TaskCompletionSource<string> taskCompletionSource = new();
+        messageBox.Closed += (_, _) => taskCompletionSource.TrySetResult(result);
         messageBox.Show(parent);
 
-        return tcs.Task;
+        return taskCompletionSource.Task;
     }
 }

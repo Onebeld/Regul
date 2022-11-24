@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.OpenGL;
-using Avalonia.Rendering;
-using Onebeld.Logging;
 using PleasantUI;
-using Regul.Base;
-using Regul.Base.Other;
-using Regul.Base.Views.Windows;
+using Regul.Logging;
+using Regul.Managers;
+using Regul.ModuleSystem;
+using Regul.Other;
+using Regul.Structures;
 
 namespace Regul;
 
-public class Program
+public static class Program
 {
     private static FileStream? _lockFile;
 
+    public static string[] Arguments { get; private set; } = null!;
+    
     [STAThread]
-    public static void Main(string[] args)
+    public static int Main(string[] args)
     {
         try
         {
@@ -31,122 +33,177 @@ public class Program
         }
         catch
         {
-            if (!Directory.Exists(RegulPaths.Cache))
-                Directory.CreateDirectory(RegulPaths.Cache);
-            if (!Directory.Exists(Path.Combine(RegulPaths.Cache, "OpenFiles")))
-                Directory.CreateDirectory(Path.Combine(RegulPaths.Cache, "OpenFiles"));
-                
+            if (!Directory.Exists(RegulDirectories.Cache))
+                Directory.CreateDirectory(RegulDirectories.Cache);
+            if (!Directory.Exists(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
+                Directory.CreateDirectory(Path.Combine(RegulDirectories.Cache, "OpenFiles"));
+            
             Guid guid = Guid.NewGuid();
 
             string newArgs = string.Join("|", args);
+            
+            File.WriteAllText(Path.Combine(RegulDirectories.Cache, "OpenFiles", guid + ".cache"), newArgs);
 
-            File.WriteAllText(Path.Combine(RegulPaths.Cache, "OpenFiles", guid + ".cache"), newArgs);
+            EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
+            eventWaitHandle.Set();
+            
+            return 0;
+        }
+        
+        Arguments = args;
+        
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+        AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
 
-            EventWaitHandle bytesWritten = new(false, EventResetMode.AutoReset,
-                "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
-            bytesWritten.Set();
+        ApplicationSettings.Load();
 
-            return;
+        AppBuilder mainAppBuilder = BuildAvaloniaApp();
+        mainAppBuilder.SetupWithoutStarting();
+
+        while (true)
+        {
+            try
+            {
+                ClassicDesktopStyleApplicationLifetime lifeTime = mainAppBuilder.CreateLifeTime();
+                lifeTime.Start(args);
+                lifeTime.Dispose();
+                
+                ModuleManager.ReleaseModules();
+                
+                break;
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.WriteLog(LogType.Error, $"[{exception.TargetSite?.DeclaringType}.{exception.TargetSite?.Name}()] {exception}\r\n");
+                
+                ApplicationSettings.Current.ExceptionCalled = true;
+                ApplicationSettings.Current.ExceptionText = exception.ToString();
+                
+                foreach (Workbench workbench in WindowsManager.MainWindow?.ViewModel.Workbenches!)
+                {
+                    if (workbench.PathToFile is null || !workbench.IsDirty) continue;
+
+                    try
+                    {
+                        workbench.EditorViewModel?.Save();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Instance.WriteLog(LogType.Error, $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] {e}\r\n");
+                    }
+                }
+
+                ClassicDesktopStyleApplicationLifetime currentLifeTime = (ClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime!;
+                currentLifeTime.Shutdown();
+                currentLifeTime.Dispose();
+                
+                ApplicationSettings.Save();
+                PleasantUiSettings.Save();
+
+                ClassicDesktopStyleApplicationLifetime lifeTime = mainAppBuilder.CreateLifeTime();
+                lifeTime.Start(args);
+                
+                lifeTime.Dispose();
+
+                if (ApplicationSettings.Current.RestartingApp)
+                {
+                    ApplicationSettings.Current.ExceptionCalled = false;
+                    ApplicationSettings.Current.RestartingApp = false;
+                    ApplicationSettings.Current.ExceptionText = string.Empty;
+                    continue;
+                }
+                
+                ModuleManager.ReleaseModules();
+                return 1;
+            }
         }
 
-        Logger.Instance = new Logger();
+        return 0;
+    }
+    private static void CurrentDomainOnProcessExit(object? sender, EventArgs e)
+    {
+        _lockFile?.Unlock(0, 0);
+        _lockFile?.Dispose();
+    }
 
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+    private static ClassicDesktopStyleApplicationLifetime CreateLifeTime(this AppBuilder appBuilder)
+    {
+        ClassicDesktopStyleApplicationLifetime lifeTime = new()
+        {
+            ShutdownMode = ShutdownMode.OnMainWindowClose
+        };
+        appBuilder.Instance!.ApplicationLifetime = lifeTime;
+        appBuilder.Instance.OnFrameworkInitializationCompleted();
 
-        GeneralSettings.Instance = GeneralSettings.Load();
-        PleasantSettings.Instance = PleasantSettings.Load();
-
-        BuildAvaloniaApp().Start(AppMain, args);
-            
-        _lockFile.Unlock(0, 0);
-        _lockFile.Dispose();
-        File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"));
+        return lifeTime;
     }
 
     private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         _lockFile?.Unlock(0, 0);
         _lockFile?.Dispose();
-        File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".lock"));
+        
+        string path = Logger.Instance.SaveLogs();
 
-        string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log");
-        if (!Directory.Exists(pathToLog)) Directory.CreateDirectory(pathToLog);
-
-        if (e.ExceptionObject is Exception ex)
+        Process.Start(new ProcessStartInfo
         {
-            string filename = $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyy}.log";
-
-            Logger.Instance.WriteLog(Log.Fatal,
-                $"[{ex.TargetSite?.DeclaringType}.{ex.TargetSite?.Name}()] {ex}\r\n");
-            Logger.Instance.SaveLog(Path.Combine(pathToLog, filename));
-
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = Path.Combine(pathToLog, filename),
-                UseShellExecute = true
-            });
-        }
+            FileName = path,
+            UseShellExecute = true
+        });
     }
-
-    private static AppBuilder BuildAvaloniaApp()
+        
+    public static AppBuilder BuildAvaloniaApp()
     {
         AppBuilder appBuilder = AppBuilder.Configure<App>();
+        return appBuilder.ConfigureAppBuilder();
+    }
 
+    public static AppBuilder ConfigureAppBuilder(this AppBuilder appBuilder)
+    {
         appBuilder.UseSkia();
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            appBuilder
-                .UseWin32()
-                .With(new AngleOptions
-                {
-                    AllowedPlatformApis = new List<AngleOptions.PlatformApi> { AngleOptions.PlatformApi.DirectX11 }
-                });
-
-            if (DwmIsCompositionEnabled(out bool dwmEnabled) == 0 && dwmEnabled)
+#if Windows
+        appBuilder.UseWin32()
+            .With(new AngleOptions
             {
-                Action wp = appBuilder.WindowingSubsystemInitializer;
-                appBuilder.UseWindowingSubsystem(() =>
+                AllowedPlatformApis = new List<AngleOptions.PlatformApi>
                 {
-                    wp();
-                    AvaloniaLocator.CurrentMutable.Bind<IRenderTimer>().ToConstant(new WindowsDwmRenderTimer());
-                });
-            }
-        }
-        else
-        {
+                    AngleOptions.PlatformApi.DirectX11
+                }
+            });
+#else
             appBuilder.UsePlatformDetect();
-        }
-
-        return appBuilder
-            .LogToTrace()
+#endif
+        
+        appBuilder
+#if Windows
             .With(new Win32PlatformOptions
             {
-                AllowEglInitialization = GeneralSettings.Instance.HardwareAcceleration,
+                AllowEglInitialization = ApplicationSettings.Current.HardwareAcceleration,
                 UseDeferredRendering = true,
                 OverlayPopups = false,
-                UseWgl = false
-            })
+                UseWgl = false,
+                UseWindowsUIComposition = true,
+                UseCompositor = true
+            });
+#elif OSX
             .With(new MacOSPlatformOptions
             {
                 DisableDefaultApplicationMenuItems = true,
                 ShowInDock = false
-            })
-            .With(new AvaloniaNativePlatformOptions
-            {
-                UseGpu = GeneralSettings.Instance.HardwareAcceleration,
-                UseDeferredRendering = true,
-                OverlayPopups = false
             });
+#else
+            .With(new AvaloniaNativePlatformOptions
+			{
+                UseDeferredRendering = true,
+                UseGpu = ApplicationSettings.Current.HardwareAcceleration,
+			});
+#endif
+
+#if DEBUG
+        return appBuilder.LogToTrace();
+#else
+        return appBuilder;
+#endif
     }
-
-    private static void AppMain(Application app, string?[] args)
-    {
-        WindowsManager.MainWindow = new MainWindow(args);
-
-        app.Run(WindowsManager.MainWindow);
-    }
-
-    [DllImport("Dwmapi.dll")]
-    private static extern int DwmIsCompositionEnabled(out bool enabled);
 }

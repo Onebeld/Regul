@@ -1,35 +1,33 @@
-﻿<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      x:Class="PleasantUI.Windows.MessageBox"
-                      MinWidth="350"
-                      MinHeight="100"
-                      Title="MessageBox">
-    <Grid RowDefinitions="Auto,34">
-        <Grid Name="ContentC" RowDefinitions="*,*,Auto" Margin="5">
-            <Grid Name="Content" ColumnDefinitions="70,*">
-                <Path Name="Icon" VerticalAlignment="Center" Stretch="Uniform" Width="40" Margin="10" />
-                <ScrollViewer Grid.Column="1">
-                    <TextBlock VerticalAlignment="Center" Name="Text" TextWrapping="Wrap" Margin="0 0 10 0" Width="250" />
-                </ScrollViewer>
-            </Grid>
-            <ToggleButton Grid.Row="1" Name="toggleButton" Padding="7 5" HorizontalAlignment="Right">
-                <Path Data="{StaticResource ArrowDownIcon}" Width="14" Stretch="UniformToFill" />
-            </ToggleButton>
-            <TextBox Name="ErrorText"
-                     Background="{StaticResource BackgroundControlBrush}"
-                     MinHeight="50"
-                     MinWidth="200"
-                     MaxWidth="400"
-                     MaxHeight="200"
+﻿<ContentDialog xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             VerticalAlignment="Center" 
+             HorizontalAlignment="Center"
+             Margin="50"
+             MinWidth="400"
+             MinHeight="180"
+             x:Class="PleasantUI.Windows.MessageBox">
+    <SmoothScrollViewer>
+        <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" x:Name="Title" Theme="{StaticResource SubtitleTextBlockTheme}" />
+            <TextBlock Grid.Row="1" x:Name="Text" Margin="0 10 0 0" />
+            <TextBox x:Name="AdditionalText"
                      Grid.Row="2"
-                     Margin="0 5 0 0"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      IsReadOnly="True"
-                     IsVisible="{Binding #toggleButton.IsChecked}" />
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                     Margin="0 10 0 0" 
+                     MinHeight="150"
+                     MaxHeight="600"
+                     MaxWidth="600"/>
         </Grid>
-
-        <StackPanel Grid.Row="1" Name="Buttons" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5"
-                    Margin="5" />
-    </Grid>
-</PleasantDialogWindow>
+    </SmoothScrollViewer>
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid x:Name="Buttons" Margin="15 0" Rows="0" />
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

@@ -1,0 +1,32 @@
+<PleasantWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Regul.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Regul.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://Regul.Assets/icon.ico"
+        ImageIcon="{StaticResource RegulIcon}"
+        LogoGeometry="{StaticResource RegulText}"
+        Foreground="{StaticResource TextFillColorPrimaryBrush}"
+        Content="{CompiledBinding Content}"
+        Width="1000" Height="600"
+        MinWidth="550" MinHeight="300"
+        DragDrop.AllowDrop="True"
+        Title="Regul">
+    <PleasantWindow.KeyBindings>
+        <KeyBinding Command="{CompiledBinding ClearGc}" Gesture="Ctrl+Alt+Shift+F12" />
+        <KeyBinding Command="{CompiledBinding CreateProject}" Gesture="Ctrl+N" />
+        <KeyBinding Command="{CompiledBinding OpenFile}" Gesture="Ctrl+O" />
+        <KeyBinding Command="{CompiledBinding SaveWorkbench}"
+                    CommandParameter="{CompiledBinding SelectedWorkbench}"
+                    Gesture="Ctrl+S" />
+        <KeyBinding Command="{CompiledBinding OpenTools}" Gesture="Ctrl+T" />
+    </PleasantWindow.KeyBindings>
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+</PleasantWindow>

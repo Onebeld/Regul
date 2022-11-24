@@ -1,0 +1,11 @@
+﻿<Project>
+    <PropertyGroup>
+        <IsWindows>true</IsWindows>
+        <IsOSX>false</IsOSX>
+        <IsLinux>false</IsLinux>
+
+        <DefineConstants Condition="'$(IsWindows)'=='true'">Windows</DefineConstants>
+        <DefineConstants Condition="'$(IsOSX)'=='true'">OSX</DefineConstants>
+        <DefineConstants Condition="'$(IsLinux)'=='true'">Linux</DefineConstants>
+    </PropertyGroup>
+</Project>

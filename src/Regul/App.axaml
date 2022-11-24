@@ -1,0 +1,25 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:enum="using:PleasantUI.Enums"
+             x:Class="Regul.App"
+             x:DataType="PleasantUiSettings">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://Regul.Assets/Icons.axaml" />
+                <ResourceInclude Source="avares://Regul.Assets/ControlThemes.axaml" />
+
+                <ResourceInclude Source="/DataTemplates/ProjectItemTemplates.axaml" />
+                <ResourceInclude Source="/DataTemplates/ModuleListItemTemplate.axaml" />
+                <ResourceInclude Source="/DataTemplates/InstrumentListItemTemplate.axaml" />
+                <ResourceInclude Source="/DataTemplates/EditorRelatedExtensionListItemTemplate.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <PleasantTheme Mode="{CompiledBinding ThemeMode, Source={x:Static PleasantUiSettings.Instance}, TargetNullValue={x:Static enum:PleasantThemeMode.Light}}" />
+
+        <StyleInclude Source="avares://Regul.Assets/Localization/en.axaml" />
+    </Application.Styles>
+</Application>

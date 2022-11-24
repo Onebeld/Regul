@@ -1,0 +1,190 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.ViewModels.Pages"
+             xmlns:pages="clr-namespace:Regul.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             x:Class="Regul.Views.SettingsContent.AboutSettingsContent"
+             x:DataType="vm:SettingsPageViewModel">
+    <Design.DataContext>
+        <pages:SettingsPageViewModel />
+    </Design.DataContext>
+    
+    <SmoothScrollViewer>
+        <VirtualizingStackPanel Spacing="5" Margin="25">
+            <TextBlock Text="{StaticResource About}"
+                       Margin="0 0 0 10"
+                       Theme="{StaticResource TitleTextBlockTheme}"/>
+            <Panel Margin="0 5 0 18">
+                <Grid HorizontalAlignment="Left" ColumnDefinitions="Auto,Auto">
+                    <Image Grid.Column="0" Source="{StaticResource RegulIcon}" Width="70" />
+                    <StackPanel Grid.Column="1" Width="150" Margin="20 0 0 0" VerticalAlignment="Center">
+                        <Path Stretch="Uniform"
+                              Data="{StaticResource RegulText}"
+                              Fill="{StaticResource TextFillColorPrimaryBrush}" />
+
+                        <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}" FontSize="12">
+                            <Run Text="{StaticResource License}" /><Run Text=":" />
+                            &#8203;<Run Text="MIT" />
+                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                                   FontSize="12"
+                                   Margin="0 -2 0 0">
+                            <Run Text="{StaticResource Version}" /><Run Text=":" />
+                            &#8203;<Run Text="4.0" />
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Width="200">
+                    <Path Fill="{StaticResource TextFillColorPrimaryBrush}"
+                          Data="{StaticResource OnebeldIcon}"
+                          Stretch="Uniform" />
+                    <TextBlock Text="Dmitry Zhutkov"
+                               FontSize="12"
+                               TextAlignment="Right"
+                               Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                    <Button x:Name="ContactTheAuthorButton"
+                            Theme="{StaticResource AppBarButtonTheme}"
+                            Content="{StaticResource ContactTheAuthor}"
+                            Foreground="{StaticResource AccentFillColorLightTertiaryBrush}"
+                            Padding="0"
+                            FontSize="12"
+                            HorizontalAlignment="Right">
+                        <Button.Flyout>
+                            <Flyout Placement="Bottom" ShowMode="Transient">
+                                <UniformGrid Columns="3" Margin="15">
+                                    <DockPanel Margin="5">
+                                        <TextBlock Text="E-Mail"
+                                                   DockPanel.Dock="Bottom"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0 5 0 0"
+                                                   FontSize="12" />
+                                        <Button Padding="40 14"
+                                                Classes="EnabledIconAnimation"
+                                                Command="{CompiledBinding WriteEmail}"
+                                                Click="MenuButtonsOnClick">
+                                            <Viewbox Width="16" Height="16">
+                                                <Path Data="{StaticResource open_regular}" />
+                                            </Viewbox>
+                                        </Button>
+                                    </DockPanel>
+                                </UniformGrid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Panel>
+            
+            <OptionsDisplayItem Header="{StaticResource Update}"
+                                Icon="{StaticResource arrow_counterclockwise_regular}">
+                <OptionsDisplayItem.ActionButton>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                        <ProgressRing IsVisible="{CompiledBinding IsCheckUpdateProgram}"
+                                      IsIndeterminate="{CompiledBinding IsCheckUpdateProgram}" />
+                        
+                        <Button Theme="{StaticResource AccentButtonTheme}"
+                                IsEnabled="{CompiledBinding !IsCheckUpdateProgram}"
+                                Padding="20 5"
+                                Content="{StaticResource CheckAvailability}"
+                                Command="{CompiledBinding CheckUpdate}" />
+                    </StackPanel>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource UsedLibraries}"
+                                Icon="{StaticResource app_folder_regular}"
+                                Expands="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="10">
+                        <Panel Margin="5">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Image Source="{StaticResource AvaloniaUIImage}" Width="30" Height="30" />
+                                <TextBlock Text="Avalonia" FontSize="20" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            </StackPanel>
+                            
+                            <TextBlock VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                <Run Text="{StaticResource Version}" /><Run Text=":" />
+                                &#8203;<Run Text="11.0-preview4" />
+                            </TextBlock>
+                        </Panel>
+                        <Separator Background="{StaticResource CardStrokeColorDefaultBrush}" Margin="-12 0" />
+                        <Panel Margin="5">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Image Source="{StaticResource PleasantUIImage}" Width="30" Height="30" />
+                                <Image Source="{StaticResource PleasantUILogo}" VerticalAlignment="Center" Width="110" />
+                            </StackPanel>
+                            
+                            <StackPanel>
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                    <Run Text="{StaticResource Version}" /><Run Text=":" />
+                                    &#8203;<Run Text="2.1.0" />
+                                </TextBlock>
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                    <Run Text="{StaticResource Author}" /><Run Text=":" />
+                                    &#8203;<Run Text="Onebeld" />
+                                </TextBlock>
+                            </StackPanel>
+                        </Panel>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource Links}"
+                                Icon="{StaticResource open_regular}"
+                                Expands="True"
+                                IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="10" Margin="45 0 0 0">
+                        <Button Theme="{StaticResource AppBarButtonTheme}"
+                                Content="Patreon"
+                                Foreground="{StaticResource AccentFillColorLightTertiaryBrush}"
+                                Command="{CompiledBinding OpenPatreon}"
+                                HorizontalAlignment="Left"
+                                Padding="0 0" />
+                        <Button Theme="{StaticResource AppBarButtonTheme}"
+                                Content="GitHub"
+                                Foreground="{StaticResource AccentFillColorLightTertiaryBrush}"
+                                Command="{CompiledBinding OpenGitHub}"
+                                HorizontalAlignment="Left"
+                                Padding="0 0" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="12">
+                <StackPanel>
+                    <TextBlock Text="{StaticResource Description}" Theme="{StaticResource BodyStrongTextBlockTheme}" Margin="0 0 0 10" />
+                    <TextBlock Text="{StaticResource RegulDescription}" TextWrapping="Wrap" />
+                    
+                    <TextBlock TextWrapping="Wrap" Margin="0 10 0 0">
+                        <Run Text="{StaticResource WorksOn}" /><Run Text=":" />
+                        &#8203;<Run Text="{CompiledBinding DotNetInformation}" />
+                    </TextBlock>
+                    
+                    <TextBlock Text="{StaticResource License}" Theme="{StaticResource BodyStrongTextBlockTheme}" Margin="0 10" />
+                    <TextBlock Text="{StaticResource LicenseDescription}" TextWrapping="Wrap" />
+                    
+                    <TextBlock TextWrapping="Wrap" Margin="0 10 0 0">
+                        <Run Text="{StaticResource Copyright}" />
+                        &#8203;<Run Text="©2020-2022 Dmitry Zhutkov (Onebeld)" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </VirtualizingStackPanel>
+    </SmoothScrollViewer>
+</UserControl>

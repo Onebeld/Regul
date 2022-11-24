@@ -1,0 +1,150 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       x:DataType="PleasantUiSettings">
+    <Style.Resources>
+        <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="{DynamicResource TextFillColorPrimary}" />
+        <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="{DynamicResource TextFillColorSecondary}" />
+        <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="{DynamicResource TextFillColorTertiary}" />
+        <SolidColorBrush x:Key="TextFillColorDisabledBrush" Color="{DynamicResource TextFillColorDisabled}" />
+        <SolidColorBrush x:Key="TextFillColorInverseBrush" Color="{DynamicResource TextFillColorInverse}" />
+        <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
+
+        <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="{DynamicResource ControlFillColorDefault}" />
+        <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="{DynamicResource ControlFillColorSecondary}" />
+        <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="{DynamicResource ControlFillColorTertiary}" />
+        <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="{DynamicResource ControlFillColorDisabled}" />
+        <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="{DynamicResource ControlFillColorTransparent}" />
+        <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{DynamicResource ControlFillColorInputActive}" />
+
+        <SolidColorBrush x:Key="ControlStrongFillColorDefaultBrush"
+                         Color="{DynamicResource ControlStrongFillColorDefault}" />
+
+        <SolidColorBrush x:Key="ControlAltFillColorSecondaryBrush"
+                         Color="{DynamicResource ControlAltFillColorSecondary}" />
+        <SolidColorBrush x:Key="ControlAltFillColorTertiaryBrush" Color="{DynamicResource ControlAltFillColorTertiary}" />
+        <SolidColorBrush x:Key="ControlAltFillColorQuarternaryBrush"
+                         Color="{DynamicResource ControlAltFillColorQuarternary}" />
+
+        <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+        <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush"
+                         Color="{DynamicResource ControlStrongStrokeColorDefault}" />
+        <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{DynamicResource ControlStrokeColorSecondary}" />
+
+        <SolidColorBrush x:Key="ControlSolidFillColorDefaultBrush"
+                         Color="{DynamicResource ControlSolidFillColorDefault}" />
+
+        <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
+        <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
+
+        <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush"
+                         Color="{DynamicResource CardBackgroundFillColorDefault}" />
+
+        <SolidColorBrush x:Key="NavigationViewBackgroundBrush" Color="{DynamicResource NavigationViewBackground}" />
+
+        <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="{DynamicResource CardStrokeColorDefault}" />
+
+        <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
+        <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
+
+        <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorBase}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorSecondary}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorTertiary}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
+
+        <SolidColorBrush x:Key="AcrylicInAppFillColorDefaultBrush"
+                         Color="{DynamicResource AcrylicInAppFillColorDefault}" />
+
+        <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
+        <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
+        <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
+        <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
+
+        <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
+        <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
+        <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
+
+        <SolidColorBrush x:Key="AccentFillColorLightSecondaryBrush"
+                         Color="{CompiledBinding AccentColorLightSecondary, Source={x:Static PleasantUiSettings.Instance}}" />
+        <SolidColorBrush x:Key="AccentFillColorLightTertiaryBrush"
+                         Color="{CompiledBinding AccentColorLightTertiary, Source={x:Static PleasantUiSettings.Instance}}" />
+        <SolidColorBrush x:Key="AccentFillColorLightSelectedBrush"
+                         Color="{CompiledBinding AccentColorLightSelected, Source={x:Static PleasantUiSettings.Instance}}" />
+        <SolidColorBrush x:Key="AccentFillColorDefaultBrush"
+                         Color="{CompiledBinding AccentColor, Source={x:Static PleasantUiSettings.Instance}}" />
+        <SolidColorBrush x:Key="AccentFillColorDarkSecondaryBrush"
+                         Color="{CompiledBinding AccentColorDarkSecondary, Source={x:Static PleasantUiSettings.Instance}}" />
+        <SolidColorBrush x:Key="AccentFillColorDarkTertiaryBrush"
+                         Color="{CompiledBinding AccentColorDarkTertiary, Source={x:Static PleasantUiSettings.Instance}}" />
+
+        <SolidColorBrush x:Key="AccentTextFillColorBrush"
+                         Color="{CompiledBinding AccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+        <SolidColorBrush x:Key="AccentTextFillColorLightSecondaryBrush"
+                         Color="{CompiledBinding AccentColorLightSecondary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+        <SolidColorBrush x:Key="AccentTextFillColorLightTertiaryBrush"
+                         Color="{CompiledBinding AccentColorLightTertiary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+        <SolidColorBrush x:Key="AccentTextFillColorLightSelectedBrush"
+                         Color="{CompiledBinding AccentColorLightSelected, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+        <SolidColorBrush x:Key="AccentTextFillColorDarkSecondaryBrush"
+                         Color="{CompiledBinding AccentColorDarkSecondary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+        <SolidColorBrush x:Key="AccentTextFillColorDarkTertiaryBrush"
+                         Color="{CompiledBinding AccentColorDarkTertiary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
+
+        <LinearGradientBrush x:Key="ControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
+            <!--TODO: In Avalonia 11.0 add transform-->
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="0.33" Color="{DynamicResource ControlStrokeColorSecondary}" />
+                <GradientStop Offset="1" Color="{DynamicResource ControlStrokeColorDefault}" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="AccentControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
+            <GradientStop Offset="0.33"
+                          Color="{CompiledBinding AccentColorLightSelected, Source={x:Static PleasantUiSettings.Instance}}" />
+            <GradientStop Offset="1.00"
+                          Color="{CompiledBinding AccentColorLightSecondary, Source={x:Static PleasantUiSettings.Instance}}" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="TextControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="0.5" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
+                <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="DangerElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="0.5" Color="{DynamicResource BorderDangerColor}" />
+                <GradientStop Offset="1.0" Color="{DynamicResource DangerColor}" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="TextControlElevationBorderFocusedBrush" StartPoint="0,1.5" EndPoint="0,2.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="1.0"
+                              Color="{CompiledBinding AccentColorLightSecondary, Source={x:Static PleasantUiSettings.Instance}}" />
+                <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <VisualBrush x:Key="CheckeredBackgroundBrush"
+                     TileMode="Tile"
+                     Stretch="Uniform"
+                     DestinationRect="0,0,8,8">
+            <VisualBrush.Visual>
+                <Image Width="8" Height="8">
+                    <DrawingImage>
+                        <DrawingGroup>
+                            <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z"
+                                             Brush="Transparent" />
+                            <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z"
+                                             Brush="#19808080" />
+                        </DrawingGroup>
+                    </DrawingImage>
+                </Image>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Style.Resources>
+</Style>
