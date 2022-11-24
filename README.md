@@ -6,7 +6,7 @@
     Regul
 </h1>
 
-![program](https://user-images.githubusercontent.com/44552715/130894590-64ea727e-0545-40d3-805f-b3a5120ef1d7.png)
+![program](https://user-images.githubusercontent.com/44552715/203835754-ef33bbb3-1706-4354-bf27-3310fb90d70b.png)
 
 **Regul** - a modular, modern file editor. The goal of this project: to create a simple and feature-rich file editor.
 
@@ -31,36 +31,32 @@ This allows the program to work in multiple languages and change it without rest
 
 ### Cross-platform
 
-Thanks to .NET 6 and the AvaloniaUI library, the program can run on other OS. This allows you to run the program not only on Windows, but also on macOS and Linux.
+Thanks to .NET 7 and the AvaloniaUI library, the program can run on other OS. This allows you to run the program not only on Windows, but also on macOS and Linux.
 
 ### Tabs
 
 It would be inconvenient to work with several windows at the same time, so tabs are created for this purpose. Thanks to this it became much more convenient to work with several files at the same time.
 
-## How to support this project?
-
-There are several ways to support the project:
-
-1. **Create PR** - This is the best way, so you speed up the development of the project and can provide your features that can be useful;
-2. **Patreon support** - Less ideal, but that money can go in the right direction (like building a personal website).
-
 ## Screenshots
 
-![Screenshot 1](https://user-images.githubusercontent.com/44552715/130896431-f1ddd9fd-9bce-4290-a1cf-bbbd54b83e3c.png)
+![Screenshot 1](https://user-images.githubusercontent.com/44552715/203836033-af9ef113-b7f1-422e-8bcd-c36c44d3bd7b.png)
 
-![Screenshot 2](https://user-images.githubusercontent.com/44552715/130896486-fbade870-39b7-4757-a955-ece1cece7495.png)
+![Screenshot 2](https://user-images.githubusercontent.com/44552715/203836169-7c887c1e-a775-4e50-898f-860878167f92.png)
+
+![Screenshot 3](https://user-images.githubusercontent.com/44552715/203836407-39de0058-639a-4f70-a83c-021d8937aa73.png)
+
+![Screenshot 4](https://user-images.githubusercontent.com/44552715/203836531-64f2957f-1bd6-455d-a38b-456cd7014ae4.png)
 
 ## Credits
 
 Libraries:
 * [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
 * [AvaloniaEdit](https://github.com/AvaloniaUI/AvaloniaEdit)
-* PleasantUI
+* PleasantUI 2, so far exclusive only to this project
 * Some controls from PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI) library
-* Modified version of [DotNetCorePlugins](https://github.com/natemcmaster/DotNetCorePlugins) to run .NET Standard 2.0 plugins
+* Modified version of [DotNetCorePlugins](https://github.com/natemcmaster/DotNetCorePlugins)
 
-The editors I used to create this project::
-* [JetBrains Rider](https://www.jetbrains.com/rider/) for creating and editing the application
-* [Microsoft Visual Studio](https://visualstudio.microsoft.com/) for publishing the application
+The editors I used to create this project:
+* [JetBrains Rider](https://www.jetbrains.com/rider/)
 
 <img src="https://user-images.githubusercontent.com/44552715/130897295-8a60dd97-32d1-4bd7-8737-101b4a9f044e.png" width="360" align="right"/>
