@@ -1,7 +1,7 @@
 [![GitHub license](https://img.shields.io/github/license/Onebeld/Regul?style=flat-square)](https://github.com/Onebeld/Regul/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Onebeld/Regul?style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/Onebeld/Regul/total?style=flat-square) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Onebeld/Regul?include_prereleases&style=flat-square) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Onebeld/Regul?style=flat-square) [![CodeFactor](https://www.codefactor.io/repository/github/onebeld/regul/badge?style=flat-square)](https://www.codefactor.io/repository/github/onebeld/regul)
 
 <h1 align="center">
-    <img src="https://user-images.githubusercontent.com/44552715/130894645-a777e103-9e3d-442e-90a6-33d3021f2887.png">
+    <img src="https://user-images.githubusercontent.com/44552715/203843134-93cdb544-7609-49ff-9f6a-2609906c72b9.png">
     
     Regul
 </h1>
@@ -59,4 +59,4 @@ Libraries:
 The editors I used to create this project:
 * [JetBrains Rider](https://www.jetbrains.com/rider/)
 
-<img src="https://user-images.githubusercontent.com/44552715/130897295-8a60dd97-32d1-4bd7-8737-101b4a9f044e.png" width="360" align="right"/>
+<img src="https://user-images.githubusercontent.com/44552715/203844139-6e1e83ae-f571-4576-852d-19cd20f410c6.png" width="360" align="right"/>
