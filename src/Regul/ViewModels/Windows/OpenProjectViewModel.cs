@@ -9,7 +9,6 @@ using PleasantUI;
 using PleasantUI.Extensions;
 using Regul.Managers;
 using Regul.ModuleSystem;
-using Regul.ModuleSystem.Structures;
 using Regul.Structures;
 using Regul.Views.Windows;
 

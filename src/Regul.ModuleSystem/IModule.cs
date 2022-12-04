@@ -51,6 +51,8 @@ public interface IModule
     /// </summary>
     void Execute();
 
+    Task<bool> Release();
+
     /// <summary>
     /// If you want users to be able to change module settings, specify type here.
     /// </summary>

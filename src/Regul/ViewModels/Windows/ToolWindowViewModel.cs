@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using Avalonia;
 using Avalonia.Collections;
-using Avalonia.Controls;
 using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Extensions;

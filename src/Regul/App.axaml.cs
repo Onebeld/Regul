@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -14,7 +14,6 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
-using Avalonia.Threading;
 using PleasantUI;
 using PleasantUI.Enums;
 using PleasantUI.Media;
@@ -71,7 +70,7 @@ public class App : Application
         LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
     }
 
-    private void UpdateModules()
+    public static void UpdateModules()
     {
         foreach (UpdatableModule updatableModule in ApplicationSettings.Current.UpdatableModules)
         {
@@ -186,7 +185,7 @@ public class App : Application
             }
             catch (Exception exception)
             {
-                Logger.Instance.WriteLog(LogType.Error, $"[{exception.TargetSite?.DeclaringType}.{exception.TargetSite?.Name}()] [Failed to initialize module] {exception}", module?.Assembly);
+                Logger.Instance.WriteLog(LogType.Error, $"[{exception.TargetSite?.DeclaringType}.{exception.TargetSite?.Name}()] [Failed to initialize module] {exception}", module?.PluginLoader.LoadDefaultAssembly());
                 WindowsManager.MainWindow?.ShowNotification("FailedToLoadTheModule", NotificationType.Error, TimeSpan.FromSeconds(4));
 
                 successfulLoad = false;
@@ -194,6 +193,32 @@ public class App : Application
         }
 
         return successfulLoad;
+    }
+
+    public static async Task<bool> UnloadModules()
+    {
+        for (int i = ModuleManager.Modules.Count - 1; i >= 0; i--)
+        {
+            Module module = ModuleManager.Modules[i];
+            
+            bool b = await module.Instance.Release();
+            module.RemoveStyleLanguage(ModulesLanguage);
+            if (!b) return false;
+
+            ModuleManager.Modules.Remove(module);
+            AssemblyLoadContext assemblyLoadContext = AssemblyLoadContext.GetLoadContext(module.PluginLoader.LoadDefaultAssembly());
+            WeakReference weakReference = new(assemblyLoadContext, trackResurrection: true);
+
+            module.PluginLoader.Dispose();
+
+            for (int i1 = 0; weakReference.IsAlive && (i1 < 10); i1++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
+        return true;
     }
 
     public override void OnFrameworkInitializationCompleted()

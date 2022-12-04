@@ -11,6 +11,7 @@ using PleasantUI;
 using Regul.Logging;
 using Regul.Managers;
 using Regul.ModuleSystem;
+using Regul.ModuleSystem.Structures;
 using Regul.Other;
 using Regul.Structures;
 
@@ -68,8 +69,7 @@ public static class Program
                 lifeTime.Start(args);
                 lifeTime.Dispose();
 
-                ModuleManager.ReleaseModules();
-
+                App.UnloadModules();
                 break;
             }
             catch (Exception exception)
@@ -113,7 +113,7 @@ public static class Program
                     continue;
                 }
 
-                ModuleManager.ReleaseModules();
+                App.UnloadModules();
                 return 1;
             }
         }

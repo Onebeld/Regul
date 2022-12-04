@@ -113,6 +113,8 @@
                                     </Viewbox>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Disable modules for a while"
+                                      Command="{CompiledBinding DisableAllModulesAndWait}" />
                             <MenuItem Header="{StaticResource CheckUpdateModules}"
                                       Command="{CompiledBinding CheckUpdateModules}">
                                 <MenuItem.Icon>

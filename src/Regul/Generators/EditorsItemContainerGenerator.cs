@@ -47,31 +47,9 @@ public class EditorsItemContainerGenerator : PleasantTabItemContainerGenerator
             return;
         }
 
-        string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
-            new List<MessageBoxButton>
-            {
-                new()
-                {
-                    Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
-                },
-                new()
-                {
-                    Text = "No", Result = "No"
-                },
-                new()
-                {
-                    Text = "Cancel", Result = "Cancel"
-                }
-            });
-
-        if (result == "Yes")
-        {
-            SaveResult saveResult = await WindowsManager.MainWindow.ViewModel.SaveWorkbench(workbench);
-
-            if (saveResult != SaveResult.Success) return;
-        }
-        else if (result == "Cancel")
-            return;
+        SaveResult saveResult = await WindowsManager.MainWindow.SaveBeforeClosingWorkbench(workbench);
+        
+        if (saveResult == SaveResult.Cancel) return;
 
         tabItem.CloseCore();
 

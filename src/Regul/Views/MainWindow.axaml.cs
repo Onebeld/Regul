@@ -120,42 +120,17 @@ public class MainWindow : PleasantWindow
         {
             foreach (Workbench workbench in ViewModel.Workbenches)
             {
-                if (workbench.IsDirty)
-                {
-                    if (ViewModel.Content is not EditorsPage)
-                        WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
+                if (!workbench.IsDirty) continue;
+                
+                if (ViewModel.Content is not EditorsPage)
+                    WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
 
-                    ViewModel.SelectedWorkbench = workbench;
-
-                    string result = await MessageBox.Show(this, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
-                        new List<MessageBoxButton>
-                        {
-                            new()
-                            {
-                                Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
-                            },
-                            new()
-                            {
-                                Text = "No", Result = "No"
-                            },
-                            new()
-                            {
-                                Text = "Cancel", Result = "Cancel"
-                            }
-                        });
-
-                    if (result == "Yes")
-                    {
-                        SaveResult saveResult = await ViewModel.SaveWorkbench(workbench);
-
-                        if (saveResult == SaveResult.Success)
-                            continue;
-                    }
-                    if (result == "No")
-                        continue;
-
+                ViewModel.SelectedWorkbench = workbench;
+                
+                SaveResult saveResult = await SaveBeforeClosingWorkbench(workbench);
+                
+                if (saveResult == SaveResult.Cancel)
                     return;
-                }
             }
 
             ApplicationSettings.Save();
@@ -174,6 +149,38 @@ public class MainWindow : PleasantWindow
         {
             e.Cancel = false;
         }
+    }
+
+    public async Task<SaveResult> SaveBeforeClosingWorkbench(Workbench? workbench)
+    {
+        string result = await MessageBox.Show(this, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
+            new List<MessageBoxButton>
+            {
+                new()
+                {
+                    Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
+                },
+                new()
+                {
+                    Text = "No", Result = "No"
+                },
+                new()
+                {
+                    Text = "Cancel", Result = "Cancel"
+                }
+            });
+
+        if (result == "Yes")
+        {
+            SaveResult saveResult = await ViewModel.SaveWorkbench(workbench);
+
+            if (saveResult == SaveResult.Success)
+                return SaveResult.Success;
+        }
+        if (result == "No")
+            return SaveResult.Success;
+
+        return SaveResult.Cancel;
     }
 
     private void SetupDragAndDrop()

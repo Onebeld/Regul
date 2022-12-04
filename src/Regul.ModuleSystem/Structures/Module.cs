@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection;
+using McMaster.NETCore.Plugins;
 using PleasantUI;
 
 namespace Regul.ModuleSystem.Structures;
@@ -9,13 +9,13 @@ namespace Regul.ModuleSystem.Structures;
 /// </summary>
 public class Module : ViewModelBase
 {
-    private Assembly _assembly = null!;
     private IModule _instance = null!;
     private string? _linkToUpdate;
     private bool _hasUpdate;
     private bool _readyUpgrade;
     private Version? _newVersion;
     private Version? _regulVersionRequiered;
+    private PluginLoader _pluginLoader;
 
     public IModule Instance
     {
@@ -23,10 +23,10 @@ public class Module : ViewModelBase
         private init => RaiseAndSetIfChanged(ref _instance, value);
     }
 
-    public Assembly Assembly
+    public PluginLoader PluginLoader
     {
-        get => _assembly;
-        private init => RaiseAndSetIfChanged(ref _assembly, value);
+        get => _pluginLoader;
+        set => RaiseAndSetIfChanged(ref _pluginLoader, value);
     }
 
     public string? LinkToUpdate
@@ -55,9 +55,9 @@ public class Module : ViewModelBase
         set => RaiseAndSetIfChanged(ref _regulVersionRequiered, value);
     }
 
-    public Module(IModule instance, Assembly moduleAssembly)
+    public Module(IModule instance, PluginLoader pluginLoader)
     {
         Instance = instance;
-        Assembly = moduleAssembly;
+        PluginLoader = pluginLoader;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Avalonia.Collections;
+using McMaster.NETCore.Plugins;
 using Regul.ModuleSystem.Structures;
 using Module = Regul.ModuleSystem.Structures.Module;
 
@@ -22,11 +22,6 @@ public static class ModuleManager
     /// </summary>
     public static AvaloniaList<Editor> Editors { get; } = new();
 
-    // <summary>
-    /// Logic when closing the program. Recommended if the module has any settings and you want to save them.
-    /// </summary>
-    public static event EventHandler? ReleasingModules;
-
     /// <summary>
     /// Allows you to get an instance of an <see cref="Editor"/> by its ID
     /// </summary>
@@ -41,39 +36,26 @@ public static class ModuleManager
     /// <returns>A module instance, it is already automatically added to the list of modules.</returns>
     public static Module? InitializeModule(string path)
     {
-        ModuleLoader moduleLoader = ModuleLoader.CreateFromAssemblyFile(path);
-
-        Assembly assembly = moduleLoader.LoadDefaultAssembly();
-
-        Type?[] types;
-
-        try
-        {
-            types = assembly.GetTypes();
-        }
-        catch (ReflectionTypeLoadException e)
-        {
-            types = e.Types.Where(t => t != null).ToArray();
-        }
-
+        PluginLoader moduleLoader = PluginLoader.CreateFromAssemblyFile(path, isUnloadable: true, sharedTypes: new [] { typeof(IModule) });
         IModule? source = null;
 
-        foreach (Type? type in types)
+        foreach (Type type in moduleLoader
+                     .LoadDefaultAssembly()
+                     .GetTypes()
+                     .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsAbstract))
         {
-            if (type != null && typeof(IModule).IsAssignableFrom(type))
-            {
-                source = Activator.CreateInstance(type) as IModule;
-                break;
-            }
+            source = (IModule?)Activator.CreateInstance(type);
         }
 
-        if (source is null) return null;
+        if (source is null)
+        {
+            moduleLoader.Dispose();
+            return null;
+        }
 
-        Module module = new(source, assembly);
+        Module module = new(source, moduleLoader);
         Modules.Add(module);
 
         return module;
     }
-
-    public static void ReleaseModules() => ReleasingModules?.Invoke(null, EventArgs.Empty);
 }

@@ -640,6 +640,22 @@ public class SettingsPageViewModel : ViewModelBase
         }
     }
 
+    public async void DisableAllModulesAndWait()
+    {
+        bool b = await App.UnloadModules();
+        if (!b) return;
+
+        await MessageBox.Show(WindowsManager.MainWindow, "Modules disabled", "", new List<MessageBoxButton>()
+        {
+            new()
+            {
+                Text = "Ok", Default = true, IsKeyDown = true, Result = "OK"
+            }
+        });
+        
+        App.LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
+    }
+
     public async void CheckUpdate()
     {
         if (WindowsManager.MainWindow is null) return;
@@ -812,6 +828,16 @@ public class SettingsPageViewModel : ViewModelBase
             if (module.HasUpdate && !module.ReadyUpgrade)
                 await UpdateModule(module);
         }
+        
+        bool b = await App.UnloadModules();
+        if (!b)
+        {
+            _loadingWindow.Close();
+            return;
+        }
+        
+        App.UpdateModules();
+        App.LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
 
         _loadingWindow.Close();
 
