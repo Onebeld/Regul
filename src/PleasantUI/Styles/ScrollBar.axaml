@@ -9,7 +9,7 @@
             </Panel>
         </Border>
     </Design.PreviewWith>
-    
+
     <!-- <Style Selector="ScrollBar"> -->
     <!--     <Setter Property="MinWidth" Value="12" /> -->
     <!--     <Setter Property="MinHeight" Value="12" /> -->
@@ -243,9 +243,9 @@
     <!--     <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" /> -->
     <!--     <Setter Property="Opacity" Value="1" /> -->
     <!-- </Style> -->
-    
+
     <CornerRadius x:Key="ScrollBarCornerRadius">6</CornerRadius>
-    
+
     <ControlTheme x:Key="ScrollBarThumb" TargetType="Thumb">
         <Setter Property="Background" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
         <Setter Property="Template">
@@ -328,7 +328,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MinWidth" Value="12" />
@@ -343,7 +343,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid RowDefinitions="Auto,*,Auto">
-                                <Rectangle Name="TrackRect" 
+                                <Rectangle Name="TrackRect"
                                            Fill="{StaticResource AcrylicInAppFillColorDefaultBrush}"
                                            Opacity="0"
                                            RadiusX="{Binding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static GlobalConverters.TopLeftCornerRadius}}"
@@ -365,7 +365,7 @@
                                               Focusable="False"
                                               MinWidth="14"
                                               Height="12"
-                                              Interval="50"/>
+                                              Interval="50" />
 
                                 <Track Grid.Row="1"
                                        Minimum="{TemplateBinding Minimum}"
@@ -381,7 +381,7 @@
                                                       BorderThickness="0"
                                                       BorderBrush="#00000000"
                                                       Focusable="False"
-                                                      Opacity="0"/>
+                                                      Opacity="0" />
                                     </Track.DecreaseButton>
                                     <Track.IncreaseButton>
                                         <RepeatButton Name="PART_PageDownButton"
@@ -390,7 +390,7 @@
                                                       BorderThickness="0"
                                                       BorderBrush="#00000000"
                                                       Focusable="False"
-                                                      Opacity="0"/>
+                                                      Opacity="0" />
                                     </Track.IncreaseButton>
                                     <Thumb Theme="{StaticResource ScrollBarThumb}"
                                            Opacity="1"
@@ -398,7 +398,7 @@
                                            Width="6"
                                            MinHeight="30"
                                            CornerRadius="{TemplateBinding CornerRadius}"
-                                           RenderTransformOrigin="100%,50%"/>
+                                           RenderTransformOrigin="100%,50%" />
                                 </Track>
 
                                 <RepeatButton Name="PART_LineDownButton"
@@ -410,7 +410,7 @@
                                               MinWidth="14"
                                               Height="12"
                                               Interval="50"
-                                              Opacity="0"/>
+                                              Opacity="0" />
                             </Grid>
                         </Border>
                     </Grid>
@@ -467,14 +467,14 @@
                                                       Classes="largeChange"
                                                       Theme="{StaticResource ScrollBarPageButton}"
                                                       Focusable="False"
-                                                      Opacity="0"/>
+                                                      Opacity="0" />
                                     </Track.DecreaseButton>
                                     <Track.IncreaseButton>
                                         <RepeatButton Name="PART_PageDownButton"
                                                       Classes="largeChange"
                                                       Theme="{StaticResource ScrollBarPageButton}"
                                                       Focusable="False"
-                                                      Opacity="0"/>
+                                                      Opacity="0" />
                                     </Track.IncreaseButton>
                                     <Thumb Theme="{StaticResource ScrollBarThumb}"
                                            Opacity="1"
@@ -521,5 +521,5 @@
         <Style Selector="^:disabled /template/ Grid#Root">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-    </ControlTheme>    
+    </ControlTheme>
 </ResourceDictionary>

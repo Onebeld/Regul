@@ -6,8 +6,8 @@ namespace Regul.Views.SettingsContent;
 
 public class AboutSettingsContent : UserControl
 {
-    private Button? _contactTheAuthorButton;
-    
+    private readonly Button? _contactTheAuthorButton;
+
     public AboutSettingsContent()
     {
         AvaloniaXamlLoader.Load(this);
@@ -15,6 +15,7 @@ public class AboutSettingsContent : UserControl
         _contactTheAuthorButton = this.FindControl<Button>("ContactTheAuthorButton");
     }
 
+    // ReSharper disable once UnusedParameter.Local
     private void MenuButtonsOnClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button)

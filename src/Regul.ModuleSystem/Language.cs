@@ -15,6 +15,7 @@ public struct Language
     /// </para>
     /// </summary>
     public string Name { get; }
+
     /// <summary>
     /// Language key.
     /// <para>
@@ -22,6 +23,7 @@ public struct Language
     /// </para>
     /// </summary>
     public string Key { get; }
+
     /// <summary>
     /// Additional language keys. Some languages use more than one key, so there is such a parameter.
     /// </summary>

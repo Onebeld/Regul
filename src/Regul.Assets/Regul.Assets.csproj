@@ -7,12 +7,12 @@
         <TieredPGO>true</TieredPGO>
     </PropertyGroup>
 
-    <Import Project="..\..\build\Avalonia.props" />
-    <Import Project="..\..\build\PlatformDependentCompilation.props" />
+    <Import Project="..\..\build\Avalonia.props"/>
+    <Import Project="..\..\build\PlatformDependentCompilation.props"/>
 
     <ItemGroup>
-        <AvaloniaResource Include="Localization\**" />
-        <AvaloniaResource Include="Icons.axaml" />
-        <AvaloniaResource Include="icon.ico" />
+        <AvaloniaResource Include="Localization\**"/>
+        <AvaloniaResource Include="Icons.axaml"/>
+        <AvaloniaResource Include="icon.ico"/>
     </ItemGroup>
 </Project>

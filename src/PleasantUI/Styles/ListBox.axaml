@@ -10,7 +10,7 @@
             </ListBox>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />

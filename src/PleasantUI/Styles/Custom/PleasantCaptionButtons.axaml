@@ -37,7 +37,7 @@
                         <Viewbox Width="15"
                                  Height="1">
                             <Path Data="{StaticResource subtract_regular}"
-                                  StrokeThickness="1"/>
+                                  StrokeThickness="1" />
                         </Viewbox>
                     </Button>
                     <Button Grid.Column="1"
@@ -61,7 +61,7 @@
                         <Viewbox Width="10"
                                  Height="10">
                             <Path Data="{StaticResource dismiss_regular}"
-                                  StrokeThickness="1"/>
+                                  StrokeThickness="1" />
                         </Viewbox>
                     </Button>
                 </Grid>

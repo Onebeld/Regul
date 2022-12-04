@@ -14,7 +14,7 @@ namespace PleasantUI.Controls;
 public partial class ModalWindow : ContentControl, IStyleable, ICustomHitTest
 {
     static ModalWindow() { }
-    
+
     public bool HitTest(Point point) => VisualChildren.HitTestCustom(point);
 
     protected virtual void OnClosed()
@@ -50,7 +50,7 @@ public partial class ModalWindow : ContentControl, IStyleable, ICustomHitTest
 
         return result.Task;
     }
-    
+
     Type IStyleable.StyleKey => typeof(Control);
 
     public void Close()

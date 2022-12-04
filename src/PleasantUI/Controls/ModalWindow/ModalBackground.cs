@@ -7,8 +7,5 @@ namespace PleasantUI.Controls;
 [PseudoClasses(":close")]
 internal class ModalBackground : TemplatedControl
 {
-    public void Close()
-    {
-        PseudoClasses.Set(":close", true);
-    }
+    public void Close() => PseudoClasses.Set(":close", true);
 }

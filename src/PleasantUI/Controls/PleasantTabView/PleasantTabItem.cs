@@ -21,7 +21,7 @@ public partial class PleasantTabItem : TabItem
             if (e.Sender is PleasantTabItem { _closeButton: { } } a) a._closeButton.IsVisible = a.IsClosable;
         });
     }
-    
+
     /// <summary>
     ///     Is called before <see cref="PleasantTabItem.Closing" /> occurs
     /// </summary>
@@ -31,7 +31,7 @@ public partial class PleasantTabItem : TabItem
     {
         IsClosing = true;
     }
-    
+
     private static void UpdatePseudoClass(PleasantTabItem item)
     {
         if (!item.IsSelected) item.PseudoClasses.Remove(":dragging");
@@ -47,7 +47,7 @@ public partial class PleasantTabItem : TabItem
                 x.CloseTab(this.DataContext);
                 return true;
             }
-            
+
             x.CloseTab(this);
             return true;
         }
@@ -87,9 +87,9 @@ public partial class PleasantTabItem : TabItem
         base.OnApplyTemplate(e);
 
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
-        
+
         if (_closeButton is null) return;
-        
+
         if (IsClosable)
             _closeButton.Click += CloseButton_Click;
         else

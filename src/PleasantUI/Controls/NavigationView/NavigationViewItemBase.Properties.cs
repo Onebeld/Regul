@@ -17,7 +17,7 @@ public partial class NavigationViewItemBase
             nameof(Content),
             o => o.Content,
             (o, v) => o.Content = v);
-    
+
     public static readonly DirectProperty<NavigationViewItemBase, Type?> TypeContentProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItemBase, Type?>(
             nameof(TypeContent),
@@ -63,19 +63,19 @@ public partial class NavigationViewItemBase
         get => _typeContent;
         set => SetAndRaise(TypeContentProperty, ref _typeContent, value);
     }
-    
+
     public object Content
     {
         get => _content;
         set => SetAndRaise(ContentProperty, ref _content, value);
     }
-    
+
     public Geometry? Icon
     {
         get => _icon;
         set => SetAndRaise(IconProperty, ref _icon, value);
     }
-    
+
     public object Title
     {
         get => _title;
@@ -87,13 +87,13 @@ public partial class NavigationViewItemBase
         get => GetValue(IsOpenProperty);
         set => SetValue(IsOpenProperty, value);
     }
-    
+
     public bool SelectOnClose
     {
         get => GetValue(SelectOnCloseProperty);
         set => SetValue(SelectOnCloseProperty, value);
     }
-    
+
     public ClickMode ClickMode
     {
         get => GetValue(ClickModeProperty);
@@ -105,7 +105,7 @@ public partial class NavigationViewItemBase
         get => _navigationViewDistance;
         protected set => SetAndRaise(LevelProperty, ref _navigationViewDistance, value);
     }
-    
+
     public double CompactPaneLength
     {
         get => GetValue(CompactPaneLengthProperty);

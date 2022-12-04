@@ -10,7 +10,7 @@
             </ListBox>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
         <ControlTheme.Animations>
             <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
@@ -26,7 +26,7 @@
                 </KeyFrame>
             </Animation>
         </ControlTheme.Animations>
-        
+
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="CornerRadius" Value="4" />
@@ -49,7 +49,7 @@
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                      Margin="2"/>
+                                      Margin="2" />
                     <Border Name="SelectionIndicator"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -61,7 +61,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#SelectionIndicator">
             <Setter Property="IsVisible" Value="False" />
             <Setter Property="RenderTransform" Value="scaleY(0)" />
@@ -69,7 +69,7 @@
                 <Transitions>
                     <TransformOperationsTransition Duration="00:00:00.167"
                                                    Property="RenderTransform"
-                                                   Easing="CubicEaseOut"/>
+                                                   Easing="CubicEaseOut" />
                 </Transitions>
             </Setter>
         </Style>
@@ -79,7 +79,7 @@
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
-        
+
         <Style Selector="^:selected">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
@@ -87,23 +87,23 @@
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="RenderTransform" Value="scaleY(1)" />
         </Style>
-    
+
         <Style Selector="^:selected:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:selected:pressed">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="HorizontalListBoxItem" TargetType="ListBoxItem">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -129,7 +129,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#SelectionIndicator">
             <Setter Property="IsVisible" Value="False" />
             <Setter Property="RenderTransform" Value="scaleX(0)" />
@@ -137,7 +137,7 @@
                 <Transitions>
                     <TransformOperationsTransition Duration="00:00:00.167"
                                                    Property="RenderTransform"
-                                                   Easing="CubicEaseOut"/>
+                                                   Easing="CubicEaseOut" />
                 </Transitions>
             </Setter>
         </Style>

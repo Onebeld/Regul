@@ -9,10 +9,12 @@ public class Localization
     /// Necessary to dynamically change the language.
     /// </summary>
     public IStyle? LanguageStyle { get; set; }
+
     /// <summary>
     /// The languages supported by the module.
     /// </summary>
     public IReadOnlyList<Language>? SupportedLanguages { get; set; }
+
     /// <summary>
     /// The path in which all your languages are stored.
     /// </summary>

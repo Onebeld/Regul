@@ -5,12 +5,14 @@ using PleasantUI;
 using PleasantUI.Controls;
 using Regul.Logging;
 
+#pragma warning disable CS0618
+
 namespace Regul.CrashReport.ViewModels;
 
 public class CrashReportViewModel : ViewModelBase
 {
     public string ExceptionText { get; set; }
-    
+
     public CrashReportViewModel(string exceptionText) => ExceptionText = exceptionText;
 
     public void CopyLogs() => Application.Current?.Clipboard?.SetTextAsync(ExceptionText);
@@ -21,7 +23,14 @@ public class CrashReportViewModel : ViewModelBase
         {
             Filters = new List<FileDialogFilter>
             {
-                new() { Name = "Log " + App.GetString("Files"), Extensions = { "log" } }
+                new()
+                {
+                    Name = "Log " + App.GetString("Files"),
+                    Extensions =
+                    {
+                        "log"
+                    }
+                }
             },
             DefaultExtension = "log"
         };

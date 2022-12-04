@@ -5,11 +5,10 @@ using Regul.Enums;
 
 namespace Regul.Views.Windows;
 
-
 public class DragAndDropWindow : ContentDialog
 {
-    private Grid? _moduleTypeGrid;
-    private Grid? _fileTypeGrid;
+    private readonly Grid? _moduleTypeGrid;
+    private readonly Grid? _fileTypeGrid;
 
     public DragAndDropWindow()
     {
@@ -22,7 +21,7 @@ public class DragAndDropWindow : ContentDialog
     public DragAndDropWindow(TypeDrop typeDrop) : this()
     {
         if (_fileTypeGrid is null || _moduleTypeGrid is null) return;
-        
+
         switch (typeDrop)
         {
             case TypeDrop.Module:

@@ -17,12 +17,12 @@ namespace Regul.ViewModels.Windows;
 
 public class OpenProjectViewModel : ViewModelBase
 {
-    private OpenProjectWindow _openProjectWindow;
+    private readonly OpenProjectWindow _openProjectWindow;
 
     private string _searchName = string.Empty;
     private string _searchPath = string.Empty;
     private string _searchEditor = string.Empty;
-    
+
     private bool _reverseProjectList;
     private bool _sortByAlphabetical;
     private bool _sortByDateOfChange = true;
@@ -44,7 +44,7 @@ public class OpenProjectViewModel : ViewModelBase
         get => _searchEditor;
         set => RaiseAndSetIfChanged(ref _searchEditor, value);
     }
-    
+
     public bool ReverseProjectList
     {
         get => _reverseProjectList;
@@ -64,7 +64,7 @@ public class OpenProjectViewModel : ViewModelBase
     public OpenProjectViewModel(OpenProjectWindow openProjectWindow)
     {
         _openProjectWindow = openProjectWindow;
-        
+
         OnSearch(ApplicationSettings.Current.Projects);
         ApplicationSettings.Current.Projects.CollectionChanged += ProjectsOnCollectionChanged;
 
@@ -79,16 +79,13 @@ public class OpenProjectViewModel : ViewModelBase
             .Skip(1)
             .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
     }
-    
-    private void ProjectsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        OnSearch(ApplicationSettings.Current.Projects);
-    }
-    
+
+    private void ProjectsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearch(ApplicationSettings.Current.Projects);
+
     private void OnSearch(AvaloniaList<Project> obj)
     {
         SortedProjects.Clear();
-        
+
         if (obj.Count == 0) return;
 
         List<Project> list = new(obj);
@@ -100,41 +97,29 @@ public class OpenProjectViewModel : ViewModelBase
         if (!string.IsNullOrWhiteSpace(SearchEditor))
             list = list.FindAll(x =>
             {
-                Editor? editor = ModuleManager.Editors.FirstOrDefault(itemEditor => itemEditor.Name is not null && itemEditor.Name.ToLower().Contains(SearchEditor.ToLower()));
-
-                if (editor is not null)
-                    return editor.Id == x.IdEditor;
-                return false;
+                string? nameEditor = ModuleManager.GetEditorById(x.IdEditor)?.Name;
+                return nameEditor is not null && App.GetString(nameEditor).ToLower().Contains(SearchEditor);
             });
 
         if (SortByDateOfChange)
-        {
-            if (ReverseProjectList)
-                SortedProjects.AddRange(list.OrderBy(x => DateTime.Parse(x.DateTime)));
-            else SortedProjects.AddRange(list.OrderByDescending(x => DateTime.Parse(x.DateTime)));
-        }
+            list = new List<Project>(list.OrderByDescending(x => DateTime.Parse(x.DateTime)));
         else if (SortByAlphabetical)
-        {
-            if (ReverseProjectList)
-                SortedProjects.AddRange(list.OrderByDescending(x => Path.GetFileNameWithoutExtension(x.Path)));
-            else SortedProjects.AddRange(list.OrderBy(x => Path.GetFileNameWithoutExtension(x.Path)));
-        }
+            list = new List<Project>(list.OrderBy(x => Path.GetFileNameWithoutExtension(x.Path)));
+
+        if (ReverseProjectList)
+            list.Reverse();
+
+        SortedProjects.AddRange(list);
     }
 
     public void OpenProject(Project project)
     {
         WindowsManager.MainWindow?.ViewModel.OpenProject(project);
-        
+
         _openProjectWindow.Close();
     }
 
-    public void DeleteProject(Project project)
-    {
-        ApplicationSettings.Current.Projects.Remove(project);
-    }
+    public void DeleteProject(Project project) => ApplicationSettings.Current.Projects.Remove(project);
 
-    public void Close()
-    {
-        _openProjectWindow.Close();
-    }
+    public void Close() => _openProjectWindow.Close();
 }

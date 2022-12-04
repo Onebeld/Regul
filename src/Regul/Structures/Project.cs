@@ -36,7 +36,7 @@ public class Project : ViewModelBase
 
     public Project()
     {
-        
+
     }
 
     public Project(ulong idEditor, string path, string dateTime)

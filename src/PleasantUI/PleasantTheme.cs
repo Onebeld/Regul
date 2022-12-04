@@ -33,7 +33,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
     public static readonly StyledProperty<Theme?> CustomThemeProperty =
         AvaloniaProperty.Register<PleasantTheme, Theme?>(nameof(CustomTheme));
-    
+
     public bool DisableUpdateTheme { get; set; }
 
     public PleasantThemeMode Mode
@@ -51,7 +51,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        
+
         if (change.Property == ModeProperty || change.Property == CustomThemeProperty)
             EnsureTheme();
     }
@@ -75,8 +75,11 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
                     PleasantThemeMode.Custom => _pleasantLight,
                     _ => throw new ArgumentOutOfRangeException()
                 };
-                
-                _loaded = new Styles { _styleCommon, _styleControls, styleInclude };
+
+                _loaded = new Styles
+                {
+                    _styleCommon, _styleControls, styleInclude
+                };
 
                 _isLoading = false;
             }
@@ -105,8 +108,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
         return new Theme
         {
-            Name = "Default",
-            Colors = ((Style)_pleasantLight.Loaded).ToColorDictionary()
+            Name = "Default", Colors = ((Style)_pleasantLight.Loaded).ToColorDictionary()
         };
     }
 
@@ -119,7 +121,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         Theme newTheme = GetTheme(true);
         newTheme.Name = theme.Name;
 
-        foreach (KeyValuePair<string,uint> color in newTheme.Colors)
+        foreach (KeyValuePair<string, uint> color in newTheme.Colors)
         {
             if (theme.Colors.TryGetValue(color.Key, out uint value))
             {
@@ -127,10 +129,10 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
                 colorsChanged = true;
             }
         }
-        
+
         return (newTheme, colorsChanged);
     }
-    
+
     public bool TryGetResource(object key, out object? value)
     {
         if (!_isLoading && Loaded is IResourceProvider provider)
@@ -141,29 +143,29 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
     }
 
     public SelectorMatchResult TryAttach(IStyleable target, object? host) => Loaded.TryAttach(target, host);
-    
+
     public IReadOnlyList<IStyle> Children => _loaded?.Children ?? Array.Empty<IStyle>();
-    
+
     public void UpdateCustomTheme() => RaisePropertyChanged(CustomThemeProperty, CustomTheme, CustomTheme);
 
     public bool HasResources => (Loaded as IResourceProvider)?.HasResources ?? false;
-    
+
     public void AddOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.AddOwner(owner);
 
     public void RemoveOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.RemoveOwner(owner);
 
     public IResourceHost? Owner => (Loaded as IResourceProvider)?.Owner;
-    
+
     public event EventHandler? OwnerChanged
     {
         add
         {
-            if (Loaded is IResourceProvider resourceProvider) 
+            if (Loaded is IResourceProvider resourceProvider)
                 resourceProvider.OwnerChanged += value;
         }
         remove
         {
-            if (Loaded is IResourceProvider resourceProvider) 
+            if (Loaded is IResourceProvider resourceProvider)
                 resourceProvider.OwnerChanged -= value;
         }
     }
@@ -180,24 +182,26 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
             PleasantThemeMode.Turquoise => _pleasantTurquoise,
 
             PleasantThemeMode.Light => _pleasantLight,
-            PleasantThemeMode.Custom => _pleasantLight
+            PleasantThemeMode.Custom => _pleasantLight,
+
+            _ => throw new ArgumentOutOfRangeException()
         };
 
         if (Mode == PleasantThemeMode.Custom && CustomTheme is not null)
             style = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
-        
+
         (Loaded as Styles)![2] = style;
     }
 
     private void InitStyles(Uri baseUri)
     {
         PleasantUiSettings.Load();
-        
+
 #if Windows
         if (PleasantUiSettings.Instance.UseAccentColorFromSystem)
             PleasantUiSettings.Instance.UIntAccentColor = ColorExtensions.GetWindowsAccentColor();
 #endif
-        
+
         _styleCommon = new StyleInclude(baseUri)
         {
             Source = new Uri("avares://PleasantUI/PleasantTheme.Common.axaml")
@@ -222,12 +226,12 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         {
             Source = new Uri("avares://PleasantUI/Modes/Mysterious.axaml")
         };
-        
+
         _pleasantEmerald = new StyleInclude(baseUri)
         {
             Source = new Uri("avares://PleasantUI/Modes/Emerald.axaml")
         };
-        
+
         _pleasantTurquoise = new StyleInclude(baseUri)
         {
             Source = new Uri("avares://PleasantUI/Modes/Turquoise.axaml")

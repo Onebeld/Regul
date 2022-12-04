@@ -19,9 +19,9 @@ public class MessageBox : ContentDialog
         IList<MessageBoxButton>? buttons = null, string? additionalText = null)
     {
         MessageBox messageBox = new();
-        
+
         string titleValue, textValue;
-        
+
         if (Application.Current!.TryFindResource(title, out object? objectTitleValue))
             titleValue = objectTitleValue as string ?? string.Empty;
         else titleValue = title;
@@ -39,16 +39,14 @@ public class MessageBox : ContentDialog
         void AddButton(MessageBoxButton messageBoxButton)
         {
             string textValue;
-            
+
             if (Application.Current!.TryFindResource(messageBoxButton.Text, out object? objectTextValue))
                 textValue = objectTextValue as string ?? string.Empty;
             else textValue = messageBoxButton.Text;
-            
+
             Button button = new()
             {
-                Content = textValue, 
-                Margin = Thickness.Parse("5"),
-                VerticalAlignment = VerticalAlignment.Center
+                Content = textValue, Margin = Thickness.Parse("5"), VerticalAlignment = VerticalAlignment.Center
             };
 
             button.Click += (_, _) =>
@@ -72,7 +70,7 @@ public class MessageBox : ContentDialog
             if (!messageBoxButton.Default) return;
             result = messageBoxButton.Result;
             button.Classes.Add("Accent");
-            
+
             if (Application.Current != null)
                 button.Theme = (ControlTheme)Application.Current.FindResource("AccentButtonTheme")!;
         }
@@ -83,24 +81,21 @@ public class MessageBox : ContentDialog
             uniformGrid.Children.Add(new Panel());
             AddButton(new MessageBoxButton
             {
-                Text = (string)Application.Current!.FindResource("Ok")!,
-                Result = "OK",
-                Default = true,
-                IsKeyDown = true
+                Text = (string)Application.Current!.FindResource("Ok")!, Result = "OK", Default = true, IsKeyDown = true
             });
         }
         else if (buttons.Count == 1)
         {
             uniformGrid.Columns = 2;
             uniformGrid.Children.Add(new Panel());
-            
+
             AddButton(buttons[0]);
         }
         else
         {
             uniformGrid.Columns = buttons.Count;
 
-            foreach (MessageBoxButton messageBoxButton in buttons) 
+            foreach (MessageBoxButton messageBoxButton in buttons)
                 AddButton(messageBoxButton);
         }
 

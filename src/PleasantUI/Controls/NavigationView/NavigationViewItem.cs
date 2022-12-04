@@ -18,7 +18,7 @@ public class NavigationViewItem : NavigationViewItemBase, IStyleable
         FocusableProperty.OverrideDefaultValue<NavigationViewItem>(true);
         ClickModeProperty.OverrideDefaultValue<NavigationViewItem>(ClickMode.Release);
     }
-    
+
     protected override void OnClosed(object sender, RoutedEventArgs e)
     {
         base.OnClosed(sender, e);
@@ -28,7 +28,7 @@ public class NavigationViewItem : NavigationViewItemBase, IStyleable
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
         }
     }
-    
+
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
@@ -45,7 +45,7 @@ public class NavigationViewItem : NavigationViewItemBase, IStyleable
         }
         e.Handled = true;
     }
-    
+
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         base.OnPointerReleased(e);

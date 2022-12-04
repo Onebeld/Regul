@@ -10,7 +10,7 @@ public static class ZipFileManager
     public static void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName, ZipFileOverwrite overwrite = ZipFileOverwrite.IfNewer)
     {
         using ZipArchive archive = ZipFile.OpenRead(sourceArchiveFileName);
-        
+
         foreach (ZipArchiveEntry entry in archive.Entries)
             ExtractToFile(entry, destinationDirectoryName, overwrite);
     }
@@ -43,7 +43,7 @@ public static class ZipFileManager
 
         //Creates the directory (if it doesn't exist) for the new path
         Directory.CreateDirectory(destinationFilePath);
-        
+
         if (string.IsNullOrWhiteSpace(Path.GetFileName(destinationFileName))) return;
 
         //Determines what to do with the file based upon the
@@ -85,7 +85,7 @@ public static class ZipFileManager
         Directory.CreateDirectory(destinationFilePath);
 
         if (string.IsNullOrWhiteSpace(Path.GetFileName(destinationFileName))) return null;
-        
+
         //Determines what to do with the file based upon the
         //method of overwriting chosen
         switch (overwrite)

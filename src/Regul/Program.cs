@@ -21,7 +21,7 @@ public static class Program
     private static FileStream? _lockFile;
 
     public static string[] Arguments { get; private set; } = null!;
-    
+
     [STAThread]
     public static int Main(string[] args)
     {
@@ -37,21 +37,21 @@ public static class Program
                 Directory.CreateDirectory(RegulDirectories.Cache);
             if (!Directory.Exists(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
                 Directory.CreateDirectory(Path.Combine(RegulDirectories.Cache, "OpenFiles"));
-            
+
             Guid guid = Guid.NewGuid();
 
             string newArgs = string.Join("|", args);
-            
+
             File.WriteAllText(Path.Combine(RegulDirectories.Cache, "OpenFiles", guid + ".cache"), newArgs);
 
             EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
             eventWaitHandle.Set();
-            
+
             return 0;
         }
-        
+
         Arguments = args;
-        
+
         AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
         AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
 
@@ -67,18 +67,18 @@ public static class Program
                 ClassicDesktopStyleApplicationLifetime lifeTime = mainAppBuilder.CreateLifeTime();
                 lifeTime.Start(args);
                 lifeTime.Dispose();
-                
+
                 ModuleManager.ReleaseModules();
-                
+
                 break;
             }
             catch (Exception exception)
             {
                 Logger.Instance.WriteLog(LogType.Error, $"[{exception.TargetSite?.DeclaringType}.{exception.TargetSite?.Name}()] {exception}\r\n");
-                
+
                 ApplicationSettings.Current.ExceptionCalled = true;
                 ApplicationSettings.Current.ExceptionText = exception.ToString();
-                
+
                 foreach (Workbench workbench in WindowsManager.MainWindow?.ViewModel.Workbenches!)
                 {
                     if (workbench.PathToFile is null || !workbench.IsDirty) continue;
@@ -96,13 +96,13 @@ public static class Program
                 ClassicDesktopStyleApplicationLifetime currentLifeTime = (ClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime!;
                 currentLifeTime.Shutdown();
                 currentLifeTime.Dispose();
-                
+
                 ApplicationSettings.Save();
                 PleasantUiSettings.Save();
 
                 ClassicDesktopStyleApplicationLifetime lifeTime = mainAppBuilder.CreateLifeTime();
                 lifeTime.Start(args);
-                
+
                 lifeTime.Dispose();
 
                 if (ApplicationSettings.Current.RestartingApp)
@@ -112,7 +112,7 @@ public static class Program
                     ApplicationSettings.Current.ExceptionText = string.Empty;
                     continue;
                 }
-                
+
                 ModuleManager.ReleaseModules();
                 return 1;
             }
@@ -142,16 +142,15 @@ public static class Program
     {
         _lockFile?.Unlock(0, 0);
         _lockFile?.Dispose();
-        
+
         string path = Logger.Instance.SaveLogs();
 
         Process.Start(new ProcessStartInfo
         {
-            FileName = path,
-            UseShellExecute = true
+            FileName = path, UseShellExecute = true
         });
     }
-        
+
     public static AppBuilder BuildAvaloniaApp()
     {
         AppBuilder appBuilder = AppBuilder.Configure<App>();
@@ -174,7 +173,7 @@ public static class Program
 #else
             appBuilder.UsePlatformDetect();
 #endif
-        
+
         appBuilder
 #if Windows
             .With(new Win32PlatformOptions

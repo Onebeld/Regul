@@ -5,12 +5,12 @@
         <Border Padding="80">
             <TextBox Text="Sample">
                 <DataValidationErrors.Error>
-                    <system:Exception/>
+                    <system:Exception />
                 </DataValidationErrors.Error>
             </TextBox>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
         <Setter Property="Template">
             <ControlTemplate TargetType="DataValidationErrors">

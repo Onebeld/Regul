@@ -500,7 +500,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
         double totalDistanceY = _offsetY - _animStartOffsetY;
 
         double percentage = 1 - Math.Min(Math.Max(0, _animTimeRemaining / _animDuration), 1);
-        
+
         if (_currentEasing != null)
         {
             double easedPercentage = _currentEasing.Ease(percentage);

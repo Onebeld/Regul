@@ -26,7 +26,7 @@ public class CommandOnDoubleTappedBehavior : Behavior<Control>
         AvaloniaProperty.Register<CommandOnDoubleTappedBehavior, bool>(nameof(IsEnabled), true);
 
     private ICommand? _command;
-    
+
     /// <summary>
     /// Gets or sets an <see cref="ICommand"/> to be invoked when the key is downed.
     /// </summary>
@@ -56,13 +56,13 @@ public class CommandOnDoubleTappedBehavior : Behavior<Control>
         base.OnAttached();
         AssociatedObject?.AddHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped, RoutingStrategies.Bubble);
     }
-    
+
     protected override void OnDetaching()
     {
         base.OnDetaching();
         AssociatedObject?.RemoveHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped);
     }
-    
+
     private void AssociatedObject_DoubleTapped(object? sender, TappedEventArgs e)
     {
         Command?.Execute(CommandParameter);

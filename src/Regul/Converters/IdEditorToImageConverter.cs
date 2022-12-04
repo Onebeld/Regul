@@ -9,11 +9,11 @@ namespace Regul.Converters;
 
 public class IdEditorToImageConverter : IValueConverter
 {
-    private static readonly Lazy<IdEditorToImageConverter> _lazy = new(() => new IdEditorToImageConverter());
-    
+    private static readonly Lazy<IdEditorToImageConverter> Lazy = new(() => new IdEditorToImageConverter());
+
     public static IdEditorToImageConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -21,7 +21,7 @@ public class IdEditorToImageConverter : IValueConverter
         Editor? editor = ModuleManager.GetEditorById((ulong)value!);
         return editor?.IconKey is null ? App.GetResource<DrawingImage>("UnknownIcon") : App.GetResource<DrawingImage>(editor.IconKey);
     }
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

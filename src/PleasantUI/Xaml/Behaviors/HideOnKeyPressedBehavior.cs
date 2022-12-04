@@ -14,13 +14,13 @@ public class HideOnKeyPressedBehavior : Behavior<Control>
     /// <summary>
     /// Identifies the <seealso cref="TargetControl"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Control> TargetControlProperty = 
+    public static readonly StyledProperty<Control> TargetControlProperty =
         AvaloniaProperty.Register<HideOnKeyPressedBehavior, Control>(nameof(TargetControl));
 
     /// <summary>
     /// Identifies the <seealso cref="Key"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Key> KeyProperty = 
+    public static readonly StyledProperty<Key> KeyProperty =
         AvaloniaProperty.Register<HideOnKeyPressedBehavior, Key>(nameof(Key), Key.Escape);
 
     /// <summary>
@@ -61,7 +61,7 @@ public class HideOnKeyPressedBehavior : Behavior<Control>
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Key == Key) 
+        if (e.Key == Key)
             TargetControl.IsVisible = false;
     }
 }

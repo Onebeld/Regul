@@ -1,14 +1,14 @@
 ﻿<ContentDialog xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             VerticalAlignment="Center" 
-             HorizontalAlignment="Center"
-             Margin="50"
-             MinWidth="400"
-             MinHeight="180"
-             x:Class="PleasantUI.Windows.MessageBox">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="50"
+               MinWidth="400"
+               MinHeight="180"
+               x:Class="PleasantUI.Windows.MessageBox">
     <SmoothScrollViewer>
         <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
             <TextBlock Grid.Row="0" x:Name="Title" Theme="{StaticResource SubtitleTextBlockTheme}" />
@@ -21,10 +21,10 @@
                      AcceptsReturn="True"
                      TextWrapping="Wrap"
                      VerticalContentAlignment="Stretch"
-                     Margin="0 10 0 0" 
+                     Margin="0 10 0 0"
                      MinHeight="150"
                      MaxHeight="600"
-                     MaxWidth="600"/>
+                     MaxWidth="600" />
         </Grid>
     </SmoothScrollViewer>
     <ContentDialog.BottomPanelContent>

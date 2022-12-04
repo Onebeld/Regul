@@ -1,24 +1,24 @@
 ﻿<ContentDialog xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Regul.Views.Windows.OpenProjectWindow"
-             xmlns:vm="using:Regul.ViewModels.Windows"
-             xmlns:s="clr-namespace:Regul"
-             x:DataType="vm:OpenProjectViewModel">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+               x:Class="Regul.Views.Windows.OpenProjectWindow"
+               xmlns:vm="using:Regul.ViewModels.Windows"
+               xmlns:s="clr-namespace:Regul"
+               x:DataType="vm:OpenProjectViewModel">
     <ContentDialog.KeyBindings>
         <KeyBinding Command="{CompiledBinding Close}"
                     Gesture="Escape" />
     </ContentDialog.KeyBindings>
-    
+
     <Grid RowDefinitions="Auto,*">
         <TextBlock Grid.Row="0"
                    Theme="{StaticResource SubtitleTextBlockTheme}"
                    Text="{StaticResource OpenProject}"
                    Margin="20 15 0 0"
                    HorizontalAlignment="Left" />
-        
+
         <StackPanel Grid.Row="0"
                     Spacing="5"
                     Orientation="Horizontal"
@@ -71,7 +71,7 @@
                                             <Setter Property="Padding" Value="6 3 6 3" />
                                         </Style>
                                     </Grid.Styles>
-                                    
+
                                     <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
                                         <Run Text="{StaticResource Name}" /><Run Text=":" />
                                     </TextBlock>
@@ -195,7 +195,7 @@
                 </StackPanel>
             </Border>
         </StackPanel>
-        
+
         <SmoothScrollViewer Grid.Row="1" Margin="0 10 0 0">
             <ItemsRepeater Items="{CompiledBinding SortedProjects}"
                            Margin="20 0 20 10"
@@ -205,7 +205,7 @@
                 </ItemsRepeater.Layout>
             </ItemsRepeater>
         </SmoothScrollViewer>
-        
+
         <TextBlock Grid.Row="1"
                    Margin="0 20"
                    Text="{StaticResource NoProjects}"
@@ -214,15 +214,15 @@
                    Foreground="{StaticResource TextFillColorTertiaryBrush}"
                    IsVisible="{CompiledBinding !SortedProjects.Count}" />
     </Grid>
-    
+
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="1">
             <Panel />
-            <Button Content="{StaticResource Cancel}" 
+            <Button Content="{StaticResource Cancel}"
                     VerticalAlignment="Center"
                     Margin="5"
                     Command="{CompiledBinding Close}"
-                    CommandParameter="{CompiledBinding $parent[ContentDialog]}"/>
+                    CommandParameter="{CompiledBinding $parent[ContentDialog]}" />
         </UniformGrid>
     </ContentDialog.BottomPanelContent>
 </ContentDialog>

@@ -17,7 +17,7 @@
                 <CompiledBinding Path="!EnableCustomTitleBar" Source="{x:Static PleasantUiSettings.Instance}" />
             </MultiBinding>
         </NavigationView.NotMakeOffsetForContentPanel>
-        
+
         <NavigationViewItem Header="{StaticResource General}"
                             Icon="{StaticResource settings_regular}"
                             TypeContent="{x:Type c:GeneralSettingsContent}" />
@@ -28,13 +28,13 @@
         <NavigationViewItem Header="{StaticResource Modules}"
                             Icon="{StaticResource app_folder_regular}"
                             TypeContent="{x:Type c:ModulesSettingsContent}" />
-        
+
         <NavigationViewItem DockPanel.Dock="Bottom"
                             Margin="0 0 0 5"
                             Header="{StaticResource About}"
                             Icon="{StaticResource question_circle_regular}"
                             TypeContent="{x:Type c:AboutSettingsContent}" />
-        
+
         <Panel />
     </NavigationView>
 </UserControl>

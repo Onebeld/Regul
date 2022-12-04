@@ -8,11 +8,12 @@ public class Instrument
     /// Instrument's name. Can also be a key for localization.
     /// </summary>
     public string? Name { get; }
+
     /// <summary>
     /// The entry point to start the <see cref="Instrument"/>.
     /// </summary>
     public Action Execute { get; }
-    
+
     /// <summary>
     /// Creating an instance of the Instrument class
     /// </summary>

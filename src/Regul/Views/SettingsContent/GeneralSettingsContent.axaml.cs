@@ -5,8 +5,5 @@ namespace Regul.Views.SettingsContent;
 
 public class GeneralSettingsContent : UserControl
 {
-    public GeneralSettingsContent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public GeneralSettingsContent() => AvaloniaXamlLoader.Load(this);
 }

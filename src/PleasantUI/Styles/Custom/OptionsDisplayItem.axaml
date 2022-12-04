@@ -55,8 +55,8 @@
                                       Data="{TemplateBinding Icon}"
                                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
                             </Viewbox>
-                            
-                            <StackPanel Grid.Row="0" Grid.Column="1" 
+
+                            <StackPanel Grid.Row="0" Grid.Column="1"
                                         VerticalAlignment="Center"
                                         Margin="6 0 0 0">
                                 <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
@@ -64,16 +64,16 @@
                                 <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
                                            Text="{TemplateBinding Description}"
                                            Foreground="{StaticResource TextFillColorSecondaryBrush}"
-                                           IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                           IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                             </StackPanel>
 
                             <ContentPresenter Grid.Column="2"
                                               Grid.Row="0"
-                                              Content="{TemplateBinding ActionButton}" 
+                                              Content="{TemplateBinding ActionButton}"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Right"
                                               Margin="4 4" />
-                            
+
                             <Viewbox Name="ChevronHost"
                                      Grid.Column="3"
                                      Grid.Row="0"
@@ -87,7 +87,7 @@
                                       StrokeThickness="2"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Center"
-                                      Stretch="Uniform"/>
+                                      Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
                     </Border>
@@ -182,10 +182,12 @@
             </Style.Animations>
 
             <Setter Property="IsVisible" Value="True" />
-            <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static GlobalConverters.BottomCornerRadiusFilter}}" />
+            <Setter Property="CornerRadius"
+                    Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static GlobalConverters.BottomCornerRadiusFilter}}" />
         </Style>
         <Style Selector="^:expanded /template/ Border#LayoutRoot">
-            <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static GlobalConverters.TopCornerRadiusFilter}}" />
+            <Setter Property="CornerRadius"
+                    Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static GlobalConverters.TopCornerRadiusFilter}}" />
         </Style>
 
         <Style Selector="^:not(:expands):expanded /template/ ContentPresenter#ExpandedContentPresenter">

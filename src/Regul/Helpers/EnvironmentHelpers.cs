@@ -5,7 +5,7 @@ using Regul.Logging;
 
 namespace Regul.Helpers;
 
-public class EnvironmentHelpers
+public static class EnvironmentHelpers
 {
     public static async Task ShellExecAsync(string cmd, bool waitForExit = true)
     {

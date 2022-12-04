@@ -39,7 +39,7 @@
             </Border>
         </Grid>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
         <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
@@ -67,7 +67,8 @@
                         Margin="6 4 6 6"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <i:Interaction.Behaviors>
-                        <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                        <b:ShadowBehavior ShadowDepth="SmallWindow"
+                                          EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                     </i:Interaction.Behaviors>
                     <ContentPresenter Name="PART_ContentPresenter"
                                       MaxWidth="{TemplateBinding MaxWidth}"
@@ -76,7 +77,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:open">
             <Setter Property="Opacity" Value="1" />
         </Style>

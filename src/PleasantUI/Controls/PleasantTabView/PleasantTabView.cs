@@ -18,7 +18,7 @@ public partial class PleasantTabView : TabControl
     {
         SelectionModeProperty.OverrideDefaultValue<PleasantTabView>(SelectionMode.Single);
     }
-    
+
     protected void AdderButtonClicked(object? sender, RoutedEventArgs e)
     {
         RoutedEventArgs routedEventArgs = new(ClickOnAddingButtonEvent);
@@ -43,7 +43,7 @@ public partial class PleasantTabView : TabControl
         if (change.Property == SelectedItemProperty && SelectedItem == null)
         {
             await Task.Delay(100);
-            
+
             double d = ItemCount * 0.5;
             if ((_lastSelectIndex < d) & (ItemCount != 0))
             {
@@ -69,7 +69,7 @@ public partial class PleasantTabView : TabControl
     private void PleasantTabView_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
         if (_grid is null) return;
-        
+
         WidthRemainingSpace = _grid.Bounds.Width;
         HeightRemainingSpace = _grid.Bounds.Height;
     }

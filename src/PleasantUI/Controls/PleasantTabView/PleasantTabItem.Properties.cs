@@ -8,7 +8,7 @@ public partial class PleasantTabItem
 {
     private bool _isClosing;
     private Button? _closeButton;
-    
+
     public static readonly RoutedEvent<RoutedEventArgs> ClosingEvent =
         RoutedEvent.Register<PleasantTabItem, RoutedEventArgs>(nameof(Closing), RoutingStrategies.Bubble);
 
@@ -65,7 +65,7 @@ public partial class PleasantTabItem
         get => GetValue(IsEditedIndicatorProperty);
         set => SetValue(IsEditedIndicatorProperty, value);
     }
-    
+
     public event EventHandler<RoutedEventArgs> Closing
     {
         add => AddHandler(ClosingEvent, value);

@@ -16,6 +16,7 @@ public static class ModuleManager
     /// List of loaded modules in the program
     /// </summary>
     public static AvaloniaList<Module> Modules { get; } = new();
+
     /// <summary>
     /// The list of loaded editors in the program. You must add an editor to the list yourself.
     /// </summary>
@@ -70,7 +71,7 @@ public static class ModuleManager
 
         Module module = new(source, assembly);
         Modules.Add(module);
-        
+
         return module;
     }
 

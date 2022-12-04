@@ -14,19 +14,15 @@ namespace PleasantUI.Converters;
 /// </remarks>
 public class ThirdComponentConverter : IValueConverter
 {
-    private static readonly Lazy<ThirdComponentConverter> _lazy = new(() => new ThirdComponentConverter());
+    private static readonly Lazy<ThirdComponentConverter> Lazy = new(() => new ThirdComponentConverter());
 
     public static ThirdComponentConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     /// <inheritdoc/>
-    public object? Convert(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is ColorSpectrumComponents components)
         {
@@ -49,11 +45,7 @@ public class ThirdComponentConverter : IValueConverter
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return AvaloniaProperty.UnsetValue;
     }

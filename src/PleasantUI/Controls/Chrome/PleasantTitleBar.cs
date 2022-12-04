@@ -14,11 +14,11 @@ namespace PleasantUI.Controls;
 public partial class PleasantTitleBar : TemplatedControl
 {
     private bool _forcedSetIsVisible;
-    
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        
+
         _captionButtons?.Detach();
 
         _captionButtons = e.NameScope.Get<PleasantCaptionButtons>("PART_CaptionButtons");
@@ -48,13 +48,13 @@ public partial class PleasantTitleBar : TemplatedControl
 
             _dragWindowBorder.PointerPressed += OnDragWindowBorderOnPointerPressed;
             _dragWindowBorder.DoubleTapped += OnDragWindowBorderOnDoubleTapped;
-            
+
             Attach(window);
 
             window.TitleBar = this;
         }
     }
-    
+
     internal void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
     {
         _host?.PlatformImpl?.BeginMoveDrag(args);
@@ -71,7 +71,7 @@ public partial class PleasantTitleBar : TemplatedControl
 
     private void Attach(PleasantWindow host)
     {
-        _disposable = new CompositeDisposable
+        new CompositeDisposable
         {
             host.GetObservable(Window.WindowStateProperty).Subscribe(windowState =>
             {
@@ -120,7 +120,7 @@ public partial class PleasantTitleBar : TemplatedControl
                 }
                 else
                 {
-                    if (host.Icon is not null && _image is not null) 
+                    if (host.Icon is not null && _image is not null)
                         _image.Source = host.Icon.ToBitmap();
                 }
             }),
@@ -128,7 +128,7 @@ public partial class PleasantTitleBar : TemplatedControl
             {
                 if (host.ImageIcon is null)
                 {
-                    if (_image is not null && host.Icon is not null) 
+                    if (_image is not null && host.Icon is not null)
                         _image.Source = host.Icon.ToBitmap();
                 }
             }),
@@ -169,7 +169,7 @@ public partial class PleasantTitleBar : TemplatedControl
                         Margin = Thickness.Parse("0");
                         if (_titlePanel != null) _titlePanel.Margin = Thickness.Parse("0");
                         break;
-                    
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(bar), bar, null);
                 }
@@ -187,7 +187,7 @@ public partial class PleasantTitleBar : TemplatedControl
                 {
                     if (_expandMenuItem is null || _reestablishMenuItem is null || _collapseMenuItem is null || _separator is null)
                         return;
-                    
+
                     switch (x)
                     {
                         case WindowButtons.All:
@@ -208,7 +208,7 @@ public partial class PleasantTitleBar : TemplatedControl
                             _collapseMenuItem.IsVisible = false;
                             _separator.IsVisible = true;
                             break;
-                        
+
                         case WindowButtons.Close:
                         default:
                             _expandMenuItem.IsVisible = false;
@@ -235,7 +235,7 @@ public partial class PleasantTitleBar : TemplatedControl
         else
         {
             _forcedSetIsVisible = false;
-            
+
             _dragWindowBorder.IsVisible = _host.TitleBarType != TitleBarType.ExtendedWithoutContent;
             _dragWindowBorder.IsHitTestVisible = _host.TitleBarType != TitleBarType.ExtendedWithoutContent;
         }

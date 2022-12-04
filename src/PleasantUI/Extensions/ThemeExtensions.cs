@@ -42,12 +42,12 @@ public static class ThemeExtensions
     public static string ToAxaml(this Theme theme)
     {
         StringBuilder stringBuilder = new();
-        
+
         stringBuilder.AppendLine("<Style xmlns=\"https://github.com/avaloniaui\"");
         stringBuilder.AppendLine("       xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
         stringBuilder.AppendLine("    <Style.Resources>");
 
-        foreach (KeyValuePair<string,uint> color in theme.Colors)
+        foreach (KeyValuePair<string, uint> color in theme.Colors)
             stringBuilder.AppendLine($"        <Color x:Key=\"{color.Key}\">#{color.Value:X8}</Color>");
 
         stringBuilder.AppendLine("    </Style.Resources>");
@@ -60,7 +60,7 @@ public static class ThemeExtensions
     {
         AvaloniaDictionary<string, uint> colors = new();
 
-        foreach (KeyValuePair<object,object?> keyValuePair in styles.Resources)
+        foreach (KeyValuePair<object, object?> keyValuePair in styles.Resources)
             colors.Add((string)keyValuePair.Key, ((Color)keyValuePair.Value!).ToUint32());
 
         return colors;
@@ -72,7 +72,7 @@ public static class ThemeExtensions
 
         stringBuilder.AppendLine(theme.Name);
 
-        foreach (KeyValuePair<string,uint> color in theme.Colors)
+        foreach (KeyValuePair<string, uint> color in theme.Colors)
             stringBuilder.AppendLine($"{color.Key};{color.Value}");
 
         return stringBuilder.ToString();

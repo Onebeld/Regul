@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
-        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}"/>
+        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -11,7 +11,7 @@
                             <ContentPresenter Name="PART_ContentPresenter"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               Content="{TemplateBinding Content}"
-                                              Margin="{TemplateBinding Padding}"/>
+                                              Margin="{TemplateBinding Padding}" />
                         </VisualLayerManager>
                     </Border>
                 </Panel>

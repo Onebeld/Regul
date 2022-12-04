@@ -7,14 +7,14 @@ namespace PleasantUI.Controls;
 public partial class ModalWindow
 {
     public event EventHandler? Closed;
-    
+
     private object? _dialogResult = null!;
 
     private IPleasantWindowModal _host = null!;
 
     private bool _isClosed;
     private bool _isClosing;
-    
+
     public static readonly RoutedEvent WindowClosedEvent =
         RoutedEvent.Register<ModalWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
 
@@ -27,7 +27,7 @@ public partial class ModalWindow
 
     public static readonly DirectProperty<ModalWindow, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<ModalWindow, bool>(nameof(IsClosing), o => o.IsClosing);
-    
+
     public bool IsClosed
     {
         get => _isClosed;

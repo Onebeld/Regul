@@ -16,13 +16,13 @@ namespace PleasantUI.Controls;
 public partial class PleasantWindow : Window, IStyleable, IPleasantWindowModal
 {
     Type IStyleable.StyleKey => typeof(PleasantWindow);
-    
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
-        
+
 #if OSX
         TypeTitleBar = TypePleasantTitleBar.MacOsStyle;
 #endif
@@ -56,7 +56,7 @@ public partial class PleasantWindow : Window, IStyleable, IPleasantWindowModal
         };
         windowPanel.Children.Add(new ModalBackground());
         windowPanel.Children.Add(modalWindow);
-        
+
         _modalWindows.Children.Add(windowPanel);
     }
 

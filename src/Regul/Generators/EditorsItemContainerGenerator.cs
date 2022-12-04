@@ -32,7 +32,7 @@ public class EditorsItemContainerGenerator : PleasantTabItemContainerGenerator
 
         throw new NullReferenceException();
     }
-    
+
     private async void TabItemOnCloseButtonClick(object? sender, RoutedEventArgs e)
     {
         if (sender is not PleasantTabItem { DataContext: Workbench workbench } tabItem || WindowsManager.MainWindow is null) return;
@@ -40,45 +40,41 @@ public class EditorsItemContainerGenerator : PleasantTabItemContainerGenerator
         if (!workbench.IsDirty)
         {
             tabItem.CloseCore();
-        
+
             if (((PleasantTabView)Owner).ItemCount == 0)
-                WindowsManager.MainWindow?.ChangePage(typeof(HomePage));
-            
+                WindowsManager.MainWindow.ChangePage(typeof(HomePage));
+
             return;
         }
-        
-        string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty, new List<MessageBoxButton>
-        {
-            new()
+
+        string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
+            new List<MessageBoxButton>
             {
-                Text = "Yes",
-                Default = true,
-                Result = "Yes",
-                IsKeyDown = true
-            },
-            new()
-            {
-                Text = "No",
-                Result = "No"
-            },
-            new()
-            {
-                Text = "Cancel",
-                Result = "Cancel"
-            }
-        });
-        
+                new()
+                {
+                    Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
+                },
+                new()
+                {
+                    Text = "No", Result = "No"
+                },
+                new()
+                {
+                    Text = "Cancel", Result = "Cancel"
+                }
+            });
+
         if (result == "Yes")
         {
             SaveResult saveResult = await WindowsManager.MainWindow.ViewModel.SaveWorkbench(workbench);
-                        
+
             if (saveResult != SaveResult.Success) return;
         }
         else if (result == "Cancel")
             return;
-        
+
         tabItem.CloseCore();
-        
+
         if (((PleasantTabView)Owner).ItemCount == 0)
             WindowsManager.MainWindow.ChangePage(typeof(HomePage));
     }

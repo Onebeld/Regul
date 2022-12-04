@@ -16,7 +16,7 @@ public class HideOnLostFocusBehavior : Behavior<Control>
     /// </summary>
     public static readonly StyledProperty<Control> TargetControlProperty =
         AvaloniaProperty.Register<HideOnLostFocusBehavior, Control>(nameof(TargetControl));
-    
+
     /// <summary>
     /// Gets or sets the target control. This is a avalonia property.
     /// </summary>
@@ -25,7 +25,7 @@ public class HideOnLostFocusBehavior : Behavior<Control>
         get => GetValue(TargetControlProperty);
         set => SetValue(TargetControlProperty, value);
     }
-    
+
     /// <summary>
     /// Called after the behavior is attached to the <see cref="Behavior.AssociatedObject"/>.
     /// </summary>
@@ -34,7 +34,7 @@ public class HideOnLostFocusBehavior : Behavior<Control>
         base.OnAttached();
         AssociatedObject?.AddHandler(InputElement.LostFocusEvent, AssociatedObject_LostFocus, RoutingStrategies.Bubble);
     }
-    
+
     /// <summary>
     /// Called when the behavior is being detached from its <see cref="Behavior.AssociatedObject"/>.
     /// </summary>
@@ -43,7 +43,7 @@ public class HideOnLostFocusBehavior : Behavior<Control>
         base.OnDetaching();
         AssociatedObject?.RemoveHandler(InputElement.LostFocusEvent, AssociatedObject_LostFocus);
     }
-    
+
     private void AssociatedObject_LostFocus(object? sender, RoutedEventArgs e)
     {
         TargetControl.IsVisible = false;

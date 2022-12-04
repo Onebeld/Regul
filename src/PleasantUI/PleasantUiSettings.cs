@@ -16,7 +16,7 @@ namespace PleasantUI;
 public class PleasantUiSettings : ViewModelBase
 {
     public const uint DefaultAccentColor = 0xFF176A80;
-    
+
     private bool _enableShadowing = true;
     private bool _useAccentColorFromSystem = true;
     private bool _enableTransparency;
@@ -35,7 +35,7 @@ public class PleasantUiSettings : ViewModelBase
     private Color _accentColorLightSecondary;
     private Color _accentColorLightTertiary;
     private Color _accentColorLightSelected;
-    
+
     public static PleasantUiSettings Instance = new();
 
     public PleasantUiSettings() => Setup();
@@ -68,7 +68,7 @@ public class PleasantUiSettings : ViewModelBase
             UseAccentColorFromSystem = false;
             EnableCustomTitleBar = false;
         }
-        
+
 #elif OSX
         EnableTransparency = true;
         UseAccentColorFromSystem = false;
@@ -82,7 +82,7 @@ public class PleasantUiSettings : ViewModelBase
         AccentColor = Color.FromUInt32(DefaultAccentColor);
         EnableCustomBar = false;
 #endif
-        
+
         FontName = FontManager.Current.DefaultFontFamilyName;
     }
 
@@ -93,7 +93,7 @@ public class PleasantUiSettings : ViewModelBase
         get => _enableShadowing;
         set => RaiseAndSetIfChanged(ref _enableShadowing, value);
     }
-    
+
     [XmlAttribute]
     [DataMember]
     public bool EnableCustomTitleBar
@@ -136,7 +136,7 @@ public class PleasantUiSettings : ViewModelBase
             RaiseAndSetIfChanged(ref _useAccentColorFromSystem, value);
 
 #if Windows
-            if (value) 
+            if (value)
                 UIntAccentColor = ColorExtensions.GetWindowsAccentColor();
 #endif
         }
@@ -176,7 +176,7 @@ public class PleasantUiSettings : ViewModelBase
         get => _colorPalette;
         set => RaiseAndSetIfChanged(ref _colorPalette, value);
     }
-    
+
     [XmlAttribute]
     [DataMember]
     public bool EnableTransparency
@@ -186,7 +186,7 @@ public class PleasantUiSettings : ViewModelBase
     }
 
     #region XmlIgnored
-    
+
     [XmlIgnore]
     public Color AccentColor
     {
@@ -246,7 +246,7 @@ public class PleasantUiSettings : ViewModelBase
             Directory.CreateDirectory(Directories.Settings);
 
         if (!File.Exists(Files.Settings)) return;
-        
+
         using FileStream stream = File.OpenRead(Files.Settings);
         try
         {

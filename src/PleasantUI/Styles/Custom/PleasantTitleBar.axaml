@@ -52,12 +52,12 @@
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
+
                                 <Separator Name="PART_SeparatorMenuItem"
                                            Background="{StaticResource ControlStrokeColorDefaultBrush}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
-                                
+
                                 <MenuItem Name="PART_CloseMenuItem"
                                           Header="{DynamicResource Close}"
                                           InputGesture="Ctrl+Q">
@@ -93,7 +93,7 @@
                     <PleasantCaptionButtons Grid.Column="2"
                                             ZIndex="5"
                                             x:Name="PART_CaptionButtons"
-                                            VerticalAlignment="Stretch"/>
+                                            VerticalAlignment="Stretch" />
                 </Grid>
             </ControlTemplate>
         </Setter>

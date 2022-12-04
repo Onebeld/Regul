@@ -3,12 +3,12 @@
     <Design.PreviewWith>
         <Border Padding="50">
             <StackPanel Spacing="5">
-                <RadioButton Classes="button" Content="Content 1" GroupName="Group" CornerRadius="4" />             
+                <RadioButton Classes="button" Content="Content 1" GroupName="Group" CornerRadius="4" />
                 <RadioButton Classes="button" Content="Content 2" GroupName="Group" CornerRadius="4" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="RadioButtonLikeButton" TargetType="RadioButton">
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -38,7 +38,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
         </Style>
@@ -49,17 +49,17 @@
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-    
+
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
             <Setter Property="Foreground" Value="{StaticResource AccentTextFillColorLightSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pressed">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
             <Setter Property="Opacity" Value="0.6" />

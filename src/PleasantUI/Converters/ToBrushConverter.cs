@@ -10,19 +10,15 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ToBrushConverter : IValueConverter
 {
-    private static readonly Lazy<ToBrushConverter> _lazy = new(() => new ToBrushConverter());
+    private static readonly Lazy<ToBrushConverter> Lazy = new(() => new ToBrushConverter());
 
     public static ToBrushConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     /// <inheritdoc/>
-    public object? Convert(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value switch
         {
@@ -36,11 +32,7 @@ public class ToBrushConverter : IValueConverter
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return AvaloniaProperty.UnsetValue;
     }

@@ -6,11 +6,11 @@ namespace PleasantUI.Controls;
 public partial class PleasantMiniWindow
 {
     private Panel _modalWindows = null!;
-    
+
     private Button? _hiddenButton;
     private Button? _closeButton;
     private Panel? _dragWindowPanel;
-    
+
     public static readonly StyledProperty<bool> EnableTransparencyProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableTransparency));
     public static readonly StyledProperty<bool> ShowPinButtonProperty =

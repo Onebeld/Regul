@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="Height" Value="1"  />
+        <Setter Property="Height" Value="1" />
         <Setter Property="Background" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
         <Setter Property="Template">
             <ControlTemplate>

@@ -9,24 +9,22 @@ namespace Regul.Converters;
 
 public class KeyToImageConverter : IValueConverter
 {
-    private static readonly Lazy<KeyToImageConverter> _lazy = new(() => new KeyToImageConverter());
+    private static readonly Lazy<KeyToImageConverter> Lazy = new(() => new KeyToImageConverter());
     public static KeyToImageConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string key) return null;
 
         if (Application.Current is not null && Application.Current.TryFindResource(key, out object? image))
-        {
             return image as DrawingImage;
-        }
 
         return null;
     }
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

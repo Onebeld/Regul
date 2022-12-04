@@ -60,7 +60,9 @@
                                               Width="14"
                                               Height="14"
                                               Stretch="Uniform" />
-                                        <TextBlock Text="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}" FontSize="12" />
+                                        <TextBlock
+                                            Text="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}"
+                                            FontSize="12" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -80,7 +82,9 @@
                                         <ToolTip.Tip>
                                             <TextBlock>
                                                 <Run Text="{StaticResource NewProject}" />
-                                                &#8203;<Run Text="(Ctrl+N)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                &#8203;
+                                                <Run Text="(Ctrl+N)"
+                                                     Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
@@ -102,7 +106,9 @@
                                         <ToolTip.Tip>
                                             <TextBlock>
                                                 <Run Text="{StaticResource OpenFile}" />
-                                                &#8203;<Run Text="(Ctrl+O)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                &#8203;
+                                                <Run Text="(Ctrl+O)"
+                                                     Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
@@ -145,7 +151,9 @@
                                             <ToolTip.Tip>
                                                 <TextBlock>
                                                     <Run Text="{StaticResource Save}" />
-                                                    &#8203;<Run Text="(Ctrl+S)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                    &#8203;
+                                                    <Run Text="(Ctrl+S)"
+                                                         Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                                                 </TextBlock>
                                             </ToolTip.Tip>
                                             <Viewbox Width="16" Height="16">
@@ -167,7 +175,7 @@
                                                                 <Path Data="{StaticResource save_edit}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
-                                                                      Height="16"/>
+                                                                      Height="16" />
                                                                 <TextBlock Text="{StaticResource SaveAs}" />
                                                             </StackPanel>
                                                         </Button>
@@ -178,7 +186,7 @@
                                                                 <Path Data="{StaticResource save_all}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
-                                                                      Height="16"/>
+                                                                      Height="16" />
                                                                 <TextBlock Text="{StaticResource SaveAll}" />
                                                             </StackPanel>
                                                         </Button>
@@ -209,7 +217,9 @@
                                         <ToolTip.Tip>
                                             <TextBlock>
                                                 <Run Text="{StaticResource Instruments}" />
-                                                &#8203;<Run Text="(Ctrl+T)" Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                                &#8203;
+                                                <Run Text="(Ctrl+T)"
+                                                     Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
@@ -253,7 +263,7 @@
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </Button>
-                                    
+
                                     <StackPanel Orientation="Horizontal"
                                                 Spacing="5"
                                                 HorizontalAlignment="Right">
@@ -266,7 +276,7 @@
                                                 <Path Data="{StaticResource window_text_regular}" />
                                             </Viewbox>
                                         </Button>
-                                        
+
                                         <Button Padding="10 7"
                                                 Classes="EnabledIconAnimation"
                                                 Theme="{StaticResource AppBarButtonTheme}"
@@ -285,7 +295,7 @@
 
                 <Image Width="16"
                        Height="16"
-                       Source="{StaticResource RegulIcon}"/>
+                       Source="{StaticResource RegulIcon}" />
             </Button>
         </Panel>
 
@@ -300,8 +310,9 @@
                     <Setter Property="ToolTip.Tip">
                         <Template>
                             <StackPanel x:DataType="s:Workbench">
-                                <TextBlock Text="{CompiledBinding PathToFile, Converter={x:Static c:PathToFileNameConverter.Instance}}"
-                                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                                <TextBlock
+                                    Text="{CompiledBinding PathToFile, Converter={x:Static c:PathToFileNameConverter.Instance}}"
+                                    Theme="{StaticResource BodyStrongTextBlockTheme}" />
                                 <TextBlock Text="{CompiledBinding PathToFile}"
                                            IsVisible="{CompiledBinding PathToFile, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                            FontSize="12"
@@ -319,8 +330,8 @@
                     </Setter>
                     <Setter Property="ContextFlyout">
                         <MenuFlyout x:DataType="s:Workbench">
-                            <MenuItem Header="{StaticResource OpenInExplorer}" 
-                                      FontSize="14" 
+                            <MenuItem Header="{StaticResource OpenInExplorer}"
+                                      FontSize="14"
                                       FontWeight="Normal"
                                       Command="{CompiledBinding $parent[views:MainWindow].ViewModel.OpenFileBrowser}"
                                       CommandParameter="{CompiledBinding}"
@@ -421,7 +432,7 @@
             </controls:EditorsTabView.ItemTemplate>
             <controls:EditorsTabView.ContentTemplate>
                 <DataTemplate DataType="s:Workbench">
-                    <Border DataContext="{CompiledBinding EditorViewModel}" 
+                    <Border DataContext="{CompiledBinding EditorViewModel}"
                             Child="{CompiledBinding EditorType, Converter={x:Static c:CreateObjectByTypeConverter.Instance}}" />
                 </DataTemplate>
             </controls:EditorsTabView.ContentTemplate>

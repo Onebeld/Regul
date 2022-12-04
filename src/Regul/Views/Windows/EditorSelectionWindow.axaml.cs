@@ -10,13 +10,12 @@ namespace Regul.Views.Windows;
 
 public class EditorSelectionWindow : ContentDialog
 {
-    public EditorSelectionWindow()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public EditorSelectionWindow() => AvaloniaXamlLoader.Load(this);
 
     public static async Task<(Editor?, bool)> GetEditor(string? fileName, bool showCheckBox = true)
     {
+        if (WindowsManager.MainWindow is null) return (null, false);
+
         EditorSelectionWindow? editorSelectionWindow = WindowsManager.CreateModalWindow<EditorSelectionWindow>();
         if (editorSelectionWindow is null)
             return (null, false);
@@ -25,7 +24,7 @@ public class EditorSelectionWindow : ContentDialog
 
         TextBlock? textBlock = editorSelectionWindow.FindControl<TextBlock>("PART_FileName");
         CheckBox? checkBox = editorSelectionWindow.FindControl<CheckBox>("PART_AlwaysOpen");
-        
+
         if (textBlock is not null)
         {
             textBlock.IsVisible = fileName is not null;
@@ -33,7 +32,7 @@ public class EditorSelectionWindow : ContentDialog
         }
         if (checkBox is not null)
             checkBox.IsVisible = showCheckBox;
-        
+
         editorSelectionWindow.FindControl<ListBox>("PART_ListBox")?.Focus();
 
         Editor? editor = await editorSelectionWindow.Show<Editor?>(WindowsManager.MainWindow);

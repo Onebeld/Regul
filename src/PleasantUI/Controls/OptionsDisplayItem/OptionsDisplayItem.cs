@@ -39,13 +39,13 @@ public partial class OptionsDisplayItem : TemplatedControl
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        
+
         _layoutRoot = e.NameScope.Find<Border>("LayoutRoot")!;
         _layoutRoot.PointerPressed += OnLayoutRootPointerPressed;
         _layoutRoot.PointerReleased += OnLayoutRootPointerReleased;
         _layoutRoot.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
     }
-    
+
     private void OnLayoutRootPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed)
@@ -70,7 +70,7 @@ public partial class OptionsDisplayItem : TemplatedControl
             if (Navigates)
             {
                 RaiseEvent(new RoutedEventArgs(NavigationRequestedEvent, this));
-                NavigationCommand?.Execute(null);                                        
+                NavigationCommand?.Execute(null);
             }
         }
     }

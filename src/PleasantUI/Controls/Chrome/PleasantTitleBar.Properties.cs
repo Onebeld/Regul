@@ -1,5 +1,4 @@
-﻿using System.Reactive.Disposables;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Path = Avalonia.Controls.Shapes.Path;
 
@@ -7,7 +6,6 @@ namespace PleasantUI.Controls;
 
 public partial class PleasantTitleBar
 {
-    private CompositeDisposable? _disposable;
     private PleasantCaptionButtons? _captionButtons;
 
     private MenuItem? _closeMenuItem;
@@ -25,10 +23,10 @@ public partial class PleasantTitleBar
     private TextBlock? _description;
 
     private PleasantWindow? _host;
-    
+
     public static readonly StyledProperty<bool> IsMacOsProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsMacOs));
-    
+
     public bool IsMacOs
     {
         get => GetValue(IsMacOsProperty);

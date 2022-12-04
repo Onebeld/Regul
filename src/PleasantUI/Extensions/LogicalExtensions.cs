@@ -13,7 +13,7 @@ public static class LogicalExtensions
     {
         return logical.GetSelfAndLogicalAncestors().OfType<T>().FirstOrDefault();
     }
-    
+
     internal static int CalculateDistanceFromLogicalParent<T>(ILogical? logical, int @default = -1) where T : class, ILogical
     {
         int result = 0;

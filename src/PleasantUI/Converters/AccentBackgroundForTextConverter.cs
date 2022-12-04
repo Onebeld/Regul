@@ -7,13 +7,13 @@ namespace PleasantUI.Converters;
 
 public class AccentBackgroundForTextConverter : IValueConverter
 {
-    private static readonly Lazy<AccentBackgroundForTextConverter> _lazy = new(() => new AccentBackgroundForTextConverter());
+    private static readonly Lazy<AccentBackgroundForTextConverter> Lazy = new(() => new AccentBackgroundForTextConverter());
     public static AccentBackgroundForTextConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not Color color)
             return Colors.White;
@@ -23,7 +23,7 @@ public class AccentBackgroundForTextConverter : IValueConverter
         return foregroundColor;
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

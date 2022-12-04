@@ -19,7 +19,7 @@ public static class ColorExtensions
         const string dwmKey = @"Software\Microsoft\Windows\DWM";
 
         using RegistryKey? key = Registry.CurrentUser.OpenSubKey(dwmKey);
-        
+
         if (key is null)
             throw new InvalidOperationException("The \"HKCU\\" + dwmKey + "\" registry key does not exist.");
 

@@ -10,9 +10,9 @@ namespace Regul.Views.Pages;
 
 public class EditorsPage : UserControl
 {
-    private Button? _globalMenu;
-    private EditorsTabView? _editorsTabView;
-    
+    private readonly Button? _globalMenu;
+    private readonly EditorsTabView? _editorsTabView;
+
     public EditorsPage()
     {
         AvaloniaXamlLoader.Load(this);
@@ -20,7 +20,7 @@ public class EditorsPage : UserControl
         Panel? dragPanel = this.FindControl<Panel>("DragPanel");
         _globalMenu = this.FindControl<Button>("GlobalMenu");
         _editorsTabView = this.FindControl<EditorsTabView>("TabView");
-        
+
         if (WindowsManager.MainWindow is { EnableCustomTitleBar: true } && dragPanel is not null)
             dragPanel.AttachTitleBar(WindowsManager.MainWindow);
 
@@ -35,6 +35,8 @@ public class EditorsPage : UserControl
                 _editorsTabView.MarginType = TabViewMarginType.Little;
         }
     }
+
+    // ReSharper disable once UnusedParameter.Local
     private void MenuButtonsOnClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button)

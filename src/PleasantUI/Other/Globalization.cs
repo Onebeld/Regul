@@ -4,5 +4,8 @@ namespace PleasantUI.Other;
 
 public static class Globalization
 {
-    public static readonly NumberFormatInfo NumberFormatInfo = new() { NumberDecimalDigits = 0 };
+    public static readonly NumberFormatInfo NumberFormatInfo = new()
+    {
+        NumberDecimalDigits = 0
+    };
 }

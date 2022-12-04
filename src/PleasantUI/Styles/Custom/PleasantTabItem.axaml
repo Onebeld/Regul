@@ -10,7 +10,7 @@
                             Height="100">
                         <TextBlock Text="Content" Foreground="Black" FontSize="20" />
                     </Border>
-                    
+
                 </PleasantTabItem>
                 <PleasantTabItem Header="Leaf">
                     <Border Background="Green"
@@ -21,7 +21,7 @@
             </PleasantTabView>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type PleasantTabItem}" TargetType="PleasantTabItem">
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
@@ -38,7 +38,7 @@
             <Transitions>
                 <TransformOperationsTransition Duration="00:00:00.2"
                                                Property="RenderTransform"
-                                               Easing="0,0 0,1"/>
+                                               Easing="0,0 0,1" />
             </Transitions>
         </Setter>
         <Setter Property="(interactivity:Interaction.Behaviors)">
@@ -50,7 +50,7 @@
                 </b:SharedContent>
             </b:SharedContentTemplate>
         </Setter>
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -94,7 +94,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#PART_LayoutRoot">
             <Setter Property="Background" Value="{CompiledBinding $parent[PleasantTabItem].Background}" />
         </Style>
@@ -105,7 +105,7 @@
                 <Transitions>
                     <TransformOperationsTransition Duration="00:00:00.167"
                                                    Property="RenderTransform"
-                                                   Easing="0,0 0,1"/>
+                                                   Easing="0,0 0,1" />
                 </Transitions>
             </Setter>
         </Style>
@@ -114,11 +114,11 @@
                 <Transitions />
             </Setter>
         </Style>
-    
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
         </Style>
-        
+
         <Style Selector="^:selected">
             <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
             <Setter Property="FontWeight" Value="Bold" />
@@ -130,21 +130,21 @@
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="RenderTransform" Value="scaleX(1)" />
         </Style>
-    
+
         <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe">
             <Setter Property="Height" Value="2" />
             <Setter Property="Margin" Value="0 0 0 2" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
-        
+
         <Style Selector="^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
             <Setter Property="Height" Value="2" />
             <Setter Property="Margin" Value="0 0 0 2" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
-    
+
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>

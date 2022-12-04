@@ -38,7 +38,7 @@ public class LoadingWindow : ContentDialog
                 _progressBar.Value = value;
         }
     }
-    
+
     public double Maximum
     {
         get => _progressBar?.Maximum ?? double.NaN;

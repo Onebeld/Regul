@@ -9,8 +9,11 @@ namespace Regul.Controls;
 
 public class EditorsTabView : PleasantTabView, IStyleable
 {
-    Type IStyleable.StyleKey => typeof(PleasantTabView);
-    
+    Type IStyleable.StyleKey
+    {
+        get => typeof(PleasantTabView);
+    }
+
     protected override IItemContainerGenerator CreateItemContainerGenerator()
     {
         return new EditorsItemContainerGenerator(

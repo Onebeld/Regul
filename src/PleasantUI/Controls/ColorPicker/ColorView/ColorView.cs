@@ -31,14 +31,14 @@ public sealed partial class ColorView : TemplatedControl
     private ObservableCollection<Color> _customPaletteColors = new();
     private ColorToHexConverter _colorToHexConverter = new();
     private bool _disableUpdates;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorView"/> class.
     /// </summary>
     public ColorView()
     {
     }
-    
+
     /// <summary>
     /// Gets the value of the hex TextBox and sets it as the current <see cref="Color"/>.
     /// If invalid, the TextBox hex text will revert back to the last valid color.
@@ -94,13 +94,13 @@ public sealed partial class ColorView : TemplatedControl
 
         if (Color == Colors.White)
         {
-            Color = Color.FromRgb(255, 255 ,254);
-            Color = Color.FromRgb(255, 255 ,255);
+            Color = Color.FromRgb(255, 255, 254);
+            Color = Color.FromRgb(255, 255, 255);
         }
-        
+
         _addColorButton.Click += AddColor;
-        
-        foreach (uint u in PleasantUiSettings.Instance.ColorPalette) 
+
+        foreach (uint u in PleasantUiSettings.Instance.ColorPalette)
             CustomPaletteColors.Add(Color.FromUInt32(u));
 
         base.OnApplyTemplate(e);
@@ -109,17 +109,17 @@ public sealed partial class ColorView : TemplatedControl
     private void DeleteColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUint32();
-        
+
         CustomPaletteColors.Remove(HsvColor.ToRgb());
         PleasantUiSettings.Instance.ColorPalette.Remove(color);
-        
+
         Color = Color.FromUInt32(color);
     }
 
     private void AddColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUint32();
-        
+
         if (PleasantUiSettings.Instance.ColorPalette.Contains(color)) return;
         CustomPaletteColors.Add(HsvColor.ToRgb());
         PleasantUiSettings.Instance.ColorPalette.Add(color);
@@ -173,14 +173,14 @@ public sealed partial class ColorView : TemplatedControl
     {
         ColorChanged?.Invoke(this, e);
     }
-    
+
     /// <summary>
     /// Event handler for when a key is pressed within the Hex RGB value TextBox.
     /// This is used to trigger re-evaluation of the color based on the TextBox value.
     /// </summary>
     private void HexTextBox_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter) 
+        if (e.Key == Key.Enter)
             GetColorFromHexTextBox();
     }
 

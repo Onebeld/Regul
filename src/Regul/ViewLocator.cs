@@ -24,10 +24,13 @@ namespace Regul
                 {
                     return new Control();
                 }
-                
+
             }
 
-            return new TextBlock { Text = "Not Found: " + name };
+            return new TextBlock
+            {
+                Text = "Not Found: " + name
+            };
         }
 
         public bool Match(object? data)

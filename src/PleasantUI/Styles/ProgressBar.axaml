@@ -12,7 +12,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
         <Setter Property="Background" Value="{StaticResource ControlStrongStrokeColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
@@ -20,7 +20,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="ProgressBarRoot"
@@ -35,18 +35,18 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="0.5" />
-                            <Border CornerRadius="{TemplateBinding CornerRadius}" 
-                                    Name="PART_Indicator" 
+                            <Border CornerRadius="{TemplateBinding CornerRadius}"
+                                    Name="PART_Indicator"
                                     Background="{TemplateBinding Foreground}" />
                         </Panel>
                         <Panel Name="IndeterminateRoot">
-                            <Border Name="IndeterminateProgressBarIndicator" 
-                                    CornerRadius="{TemplateBinding CornerRadius}" 
-                                    Margin="{TemplateBinding Padding}" 
+                            <Border Name="IndeterminateProgressBarIndicator"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    Margin="{TemplateBinding Padding}"
                                     Background="{TemplateBinding Foreground}" />
-                            <Border Name="IndeterminateProgressBarIndicator2" 
-                                    CornerRadius="{TemplateBinding CornerRadius}" 
-                                    Margin="{TemplateBinding Padding}" 
+                            <Border Name="IndeterminateProgressBarIndicator2"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    Margin="{TemplateBinding Padding}"
                                     Background="{TemplateBinding Foreground}" />
                         </Panel>
                     </Panel>

@@ -14,7 +14,7 @@
             </Border.ContextFlyout>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
         <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
@@ -22,7 +22,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="CornerRadius" Value="8" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot"
@@ -38,7 +38,8 @@
                             <Style.Animations>
                                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
                                     <KeyFrame Cue="0%">
-                                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                                        <Setter Property="TranslateTransform.Y"
+                                                Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                                         <Setter Property="Opacity" Value="0" />
                                     </KeyFrame>
                                     <KeyFrame Cue="100%">
@@ -50,10 +51,11 @@
                         </Style>
                     </Border.Styles>
                     <i:Interaction.Behaviors>
-                        <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                        <b:ShadowBehavior ShadowDepth="SmallWindow"
+                                          EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                         <b:OnCloseFlyoutOpacityBehavior />
                     </i:Interaction.Behaviors>
-                    
+
                     <ContentPresenter Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Margin="{TemplateBinding Padding}"
@@ -65,7 +67,7 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
         <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
@@ -92,7 +94,8 @@
                             <Style.Animations>
                                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
                                     <KeyFrame Cue="0%">
-                                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                                        <Setter Property="TranslateTransform.Y"
+                                                Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                                         <Setter Property="Opacity" Value="0" />
                                     </KeyFrame>
                                     <KeyFrame Cue="100%">
@@ -104,12 +107,14 @@
                         </Style>
                     </Border.Styles>
                     <i:Interaction.Behaviors>
-                        <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                        <b:ShadowBehavior ShadowDepth="SmallWindow"
+                                          EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                         <b:OnCloseFlyoutOpacityBehavior />
                     </i:Interaction.Behaviors>
-                    
-                    <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+
+                    <SmoothScrollViewer
+                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         Items="{TemplateBinding Items}"
                                         ItemsPanel="{TemplateBinding ItemsPanel}"

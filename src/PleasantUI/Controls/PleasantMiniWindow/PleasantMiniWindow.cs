@@ -14,7 +14,7 @@ public partial class PleasantMiniWindow : Window, IStyleable, IPleasantWindowMod
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        
+
         _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
 
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
@@ -25,12 +25,12 @@ public partial class PleasantMiniWindow : Window, IStyleable, IPleasantWindowMod
             _closeButton.Click += (_, _) => Close();
         if (_hiddenButton is not null)
             _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
-        
+
         ExtendClientAreaToDecorationsHint = PleasantUiSettings.Instance.EnableCustomTitleBar;
-        
+
         if (_dragWindowPanel is not null)
             _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
-        
+
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
         this.GetObservable(CanResizeProperty).Subscribe(canResize =>
@@ -38,7 +38,7 @@ public partial class PleasantMiniWindow : Window, IStyleable, IPleasantWindowMod
             ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
         });
     }
-    
+
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
     {
         PlatformImpl?.BeginMoveDrag(args);
@@ -52,7 +52,7 @@ public partial class PleasantMiniWindow : Window, IStyleable, IPleasantWindowMod
         };
         windowPanel.Children.Add(new ModalBackground());
         windowPanel.Children.Add(modalWindow);
-        
+
         _modalWindows.Children.Add(windowPanel);
     }
 

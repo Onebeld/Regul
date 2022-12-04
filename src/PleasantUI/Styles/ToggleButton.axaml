@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="50">
             <StackPanel Spacing="5">
@@ -11,7 +11,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 5 11 5" />
@@ -20,7 +20,7 @@
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -30,7 +30,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False"/>
+                            IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="#00000000"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -43,7 +43,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <!--Default-->
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
@@ -55,22 +55,22 @@
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-        
+
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
             <Setter Property="Foreground" Value="{StaticResource AccentTextFillColorLightSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pressed">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
-        
+
         <!--Accent-->
         <Style Selector="^.Accent">
             <Setter Property="FontWeight" Value="SemiBold" />
@@ -86,7 +86,7 @@
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -96,7 +96,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="4" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_Border"
@@ -111,7 +111,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
@@ -121,17 +121,17 @@
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-        
+
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
             <Setter Property="Foreground" Value="{StaticResource AccentTextFillColorLightSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
         </Style>
-    
+
         <Style Selector="^:checked:pressed">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
             <Setter Property="Opacity" Value="0.6" />

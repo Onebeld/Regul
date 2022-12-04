@@ -8,7 +8,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -175,32 +175,32 @@
                                 ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
                             <Border Grid.Column="2"
-                                x:Name="OuterBorder"
-                                Grid.Row="1"
-                                Width="40"
-                                Height="20"
-                                Background="{StaticResource ControlAltFillColorSecondaryBrush}"
-                                BorderBrush="{StaticResource ControlStrongFillColorDefaultBrush}"
-                                BorderThickness="1"
-                                CornerRadius="10" />
+                                    x:Name="OuterBorder"
+                                    Grid.Row="1"
+                                    Width="40"
+                                    Height="20"
+                                    Background="{StaticResource ControlAltFillColorSecondaryBrush}"
+                                    BorderBrush="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10" />
 
                             <Border Grid.Column="2"
-                                x:Name="SwitchKnobBounds"
-                                Grid.Row="1"
-                                Width="40"
-                                Height="20"
-                                IsVisible="False"
-                                Background="{StaticResource AccentFillColorLightSelectedBrush}"
-                                BorderBrush="{StaticResource AccentFillColorLightSelectedBrush}"
-                                BorderThickness="1"
-                                CornerRadius="10" />
+                                    x:Name="SwitchKnobBounds"
+                                    Grid.Row="1"
+                                    Width="40"
+                                    Height="20"
+                                    IsVisible="False"
+                                    Background="{StaticResource AccentFillColorLightSelectedBrush}"
+                                    BorderBrush="{StaticResource AccentFillColorLightSelectedBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10" />
 
                             <Canvas Grid.Column="2"
-                                x:Name="PART_SwitchKnob"
-                                Grid.Row="1"
-                                Width="20"
-                                Height="20"
-                                HorizontalAlignment="Left">
+                                    x:Name="PART_SwitchKnob"
+                                    Grid.Row="1"
+                                    Width="20"
+                                    Height="20"
+                                    HorizontalAlignment="Left">
 
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
@@ -270,7 +270,7 @@
         <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-        
+
         <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
             <Setter Property="IsVisible" Value="False" />
         </Style>

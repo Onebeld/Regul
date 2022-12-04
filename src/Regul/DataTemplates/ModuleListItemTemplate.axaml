@@ -6,14 +6,15 @@
         <Grid ColumnDefinitions="*,Auto">
             <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Left">
                 <Image Source="{CompiledBinding Instance.Icon}"
-                       Width="16" 
+                       Width="16"
                        Height="16"
-                       IsVisible="{CompiledBinding Instance.Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-                <TextBlock Text="{CompiledBinding Instance.Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"/>
+                       IsVisible="{CompiledBinding Instance.Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                <TextBlock
+                    Text="{CompiledBinding Instance.Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center" />
             </StackPanel>
-            
+
             <Viewbox Grid.Column="1"
                      Width="14"
                      Height="14"

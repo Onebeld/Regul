@@ -8,14 +8,14 @@ namespace PleasantUI.Converters;
 
 public class ColorBrightnessConverter : IValueConverter
 {
-    private static readonly Lazy<ColorBrightnessConverter> _lazy = new(() => new ColorBrightnessConverter());
-    
+    private static readonly Lazy<ColorBrightnessConverter> Lazy = new(() => new ColorBrightnessConverter());
+
     public static ColorBrightnessConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not Color color || parameter is not string s || !double.TryParse(s, out double res))
             return AvaloniaProperty.UnsetValue;
@@ -23,7 +23,7 @@ public class ColorBrightnessConverter : IValueConverter
         return color.ChangeColorBrightness(res);
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

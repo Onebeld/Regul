@@ -9,7 +9,7 @@
             <ColorView />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ColorView}" TargetType="ColorView">
         <Setter Property="ColorSpectrumShape" Value="Ring" />
         <Setter Property="Template">
@@ -41,7 +41,7 @@
                                 <Viewbox Width="92" Height="18">
                                     <Path Data="{StaticResource inking_tool_regular}"
                                           Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"/>
+                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>
                             </TabItem.Header>
                             <Grid ColumnDefinitions="Auto,*,Auto"
@@ -95,7 +95,7 @@
                                 <Viewbox Width="92" Height="18">
                                     <Path Data="{StaticResource color_regular}"
                                           Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"/>
+                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>
                             </TabItem.Header>
                             <Grid RowDefinitions="*,30">
@@ -116,7 +116,7 @@
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource delete_regular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                                      Stretch="Uniform"/>
+                                                                      Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
@@ -133,7 +133,7 @@
                                                                           Content="{TemplateBinding Content}"
                                                                           Padding="{TemplateBinding Padding}"
                                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
                                                     </Panel>
                                                 </ControlTemplate>
                                             </Setter>
@@ -145,13 +145,13 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate x:DataType="Color">
                                             <Border x:Name="BorderSelect"
-                                                AutomationProperties.Name="{CompiledBinding Converter={x:Static ColorToDisplayNameConverter.Instance}}"
-                                                ToolTip.Tip="{CompiledBinding Converter={x:Static ColorToDisplayNameConverter.Instance}}"
-                                                BorderBrush="{StaticResource SelectedColorBoxBrush}"
-                                                HorizontalAlignment="Stretch"
-                                                Width="35"
-                                                Height="55"
-                                                VerticalAlignment="Stretch">
+                                                    AutomationProperties.Name="{CompiledBinding Converter={x:Static ColorToDisplayNameConverter.Instance}}"
+                                                    ToolTip.Tip="{CompiledBinding Converter={x:Static ColorToDisplayNameConverter.Instance}}"
+                                                    BorderBrush="{StaticResource SelectedColorBoxBrush}"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="35"
+                                                    Height="55"
+                                                    VerticalAlignment="Stretch">
                                                 <Border.Background>
                                                     <SolidColorBrush Color="{CompiledBinding}" />
                                                 </Border.Background>
@@ -164,23 +164,23 @@
                                         </ItemsPanelTemplate>
                                     </ListBox.ItemsPanel>
                                 </ListBox>
-                                
+
                                 <TextBlock Grid.Row="0"
-                                           Text="{DynamicResource AddYourNewColor}" 
+                                           Text="{DynamicResource AddYourNewColor}"
                                            IsVisible="{CompiledBinding !ColorPalette.Count, Source={x:Static PleasantUiSettings.Instance}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
-                                           Foreground="{StaticResource TextFillColorTertiaryBrush}"/>
-                                
-                                <Button x:Name="AddColorButton" 
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+
+                                <Button x:Name="AddColorButton"
                                         Classes="EnabledIconAnimation"
-                                        Grid.Row="1" 
+                                        Grid.Row="1"
                                         Margin="50 0"
                                         ToolTip.Tip="{DynamicResource AddColor}">
                                     <Path Data="{StaticResource add_regular}"
                                           StrokeThickness="0.5"
                                           Margin="2"
-                                          Stretch="Uniform"/>
+                                          Stretch="Uniform" />
                                 </Button>
                             </Grid>
                         </TabItem>
@@ -191,7 +191,7 @@
                                 <Viewbox Width="92" Height="18">
                                     <Path Data="{StaticResource options_regular}"
                                           Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"/>
+                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>
                             </TabItem.Header>
                             <Grid ColumnDefinitions="30,80,*"
@@ -226,13 +226,13 @@
                                                  GroupName="ColorMode"
                                                  IsChecked="{TemplateBinding ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}, Mode=TwoWay}"
                                                  CornerRadius="0 4 4 0" />
-                                    
-                                    <TextBoxWithSymbol x:Name="PART_HexTextBox" 
+
+                                    <TextBoxWithSymbol x:Name="PART_HexTextBox"
                                                        Grid.Column="3"
                                                        AutomationProperties.Name="Hexadecimal Color"
                                                        VerticalAlignment="Center"
                                                        MaxLength="8"
-                                                       Symbol="#"/>
+                                                       Symbol="#" />
                                 </Grid>
                                 <!-- Color component editing controls -->
                                 <!-- Component 1 RGB:Red HSV:Hue -->
@@ -249,8 +249,10 @@
                                                          Value="{Binding Value, ElementName=Component1Slider}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
-                                            <TextBlock Text="R" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
-                                            <TextBlock Text="H" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
+                                            <TextBlock Text="R"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
+                                            <TextBlock Text="H"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
                                         </Panel>
                                     </NumericUpDownWithSymbol.Symbol>
                                 </NumericUpDownWithSymbol>
@@ -280,8 +282,10 @@
                                                          Value="{Binding Value, ElementName=Component2Slider}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
-                                            <TextBlock Text="G" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
-                                            <TextBlock Text="S" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
+                                            <TextBlock Text="G"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
+                                            <TextBlock Text="S"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
                                         </Panel>
                                     </NumericUpDownWithSymbol.Symbol>
                                 </NumericUpDownWithSymbol>
@@ -311,8 +315,10 @@
                                                          Value="{Binding Value, ElementName=Component3Slider}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
-                                            <TextBlock Text="B" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
-                                            <TextBlock Text="V" IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
+                                            <TextBlock Text="B"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Rgba}}" />
+                                            <TextBlock Text="V"
+                                                       IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static EnumToBooleanConverter.Instance}, ConverterParameter={x:Static enums:ColorModel.Hsva}}" />
                                         </Panel>
                                     </NumericUpDownWithSymbol.Symbol>
                                 </NumericUpDownWithSymbol>

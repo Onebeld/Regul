@@ -201,17 +201,17 @@ public sealed partial class SmoothScrollViewer
     /// </summary>
     public static readonly StyledProperty<bool> AllowAutoHideProperty =
         ScrollBar.AllowAutoHideProperty.AddOwner<SmoothScrollViewer>();
-    
+
     public static readonly DirectProperty<SmoothScrollViewer, bool> VisibleMaximumProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(VisibleMaximum),
             o => o.VisibleMaximum);
-    
+
     public static readonly DirectProperty<SmoothScrollViewer, bool> HorizontalScrollBarEnableDecreaseProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(HorizontalScrollBarEnableDecrease),
             o => o.HorizontalScrollBarEnableDecrease);
-    
+
     public static readonly DirectProperty<SmoothScrollViewer, bool> HorizontalScrollBarEnableIncreaseProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(HorizontalScrollBarEnableIncrease),

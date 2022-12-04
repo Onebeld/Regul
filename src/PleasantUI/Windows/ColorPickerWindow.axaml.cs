@@ -28,7 +28,7 @@ public class ColorPickerWindow : ContentDialog
         window.KeyDown += (_, e) =>
         {
             if (e.Key != Key.Enter) return;
-            
+
             cancel = false;
             window.Close();
         };

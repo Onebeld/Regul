@@ -30,12 +30,12 @@
                             TextTrimming="CharacterEllipsis"
                             Foreground="{StaticResource TextFillColorSecondaryBrush}" />
                     </StackPanel>
-                    
+
                     <TextBlock FontSize="12"
                                Text="{CompiledBinding Path}"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{StaticResource TextFillColorSecondaryBrush}" />
-                    
+
                     <TextBlock Margin="0 -4 0 0"
                                FontSize="12"
                                TextTrimming="CharacterEllipsis"
@@ -104,12 +104,12 @@
                             TextTrimming="CharacterEllipsis"
                             Foreground="{StaticResource TextFillColorSecondaryBrush}" />
                     </StackPanel>
-                    
+
                     <TextBlock FontSize="12"
                                Text="{CompiledBinding Path}"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{StaticResource TextFillColorSecondaryBrush}" />
-                    
+
                     <TextBlock Margin="0 -4 0 0"
                                FontSize="12"
                                TextTrimming="CharacterEllipsis"

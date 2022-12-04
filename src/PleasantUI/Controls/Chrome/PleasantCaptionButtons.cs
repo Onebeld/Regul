@@ -16,10 +16,10 @@ public class PleasantCaptionButtons : TemplatedControl
     private Button? _minimizeButton;
 
     public PleasantWindow? Host;
-    
+
     public static readonly StyledProperty<bool> IsMacOsProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsMacOs));
-    
+
     public bool IsMacOs
     {
         get => GetValue(IsMacOsProperty);
@@ -63,7 +63,7 @@ public class PleasantCaptionButtons : TemplatedControl
                 {
                     _maximizeButton.IsEnabled = x;
                 }),
-                Host.GetObservable(Window.IsActiveProperty).Subscribe(x =>
+                Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(x =>
                 {
                     PseudoClasses.Set(":isactive", !x);
                 }),
@@ -89,7 +89,7 @@ public class PleasantCaptionButtons : TemplatedControl
                         case TitleBarType.ExtendedWithContent:
                             IsMacOs = false;
                             break;
-                        
+
                         default:
                             throw new ArgumentOutOfRangeException(nameof(bar), bar, null);
                     }
@@ -109,7 +109,7 @@ public class PleasantCaptionButtons : TemplatedControl
     public void Detach()
     {
         if (_disposable == null) return;
-        
+
         _disposable.Dispose();
         _disposable = null;
         Host = null;

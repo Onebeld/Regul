@@ -20,7 +20,7 @@ public static class GeneralExtensions
 
         return result;
     }
-    
+
     public static IBitmap ToBitmap(this WindowIcon icon)
     {
         MemoryStream stream = new();

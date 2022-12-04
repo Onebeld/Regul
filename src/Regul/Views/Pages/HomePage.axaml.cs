@@ -6,14 +6,16 @@ namespace Regul.Views.Pages;
 
 public class HomePage : UserControl
 {
-    private Button? _menuButton;
-    
+    private readonly Button? _menuButton;
+
     public HomePage()
     {
         AvaloniaXamlLoader.Load(this);
 
         _menuButton = this.FindControl<Button>("MenuButton");
     }
+
+    // ReSharper disable once UnusedParameter.Local
     private void MenuButtonsOnClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button)

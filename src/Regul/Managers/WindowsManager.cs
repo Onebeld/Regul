@@ -14,8 +14,8 @@ public static class WindowsManager
     public static AvaloniaList<ContentDialog> ModalWindows { get; } = new();
 
     public static AvaloniaList<Window> Windows { get; } = new();
-    
-    public static T? FindModalWindow<T>() where T : ContentDialog => 
+
+    public static T? FindModalWindow<T>() where T : ContentDialog =>
         (T?)ModalWindows.FirstOrDefault(x => x is T);
 
     public static T? FindMiniWindow<T>() where T : PleasantMiniWindow =>
@@ -26,7 +26,7 @@ public static class WindowsManager
         T? foundWindow = FindModalWindow<T>();
 
         if (foundWindow is { CanOpen: true }) return null;
-        
+
         T window = (T)Activator.CreateInstance(typeof(T), args)!;
         window.Closed += (sender, _) =>
         {
@@ -54,7 +54,7 @@ public static class WindowsManager
                 Windows.Remove(miniWindow);
         };
         Windows.Add(window);
-        
+
         if (host != null)
             window.Show(host);
 
@@ -69,7 +69,7 @@ public static class WindowsManager
             Windows.Remove((sender as PleasantMiniWindow)!);
         };
         Windows.Add(window);
-        
+
         if (host != null)
             window.Show(host);
 

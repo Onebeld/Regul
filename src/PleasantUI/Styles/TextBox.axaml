@@ -5,14 +5,14 @@
         <Border Padding="50">
             <StackPanel Spacing="5">
                 <TextBox />
-                <TextBox Classes="ClearTextBox" Text="Hello Down there"/>
+                <TextBox Classes="ClearTextBox" Text="Hello Down there" />
                 <TextBox Watermark="Watermark" />
                 <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="*" Text="Hello" />
                 <TextBox Text="Test" IsEnabled="False" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="CaretBrush" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -25,10 +25,10 @@
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        
+
         <Setter Property="ContextFlyout">
             <MenuFlyout Placement="Bottom">
-                <MenuItem Header="{DynamicResource Cut}" 
+                <MenuItem Header="{DynamicResource Cut}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
                           InputGesture="{x:Static TextBox.CutGesture}">
@@ -41,7 +41,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource Copy}" 
+                <MenuItem Header="{DynamicResource Copy}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
                           InputGesture="{x:Static TextBox.CopyGesture}">
@@ -54,7 +54,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource Paste}" 
+                <MenuItem Header="{DynamicResource Paste}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
                           InputGesture="{x:Static TextBox.PasteGesture}">
@@ -69,7 +69,7 @@
                 </MenuItem>
             </MenuFlyout>
         </Setter>
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -79,7 +79,7 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             RenderTransform="scaleY(-1)"
                             IsHitTestVisible="False" />
-                    
+
                     <DataValidationErrors>
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
@@ -120,7 +120,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
@@ -137,7 +137,7 @@
                                 <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
                             </Style>
                         </ToggleButton.Styles>
-                        
+
                         <Viewbox Width="14">
                             <Path Name="PART_PasswordIcon" />
                         </Viewbox>
@@ -145,7 +145,7 @@
                 </Template>
             </Setter>
         </Style>
-        
+
         <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
@@ -162,7 +162,7 @@
                 </Template>
             </Setter>
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
         </Style>
@@ -170,7 +170,7 @@
             <Setter Property="Background" Value="{StaticResource ControlFillColorInputActiveBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderFocusedBrush}" />
             <Setter Property="BorderThickness" Value="1 2 1 1" />
-            <Setter Property="Transitions" Value="{x:Null}"/>
+            <Setter Property="Transitions" Value="{x:Null}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

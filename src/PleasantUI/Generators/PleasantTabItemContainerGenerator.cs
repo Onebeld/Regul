@@ -55,7 +55,7 @@ public class PleasantTabItemContainerGenerator : ItemContainerGenerator<Pleasant
             tabItem.Bind(PleasantTabItem.ContentTemplateProperty, new OwnerBinding<IDataTemplate?>(
                 tabItem,
                 PleasantTabView.ContentTemplateProperty!));
-        
+
         if (tabItem.HeaderTemplate is null)
             tabItem.Bind(PleasantTabItem.HeaderTemplateProperty,
                 new OwnerBinding<IDataTemplate>(tabItem, PleasantTabView.ItemTemplateProperty!));

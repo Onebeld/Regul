@@ -15,17 +15,17 @@ public interface IModule
     /// Image of the module.
     /// </summary>
     IImage? Icon { get; }
-    
+
     /// <summary>
     /// Module name. Can also be a key for localization.
     /// </summary>
     string Name { get; }
-    
+
     /// <summary>
     /// The name of the author, who created this module.
     /// </summary>
     string Author { get; }
-    
+
     /// <summary>
     /// Module description. Can also be a key for localization.
     /// </summary>
@@ -40,7 +40,7 @@ public interface IModule
     /// Module version.
     /// </summary>
     Version Version { get; }
-    
+
     /// <summary>
     /// Module localization
     /// </summary>
@@ -50,7 +50,7 @@ public interface IModule
     /// The entry point of any module.
     /// </summary>
     void Execute();
-    
+
     /// <summary>
     /// If you want users to be able to change module settings, specify type here.
     /// </summary>

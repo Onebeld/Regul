@@ -17,7 +17,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -29,7 +29,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"
@@ -62,7 +62,7 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="NumericUpDownWithoutDataValidationErrors" TargetType="NumericUpDown">
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderBrush}" />
@@ -73,7 +73,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"

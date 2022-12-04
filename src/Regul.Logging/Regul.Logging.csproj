@@ -6,5 +6,5 @@
         <TieredPGO>true</TieredPGO>
     </PropertyGroup>
 
-    <Import Project="..\..\build\PlatformDependentCompilation.props" />
+    <Import Project="..\..\build\PlatformDependentCompilation.props"/>
 </Project>

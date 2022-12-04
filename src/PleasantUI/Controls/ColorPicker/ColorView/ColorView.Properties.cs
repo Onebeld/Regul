@@ -193,7 +193,7 @@ public sealed partial class ColorView
 
     public static readonly StyledProperty<bool> IsColorModeRgbaProperty =
         AvaloniaProperty.Register<ColorView, bool>(nameof(IsColorModeRgba), true);
-    
+
     public static readonly StyledProperty<bool> IsColorModeHsvaProperty =
         AvaloniaProperty.Register<ColorView, bool>(nameof(IsColorModeHsva));
 
@@ -202,7 +202,7 @@ public sealed partial class ColorView
         get => GetValue(IsColorModeRgbaProperty);
         set => SetValue(IsColorModeRgbaProperty, value);
     }
-    
+
     public bool IsColorModeHsva
     {
         get => GetValue(IsColorModeHsvaProperty);

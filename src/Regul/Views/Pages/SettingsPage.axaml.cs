@@ -13,7 +13,7 @@ namespace Regul.Views.Pages;
 public class SettingsPage : UserControl
 {
     public SettingsPageViewModel ViewModel { get; } = null!;
-    
+
     public SettingsPage()
     {
         AvaloniaXamlLoader.Load(this);
@@ -25,7 +25,7 @@ public class SettingsPage : UserControl
     {
         ViewModel = viewModel;
         DataContext = viewModel;
-        
+
         DetachedFromVisualTree += (_, _) => { ModuleManager.Modules.CollectionChanged -= ViewModel.ModulesOnCollectionChanged; };
     }
     private void ChangeDisplayMode(SplitViewDisplayMode obj)

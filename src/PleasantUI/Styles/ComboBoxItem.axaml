@@ -19,7 +19,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="CornerRadius" Value="4" />
@@ -58,40 +58,40 @@
                                           Margin="{TemplateBinding Padding}"
                                           Background="{x:Null}"
                                           BorderBrush="{x:Null}"
-                                          BorderThickness="0"/>
+                                          BorderThickness="0" />
                     </Panel>
-                    
+
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#Pill">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-    
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:selected">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:selected /template/ Border#Pill">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-    
+
         <Style Selector="^:selected:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:selected:pressed /template/ Border#LayoutRoot">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>

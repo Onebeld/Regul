@@ -3,14 +3,14 @@
        xmlns:v="using:System">
     <Style.Resources>
         <!-- English -->
-        
+
         <v:String x:Key="Expand">Expand</v:String>
         <v:String x:Key="Collapse">Collapse</v:String>
         <v:String x:Key="Reestablish">Reestablish</v:String>
         <v:String x:Key="FastenOverTheWindows">Fasten over the windows</v:String>
         <v:String x:Key="Close">Close</v:String>
         <v:String x:Key="Back">Back</v:String>
-        
+
         <v:String x:Key="AddYourNewColor">Add your new color!</v:String>
         <v:String x:Key="MemorySuccessfullyCleared">The memory was cleared successfully!</v:String>
         <v:String x:Key="ToolsNotInstalled">There are no tools installed in the program!</v:String>
@@ -18,7 +18,7 @@
         <v:String x:Key="ThisFileDoesNotExist">This file does not exist in the system.</v:String>
         <v:String x:Key="ThisFileIsAlreadyOpen">This file is already open in the program</v:String>
         <v:String x:Key="GoToTheWebsiteToDownloadNewUpdate">Go to the website to download the new update?</v:String>
-        
+
         <v:String x:Key="Ok">OK</v:String>
         <v:String x:Key="Cancel">Cancel</v:String>
         <v:String x:Key="Delete">Delete</v:String>
@@ -29,9 +29,9 @@
         <v:String x:Key="Paste">Paste</v:String>
         <v:String x:Key="Change">Change</v:String>
         <v:String x:Key="Empty">Empty</v:String>
-        
+
         <v:String x:Key="AddColor">Add color</v:String>
-        
+
         <v:String x:Key="Menu">Menu</v:String>
         <v:String x:Key="MoreOptions">More options</v:String>
         <v:String x:Key="Settings">Settings</v:String>
@@ -47,17 +47,19 @@
         <v:String x:Key="NumberOfElementsFound">Number of elements found</v:String>
         <v:String x:Key="AllFiles">All files</v:String>
         <v:String x:Key="FilesS">files</v:String>
-        
+        <v:String x:Key="CrashReport">Crash Report</v:String>
+        <v:String x:Key="FeatureIsNotSupported">This feature is not yet supported</v:String>
+
         <v:String x:Key="Successful">Successful!</v:String>
         <v:String x:Key="Information">Information</v:String>
         <v:String x:Key="Warning">Warning</v:String>
         <v:String x:Key="Error">Error</v:String>
-        
+
         <!-- Crash Report -->
         <v:String x:Key="ThereWasAnException">There was an exception!</v:String>
         <v:String x:Key="Restart">Restart</v:String>
         <v:String x:Key="ThereWasAnExceptionDescription">Don't worry! The settings have been saved wherever possible. You will be able to restart the application and continue working, or end the session. You can also see more information about what caused the error at the bottom. Be sure to send this information to the developer.</v:String>
-        
+
         <!-- Home page -->
         <v:String x:Key="Welcome">Welcome!</v:String>
         <v:String x:Key="Home">Home</v:String>
@@ -75,16 +77,16 @@
         <v:String x:Key="InvertList">Invert list</v:String>
         <v:String x:Key="LastChange">Last change</v:String>
         <v:String x:Key="EditorNotDefined">Editor not defined</v:String>
-        
+
         <v:String x:Key="FileNotExistAndProjectDeleted">This file does not exist on your system. The project has been deleted.</v:String>
         <v:String x:Key="EditorsNotInstalled">There are no editors installed in the program.</v:String>
         <v:String x:Key="EditorsNotInstalledForProject">The editor for this project is not installed in the program.</v:String>
-        
+
         <v:String x:Key="Search">Search</v:String>
         <v:String x:Key="Name">Name</v:String>
         <v:String x:Key="Path">Path</v:String>
         <v:String x:Key="Editor">Editor</v:String>
-        
+
         <!-- Editors page -->
         <v:String x:Key="ChangesHaveBeenMadeToThisProject">Changes have been made to this project</v:String>
         <v:String x:Key="NumberOfOpenWorkbenches">Number of open workbenches</v:String>
@@ -98,38 +100,39 @@
         <v:String x:Key="OpeningExistingFile">Opening an existing file</v:String>
         <v:String x:Key="OpenProjectYouRecentlyStarted">Open a project you recently started</v:String>
         <v:String x:Key="YouWantToSaveProject">You want to save the project</v:String>
-        
+
         <v:String x:Key="ProjectSavedSuccessfully">The project has been saved successfully</v:String>
         <v:String x:Key="ProjectSaveError">An error occurred while saving the project</v:String>
         <v:String x:Key="AllProjectsSavedSuccessfully">All projects have been successfully saved!</v:String>
         <v:String x:Key="ProjectAlreadyOpen">This project is already open in the program!</v:String>
         <v:String x:Key="FileAlreadyOpen">This file is already open in the program</v:String>
-        
+
         <!-- Settings page -->
         <v:String x:Key="SettingsNotBeSupported">Some settings may not be supported on your system.</v:String>
-        
+
         <v:String x:Key="General">General</v:String>
         <v:String x:Key="Style">Style</v:String>
         <v:String x:Key="About">About</v:String>
-        
+
         <!-- Tool Window -->
         <v:String x:Key="FindATool">Find a tool</v:String>
         <v:String x:Key="FindTheModule">Find the module</v:String>
         <v:String x:Key="NumberOfToolsInTheModule">Number of tools in the module</v:String>
         <v:String x:Key="NumberOfModulesThatHaveTools">Number of modules that have tools</v:String>
         <v:String x:Key="SelectModule">Select a module</v:String>
-        
+
         <!-- Log Window -->
         <v:String x:Key="Logs">Logs</v:String>
         <v:String x:Key="Clear">Clear</v:String>
         <v:String x:Key="SaveLogs">Save logs</v:String>
-        
+
         <!-- General Settings Content -->
         <v:String x:Key="Language">Language</v:String>
         <v:String x:Key="CreatorName">Creator name</v:String>
         <v:String x:Key="ResetToDefaultSettings">Reset to default settings</v:String>
         <v:String x:Key="Reset">Reset</v:String>
         <v:String x:Key="Extension">Extension</v:String>
+        <v:String x:Key="Module">Module</v:String>
         <v:String x:Key="EditorRelatedExtensions">Editor related extensions</v:String>
         <v:String x:Key="UpdateCheckInterval">Update check interval</v:String>
         <v:String x:Key="ResetSettingsWarning">Do you really want to reset settings?</v:String>
@@ -137,13 +140,13 @@
         <v:String x:Key="EnableHardwareAcceleration">Enable hardware acceleration</v:String>
         <v:String x:Key="EnableHardwareAccelerationDescription">Allows you to enable transparency, makes animations smoother. Requires you to restart the program for the changes to take effect.</v:String>
         <v:String x:Key="NumberOfEditorRelatedExtensions">Number of editor related extensions</v:String>
-        
+
         <v:String x:Key="EveryDay">Every day</v:String>
         <v:String x:Key="EveryWeek">Every week</v:String>
         <v:String x:Key="EveryMonth">Every month</v:String>
         <v:String x:Key="EveryYear">Every year</v:String>
         <v:String x:Key="Never">Never</v:String>
-        
+
         <!-- Style Settings Content -->
         <v:String x:Key="Light">Light</v:String>
         <v:String x:Key="Dark">Dark</v:String>
@@ -151,7 +154,7 @@
         <v:String x:Key="Turquoise">Turquoise</v:String>
         <v:String x:Key="Emerald">Emerald</v:String>
         <v:String x:Key="Custom">Custom</v:String>
-        
+
         <v:String x:Key="Font">Font</v:String>
         <v:String x:Key="EnableShadow">Enable shadow</v:String>
         <v:String x:Key="EnableShadowDescription">If you have a performance problem, disable this setting</v:String>
@@ -162,7 +165,7 @@
         <v:String x:Key="AccentColor">Accent color</v:String>
         <v:String x:Key="UseAccentFromSystem">Use an accent color from system</v:String>
         <v:String x:Key="ColorCopied">Color copied!</v:String>
-        
+
         <v:String x:Key="Theme">Theme</v:String>
         <v:String x:Key="Colors">Colors</v:String>
         <v:String x:Key="ThemeDescription">Select available themes or create a new one</v:String>
@@ -177,7 +180,7 @@
         <v:String x:Key="PasteThemeWithoutName">Paste theme without name</v:String>
         <v:String x:Key="ThemeCopied">Theme copied!</v:String>
         <v:String x:Key="ThemeAppliedFromClipboard">Theme applied from the clipboard!</v:String>
-        
+
         <!-- Modules Settings Content -->
         <v:String x:Key="Modules">Modules</v:String>
         <v:String x:Key="SupportedLanguages">Supported languages</v:String>
@@ -197,7 +200,7 @@
         <v:String x:Key="PreparingM">Preparing...</v:String>
         <v:String x:Key="DownloadingM">Downloading...</v:String>
         <v:String x:Key="NeedToRestartToFinishUpdatingModule">You will need to restart the program to finish updating the modules</v:String>
-        
+
         <!-- About Settings Content -->
         <v:String x:Key="ContactTheAuthor">Contact the author</v:String>
         <v:String x:Key="Description">Description</v:String>
@@ -214,7 +217,7 @@
         <v:String x:Key="SocialNetwork">Social network</v:String>
         <v:String x:Key="NoUpdatesAtThisTime">No updates at this time</v:String>
         <v:String x:Key="FailedToCheckForUpdates">Failed to check for updates</v:String>
-        <v:String x:Key="RegulDescription">Versatile program with the concept of modules, allowing you to run tools and open workbenches.</v:String>
+        <v:String x:Key="RegulDescription">Modern general-purpose program with an interface similar to UWP applications, based on a module system that allows you to run tools and edit files of any type.</v:String>
         <v:String x:Key="LicenseDescription">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</v:String>
     </Style.Resources>
 </Style>

@@ -10,18 +10,22 @@ public class Editor
     /// Editor's ID. It is used to identify the instance of the editor.
     /// </summary>
     public ulong Id { get; }
+
     /// <summary>
     /// Editor's name. Can also be a key for localization.
     /// </summary>
     public string? Name { get; }
+
     /// <summary>
     /// The type of class that is ViewModule 
     /// </summary>
     public Type Type { get; }
+
     /// <summary>
     /// The key that points the resource to the editor icon.
     /// </summary>
     public string? IconKey { get; }
+
     /// <summary>
     /// The file types that your editor supports.
     /// </summary>

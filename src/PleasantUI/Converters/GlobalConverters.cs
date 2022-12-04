@@ -8,7 +8,7 @@ public static class GlobalConverters
 {
     public static readonly IValueConverter NameToFontFamily =
         new FuncValueConverter<string, FontFamily>(FontFamily.Parse!);
-    
+
     public static readonly IValueConverter DoubleInverse =
         new FuncValueConverter<double, double>(value => -value);
 
@@ -16,22 +16,40 @@ public static class GlobalConverters
         new FuncValueConverter<uint, SolidColorBrush>(color => new SolidColorBrush(color));
 
     public static readonly CornerRadiusFilterConverter TopCornerRadiusFilter =
-        new() { Filter = Corners.TopLeft | Corners.TopRight };
+        new()
+        {
+            Filter = Corners.TopLeft | Corners.TopRight
+        };
 
     public static readonly CornerRadiusFilterConverter RightCornerRadiusFilter =
-        new() { Filter = Corners.TopRight | Corners.BottomRight };
+        new()
+        {
+            Filter = Corners.TopRight | Corners.BottomRight
+        };
 
     public static readonly CornerRadiusFilterConverter BottomCornerRadiusFilter =
-        new() { Filter = Corners.BottomLeft | Corners.BottomRight };
+        new()
+        {
+            Filter = Corners.BottomLeft | Corners.BottomRight
+        };
 
     public static readonly CornerRadiusFilterConverter LeftCornerRadiusFilter =
-        new() { Filter = Corners.TopLeft | Corners.BottomLeft };
+        new()
+        {
+            Filter = Corners.TopLeft | Corners.BottomLeft
+        };
 
     public static readonly CornerRadiusToDoubleConverter TopLeftCornerRadius =
-        new() { Corner = Corners.TopLeft };
+        new()
+        {
+            Corner = Corners.TopLeft
+        };
 
     public static readonly CornerRadiusToDoubleConverter BottomRightCornerRadius =
-        new() { Corner = Corners.BottomRight };
+        new()
+        {
+            Corner = Corners.BottomRight
+        };
 
     public static readonly PlatformKeyGestureConverter KeyGesture = new();
 

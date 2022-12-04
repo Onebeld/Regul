@@ -19,7 +19,7 @@
             </TabControl>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0 0 0 0" />
@@ -46,7 +46,7 @@
                 </DockPanel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
             <Setter Property="Orientation" Value="Vertical" />
         </Style>

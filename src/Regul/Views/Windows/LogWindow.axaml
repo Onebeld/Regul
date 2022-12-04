@@ -11,13 +11,13 @@
         <TextBox Grid.Row="0"
                  VerticalContentAlignment="Stretch"
                  FontSize="12"
-                 Margin="20" 
+                 Margin="20"
                  IsReadOnly="True"
                  AcceptsReturn="True"
                  Text="{CompiledBinding Logs}"
                  SmoothScrollViewer.VerticalScrollBarVisibility="Auto"
                  SmoothScrollViewer.HorizontalScrollBarVisibility="Auto" />
-        
+
         <TextBlock Grid.Row="0"
                    Text="{StaticResource Empty}"
                    VerticalAlignment="Center"
@@ -33,12 +33,12 @@
             <UniformGrid Margin="15 0" Rows="1">
                 <Button Content="{StaticResource SaveLogs}"
                         Command="{CompiledBinding SaveLogs}"
-                        VerticalAlignment="Center" 
-                        Margin="5"/>
-                <Button Content="{StaticResource Clear}" 
+                        VerticalAlignment="Center"
+                        Margin="5" />
+                <Button Content="{StaticResource Clear}"
                         VerticalAlignment="Center"
                         Margin="5"
-                        Command="{CompiledBinding ClearLogs}"/>
+                        Command="{CompiledBinding ClearLogs}" />
             </UniformGrid>
         </Border>
     </Grid>

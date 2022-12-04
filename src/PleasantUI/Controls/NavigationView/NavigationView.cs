@@ -76,7 +76,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
             }
         }
     }
-    
+
     internal void SelectSingleItemCore(object? item)
     {
         if (SelectedItem != item)
@@ -96,7 +96,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
 
         SelectedItem = item;
     }
-    
+
     internal void SelectSingleItem(object item)
     {
         SelectSingleItemCore(item);
@@ -108,7 +108,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
     {
         UpdateTitleAndSelectedContent();
     }
-    
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -134,7 +134,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
 
         UpdateTitleAndSelectedContent();
     }
-    
+
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
@@ -142,7 +142,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
         if (Items is IList { Count: >= 1 } l && l[0] is ISelectable s)
             SelectSingleItem(s);
     }
-    
+
     ///<inheritdoc/>
     IAvaloniaList<ILogical> IContentPresenterHost.LogicalChildren => LogicalChildren;
 
@@ -151,7 +151,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
         return RegisterContentPresenter(presenter);
     }
 
-    private bool RegisterContentPresenter(IContentPresenter presenter) => 
+    private bool RegisterContentPresenter(IContentPresenter presenter) =>
         presenter.Name == "PART_SelectedContentPresenter";
 
     ///<inheritdoc/>

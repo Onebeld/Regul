@@ -5,13 +5,5 @@ namespace Regul.Views.SettingsContent;
 
 public class ModulesSettingsContent : UserControl
 {
-    public ModulesSettingsContent()
-    {
-        InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public ModulesSettingsContent() => AvaloniaXamlLoader.Load(this);
 }

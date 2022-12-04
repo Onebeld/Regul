@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="PleasantUiSettings">
     <ControlTheme x:Key="{x:Type PleasantWindow}" TargetType="PleasantWindow">
-        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}" />
+        <Setter Property="EnableCustomTitleBar"
+                Value="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}" />
         <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}" />
         <Setter Property="TransparencyBackgroundFallback" Value="Black" />
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -12,20 +13,22 @@
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome, OSXThickTitleBar" />
         <Setter Property="RenderOptions.BitmapInterpolationMode" Value="HighQuality" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
-        <Setter Property="EnableTransparency" Value="{CompiledBinding EnableTransparency, Source={x:Static PleasantUiSettings.Instance}}" />
-        
+        <Setter Property="FontFamily"
+                Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
+        <Setter Property="EnableTransparency"
+                Value="{CompiledBinding EnableTransparency, Source={x:Static PleasantUiSettings.Instance}}" />
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
                     <Border x:Name="PART_TransparencyFallback" IsHitTestVisible="False" />
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                    
+
                     <VisualLayerManager x:Name="VisualLayerManager">
                         <VisualLayerManager.ChromeOverlayLayer>
                             <PleasantTitleBar VerticalAlignment="Top" />
                         </VisualLayerManager.ChromeOverlayLayer>
-                        
+
                         <Panel>
                             <ContentPresenter x:Name="PART_ContentWindow"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -33,32 +36,33 @@
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            
+
                             <Panel x:Name="PART_ModalWindow" ZIndex="5" />
                         </Panel>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager">
             <Setter Property="Margin" Value="8" />
         </Style>
-    
+
         <Style Selector="^[TitleBarType=MacOs][EnableCustomTitleBar=True]">
             <Setter Property="Padding" Value="0 22 0 0" />
         </Style>
-    
+
         <Style Selector="^[TitleBarType=Classic][EnableCustomTitleBar=True]">
             <Setter Property="Padding" Value="0 32 0 0" />
         </Style>
-    
+
         <Style Selector="^[TitleBarType=ExtendedWithContent][EnableCustomTitleBar=True]">
             <Setter Property="Padding" Value="0 48 0 0" />
         </Style>
-    
+
         <Style Selector="^ /template/ Panel#PART_Background">
-            <Setter Property="Opacity" Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}" />
+            <Setter Property="Opacity"
+                    Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
@@ -66,7 +70,8 @@
             </Setter>
         </Style>
         <Style Selector="^[EnableTransparency=True]">
-            <Setter Property="TransparencyLevelHint" Value="{CompiledBinding BlurMode, Source={x:Static PleasantUiSettings.Instance}}" />
+            <Setter Property="TransparencyLevelHint"
+                    Value="{CompiledBinding BlurMode, Source={x:Static PleasantUiSettings.Instance}}" />
         </Style>
         <Style Selector="^[EnableTransparency=False]">
             <Setter Property="TransparencyLevelHint" Value="None" />

@@ -159,7 +159,7 @@ public class Interaction
             GetBehaviors(d).Detach();
         }
     }
- 
+
     private static void Control_AttachedToVisualTreeRuntime(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is IAvaloniaObject d)

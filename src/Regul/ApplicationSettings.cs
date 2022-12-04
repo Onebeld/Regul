@@ -15,7 +15,7 @@ namespace Regul;
 public class ApplicationSettings : ViewModelBase
 {
     public static ApplicationSettings Current = new();
-    
+
     private string _language = null!;
     private string _creatorName = string.Empty;
     private bool _hardwareAcceleration = true;
@@ -74,12 +74,13 @@ public class ApplicationSettings : ViewModelBase
         get => _checkUpdateInterval;
         set => RaiseAndSetIfChanged(ref _checkUpdateInterval, value);
     }
-    
+
     [DataMember]
     public string? DateOfLastUpdateCheck { get; set; }
-    
+
     [XmlIgnore]
     internal bool ExceptionCalled { get; set; }
+
     [XmlIgnore]
     internal bool RestartingApp { get; set; }
 
@@ -121,7 +122,7 @@ public class ApplicationSettings : ViewModelBase
     public static void Reset()
     {
         Current.Setup();
-        
+
         Language? language = App.Languages.FirstOrDefault(x =>
             x.Key == Current.Language ||
             x.AdditionalKeys.Any(lang => lang == Current.Language));

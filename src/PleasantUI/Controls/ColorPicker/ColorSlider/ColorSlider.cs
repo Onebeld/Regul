@@ -110,9 +110,9 @@ public partial class ColorSlider : Slider
                 HsvColor,
                 IsAlphaMaxForced,
                 IsSaturationValueMaxForced);
-            
+
             Background = new ImageBrush(ColorPickerHelpers.CreateBitmapFromPixelData(bitmap, pixelWidth, pixelHeight));
-            
+
         }
     }
 

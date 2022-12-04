@@ -19,6 +19,6 @@
             </Setter>
         </ControlTheme>
     </Style.Resources>
-    
+
     <Setter Property="Theme" Value="{StaticResource PleasantUserControl}" />
 </Style>

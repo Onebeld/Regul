@@ -6,11 +6,11 @@
               Width="200"
               Margin="20">
             <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                <Border Height="1000" Width="400" Background="#ccc"/>
+                <Border Height="1000" Width="400" Background="#ccc" />
             </ScrollViewer>
         </Grid>
     </Design.PreviewWith>
-    
+
     <Style Selector="ScrollViewer">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -31,8 +31,8 @@
                                             Viewport="{TemplateBinding Viewport, Mode=TwoWay}">
                         <ScrollContentPresenter.GestureRecognizers>
                             <ScrollGestureRecognizer
-                              CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
-                              CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
+                                CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
+                                CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
                         </ScrollContentPresenter.GestureRecognizers>
                     </ScrollContentPresenter>
                     <ScrollBar Grid.Column="0"

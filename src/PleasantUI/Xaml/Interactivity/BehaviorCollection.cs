@@ -47,7 +47,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
             throw new InvalidOperationException(
                 "An instance of a behavior cannot be attached to more than one object at a time.");
         }
-        
+
         AssociatedObject = associatedObject;
 
         foreach (IAvaloniaObject? item in this)

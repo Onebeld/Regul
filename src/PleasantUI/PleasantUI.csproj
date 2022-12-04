@@ -12,23 +12,19 @@
         <TieredPGO>true</TieredPGO>
     </PropertyGroup>
 
-    <Import Project="..\..\build\Avalonia.props" />
-    <Import Project="..\..\build\AvaloniaXamlLoader.props" />
-    <Import Project="..\..\build\AvaloniaWin32.props" />
-    <Import Project="..\..\build\PlatformDependentCompilation.props" />
-    
+    <Import Project="..\..\build\Avalonia.props"/>
+    <Import Project="..\..\build\AvaloniaXamlLoader.props"/>
+    <Import Project="..\..\build\AvaloniaWin32.props"/>
+    <Import Project="..\..\build\PlatformDependentCompilation.props"/>
+
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
-        <AvaloniaResource Include="Styles\**" />
+        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Styles\**"/>
         <AvaloniaResource Include="PleasantTheme.Common.axaml">
             <SubType>Designer</SubType>
         </AvaloniaResource>
         <AvaloniaResource Include="PleasantTheme.Controls.axaml">
             <SubType>Designer</SubType>
         </AvaloniaResource>
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Animations" />
     </ItemGroup>
 </Project>

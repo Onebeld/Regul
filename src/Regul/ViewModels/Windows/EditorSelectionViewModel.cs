@@ -43,38 +43,25 @@ public class EditorSelectionViewModel : ViewModelBase
         this.WhenAnyValue(x => x.EditorNameSearching, x => x.InvertEditorList)
             .Subscribe(_ => OnSearchEditors(ModuleManager.Editors));
     }
-    
+
     private void OnSearchEditors(AvaloniaList<Editor> editors)
     {
         SortedEditors.Clear();
 
         List<Editor> list = new(editors);
-        
+
         if (!string.IsNullOrWhiteSpace(EditorNameSearching))
-            list = list.FindAll(x =>
-            {
-                if (x.Name is null) return false;
-                
-                if (Application.Current is not null && Application.Current.TryFindResource(x.Name, out object? name) && name is string s)
-                {
-                    return s.ToLower().Contains(EditorNameSearching);
-                }
+            list = list.FindAll(x => x.Name is not null && App.GetString(x.Name).ToLower().Contains(EditorNameSearching));
 
-                return x.Name.ToLower().Contains(EditorNameSearching);
-            });
-        
+        list = new List<Editor>(list.OrderBy(x => x.Name));
+
         if (InvertEditorList)
-            SortedEditors.AddRange(list.OrderByDescending(x => x.Name));
-        else SortedEditors.AddRange(list.OrderBy(x => x.Name));
+            list.Reverse();
+
+        SortedEditors.AddRange(list);
     }
 
-    public void CloseWithEditor(ContentDialog contentDialog)
-    {
-        contentDialog.Close(SelectedEditor);
-    }
+    public void CloseWithEditor(ContentDialog contentDialog) => contentDialog.Close(SelectedEditor);
 
-    public void Close(ContentDialog contentDialog)
-    {
-        contentDialog.Close(null);
-    }
+    public void Close(ContentDialog contentDialog) => contentDialog.Close(null);
 }

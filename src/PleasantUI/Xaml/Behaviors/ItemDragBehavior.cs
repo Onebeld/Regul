@@ -16,11 +16,11 @@ public class ItemDragBehavior : Behavior<Control>
 {
     public static readonly StyledProperty<Orientation> OrientationProperty =
         AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
-        
+
     /// <summary>
     /// 
     /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty = 
+    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
         AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
 
     /// <summary>
@@ -42,7 +42,7 @@ public class ItemDragBehavior : Behavior<Control>
         get => GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
     }
-        
+
     /// <summary>
     /// 
     /// </summary>
@@ -65,7 +65,7 @@ public class ItemDragBehavior : Behavior<Control>
     protected override void OnAttachedToVisualTree()
     {
         if (AssociatedObject is null) return;
-        
+
         AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Bubble);
         AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Bubble);
         AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Bubble);
@@ -76,7 +76,7 @@ public class ItemDragBehavior : Behavior<Control>
     protected override void OnDetachedFromVisualTree()
     {
         if (AssociatedObject is null) return;
-        
+
         AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
         AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
         AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
@@ -88,7 +88,7 @@ public class ItemDragBehavior : Behavior<Control>
         if (AssociatedObject?.Parent is not ItemsControl /*|
             AssociatedObject?.Parent is PleasantTabView { ReorderableTabs: false } |
             AssociatedObject is PleasantTabItem { CanBeDragged: false }*/) return;
-            
+
         PointerPointProperties properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed && AssociatedObject?.Parent is ItemsControl itemsControl)
         {
@@ -111,7 +111,7 @@ public class ItemDragBehavior : Behavior<Control>
             e.Pointer.Capture(AssociatedObject);
         }
     }
-        
+
     private void Released(object? sender, PointerReleasedEventArgs e)
     {
         if (Equals(e.Pointer.Captured, AssociatedObject))
@@ -121,16 +121,16 @@ public class ItemDragBehavior : Behavior<Control>
                 Released();
             }
 
-            e.Pointer.Capture(null); 
+            e.Pointer.Capture(null);
         }
     }
-        
+
     private void CaptureLost(object? sender, PointerCaptureLostEventArgs e) => Released();
 
     private void Released()
     {
         if (!_enableDrag) return;
-        
+
         if (_draggedContainer is { })
         {
             _draggedContainer.ZIndex = 0;
@@ -318,12 +318,12 @@ public class ItemDragBehavior : Behavior<Control>
                     else
                         SetTranslateTransform(targetContainer, 0, 0);
                 }
-                
+
                 i++;
             }
         }
     }
-        
+
     private void SetDraggingPseudoClasses(IStyledElement control, bool isDragging)
     {
         if (isDragging)

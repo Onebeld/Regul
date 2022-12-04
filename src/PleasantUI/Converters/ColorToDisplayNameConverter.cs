@@ -11,19 +11,15 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ColorToDisplayNameConverter : IValueConverter
 {
-    private static readonly Lazy<ColorToDisplayNameConverter> _lazy = new(() => new ColorToDisplayNameConverter());
+    private static readonly Lazy<ColorToDisplayNameConverter> Lazy = new(() => new ColorToDisplayNameConverter());
 
     public static ColorToDisplayNameConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     /// <inheritdoc/>
-    public object? Convert(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         Color color;
 
@@ -53,11 +49,7 @@ public class ColorToDisplayNameConverter : IValueConverter
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return AvaloniaProperty.UnsetValue;
     }

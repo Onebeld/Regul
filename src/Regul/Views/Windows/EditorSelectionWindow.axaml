@@ -1,17 +1,17 @@
 ﻿<ContentDialog xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
-             x:Class="Regul.Views.Windows.EditorSelectionWindow"
-             xmlns:m="using:Regul.ModuleSystem"
-             xmlns:e="using:Regul.ModuleSystem.Structures"
-             xmlns:c="using:Regul.Converters"
-             xmlns:vm="using:Regul.ViewModels.Windows"
-             MinWidth="550"
-             VerticalAlignment="Center"
-             HorizontalAlignment="Center"
-             x:DataType="vm:EditorSelectionViewModel">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
+               x:Class="Regul.Views.Windows.EditorSelectionWindow"
+               xmlns:m="using:Regul.ModuleSystem"
+               xmlns:e="using:Regul.ModuleSystem.Structures"
+               xmlns:c="using:Regul.Converters"
+               xmlns:vm="using:Regul.ViewModels.Windows"
+               MinWidth="550"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               x:DataType="vm:EditorSelectionViewModel">
     <ContentDialog.KeyBindings>
         <KeyBinding Command="{CompiledBinding CloseWithEditor}"
                     CommandParameter="{CompiledBinding $self}"
@@ -23,7 +23,7 @@
     <Design.DataContext>
         <vm:EditorSelectionViewModel />
     </Design.DataContext>
-    
+
     <Grid RowDefinitions="Auto,*,Auto">
         <Grid ColumnDefinitions="Auto,*,Auto">
             <TextBlock Grid.Column="0"
@@ -31,7 +31,7 @@
                        Text="{StaticResource SelectAnEditor}"
                        Margin="20 15 0 0"
                        DockPanel.Dock="Top" />
-            
+
             <TextBlock Grid.Column="1"
                        x:Name="PART_FileName"
                        Foreground="{StaticResource TextFillColorTertiaryBrush}"
@@ -40,8 +40,8 @@
                        Margin="10 15 10 0"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       TextTrimming="CharacterEllipsis"/>
-            
+                       TextTrimming="CharacterEllipsis" />
+
             <StackPanel Grid.Column="2"
                         Orientation="Horizontal"
                         Margin="0 15 20 0"
@@ -114,7 +114,7 @@
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
-                    
+
                     <Viewbox Width="17" Height="17">
                         <Path Data="{StaticResource search}" Stretch="Uniform" />
                     </Viewbox>
@@ -136,7 +136,7 @@
                 </Border>
             </StackPanel>
         </Grid>
-        
+
         <ListBox Grid.Row="1"
                  Items="{CompiledBinding SortedEditors}"
                  SelectedItem="{CompiledBinding SelectedEditor}"
@@ -154,42 +154,43 @@
                         <Image Source="{CompiledBinding IconKey, Converter={x:Static c:KeyToImageConverter.Instance}}"
                                Width="18"
                                Height="18" />
-                        <TextBlock Text="{CompiledBinding Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
-                                   VerticalAlignment="Center" />
+                        <TextBlock
+                            Text="{CompiledBinding Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
+                            VerticalAlignment="Center" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <TextBlock Grid.Row="1"
                    Text="{StaticResource NotFound}"
-                   HorizontalAlignment="Center" 
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Foreground="{StaticResource TextFillColorTertiaryBrush}"
                    IsVisible="{CompiledBinding !SortedEditors.Count}"
                    Margin="0 20" />
-        
+
         <CheckBox Grid.Row="2"
                   Margin="0 0 0 5"
                   x:Name="PART_AlwaysOpen"
                   HorizontalAlignment="Center"
                   Content="{StaticResource AlwaysOpenFile}" />
     </Grid>
-    
+
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="1">
             <Button Theme="{StaticResource AccentButtonTheme}"
                     Content="{StaticResource Ok}"
                     IsEnabled="{CompiledBinding SelectedEditor, Converter={x:Static ObjectConverters.IsNotNull}}"
-                    VerticalAlignment="Center" 
+                    VerticalAlignment="Center"
                     Margin="5"
                     Command="{CompiledBinding CloseWithEditor}"
-                    CommandParameter="{CompiledBinding $parent[ContentDialog]}"/>
-            <Button Content="{StaticResource Cancel}" 
+                    CommandParameter="{CompiledBinding $parent[ContentDialog]}" />
+            <Button Content="{StaticResource Cancel}"
                     VerticalAlignment="Center"
                     Margin="5"
                     Command="{CompiledBinding Close}"
-                    CommandParameter="{CompiledBinding $parent[ContentDialog]}"/>
+                    CommandParameter="{CompiledBinding $parent[ContentDialog]}" />
         </UniformGrid>
     </ContentDialog.BottomPanelContent>
 </ContentDialog>

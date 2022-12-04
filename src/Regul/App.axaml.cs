@@ -35,13 +35,9 @@ namespace Regul;
 
 public class App : Application
 {
-    public static List<DispatcherTimer> Timers { get; } = new();
-    public static List<Thread> Threads { get; } = new();
     public static Styles ModulesLanguage { get; } = new();
 
     public static PleasantTheme PleasantTheme { get; private set; } = null!;
-    
-    internal bool CheckedForUpdates { get; set; }
 
     public App() => Name = "Regul";
 
@@ -56,22 +52,22 @@ public class App : Application
         Current?.Styles.Add(ModulesLanguage);
 
         PleasantTheme = (Current?.Styles[0] as PleasantTheme)!;
-            
+
         InitializeTheme();
         InitializeLanguage();
-        
+
 #if DEBUG
         if (Design.IsDesignMode) return;
 #endif
-        
+
         if (!Directory.Exists(RegulDirectories.Modules))
             Directory.CreateDirectory(RegulDirectories.Modules);
 
         if (!Directory.Exists(RegulDirectories.Cache))
             Directory.CreateDirectory(RegulDirectories.Cache);
-        
+
         UpdateModules();
-        
+
         LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
     }
 
@@ -90,7 +86,7 @@ public class App : Application
                 File.Delete(updatableModule.Path);
             }
         }
-        
+
         ApplicationSettings.Current.UpdatableModules.Clear();
     }
 
@@ -106,7 +102,7 @@ public class App : Application
             key = "en";
 
         ApplicationSettings.Current.Language = key;
-        
+
         Current!.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
         {
             Source = new Uri($"avares://Regul.Assets/Localization/{key}.axaml")
@@ -147,7 +143,9 @@ public class App : Application
 
         try
         {
+#pragma warning disable SYSLIB0014
             using WebClient webClient = new();
+#pragma warning restore SYSLIB0014
             webClient.DownloadStringCompleted += (_, e) =>
             {
                 if (e.Error != null)
@@ -157,13 +155,13 @@ public class App : Application
             };
 
             await webClient.DownloadStringTaskAsync(new Uri("https://raw.githubusercontent.com/Onebeld/Regul/main/version.txt"));
-            
+
             Version latest = Version.Parse(resultCheckUpdate);
             Version? current = Assembly.GetExecutingAssembly().GetName().Version;
 
             return latest > current ? (CheckUpdateResult.HasUpdate, latest) : (CheckUpdateResult.NoUpdate, null);
         }
-        catch (Exception e)
+        catch
         {
             return (CheckUpdateResult.Error, null);
         }
@@ -172,17 +170,17 @@ public class App : Application
     public static bool LoadModules(IEnumerable<string> paths)
     {
         bool successfulLoad = true;
-        
+
         foreach (string path in paths.Where(p => Path.GetExtension(p).ToLower() == ".dll"))
         {
             Module? module = null;
-            
+
             try
             {
                 module = ModuleManager.InitializeModule(path);
 
                 if (module is null) continue;
-                
+
                 module.ChangeLanguage(ApplicationSettings.Current.Language, ModulesLanguage);
                 module.Instance.Execute();
             }
@@ -224,7 +222,7 @@ public class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
-        
+
     /// <summary>
     /// Looks for a suitable resource in the program.
     /// </summary>
@@ -270,6 +268,7 @@ public class App : Application
 
     public static readonly Language[] Languages =
     {
-        new("English (English)", "en")
+        new("English (English)", "en"),
+        new("Русский (Russian)", "ru")
     };
 }

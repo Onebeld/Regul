@@ -15,7 +15,7 @@ public static class ControlExtensions
         if (host.TitleBar is null) return;
 
         control.ContextFlyout = host.TitleBar.GetContextFlyout();
-        
+
         control.DoubleTapped += host.TitleBar.OnDragWindowBorderOnDoubleTapped;
         control.PointerPressed += host.TitleBar.OnDragWindowBorderOnPointerPressed;
     }
@@ -23,9 +23,9 @@ public static class ControlExtensions
     public static void DetachTitleBar(this Control control, PleasantWindow host)
     {
         if (host.TitleBar is null) return;
-        
+
         control.ContextFlyout = null;
-        
+
         control.DoubleTapped -= host.TitleBar.OnDragWindowBorderOnDoubleTapped;
         control.PointerPressed -= host.TitleBar.OnDragWindowBorderOnPointerPressed;
     }

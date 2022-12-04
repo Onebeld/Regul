@@ -21,7 +21,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="ComboBoxItemPillBorder" TargetType="Border">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Height" Value="16" />
@@ -29,7 +29,7 @@
         <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
         <Setter Property="CornerRadius" Value="4" />
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
         <Setter Property="Padding" Value="12 0 0 0" />
         <Setter Property="MaxDropDownHeight" Value="504" />
@@ -110,9 +110,9 @@
                                 Width="30"
                                 IsVisible="False"
                                 HorizontalAlignment="Right" />
-                        
-                        <Path Grid.Row="1" 
-                              Grid.Column="1" 
+
+                        <Path Grid.Row="1"
+                              Grid.Column="1"
                               IsHitTestVisible="False"
                               Width="8"
                               Margin="20 0 15 0"
@@ -123,7 +123,7 @@
                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                               Stroke="{StaticResource TextFillColorPrimaryBrush}"
                               StrokeThickness="0.2" />
-                        
+
                         <Popup Name="PART_Popup"
                                Grid.Column="0"
                                Grid.Row="0"
@@ -143,11 +143,13 @@
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="8">
                                 <i:Interaction.Behaviors>
-                                    <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                                    <b:ShadowBehavior ShadowDepth="SmallWindow"
+                                                      EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                                     <b:OnCloseFlyoutOpacityBehavior />
                                 </i:Interaction.Behaviors>
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                <SmoothScrollViewer
+                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                     <ItemsPresenter Name="PART_ItemsPresenter"
                                                     Items="{TemplateBinding Items}"
                                                     Margin="0 4"
@@ -161,7 +163,7 @@
                 </DataValidationErrors>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Popup[IsOpen=True][PlacementMode=Top] > Border">
             <Style.Animations>
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
@@ -180,7 +182,8 @@
             <Style.Animations>
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                        <Setter Property="TranslateTransform.Y"
+                                Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
@@ -190,7 +193,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        
+
         <Style Selector="^ /template/ Border#HighlightBackground">
             <Setter Property="IsVisible" Value="False" />
             <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
@@ -202,28 +205,28 @@
         </Style>
         <Style Selector="^ /template/ Border#DropDownOverlay">
             <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Margin" Value="-4 4 4 4"/>
+            <Setter Property="Margin" Value="-4 4 4 4" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
-    
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
         </Style>
-    
+
         <Style Selector="^:focus-visible /template/ Border#Pill">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-    
+
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-    
+
         <Style Selector="^:error">
-            <Setter Property="BorderBrush" Value="{StaticResource SystemFillColorCriticalBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SystemFillColorCriticalBrush}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

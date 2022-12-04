@@ -127,7 +127,8 @@
                                 Margin="6 4 6 6"
                                 CornerRadius="8">
                             <i:Interaction.Behaviors>
-                                <b:ShadowBehavior ShadowDepth="SmallWindow" EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
+                                <b:ShadowBehavior ShadowDepth="SmallWindow"
+                                                  EnableShadowing="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                                 <b:OnCloseFlyoutOpacityBehavior />
                             </i:Interaction.Behaviors>
                             <SmoothScrollViewer HorizontalScrollBarVisibility="Auto"
@@ -149,7 +150,8 @@
             <Style.Animations>
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                        <Setter Property="TranslateTransform.Y"
+                                Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">

@@ -15,7 +15,7 @@ public class SharedContentTemplate : ITemplate<SharedContent>
     {
         return (SharedContent)Load(Content!).Control;
     }
-    
+
     object ITemplate.Build() => Build().Content!;
 
     private static ControlTemplateResult Load(object templateContent)

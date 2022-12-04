@@ -16,7 +16,7 @@ public class ShowOnDoubleTappedBehavior : Behavior<Control>
     /// </summary>
     public static readonly StyledProperty<Control> TargetControlProperty =
         AvaloniaProperty.Register<ShowOnDoubleTappedBehavior, Control>(nameof(TargetControl));
-    
+
     /// <summary>
     /// Gets or sets the target control. This is a avalonia property.
     /// </summary>
@@ -25,7 +25,7 @@ public class ShowOnDoubleTappedBehavior : Behavior<Control>
         get => GetValue(TargetControlProperty);
         set => SetValue(TargetControlProperty, value);
     }
-    
+
     /// <summary>
     /// Called after the behavior is attached to the <see cref="Behavior.AssociatedObject"/>.
     /// </summary>
@@ -34,7 +34,7 @@ public class ShowOnDoubleTappedBehavior : Behavior<Control>
         base.OnAttached();
         AssociatedObject?.AddHandler(Gestures.DoubleTappedEvent, AssociatedObject_DoubleTapped, RoutingStrategies.Bubble);
     }
-    
+
     /// <summary>
     /// Called when the behavior is being detached from its <see cref="Behavior.AssociatedObject"/>.
     /// </summary>
@@ -43,7 +43,7 @@ public class ShowOnDoubleTappedBehavior : Behavior<Control>
         base.OnDetaching();
         AssociatedObject?.RemoveHandler(Gestures.DoubleTappedEvent, AssociatedObject_DoubleTapped);
     }
-    
+
     private void AssociatedObject_DoubleTapped(object? sender, TappedEventArgs tappedEventArgs)
     {
         if (TargetControl.IsVisible == false)

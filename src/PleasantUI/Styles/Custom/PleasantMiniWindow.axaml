@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="PleasantUiSettings">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
-        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}" />
+        <Setter Property="EnableCustomTitleBar"
+                Value="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}" />
         <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorQuarternaryBrush}" />
         <Setter Property="TransparencyBackgroundFallback" Value="Black" />
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -12,21 +13,23 @@
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="RenderOptions.BitmapInterpolationMode" Value="HighQuality" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
-        <Setter Property="EnableTransparency" Value="{CompiledBinding EnableTransparency, Source={x:Static PleasantUiSettings.Instance}}" />
-        
+        <Setter Property="FontFamily"
+                Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
+        <Setter Property="EnableTransparency"
+                Value="{CompiledBinding EnableTransparency, Source={x:Static PleasantUiSettings.Instance}}" />
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
                     <Border x:Name="PART_TransparencyFallback" IsHitTestVisible="False" />
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                    
+
                     <VisualLayerManager x:Name="VisualLayerManager">
                         <VisualLayerManager.ChromeOverlayLayer>
                             <Panel Height="32" VerticalAlignment="Top">
                                 <Panel Name="PART_DragWindow"
                                        Background="Transparent" />
-                                
+
                                 <ToggleButton Classes="EnabledIconAnimation"
                                               HorizontalAlignment="Left"
                                               Margin="4"
@@ -38,7 +41,7 @@
                                               StrokeThickness="2" />
                                     </Viewbox>
                                 </ToggleButton>
-                                
+
                                 <Border Background="{StaticResource TextFillColorTertiaryBrush}"
                                         IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}"
                                         IsHitTestVisible="False"
@@ -47,9 +50,9 @@
                                         Height="3"
                                         Width="30"
                                         CornerRadius="50" />
-                                
-                                <StackPanel HorizontalAlignment="Right" 
-                                            Orientation="Horizontal" 
+
+                                <StackPanel HorizontalAlignment="Right"
+                                            Orientation="Horizontal"
                                             Margin="4"
                                             IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
                                     <Button x:Name="PART_HiddenButton"
@@ -73,7 +76,7 @@
                                 </StackPanel>
                             </Panel>
                         </VisualLayerManager.ChromeOverlayLayer>
-                        
+
                         <Panel>
                             <ContentPresenter x:Name="PART_ContentWindow"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -87,9 +90,10 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-    
+
         <Style Selector="^ /template/ Panel#PART_Background">
-            <Setter Property="Opacity" Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}" />
+            <Setter Property="Opacity"
+                    Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
@@ -97,7 +101,8 @@
             </Setter>
         </Style>
         <Style Selector="^[EnableTransparency=True]">
-            <Setter Property="TransparencyLevelHint" Value="{CompiledBinding BlurMode, Source={x:Static PleasantUiSettings.Instance}}" />
+            <Setter Property="TransparencyLevelHint"
+                    Value="{CompiledBinding BlurMode, Source={x:Static PleasantUiSettings.Instance}}" />
         </Style>
         <Style Selector="^[EnableTransparency=False]">
             <Setter Property="TransparencyLevelHint" Value="None" />

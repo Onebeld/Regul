@@ -46,7 +46,7 @@ public sealed partial class NavigationView
 
     public static readonly StyledProperty<bool> AlwaysOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(AlwaysOpen));
-    
+
     public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
 
@@ -66,9 +66,9 @@ public sealed partial class NavigationView
     public static readonly DirectProperty<NavigationView, AutoCompleteBox?> AutoCompleteBoxProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, AutoCompleteBox?>(nameof(AutoCompleteBox),
             o => o.AutoCompleteBox, (o, v) => o.AutoCompleteBox = v);
-    
+
     /// <summary>
-    /// Defines the <see cref="Command"/> property.
+    /// Defines the <see cref="ICommand"/> property.
     /// </summary>
     public static readonly DirectProperty<NavigationView, ICommand?> BackButtonCommandProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, ICommand?>(nameof(BackButtonCommand),
@@ -85,7 +85,7 @@ public sealed partial class NavigationView
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
-    
+
     public object? SelectedContent
     {
         get => _selectedContent;
@@ -121,7 +121,7 @@ public sealed partial class NavigationView
         get => GetValue(AlwaysOpenProperty);
         set => SetValue(AlwaysOpenProperty, value);
     }
-    
+
     public bool NotMakeOffsetForContentPanel
     {
         get => GetValue(NotMakeOffsetForContentPanelProperty);
@@ -139,7 +139,7 @@ public sealed partial class NavigationView
         get => GetValue(AutoCompleteBoxIsVisibleProperty);
         set => SetValue(AutoCompleteBoxIsVisibleProperty, value);
     }
-    
+
     public IEnumerable<string>? ItemsAsStrings
     {
         get => _itemsAsStrings;
@@ -172,7 +172,7 @@ public sealed partial class NavigationView
         get => _autoCompleteBox;
         set => SetAndRaise(AutoCompleteBoxProperty, ref _autoCompleteBox, value);
     }
-    
+
     /// <summary>
     /// Gets or sets an <see cref="ICommand"/> to be invoked when the button is clicked.
     /// </summary>

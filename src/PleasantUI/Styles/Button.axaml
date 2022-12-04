@@ -11,15 +11,16 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -29,7 +30,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False"/>
+                            IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="#00000000"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -42,7 +43,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
@@ -54,7 +55,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="AccentButtonTheme" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource AccentControlElevationBorderBrush}" />
@@ -64,7 +65,7 @@
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -74,7 +75,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False"/>
+                            IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="#00000000"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -87,7 +88,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
         </Style>
@@ -99,7 +100,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource DangerElevationBorderBrush}" />
@@ -109,7 +110,7 @@
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -119,7 +120,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False"/>
+                            IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="#00000000"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -132,7 +133,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
         </Style>
@@ -144,7 +145,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -153,7 +154,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="4" />
-        
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_Border"
@@ -168,7 +170,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
@@ -179,7 +181,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="CloseButtonTheme" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -188,7 +190,7 @@
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_Border"
@@ -203,7 +205,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
             <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />

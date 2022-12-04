@@ -36,25 +36,25 @@ public partial class PleasantWindow
         get => GetValue(EnableTransparencyProperty);
         set => SetValue(EnableTransparencyProperty, value);
     }
-    
+
     public bool EnableCustomTitleBar
     {
         get => GetValue(EnableCustomTitleBarProperty);
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
-    
+
     public TitleBarType TitleBarType
     {
         get => GetValue(TitleBarTypeProperty);
         set => SetValue(TitleBarTypeProperty, value);
     }
-    
+
     public string Description
     {
         get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
-    
+
     /// <summary>
     ///     Required if the logo is drawn in vector graphics
     /// </summary>
@@ -63,7 +63,7 @@ public partial class PleasantWindow
         get => GetValue(LogoGeometryProperty);
         set => SetValue(LogoGeometryProperty, value);
     }
-    
+
     public IImage? ImageIcon
     {
         get => GetValue(ImageIconProperty);
@@ -75,7 +75,7 @@ public partial class PleasantWindow
         add => AddHandler(TitleBarTypeChangedEvent, value);
         remove => RemoveHandler(TitleBarTypeChangedEvent, value);
     }
-    
+
     /// <summary>
     ///     Shows or hides the Expand and Collapse buttons
     /// </summary>

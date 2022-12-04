@@ -11,7 +11,7 @@ public partial class OptionsDisplayItem
     private bool _isPressed;
     private bool _isExpanded;
     private Border? _layoutRoot;
-    
+
     public static readonly StyledProperty<string> HeaderProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, string>(nameof(Header));
 
@@ -32,17 +32,17 @@ public partial class OptionsDisplayItem
 
     public static readonly StyledProperty<object?> ContentProperty =
         ContentControl.ContentProperty.AddOwner<OptionsDisplayItem>();
-    
+
     public static readonly StyledProperty<ICommand?> NavigationCommandProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, ICommand?>(nameof(NavigationCommand));
 
     public static readonly DirectProperty<OptionsDisplayItem, bool> IsExpandedProperty =
         Expander.IsExpandedProperty.AddOwner<OptionsDisplayItem>(x => x.IsExpanded,
             (x, v) => x.IsExpanded = v);
-    
+
     public static readonly RoutedEvent<RoutedEventArgs> NavigationRequestedEvent =
         RoutedEvent.Register<OptionsDisplayItem, RoutedEventArgs>(nameof(NavigationRequested), RoutingStrategies.Bubble);
-    
+
     public string Header
     {
         get => GetValue(HeaderProperty);
@@ -96,7 +96,7 @@ public partial class OptionsDisplayItem
         get => GetValue(NavigationCommandProperty);
         set => SetValue(NavigationCommandProperty, value);
     }
-    
+
     public event EventHandler<RoutedEventArgs> NavigationRequested
     {
         add => AddHandler(NavigationRequestedEvent, value);

@@ -8,13 +8,13 @@ namespace Regul.Converters;
 
 public class IdEditorToNameConverter : IValueConverter
 {
-    private static readonly Lazy<IdEditorToNameConverter> _lazy = new(() => new IdEditorToNameConverter());
+    private static readonly Lazy<IdEditorToNameConverter> Lazy = new(() => new IdEditorToNameConverter());
 
     public static IdEditorToNameConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not ulong id) return null;
@@ -24,7 +24,7 @@ public class IdEditorToNameConverter : IValueConverter
         return App.GetString(name ?? "EditorNotDefined");
 
     }
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

@@ -57,11 +57,10 @@ public class ToolWindowViewModel : ViewModelBase
         get => _invertInstrumentList;
         set => RaiseAndSetIfChanged(ref _invertInstrumentList, value);
     }
-    
+
     public int? ModulesWithInstrumentsCount { get; set; }
     public int InstrumentsInModuleCount { get; set; }
-    
-    
+
     public ToolWindowViewModel()
     {
         OnSearchModules(ModuleManager.Modules);
@@ -100,58 +99,43 @@ public class ToolWindowViewModel : ViewModelBase
             ModulesWithInstrumentsCount = list.Count;
             RaisePropertyChanged(nameof(ModulesWithInstrumentsCount));
         }
-        
-        if (!string.IsNullOrWhiteSpace(ModuleNameSearching))
-            list = list.FindAll(x =>
-            {
-                if (Application.Current is not null && Application.Current.TryFindResource(x.Instance.Name, out object? name) && name is string s)
-                {
-                    return s.ToLower().Contains(ModuleNameSearching);
-                }
 
-                return x.Instance.Name.ToLower().Contains(ModuleNameSearching);
-            });
-        
+        if (!string.IsNullOrWhiteSpace(ModuleNameSearching))
+            list = list.FindAll(x => App.GetString(x.Instance.Name).ToLower().Contains(ModuleNameSearching));
+
+        list = new List<Module>(list.OrderBy(x => x.Instance.Name));
+
         if (InvertModuleList)
-            SortedModules.AddRange(list.OrderByDescending(x => x.Instance.Name));
-        else SortedModules.AddRange(list.OrderBy(x => x.Instance.Name));
+            list.Reverse();
+
+        SortedModules.AddRange(list);
     }
 
     private void OnSearchInstruments(AvaloniaList<Instrument>? instruments)
     {
         SortedInstruments.Clear();
-        
+
         if (instruments is null) return;
 
         List<Instrument> list = new(instruments);
 
         if (!string.IsNullOrWhiteSpace(InstrumentNameSearching))
-            list = list.FindAll(x =>
-            {
-                if (x.Name is null) return false;
+            list = list.FindAll(x => x.Name is not null && App.GetString(x.Name).ToLower().Contains(InstrumentNameSearching));
 
-                if (Application.Current is not null && Application.Current.TryFindResource(x.Name, out object? name) && name is string s)
-                {
-                    return s.ToLower().Contains(InstrumentNameSearching);
-                }
+        list = new List<Instrument>(list.OrderBy(x => x.Name));
 
-                return x.Name.ToLower().Contains(InstrumentNameSearching);
-            });
-        
         if (InvertInstrumentList)
-            SortedInstruments.AddRange(list.OrderByDescending(x => x.Name));
-        else SortedInstruments.AddRange(list.OrderBy(x => x.Name));
+            list.Reverse();
+
+        SortedInstruments.AddRange(list);
     }
-    
+
     public void CloseWithInstrument(ContentDialog contentDialog)
     {
         SelectedInstrument?.Execute.Invoke();
-        
+
         contentDialog.Close();
     }
-    
-    public void Close(ContentDialog contentDialog)
-    {
-        contentDialog.Close();
-    }
+
+    public void Close(ContentDialog contentDialog) => contentDialog.Close();
 }

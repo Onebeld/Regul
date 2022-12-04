@@ -75,7 +75,7 @@ public partial class SmoothScrollContentPresenter
     /// </summary>
     public static readonly StyledProperty<Vector> AnimationOffsetProperty =
         AvaloniaProperty.Register<SmoothScrollContentPresenter, Vector>(nameof(AnimationOffset));
-    
+
     /// <summary>
     /// Defines the <see cref="Viewport"/> property.
     /// </summary>
@@ -84,7 +84,7 @@ public partial class SmoothScrollContentPresenter
             o => o.Viewport,
             (o, v) => o.Viewport = v);
 
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the content can be scrolled horizontally.
     /// </summary>
@@ -129,7 +129,7 @@ public partial class SmoothScrollContentPresenter
         get => GetValue(AnimationOffsetProperty);
         set => SetValue(AnimationOffsetProperty, value);
     }
-    
+
     /// <summary>
     /// Gets the size of the viewport on the scrollable content.
     /// </summary>
@@ -138,7 +138,7 @@ public partial class SmoothScrollContentPresenter
         get => _viewport;
         private set => SetAndRaise(ViewportProperty, ref _viewport, value);
     }
-    
+
     private bool UsesSmoothScrolling => ShouldUseSmoothScrolling(out Easing _, out TimeSpan __);
 
     private Vector CurrentFromOffset => UsesSmoothScrolling ? AnimationOffset : Offset;

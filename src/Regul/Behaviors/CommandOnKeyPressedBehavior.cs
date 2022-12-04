@@ -40,7 +40,7 @@ public class CommandOnKeyPressedBehavior : Behavior<Control>
         get => _command;
         set => SetAndRaise(CommandProperty, ref _command, value);
     }
-        
+
     /// <summary>
     /// Gets or sets the key. This is a avalonia property.
     /// </summary>
@@ -79,7 +79,7 @@ public class CommandOnKeyPressedBehavior : Behavior<Control>
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (IsEnabled && e.Key == Key) 
+        if (IsEnabled && e.Key == Key)
             Command?.Execute(CommandParameter);
     }
 }

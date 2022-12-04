@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:structures="clr-namespace:Regul.Structures"
-        xmlns:c="clr-namespace:Regul.Converters"
-        xmlns:pages="clr-namespace:Regul.Views.Pages">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:structures="clr-namespace:Regul.Structures"
+                    xmlns:c="clr-namespace:Regul.Converters"
+                    xmlns:pages="clr-namespace:Regul.Views.Pages">
     <DataTemplate x:Key="EditorRelatedExtensionItemTemplate" DataType="structures:EditorRelatedExtension">
         <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
@@ -20,7 +20,7 @@
                             Spacing="2">
                     <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                                Text="{CompiledBinding IdEditor, Converter={x:Static c:IdEditorToNameConverter.Instance}}" />
-                    
+
                     <TextBlock Margin="0 -4 0 0"
                                FontSize="12"
                                TextTrimming="CharacterEllipsis"

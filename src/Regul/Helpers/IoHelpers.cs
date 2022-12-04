@@ -10,7 +10,7 @@ public static class IoHelpers
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            // If no associated application/json MimeType is found xdg-open opens retrun error
+            // If no associated application/json MimeType is found xdg-open opens return error
             // but it tries to open it anyway using the console editor (nano, vim, other..)
             await EnvironmentHelpers.ShellExecAsync($"xdg-open {url}", waitForExit: false).ConfigureAwait(false);
         }
@@ -25,7 +25,7 @@ public static class IoHelpers
             });
         }
     }
-    
+
     public static void OpenFileInFileExplorer(string dirPath)
     {
         using Process? process = Process.Start(new ProcessStartInfo

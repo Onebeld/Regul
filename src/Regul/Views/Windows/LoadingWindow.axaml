@@ -1,14 +1,15 @@
 ﻿<ContentDialog xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Regul.Views.Windows.LoadingWindow"
-             MinWidth="0"
-             VerticalAlignment="Center"
-             HorizontalAlignment="Center">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+               x:Class="Regul.Views.Windows.LoadingWindow"
+               MinWidth="0"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center">
     <StackPanel Margin="25 15 25 15" Spacing="10">
-        <TextBlock x:Name="TextBlock" Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Text" TextAlignment="Center" />
+        <TextBlock x:Name="TextBlock" Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Text"
+                   TextAlignment="Center" />
         <ProgressBar x:Name="ProgressBar" Value="0" MinWidth="0" Width="250" />
     </StackPanel>
 </ContentDialog>

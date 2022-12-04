@@ -13,35 +13,29 @@ namespace PleasantUI.Converters;
 /// </remarks>
 public class EnumToBooleanConverter : IValueConverter
 {
-    private static readonly Lazy<EnumToBooleanConverter> _lazy = new(() => new EnumToBooleanConverter());
+    private static readonly Lazy<EnumToBooleanConverter> Lazy = new(() => new EnumToBooleanConverter());
     public static EnumToBooleanConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     /// <inheritdoc />
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null && parameter == null)
-        {
             return true;
-        }
 
         if (value == null || parameter == null)
-        {
             return false;
-        }
 
-        return value!.Equals(parameter);
+        return value.Equals(parameter);
     }
 
     /// <inheritdoc/>
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is bool boolValue)
-        {
             return boolValue ? parameter : BindingOperations.DoNothing;
-        }
 
         return BindingOperations.DoNothing;
     }

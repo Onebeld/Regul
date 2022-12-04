@@ -1,31 +1,33 @@
 ﻿<ContentDialog xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
-             x:Class="Regul.Views.Windows.DragAndDropWindow"
-             MinWidth="0"
-             MinHeight="0"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center"
-             IsHitTestVisible="False">
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+               x:Class="Regul.Views.Windows.DragAndDropWindow"
+               MinWidth="0"
+               MinHeight="0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               IsHitTestVisible="False">
     <Panel Margin="30">
         <Grid x:Name="ModuleType" ColumnDefinitions="Auto,Auto">
             <Viewbox Grid.Column="0" Width="28" Height="28">
                 <Path Data="{StaticResource app_folder_regular}"
                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
             </Viewbox>
-            
-            <TextBlock Grid.Column="1" Text="{StaticResource InstallModule}" VerticalAlignment="Center" Margin="15 0 0 0" FontSize="18" />
+
+            <TextBlock Grid.Column="1" Text="{StaticResource InstallModule}" VerticalAlignment="Center"
+                       Margin="15 0 0 0" FontSize="18" />
         </Grid>
-        
+
         <Grid x:Name="FileType" ColumnDefinitions="Auto,Auto">
             <Viewbox Grid.Column="0" Width="28" Height="28">
                 <Path Data="{StaticResource open_regular}"
                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
             </Viewbox>
-            
-            <TextBlock Grid.Column="1" Text="{StaticResource OpenFile}" VerticalAlignment="Center" Margin="15 0 0 0" FontSize="18" />
+
+            <TextBlock Grid.Column="1" Text="{StaticResource OpenFile}" VerticalAlignment="Center" Margin="15 0 0 0"
+                       FontSize="18" />
         </Grid>
     </Panel>
 </ContentDialog>

@@ -51,7 +51,7 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
         OpenPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
         CompactPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
     }
-    
+
     private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs<double> e)
     {
         if (e.Sender is NavigationViewItemBase n)
@@ -59,7 +59,7 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
             n.ExternalLength = n.OpenPaneLength - n.CompactPaneLength;
         }
     }
-    
+
     private static void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is NavigationViewItem sender)
@@ -81,18 +81,18 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
             }
         }
     }
-    
+
     public NavigationViewItemBase()
     {
         NavigationViewDistance = 0;
     }
-    
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
         UpdatePseudoClasses();
     }
-    
+
     protected virtual void OnDeselected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
 
@@ -100,7 +100,7 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
 
     protected virtual void OnSelected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
-        if (Parent is NavigationView { DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay } navigationView )
+        if (Parent is NavigationView { DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay } navigationView)
             navigationView.IsOpen = false;
     }
 
@@ -108,7 +108,7 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
     {
         UpdatePseudoClasses();
     }
-    
+
     protected virtual void OnClosed(object sender, RoutedEventArgs e)
     {
         IsExpanded = false;
@@ -128,7 +128,7 @@ public partial class NavigationViewItemBase : TreeViewItem, IHeadered
             PseudoClasses.Add(":closed");
         }
     }
-    
+
     public event EventHandler<RoutedEventArgs> Opened
     {
         add => AddHandler(OpenedEvent, value);

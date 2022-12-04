@@ -15,7 +15,7 @@
             </PleasantTabView>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type PleasantTabView}" TargetType="PleasantTabView">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -48,8 +48,8 @@
                             <Button Name="PART_AdderButton"
                                     Classes="EnabledIconAnimation"
                                     Theme="{StaticResource AppBarButtonTheme}"
-                                    VerticalAlignment="Center" 
-                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
                                     Padding="0 4"
                                     Width="24"
                                     Margin="-35 0 0 0">
@@ -71,14 +71,14 @@
                 </DockPanel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
             <Setter Property="Orientation" Value="Vertical" />
         </Style>
         <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
             <Setter Property="Orientation" Value="Vertical" />
         </Style>
-        
+
         <Style Selector="^[MarginType=Extended] /template/ Grid#PART_TabGrid">
             <Setter Property="Margin" Value="43 0 130 0" />
         </Style>
@@ -89,7 +89,7 @@
             <Setter Property="Margin" Value="43 0 0 0" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="TabScrollViewerTheme" TargetType="SmoothScrollViewer">
         <Setter Property="SmoothScrollDuration" Value="0:0:0.015" />
         <Setter Property="SmoothScrollEasing" Value="0,0 0.5,1" />

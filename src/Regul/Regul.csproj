@@ -17,21 +17,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
-        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
-        <ProjectReference Include="..\Regul.Logging\Regul.Logging.csproj" />
-        <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
+        <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
+        <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj"/>
+        <ProjectReference Include="..\Regul.Logging\Regul.Logging.csproj"/>
+        <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj"/>
     </ItemGroup>
 
-    <Import Project="..\..\build\Avalonia.props" />
-    <Import Project="..\..\build\AvaloniaDesktop.props" />
-    <Import Project="..\..\build\AvaloniaDiagnostics.props" />
-    <Import Project="..\..\build\PlatformDependentCompilation.props" />
-    
+    <Import Project="..\..\build\Avalonia.props"/>
+    <Import Project="..\..\build\AvaloniaDesktop.props"/>
+    <Import Project="..\..\build\AvaloniaDiagnostics.props"/>
+    <Import Project="..\..\build\PlatformDependentCompilation.props"/>
+
     <ItemGroup>
-        <None Remove=".gitignore" />
+        <None Remove=".gitignore"/>
         <None Include="..\Regul.Assets\icon.ico">
-          <Link>icon.ico</Link>
+            <Link>icon.ico</Link>
         </None>
     </ItemGroup>
 </Project>

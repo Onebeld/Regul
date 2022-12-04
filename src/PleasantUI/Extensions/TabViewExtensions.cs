@@ -21,7 +21,7 @@ public static class TabViewExtensions
             throw new Exception("The TabItem does not exist", e);
         }
     }
-    
+
     /// <summary>
     ///     Removes a TabItem with its index number.
     /// </summary>

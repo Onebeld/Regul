@@ -6,11 +6,11 @@
                 <CheckBox Content="CheckBox" />
                 <CheckBox Content="CheckBox" IsChecked="True" />
                 <CheckBox Content="CheckBox" IsChecked="{x:Null}" />
-                <CheckBox Content="CheckBox" IsEnabled="False" />                
+                <CheckBox Content="CheckBox" IsEnabled="False" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="Padding" Value="8 0 0 0" />
@@ -30,7 +30,7 @@
                                     UseLayoutRounding="False"
                                     Height="20"
                                     CornerRadius="{TemplateBinding CornerRadius}" />
-                            
+
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
                                   Data="{StaticResource checkmark_regular}"
@@ -39,14 +39,14 @@
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   StrokeThickness="0.5"
-                                  Margin="0 13 0 12"/>
-                            
+                                  Margin="0 13 0 12" />
+
                             <Rectangle Name="IndeterminateGlyph"
                                        Fill="{StaticResource AccentTextFillColorLightSecondaryBrush}"
                                        Width="10"
-                                       Height="2"/>
+                                       Height="2" />
                         </Grid>
-                        
+
                         <ContentPresenter Name="ContentPresenter"
                                           Grid.Column="1"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"

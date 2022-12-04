@@ -6,7 +6,7 @@
                 <ResourceInclude Source="avares://PleasantUI/Assets/Icons.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/TextBlock.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/DataTemplates/FontItemTemplate.axaml" />
-                
+
                 <!-- Custom controls -->
                 <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantCaptionButtons.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTitleBar.axaml" />
@@ -22,7 +22,7 @@
                 <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantMiniWindow.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTabView.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/Custom/PleasantTabItem.axaml" />
-                
+
                 <!-- Styled controls -->
                 <ResourceInclude Source="avares://PleasantUI/Styles/ProgressBar.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/NumericUpDown.axaml" />
@@ -62,12 +62,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
-    
+
     <StyleInclude Source="/Styles/OtherStyles.axaml" />
-    
+
     <!-- Custom controls -->
     <StyleInclude Source="/Styles/Custom/NavigationViewItem.axaml" />
-    
+
     <!-- Styled controls -->
     <StyleInclude Source="/Styles/UserControl.axaml" />
     <StyleInclude Source="/Styles/FocusAdorner.axaml" />

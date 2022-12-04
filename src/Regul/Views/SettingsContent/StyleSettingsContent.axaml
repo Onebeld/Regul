@@ -17,8 +17,8 @@
         <VirtualizingStackPanel Spacing="5" Margin="25">
             <TextBlock Text="{StaticResource Style}"
                        Margin="0 0 0 10"
-                       Theme="{StaticResource TitleTextBlockTheme}"/>
-            
+                       Theme="{StaticResource TitleTextBlockTheme}" />
+
             <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
                     BorderThickness="1"
                     BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
@@ -38,7 +38,7 @@
                                Text="{StaticResource SettingsNotBeSupported}" />
                 </Grid>
             </Border>
-            
+
             <OptionsDisplayItem Header="{StaticResource Font}"
                                 Icon="{StaticResource text_font_regular}">
                 <OptionsDisplayItem.ActionButton>
@@ -48,27 +48,27 @@
                               Items="{CompiledBinding Fonts}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
-            
+
             <OptionsDisplayItem Header="{StaticResource EnableShadow}"
                                 Icon="{StaticResource sparkle_regular}"
                                 Description="{StaticResource EnableShadowDescription}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch Classes="RightToggle"
                                   MinWidth="0"
-                                  IsChecked="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}"/>
+                                  IsChecked="{CompiledBinding EnableShadowing, Source={x:Static PleasantUiSettings.Instance}}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
-            
+
             <OptionsDisplayItem Header="{StaticResource EnableCustomTitleBar}"
                                 Icon="{StaticResource window_regular}"
                                 IsEnabled="{CompiledBinding IsSupportedOperatingSystem}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch Classes="RightToggle"
                                   MinWidth="0"
-                                  IsChecked="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}"/>
+                                  IsChecked="{CompiledBinding EnableCustomTitleBar, Source={x:Static PleasantUiSettings.Instance}}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
-            
+
             <OptionsDisplayItem Header="{StaticResource EnableBlur}"
                                 Icon="{StaticResource window_inprivate_regular}"
                                 Expands="True">
@@ -87,40 +87,43 @@
                     <StackPanel Margin="-12">
                         <DockPanel Margin="48 10 33 0">
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                <NumericUpDown Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}"
-                                               Maximum="1"
-                                               Minimum="0"
-                                               Increment="0.1"
-                                               FormatString="P0"
-                                               Width="115"
-                                               VerticalAlignment="Center"
-                                               ParsingNumberStyle="Integer"
-                                               Margin="0 0 5 0"/>
+                                <NumericUpDown
+                                    Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}"
+                                    Maximum="1"
+                                    Minimum="0"
+                                    Increment="0.1"
+                                    FormatString="P0"
+                                    Width="115"
+                                    VerticalAlignment="Center"
+                                    ParsingNumberStyle="Integer"
+                                    Margin="0 0 5 0" />
                                 <Slider Width="150"
                                         Maximum="1"
                                         Minimum="0"
                                         TickFrequency="0.01"
-                                        Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}"/>
+                                        Value="{CompiledBinding OpacityLevel, Source={x:Static PleasantUiSettings.Instance}}" />
                             </StackPanel>
-                        
-                            <TextBlock VerticalAlignment="Center" Text="{StaticResource OpacityLevel}" TextWrapping="Wrap" />
+
+                            <TextBlock VerticalAlignment="Center" Text="{StaticResource OpacityLevel}"
+                                       TextWrapping="Wrap" />
                         </DockPanel>
-                        
+
                         <Separator Background="{StaticResource CardStrokeColorDefaultBrush}"
-                                   Margin="-5 10"/>
-                        
+                                   Margin="-5 10" />
+
                         <DockPanel Margin="48 0 33 10">
-                            <ComboBox Width="100" DockPanel.Dock="Right" SelectedIndex="{CompiledBinding SelectedIndexBlurType}">
+                            <ComboBox Width="100" DockPanel.Dock="Right"
+                                      SelectedIndex="{CompiledBinding SelectedIndexBlurType}">
                                 <ComboBoxItem Content="Mica" />
                                 <ComboBoxItem Content="Acrylic" />
                             </ComboBox>
-                        
+
                             <TextBlock VerticalAlignment="Center" Text="{StaticResource BlurType}" TextWrapping="Wrap" />
                         </DockPanel>
                     </StackPanel>
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
-            
+
             <OptionsDisplayItem Header="{StaticResource AccentColor}"
                                 Icon="{StaticResource color_regular}">
                 <OptionsDisplayItem.ActionButton>
@@ -139,10 +142,11 @@
                             <interactivity:Interaction.Behaviors>
                                 <behaviors:CommandOnDoubleTappedBehavior />
                             </interactivity:Interaction.Behaviors>
-                            <Border Background="{CompiledBinding UIntAccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.UIntToBrush}}"
-                                    CornerRadius="4" />
+                            <Border
+                                Background="{CompiledBinding UIntAccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.UIntToBrush}}"
+                                CornerRadius="4" />
                         </Border>
-                        
+
                         <Menu VerticalAlignment="Center"
                               Height="25">
                             <MenuItem Width="30"
@@ -156,7 +160,7 @@
                                           Margin="5 0"
                                           Width="16" />
                                 </MenuItem.Header>
-                                
+
                                 <MenuItem Header="{StaticResource Copy}"
                                           Command="{CompiledBinding CopyAccentColor}">
                                     <MenuItem.Icon>
@@ -178,9 +182,9 @@
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
+
                                 <Separator />
-                                
+
                                 <MenuItem Header="{StaticResource Change}"
                                           IsEnabled="{CompiledBinding !UseAccentColorFromSystem, Source={x:Static PleasantUiSettings.Instance}}"
                                           Command="{CompiledBinding ChangeAccentColor}">
@@ -197,7 +201,7 @@
                     </StackPanel>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
-            
+
             <OptionsDisplayItem Header="{StaticResource Theme}"
                                 Description="{StaticResource ThemeDescription}"
                                 Icon="{StaticResource paint_brush_regular}"
@@ -218,7 +222,7 @@
                         <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
                                    Text="{StaticResource CreatingATheme}"
                                    Margin="0 0 0 5" />
-                        
+
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <ComboBox PlaceholderText="{DynamicResource ThemeNotSelected}"
                                       MinWidth="250"
@@ -231,12 +235,12 @@
                                     </DataTemplate>
                                 </ComboBox.DataTemplates>
                             </ComboBox>
-                            
+
                             <TextBox x:Name="RenameTextBox"
                                      Text="{CompiledBinding RenameText}"
                                      MinWidth="250"
                                      IsVisible="{CompiledBinding InRenameProcess}" />
-                            
+
                             <Button Theme="{StaticResource AccentButtonTheme}"
                                     IsVisible="{CompiledBinding InRenameProcess}"
                                     Command="{CompiledBinding ApplyRenameTheme}">
@@ -262,7 +266,7 @@
                                       Width="14"
                                       Stretch="Uniform" />
                             </Button>
-                            
+
                             <Button ToolTip.Tip="{StaticResource Rename}"
                                     IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
                                     IsVisible="{CompiledBinding !InRenameProcess}"
@@ -281,7 +285,7 @@
                                           VerticalAlignment="Center"
                                           Stretch="Uniform" />
                                     <TextBlock Text="{StaticResource AddNew}"
-                                               VerticalAlignment="Center"/>
+                                               VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
                             <Menu IsVisible="{CompiledBinding !InRenameProcess}"
@@ -329,7 +333,7 @@
                                 </MenuItem>
                             </Menu>
                         </StackPanel>
-                        
+
                         <Button Margin="0 5 0 0"
                                 Theme="{StaticResource DangerButtonTheme}"
                                 HorizontalAlignment="Left"
@@ -344,16 +348,17 @@
                                 <TextBlock Text="{StaticResource DeleteTheme}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
-                        
-                        <Separator IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                   Margin="-12 10 -12 0" 
-                                   Background="{StaticResource CardStrokeColorDefaultBrush}" />
-                        
-                        <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" 
-                                   Text="{StaticResource Colors}" 
+
+                        <Separator
+                            IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            Margin="-12 10 -12 0"
+                            Background="{StaticResource CardStrokeColorDefaultBrush}" />
+
+                        <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
+                                   Text="{StaticResource Colors}"
                                    Margin="0 5"
                                    IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                        
+
                         <ItemsRepeater Items="{CompiledBinding Colors}">
                             <ItemsRepeater.Layout>
                                 <StackLayout Spacing="10" />
@@ -364,27 +369,28 @@
                                         <TextBlock Text="{CompiledBinding Key}"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center" />
-                                        
-                                        <StackPanel HorizontalAlignment="Right" 
+
+                                        <StackPanel HorizontalAlignment="Right"
                                                     Orientation="Horizontal"
                                                     VerticalAlignment="Center"
                                                     Spacing="5">
-                                            <Border Background="{StaticResource CheckeredBackgroundBrush}" 
-                                                    Width="40" 
-                                                    Height="25" 
+                                            <Border Background="{StaticResource CheckeredBackgroundBrush}"
+                                                    Width="40"
+                                                    Height="25"
                                                     CornerRadius="4"
                                                     ToolTip.Tip="{CompiledBinding Value, Converter={x:Static UIntToHexConverter.Instance}}">
                                                 <interactivity:Interaction.Behaviors>
-                                                    <behaviors:CommandOnDoubleTappedBehavior 
+                                                    <behaviors:CommandOnDoubleTappedBehavior
                                                         Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.CopyColor}"
                                                         CommandParameter="{CompiledBinding}" />
                                                 </interactivity:Interaction.Behaviors>
-                                                <Border CornerRadius="4" Background="{CompiledBinding Value, Converter={x:Static GlobalConverters.UIntToBrush}}" />
+                                                <Border CornerRadius="4"
+                                                        Background="{CompiledBinding Value, Converter={x:Static GlobalConverters.UIntToBrush}}" />
                                             </Border>
-                                            
+
                                             <Menu VerticalAlignment="Center"
                                                   Height="25">
-                                                <MenuItem Width="30" 
+                                                <MenuItem Width="30"
                                                           Margin="0"
                                                           ToolTip.Tip="{StaticResource Menu}">
                                                     <MenuItem.Header>
@@ -393,9 +399,9 @@
                                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                               Stretch="Uniform"
                                                               Margin="5 0"
-                                                              Width="16"/>
+                                                              Width="16" />
                                                     </MenuItem.Header>
-                                                    
+
                                                     <MenuItem Header="{StaticResource Copy}"
                                                               Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.CopyColor}"
                                                               CommandParameter="{CompiledBinding}">
@@ -403,7 +409,7 @@
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource copy_regular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                                      Stretch="Uniform"/>
+                                                                      Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
@@ -414,13 +420,13 @@
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource clipboard_paste_regular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                                      Stretch="Uniform"/>
+                                                                      Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
-                                                    
+
                                                     <Separator />
-                                                    
+
                                                     <MenuItem Header="{StaticResource Change}"
                                                               Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.ChangeColor}"
                                                               CommandParameter="{CompiledBinding}">
@@ -428,7 +434,7 @@
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource edit_regular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                                      Stretch="Uniform"/>
+                                                                      Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
                                                     </MenuItem>

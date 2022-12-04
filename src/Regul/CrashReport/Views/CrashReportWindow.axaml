@@ -11,11 +11,11 @@
                 Foreground="{StaticResource TextFillColorPrimaryBrush}"
                 WindowButtons="Close"
                 Width="750"
-                Height="500"
+                Height="550"
                 CanResize="False"
                 ImageIcon="{StaticResource RegulIcon}"
                 LogoGeometry="{StaticResource RegulText}"
-                Description="Crash Report"
+                Description="{StaticResource CrashReport}"
                 Title="Regul Crash Report">
     <Grid ColumnDefinitions="*,2*" RowDefinitions="*,Auto">
         <Panel Grid.Row="0"
@@ -29,17 +29,17 @@
                    Height="100"
                    Margin="0 0 -18 -5"
                    VerticalAlignment="Bottom"
-                   HorizontalAlignment="Right"/>
+                   HorizontalAlignment="Right" />
         </Panel>
-        
+
         <StackPanel Grid.Column="1" Spacing="10" VerticalAlignment="Center" Margin="20">
             <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
                        TextAlignment="Center"
                        Text="{StaticResource ThereWasAnException}"
-                       Margin="0 0 0 5"/>
+                       Margin="0 0 0 5" />
             <TextBlock Text="{StaticResource ThereWasAnExceptionDescription}"
                        TextAlignment="Center"
-                       TextWrapping="Wrap"/>
+                       TextWrapping="Wrap" />
             <TextBox Height="180"
                      Text="{CompiledBinding ExceptionText}"
                      HorizontalContentAlignment="Stretch"
@@ -47,18 +47,18 @@
                      FontSize="12"
                      SmoothScrollViewer.HorizontalScrollBarVisibility="Auto"
                      SmoothScrollViewer.VerticalScrollBarVisibility="Auto" />
-            
+
             <UniformGrid Rows="1">
                 <Button Content="{StaticResource Copy}"
                         Command="{CompiledBinding CopyLogs}"
-                        Margin="0 0 5 0"/>
+                        Margin="0 0 5 0" />
                 <Button Content="{StaticResource Save}"
                         Command="{CompiledBinding SaveLogs}"
                         CommandParameter="{CompiledBinding $parent[PleasantWindow]}"
-                        Margin="5 0 0 0"/>
+                        Margin="5 0 0 0" />
             </UniformGrid>
         </StackPanel>
-        
+
         <Border Grid.Column="0"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
@@ -70,7 +70,7 @@
                 <Button Theme="{StaticResource AccentButtonTheme}"
                         Content="{StaticResource Restart}"
                         Command="{CompiledBinding CloseAndRelaunch}"
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Margin="5"
                         CommandParameter="{CompiledBinding $parent[PleasantWindow]}" />
                 <Button Content="{StaticResource Close}"

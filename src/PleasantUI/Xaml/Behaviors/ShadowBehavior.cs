@@ -41,7 +41,7 @@ public class ShadowBehavior : Behavior<Control>
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        
+
         if (AssociatedObject is null) return;
 
         if (EnableShadowing)

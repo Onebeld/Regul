@@ -1,0 +1,223 @@
+<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:v="using:System">
+    <Style.Resources>
+        <!-- English -->
+
+        <v:String x:Key="Expand">Развернуть</v:String>
+        <v:String x:Key="Collapse">Свернуть</v:String>
+        <v:String x:Key="Reestablish">Восстановить</v:String>
+        <v:String x:Key="FastenOverTheWindows">Закрепить над окнами</v:String>
+        <v:String x:Key="Close">Закрыть</v:String>
+        <v:String x:Key="Back">Назад</v:String>
+
+        <v:String x:Key="AddYourNewColor">Добавьте свой новый цвет!</v:String>
+        <v:String x:Key="MemorySuccessfullyCleared">Память была успешно очищена!</v:String>
+        <v:String x:Key="ToolsNotInstalled">В программе нет установленных инструментов!</v:String>
+        <v:String x:Key="UpgradeProgramIsAvailable">Для программы доступно обновление до версии</v:String>
+        <v:String x:Key="ThisFileDoesNotExist">Этот файл не существует в системе</v:String>
+        <v:String x:Key="ThisFileIsAlreadyOpen">Этот файл уже открыт в программе</v:String>
+        <v:String x:Key="GoToTheWebsiteToDownloadNewUpdate">Перейти на веб-сайт для загрузки нового обновления?</v:String>
+
+        <v:String x:Key="Ok">OK</v:String>
+        <v:String x:Key="Cancel">Отмена</v:String>
+        <v:String x:Key="Delete">Удалить</v:String>
+        <v:String x:Key="Yes">Да</v:String>
+        <v:String x:Key="No">Нет</v:String>
+        <v:String x:Key="Cut">Вырезать</v:String>
+        <v:String x:Key="Copy">Копировать</v:String>
+        <v:String x:Key="Paste">Вставить</v:String>
+        <v:String x:Key="Change">Изменить</v:String>
+        <v:String x:Key="Empty">Пусто</v:String>
+
+        <v:String x:Key="AddColor">Добавить цвет</v:String>
+
+        <v:String x:Key="Menu">Меню</v:String>
+        <v:String x:Key="MoreOptions">Дополнительные опции</v:String>
+        <v:String x:Key="Settings">Настройки</v:String>
+        <v:String x:Key="Workbenches">Рабочие столы</v:String>
+        <v:String x:Key="OpenFile">Открыть файл</v:String>
+        <v:String x:Key="Instruments">Инструменты</v:String>
+        <v:String x:Key="ExitFromRegul">Выход из Regul</v:String>
+        <v:String x:Key="SelectAnEditor">Выберите редактор</v:String>
+        <v:String x:Key="NumberOfInstalledEditors">Количество установленных редакторов</v:String>
+        <v:String x:Key="AlwaysOpenFile">Всегда открывать эти типы файлов</v:String>
+        <v:String x:Key="NoName">Без имени</v:String>
+        <v:String x:Key="NotFound">Не найдено</v:String>
+        <v:String x:Key="NumberOfElementsFound">Количество найденных элементов</v:String>
+        <v:String x:Key="AllFiles">Все файлы</v:String>
+        <v:String x:Key="FilesS">файлы</v:String>
+        <v:String x:Key="CrashReport">Отчёт о сбое</v:String>
+        <v:String x:Key="FeatureIsNotSupported">Эта функция пока не поддерживается</v:String>
+
+        <v:String x:Key="Successful">Успешно!</v:String>
+        <v:String x:Key="Information">Информация</v:String>
+        <v:String x:Key="Warning">Предупреждение</v:String>
+        <v:String x:Key="Error">Ошибка</v:String>
+
+        <!-- Crash Report -->
+        <v:String x:Key="ThereWasAnException">Возникло исключение!</v:String>
+        <v:String x:Key="Restart">Перезапустить</v:String>
+        <v:String x:Key="ThereWasAnExceptionDescription">Не волнуйтесь! Настройки были сохранены, где это возможно. Вы сможете перезапустить приложение и продолжить работу или завершить сеанс. Внизу вы также можете увидеть дополнительную информацию о том, что вызвало ошибку. Обязательно отправьте эту информацию разработчику.</v:String>
+
+        <!-- Home page -->
+        <v:String x:Key="Welcome">Добро пожаловать!</v:String>
+        <v:String x:Key="Home">Главная</v:String>
+        <v:String x:Key="AllProjects">Все проекты</v:String>
+        <v:String x:Key="NewProject">Новый проект</v:String>
+        <v:String x:Key="NoProjects">Нет проектов</v:String>
+        <v:String x:Key="YouHaveOpenProjects">У вас есть открытые проекты</v:String>
+        <v:String x:Key="GoTo">Перейти</v:String>
+        <v:String x:Key="OpenProject">Открыть проект</v:String>
+        <v:String x:Key="DeleteProject">Удалить проект</v:String>
+        <v:String x:Key="NumberOfAllProjectsInTheProgram">Количество всех проектов в программе</v:String>
+        <v:String x:Key="NumberOfLoadedModules">Количество загруженных модулей</v:String>
+        <v:String x:Key="SortByDateOfChange">Сортировать по дате изменения</v:String>
+        <v:String x:Key="SortByAlphabetical">Сортировать по алфавиту</v:String>
+        <v:String x:Key="InvertList">Инвертировать список</v:String>
+        <v:String x:Key="LastChange">Последнее изменение</v:String>
+        <v:String x:Key="EditorNotDefined">Редактор не определен</v:String>
+
+        <v:String x:Key="FileNotExistAndProjectDeleted">Этот файл не существует в вашей системе. Проект был удален.</v:String>
+        <v:String x:Key="EditorsNotInstalled">В программе не установлены редакторы.</v:String>
+        <v:String x:Key="EditorsNotInstalledForProject">Редактор для этого проекта не установлен в программе.</v:String>
+
+        <v:String x:Key="Search">Поиск</v:String>
+        <v:String x:Key="Name">Имя</v:String>
+        <v:String x:Key="Path">Путь</v:String>
+        <v:String x:Key="Editor">Редактор</v:String>
+
+        <!-- Editors page -->
+        <v:String x:Key="ChangesHaveBeenMadeToThisProject">В этот проект были внесены изменения</v:String>
+        <v:String x:Key="NumberOfOpenWorkbenches">Количество открытых рабочих столов</v:String>
+        <v:String x:Key="Save">Сохранить</v:String>
+        <v:String x:Key="SaveAs">Сохранить как</v:String>
+        <v:String x:Key="SaveAll">Сохранить все</v:String>
+        <v:String x:Key="HomeScreen">Главный экран</v:String>
+        <v:String x:Key="AddWorkbench">Добавить рабочий стол</v:String>
+        <v:String x:Key="OpenInExplorer">Открыть в проводнике</v:String>
+        <v:String x:Key="CreatingNewProject">Создание нового проекта</v:String>
+        <v:String x:Key="OpeningExistingFile">Открытие существующего файла</v:String>
+        <v:String x:Key="OpenProjectYouRecentlyStarted">Откройте проект, который вы недавно начали</v:String>
+        <v:String x:Key="YouWantToSaveProject">Вы хотите сохранить проект</v:String>
+
+        <v:String x:Key="ProjectSavedSuccessfully">Проект успешно сохранен</v:String>
+        <v:String x:Key="ProjectSaveError">Произошла ошибка при сохранении проекта</v:String>
+        <v:String x:Key="AllProjectsSavedSuccessfully">Все проекты были успешно сохранены!</v:String>
+        <v:String x:Key="ProjectAlreadyOpen">Этот проект уже открыт в программе!</v:String>
+        <v:String x:Key="FileAlreadyOpen">Этот файл уже открыт в программе</v:String>
+
+        <!-- Settings page -->
+        <v:String x:Key="SettingsNotBeSupported">Некоторые параметры могут не поддерживаться в вашей системе.</v:String>
+
+        <v:String x:Key="General">Общее</v:String>
+        <v:String x:Key="Style">Стиль</v:String>
+        <v:String x:Key="About">О программе</v:String>
+
+        <!-- Tool Window -->
+        <v:String x:Key="FindATool">Найти инструмент</v:String>
+        <v:String x:Key="FindTheModule">Найдите модуль</v:String>
+        <v:String x:Key="NumberOfToolsInTheModule">Количество инструментов в модуле</v:String>
+        <v:String x:Key="NumberOfModulesThatHaveTools">Количество модулей, в которых есть инструменты</v:String>
+        <v:String x:Key="SelectModule">Выберите модуль</v:String>
+
+        <!-- Log Window -->
+        <v:String x:Key="Logs">Журнал</v:String>
+        <v:String x:Key="Clear">Очистить</v:String>
+        <v:String x:Key="SaveLogs">Сохранить журнал</v:String>
+
+        <!-- General Settings Content -->
+        <v:String x:Key="Language">Язык</v:String>
+        <v:String x:Key="CreatorName">Имя создателя</v:String>
+        <v:String x:Key="ResetToDefaultSettings">Сброс настроек по умолчанию</v:String>
+        <v:String x:Key="Reset">Сброс</v:String>
+        <v:String x:Key="Extension">Расширение</v:String>
+        <v:String x:Key="Module">Модуль</v:String>
+        <v:String x:Key="EditorRelatedExtensions">Расширения, связанные с редактором</v:String>
+        <v:String x:Key="UpdateCheckInterval">Интервал проверки обновления</v:String>
+        <v:String x:Key="ResetSettingsWarning">Вы действительно хотите сбросить настройки?</v:String>
+        <v:String x:Key="SettingsHaveBeenReset">Настройки были сброшены</v:String>
+        <v:String x:Key="EnableHardwareAcceleration">Включить аппаратное ускорение</v:String>
+        <v:String x:Key="EnableHardwareAccelerationDescription">Позволяет включить прозрачность, делает анимацию более плавной. Требуется перезапустить программу, чтобы изменения вступили в силу.</v:String>
+        <v:String x:Key="NumberOfEditorRelatedExtensions">Количество расширений, связанных с редактором</v:String>
+
+        <v:String x:Key="EveryDay">Каждый день</v:String>
+        <v:String x:Key="EveryWeek">Каждую неделю</v:String>
+        <v:String x:Key="EveryMonth">Каждый месяц</v:String>
+        <v:String x:Key="EveryYear">Каждый год</v:String>
+        <v:String x:Key="Never">Никогда</v:String>
+
+        <!-- Style Settings Content -->
+        <v:String x:Key="Light">Светлая</v:String>
+        <v:String x:Key="Dark">Темная</v:String>
+        <v:String x:Key="Mysterious">Загадочная</v:String>
+        <v:String x:Key="Turquoise">Бирюза</v:String>
+        <v:String x:Key="Emerald">Изумруд</v:String>
+        <v:String x:Key="Custom">Пользовательский</v:String>
+
+        <v:String x:Key="Font">Шрифт</v:String>
+        <v:String x:Key="EnableShadow">Включить тень</v:String>
+        <v:String x:Key="EnableShadowDescription">Если у вас есть проблемы с производительностью, отключите эту настройку</v:String>
+        <v:String x:Key="EnableCustomTitleBar">Включить пользовательскую строку заголовка</v:String>
+        <v:String x:Key="EnableBlur">Включить размытие</v:String>
+        <v:String x:Key="OpacityLevel">Уровень непрозрачности</v:String>
+        <v:String x:Key="BlurType">Тип размытия</v:String>
+        <v:String x:Key="AccentColor">Акцентный цвет</v:String>
+        <v:String x:Key="UseAccentFromSystem">Использовать акцентный цвет из системы</v:String>
+        <v:String x:Key="ColorCopied">Цвет скопирован!</v:String>
+
+        <v:String x:Key="Theme">Тема</v:String>
+        <v:String x:Key="Colors">Цвета</v:String>
+        <v:String x:Key="ThemeDescription">Выберите доступные темы или создайте новую</v:String>
+        <v:String x:Key="CreatingATheme">Создание темы</v:String>
+        <v:String x:Key="DeleteTheme">Удалить тему</v:String>
+        <v:String x:Key="ThemeNotSelected">Тема не выбрана</v:String>
+        <v:String x:Key="CopyTheme">Копировать тему</v:String>
+        <v:String x:Key="PasteTheme">Вставить тему</v:String>
+        <v:String x:Key="Rename">Переименовать</v:String>
+        <v:String x:Key="Apply">Применить</v:String>
+        <v:String x:Key="AddNew">Добавить новый</v:String>
+        <v:String x:Key="PasteThemeWithoutName">Вставить тему без названия</v:String>
+        <v:String x:Key="ThemeCopied">Тема скопирована!</v:String>
+        <v:String x:Key="ThemeAppliedFromClipboard">Тема применена из буфера обмена!</v:String>
+
+        <!-- Modules Settings Content -->
+        <v:String x:Key="Modules">Модули</v:String>
+        <v:String x:Key="SupportedLanguages">Поддерживаемые языки</v:String>
+        <v:String x:Key="ModuleInformation">Информация о модуле</v:String>
+        <v:String x:Key="ModuleSettings">Настройки модуля</v:String>
+        <v:String x:Key="ModulesWereLoadedSuccessfully">Модули были загружены успешно!</v:String>
+        <v:String x:Key="FailedToLoadTheModule">Не удалось загрузить модуль.</v:String>
+        <v:String x:Key="FailedToLoadTheModules">Не удалось загрузить модули.</v:String>
+        <v:String x:Key="InstallModule">Установить модуль</v:String>
+        <v:String x:Key="ListOfAvailableModules">Список доступных модулей</v:String>
+        <v:String x:Key="CheckUpdateModules">Проверка обновления модулей</v:String>
+        <v:String x:Key="ModulesHaveNoUpdate">Модули не имеют обновлений</v:String>
+        <v:String x:Key="UpdateAllModules">Обновление всех модулей</v:String>
+        <v:String x:Key="UpdatesAreAvailableForModules">Обновления доступны для модулей!</v:String>
+        <v:String x:Key="ModuleUpdateAvailable">Доступно обновление модуля!</v:String>
+        <v:String x:Key="NewVersion">Новая версия</v:String>
+        <v:String x:Key="PreparingM">Подготовка...</v:String>
+        <v:String x:Key="DownloadingM">Загрузка...</v:String>
+        <v:String x:Key="NeedToRestartToFinishUpdatingModule">Вам потребуется перезапустить программу, чтобы завершить обновление модулей</v:String>
+
+        <!-- About Settings Content -->
+        <v:String x:Key="ContactTheAuthor">Связаться с автором</v:String>
+        <v:String x:Key="Description">Описание</v:String>
+        <v:String x:Key="License">Лицензия</v:String>
+        <v:String x:Key="Version">Версия</v:String>
+        <v:String x:Key="WorksOn">Работает на</v:String>
+        <v:String x:Key="Copyright">Авторское право</v:String>
+        <v:String x:Key="UsedLibraries">Используемые библиотеки</v:String>
+        <v:String x:Key="Links">Ссылки</v:String>
+        <v:String x:Key="Author">Автор</v:String>
+        <v:String x:Key="Update">Обновление</v:String>
+        <v:String x:Key="CheckAvailability">Проверить наличие</v:String>
+        <v:String x:Key="WriteLetter">Написать письмо</v:String>
+        <v:String x:Key="SocialNetwork">Социальная сеть</v:String>
+        <v:String x:Key="NoUpdatesAtThisTime">На данный момент обновлений нет</v:String>
+        <v:String x:Key="FailedToCheckForUpdates">Не удалось проверить наличие обновлений</v:String>
+        <v:String x:Key="RegulDescription">Современная программа общего назначения с интерфейсом, похожим на UWP-приложения, основанная на системе модулей, которая позволяет запускать инструменты и редактировать файлы любого типа.</v:String>
+        <v:String x:Key="LicenseDescription">ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ "КАК ЕСТЬ", БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, ЯВНЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ГАРАНТИЯМИ ТОВАРНОГО СОСТОЯНИЯ, ПРИГОДНОСТИ ДЛЯ КОНКРЕТНОЙ ЦЕЛИ И НЕНАРУШЕНИЯ ПРАВ. НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ АВТОРЫ ИЛИ ПРАВООБЛАДАТЕЛИ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ЗА ЛЮБЫЕ ПРЕТЕНЗИИ, УБЫТКИ ИЛИ ДРУГИЕ ОБЯЗАТЕЛЬСТВА, БУДЬ ТО В РАМКАХ ДОГОВОРНЫХ, ДЕЛИКТНЫХ ИЛИ ИНЫХ ДЕЙСТВИЙ, ВОЗНИКАЮЩИЕ ИЗ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ, В СВЯЗИ С НИМ ИЛИ В РЕЗУЛЬТАТЕ ЕГО ИСПОЛЬЗОВАНИЯ ИЛИ ДРУГИХ ОПЕРАЦИЙ С НИМ.</v:String>
+    </Style.Resources>
+</Style>

@@ -30,7 +30,7 @@ public partial class ColorSpectrum : TemplatedControl
     protected const string PcDarkSelector = ":dark-selector";
     protected const string PcLargeSelector = ":large-selector";
     protected const string PcLightSelector = ":light-selector";
-    
+
     private const double Rad = Math.PI / 180;
     private const double InvRad = 180 / Math.PI;
 
@@ -133,7 +133,7 @@ public partial class ColorSpectrum : TemplatedControl
 
         if (_layoutRoot != null)
         {
-            _layoutRootDisposable = _layoutRoot.GetObservable(BoundsProperty).Subscribe(_ => 
+            _layoutRootDisposable = _layoutRoot.GetObservable(BoundsProperty).Subscribe(_ =>
             {
                 CreateBitmapsAndColorMap();
             });
@@ -141,7 +141,7 @@ public partial class ColorSpectrum : TemplatedControl
 
         if (_selectionEllipsePanel != null)
         {
-            _selectionEllipsePanelDisposable = _selectionEllipsePanel.GetObservable(FlowDirectionProperty).Subscribe(_ => 
+            _selectionEllipsePanelDisposable = _selectionEllipsePanel.GetObservable(FlowDirectionProperty).Subscribe(_ =>
             {
                 UpdateEllipse();
             });
@@ -172,7 +172,7 @@ public partial class ColorSpectrum : TemplatedControl
 
         _selectionEllipsePanelDisposable?.Dispose();
         _selectionEllipsePanelDisposable = null;
-        
+
         if (_inputTarget != null)
         {
             _inputTarget.PointerEntered -= InputTarget_PointerEnter;
@@ -640,7 +640,7 @@ public partial class ColorSpectrum : TemplatedControl
         {
             return;
         }
-        
+
         // If we don't have an image size yet, we shouldn't be showing the ellipse.
         if (_imageWidthFromLastBitmapCreation == 0 ||
             _imageHeightFromLastBitmapCreation == 0)
@@ -794,7 +794,7 @@ public partial class ColorSpectrum : TemplatedControl
             }
 
             double radius = Math.Min(_imageWidthFromLastBitmapCreation, _imageHeightFromLastBitmapCreation) * 0.5;
-            
+
             xPosition = Math.Cos(thetaValue * Rad + Math.PI) * radius * rValue + radius;
             yPosition = Math.Sin(thetaValue * Rad + Math.PI) * radius * rValue + radius;
         }
@@ -882,7 +882,7 @@ public partial class ColorSpectrum : TemplatedControl
         {
             return;
         }
-        
+
         // We want ColorSpectrum to always be a square, so we'll take the smaller of the dimensions
         // and size the sizing panel to that.
         double minDimension = Math.Min(_layoutRoot.Bounds.Width, _layoutRoot.Bounds.Height);
@@ -1440,7 +1440,7 @@ public partial class ColorSpectrum : TemplatedControl
         {
             return;
         }
-        
+
         HsvColor hsvColor = HsvColor;
         ColorSpectrumComponents components = Components;
 
@@ -1460,7 +1460,7 @@ public partial class ColorSpectrum : TemplatedControl
                 {
                     return;
                 }
-                
+
                 ImageBrush spectrumBrush = new(_saturationMinimumBitmap);
                 ImageBrush spectrumOverlayBrush = new(_saturationMaximumBitmap);
 
@@ -1480,7 +1480,7 @@ public partial class ColorSpectrum : TemplatedControl
                 {
                     return;
                 }
-                
+
                 ImageBrush spectrumBrush = new(_valueBitmap);
                 ImageBrush spectrumOverlayBrush = new(_valueBitmap);
 
@@ -1505,7 +1505,7 @@ public partial class ColorSpectrum : TemplatedControl
                 {
                     return;
                 }
-                
+
                 ImageBrush spectrumBrush;
                 ImageBrush spectrumOverlayBrush;
 

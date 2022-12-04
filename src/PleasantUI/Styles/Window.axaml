@@ -6,8 +6,9 @@
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
-        
+        <Setter Property="FontFamily"
+                Value="{CompiledBinding FontName, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static GlobalConverters.NameToFontFamily}}" />
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel Background="{TemplateBinding Background}">
@@ -17,7 +18,7 @@
                                           Content="{TemplateBinding Content}"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>

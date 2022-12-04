@@ -30,16 +30,16 @@ namespace Regul.Views;
 public class MainWindow : PleasantWindow
 {
     private DragAndDropWindow? _dragAndDropWindow;
-    
+
 #if DEBUG
     private bool _canGetAnException;
 #endif
-    
+
     private bool _closing;
     private readonly WindowNotificationManager _notificationManager;
-    
+
     public MainWindowViewModel ViewModel { get; }
-    
+
     public MainWindow()
     {
         AvaloniaXamlLoader.Load(this);
@@ -47,7 +47,7 @@ public class MainWindow : PleasantWindow
 #if DEBUG
         this.AttachDevTools();
 #endif
-        
+
 #if DEBUG
         KeyDown += (_, e) =>
         {
@@ -75,17 +75,17 @@ public class MainWindow : PleasantWindow
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top
         };
-        
+
         SetupDragAndDrop();
 
         Closing += OnClosing;
-        TemplateApplied += (sender, args) =>
+        TemplateApplied += (_, _) =>
         {
             AdornerLayer? adornerLayer = this.FindDescendantOfType<VisualLayerManager>()?.AdornerLayer;
             if (adornerLayer is null) return;
-            
+
             adornerLayer.HorizontalAlignment = HorizontalAlignment.Right;
-            adornerLayer.Margin = Thickness.Parse("-355 0 0 0");
+            adornerLayer.Margin = new Thickness(-355, 0, 0, 0);
         };
         Loaded += (_, _) =>
         {
@@ -93,12 +93,12 @@ public class MainWindow : PleasantWindow
             ViewModel.DropFiles(filesFromArguments);
 
             ViewModel.SynchronizationContext = SynchronizationContext.Current;
-            
+
             if (!Directory.Exists(RegulDirectories.Cache))
                 Directory.CreateDirectory(RegulDirectories.Cache);
             if (!Directory.Exists(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
                 Directory.CreateDirectory(Path.Combine(RegulDirectories.Cache, "OpenFiles"));
-            
+
             foreach (string file in Directory.EnumerateFiles(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
             {
                 string content = File.ReadAllText(file);
@@ -107,8 +107,9 @@ public class MainWindow : PleasantWindow
                 List<string> files = ViewModel.GetFilesFromArguments(content.Split('|'));
                 ViewModel.DropFiles(files);
             }
-            
-            Task.Run(() => ViewModel.LaunchEventWaitHandler(ViewModel.SynchronizationContext));
+
+            if (ViewModel.SynchronizationContext is not null)
+                Task.Run(() => ViewModel.LaunchEventWaitHandler(ViewModel.SynchronizationContext));
         };
     }
     private async void OnClosing(object? sender, CancelEventArgs e)
@@ -125,52 +126,48 @@ public class MainWindow : PleasantWindow
                         WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
 
                     ViewModel.SelectedWorkbench = workbench;
-                    
-                    string result = await MessageBox.Show(this, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty, new List<MessageBoxButton>
-                    {
-                        new()
+
+                    string result = await MessageBox.Show(this, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
+                        new List<MessageBoxButton>
                         {
-                            Text = "Yes",
-                            Default = true,
-                            Result = "Yes",
-                            IsKeyDown = true
-                        },
-                        new()
-                        {
-                            Text = "No",
-                            Result = "No"
-                        },
-                        new()
-                        {
-                            Text = "Cancel",
-                            Result = "Cancel"
-                        }
-                    });
+                            new()
+                            {
+                                Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
+                            },
+                            new()
+                            {
+                                Text = "No", Result = "No"
+                            },
+                            new()
+                            {
+                                Text = "Cancel", Result = "Cancel"
+                            }
+                        });
 
                     if (result == "Yes")
                     {
                         SaveResult saveResult = await ViewModel.SaveWorkbench(workbench);
-                        
+
                         if (saveResult == SaveResult.Success)
                             continue;
                     }
                     if (result == "No")
                         continue;
-                    
+
                     return;
                 }
             }
-            
+
             ApplicationSettings.Save();
             PleasantUiSettings.Save();
 
             _closing = true;
-            
+
 #if DEBUG
             if (_canGetAnException)
                 throw new Exception("Debug exception");
 #endif
-            
+
             Close();
         }
         else
@@ -194,7 +191,7 @@ public class MainWindow : PleasantWindow
             if (e.Data.Contains(DataFormats.FileNames))
             {
                 IEnumerable<string>? fileNames = e.Data.GetFileNames();
-                
+
                 if (fileNames is null) return;
 
                 if (fileNames.Any(x => x.Contains(".dll") || x.Contains(".zip")))
@@ -207,7 +204,7 @@ public class MainWindow : PleasantWindow
                 e.DragEffects = DragDropEffects.None;
                 return;
             }
-            
+
             _dragAndDropWindow.Show(this);
         }
 
@@ -219,17 +216,19 @@ public class MainWindow : PleasantWindow
 
                 if (fileNames is not null)
                 {
-                    if (fileNames.Any(x => x!.Contains(".dll") || x.Contains(".zip")))
-                        ViewModel.DropModules(fileNames);
+                    List<string> fileNamesList = new(fileNames);
+
+                    if (fileNamesList.Any(x => x.Contains(".dll") || x.Contains(".zip")))
+                        ViewModel.DropModules(fileNamesList);
                     else
-                        ViewModel.DropFiles(fileNames);
+                        ViewModel.DropFiles(fileNamesList);
                 }
             }
-            
+
             _dragAndDropWindow?.Close();
             _dragAndDropWindow = null;
         }
-        
+
         AddHandler(DragDrop.DragEnterEvent, DragEnter);
         AddHandler(DragDrop.DragLeaveEvent, DragLeave);
         AddHandler(DragDrop.DropEvent, Drop);
@@ -237,9 +236,7 @@ public class MainWindow : PleasantWindow
 
     public void ShowNotification(string text, NotificationType type = NotificationType.Information, TimeSpan? timeSpan = null)
     {
-        string titleValue, textValue;
-
-        titleValue = type switch
+        string titleValue = type switch
         {
 
             NotificationType.Information => App.GetString("Information"),
@@ -248,9 +245,9 @@ public class MainWindow : PleasantWindow
             NotificationType.Error => App.GetString("Error"),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
-        
-        textValue = App.GetString(text);
-        
+
+        string textValue = App.GetString(text);
+
         _notificationManager.Show(new Notification(titleValue, textValue, type, timeSpan));
     }
 

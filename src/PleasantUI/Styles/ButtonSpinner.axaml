@@ -20,7 +20,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="ButtonSpinnerRepeatButton" TargetType="RepeatButton">
         <Setter Property="MinWidth" Value="26" />
         <Setter Property="Padding" Value="0" />
@@ -41,7 +41,7 @@
                                   VerticalContentAlignment="Center" />
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
@@ -49,7 +49,7 @@
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
@@ -71,7 +71,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Name="BorderElement" />
-                    
+
                     <DataValidationErrors>
                         <Panel>
                             <Border CornerRadius="{TemplateBinding CornerRadius}"
@@ -98,7 +98,7 @@
                                                       Margin="4 4 2 4">
                                             <Path Data="{StaticResource chevron_up_regular}"
                                                   Stretch="Uniform"
-                                                  Width="15"/>
+                                                  Width="15" />
                                         </RepeatButton>
 
                                         <RepeatButton Name="PART_DecreaseButton"
@@ -111,7 +111,7 @@
                                                       Margin="0 4 4 4">
                                             <Path Data="{StaticResource chevron_down_regular}"
                                                   Stretch="Uniform"
-                                                  Width="15"/>
+                                                  Width="15" />
                                         </RepeatButton>
                                     </StackPanel>
                                 </Grid>
@@ -121,12 +121,12 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <!--  ButtonSpinnerLocation=Right  -->
         <Style Selector="^:right /template/ StackPanel#PART_SpinnerPanel">
             <Setter Property="Grid.Column" Value="2" />
         </Style>
-        
+
         <!--  ButtonSpinnerLocation=Left  -->
         <Style Selector="^:left /template/ StackPanel#PART_SpinnerPanel">
             <Setter Property="Grid.Column" Value="0" />

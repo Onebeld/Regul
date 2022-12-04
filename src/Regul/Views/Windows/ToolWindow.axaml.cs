@@ -5,8 +5,5 @@ namespace Regul.Views.Windows;
 
 public class ToolWindow : ContentDialog
 {
-    public ToolWindow()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public ToolWindow() => AvaloniaXamlLoader.Load(this);
 }

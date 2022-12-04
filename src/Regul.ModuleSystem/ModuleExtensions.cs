@@ -10,7 +10,8 @@ public static class ModuleExtensions
 {
     public static void ChangeLanguage(this Module module, string newLanguage, Styles modulesLanguage)
     {
-        if (module.Instance.Localization?.SupportedLanguages is null || module.Instance.Localization?.SupportedLanguages?.Count < 1 || string.IsNullOrWhiteSpace(module.Instance.Localization.PathToLocalization))
+        if (module.Instance.Localization?.SupportedLanguages is null || module.Instance.Localization?.SupportedLanguages?.Count < 1 ||
+            string.IsNullOrWhiteSpace(module.Instance.Localization.PathToLocalization))
             return;
 
         Language? language = null;
@@ -19,7 +20,7 @@ public static class ModuleExtensions
         {
             language = languages.FirstOrDefault(x => x.Key == newLanguage);
 
-            if (language is null)
+            if (language.Value.Key is null)
                 language = languages.First(x => x.Key == "en");
         }
         else return;
@@ -28,7 +29,7 @@ public static class ModuleExtensions
         {
             Source = new Uri($"{module.Instance.Localization.PathToLocalization}/{language.Value.Key}.axaml")
         };
-        
+
         if (!modulesLanguage.Contains(module.Instance.Localization.LanguageStyle))
             modulesLanguage.Add(module.Instance.Localization.LanguageStyle);
     }

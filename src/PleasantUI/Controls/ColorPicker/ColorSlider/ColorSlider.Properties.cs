@@ -69,7 +69,7 @@ public partial class ColorSlider
     /// Gets or sets the currently selected color in the RGB color model.
     /// </summary>
     /// <remarks>
-    /// Use this property instead of <see cref="HsvColor"/> when in <see cref="ColorModel.Rgba"/>
+    /// Use this property instead of <see cref="HsvColor"/> when in <see cref="ColorModel"/>
     /// to avoid loss of precision and color drifting.
     /// </remarks>
     public Color Color
@@ -100,7 +100,7 @@ public partial class ColorSlider
     /// Gets or sets the currently selected color in the HSV color model.
     /// </summary>
     /// <remarks>
-    /// Use this property instead of <see cref="Color"/> when in <see cref="ColorModel.Hsva"/>
+    /// Use this property instead of <see cref="Color"/> when in <see cref="ColorModel"/>
     /// to avoid loss of precision and color drifting.
     /// </remarks>
     public HsvColor HsvColor
@@ -125,7 +125,7 @@ public partial class ColorSlider
     /// </summary>
     /// <remarks>
     /// This is applicable for the HSV color model only. The <see cref="Avalonia.Media.HsvColor"/> struct uses double
-    /// values while the <see cref="Media.Color"/> struct uses byte. Only double types need rounding.
+    /// values while the <see cref="Color"/> struct uses byte. Only double types need rounding.
     /// </remarks>
     public bool IsRoundingEnabled
     {

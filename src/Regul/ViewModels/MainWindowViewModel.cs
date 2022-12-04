@@ -34,6 +34,7 @@ using Regul.ViewModels.Windows;
 using Regul.Views.Pages;
 using Regul.Views.Windows;
 using Path = System.IO.Path;
+
 #pragma warning disable CS0618
 
 namespace Regul.ViewModels;
@@ -41,10 +42,10 @@ namespace Regul.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public SynchronizationContext? SynchronizationContext;
-    
+
     private readonly EventWaitHandle _bytesWritten =
         new(false, EventResetMode.AutoReset, "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
-    
+
     private object? _content;
 
     private string _searchName = string.Empty;
@@ -148,14 +149,14 @@ public class MainWindowViewModel : ViewModelBase
         }
         // ReSharper disable once FunctionNeverReturns
     }
-    
+
     private void OpenCachedFilesForEdit(SynchronizationContext? context)
     {
         if (!Directory.Exists(RegulDirectories.Cache))
             Directory.CreateDirectory(RegulDirectories.Cache);
         if (!Directory.Exists(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
             Directory.CreateDirectory(Path.Combine(RegulDirectories.Cache, "OpenFiles"));
-        
+
         foreach (string file in Directory.EnumerateFiles(Path.Combine(RegulDirectories.Cache, "OpenFiles")))
         {
             string content = File.ReadAllText(file);
@@ -179,21 +180,26 @@ public class MainWindowViewModel : ViewModelBase
 
     public List<string> GetFilesFromArguments(string?[] args)
     {
-        List<string> _fileArgs = new();
+        List<string> fileArgs = new();
 
-        foreach (string arg in args)
+        foreach (string? arg in args)
         {
             try
             {
-                _ = new FileInfo(arg!);
-                _fileArgs.Add(arg);
+                if (arg is null) continue;
+
+                _ = new FileInfo(arg);
+                fileArgs.Add(arg);
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
-        return _fileArgs;
+        return fileArgs;
     }
-    
+
     private void ProjectsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearch(ApplicationSettings.Current.Projects);
 
     private async void CheckUpdate()
@@ -214,34 +220,33 @@ public class MainWindowViewModel : ViewModelBase
             };
 
             dateTime = dateTime.Add(timeSpan);
-        
+
             if (dateTime > DateTime.Now)
                 return;
         }
-        
+
         // Check Regul update
         (CheckUpdateResult checkUpdateResult, Version? newVersion) = await App.CheckUpdate();
 
-        if (checkUpdateResult == CheckUpdateResult.HasUpdate && newVersion is not null)
+        if (checkUpdateResult == CheckUpdateResult.HasUpdate && newVersion is not null && WindowsManager.MainWindow is not null)
         {
-            string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion.ToString()}", "GoToTheWebsiteToDownloadNewUpdate", new List<MessageBoxButton>()
-            {
-                new()
+            string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion.ToString()}", "GoToTheWebsiteToDownloadNewUpdate",
+                new List<MessageBoxButton>
                 {
-                    Text = App.GetString("Yes"), 
-                    Default = true, 
-                    Result = "Yes", 
-                    IsKeyDown = true
-                },
-                new()
-                {
-                    Text = App.GetString("No"), 
-                    Result = "No"
-                }
-            });
+                    new()
+                    {
+                        Text = App.GetString("Yes"), Default = true, Result = "Yes", IsKeyDown = true
+                    },
+                    new()
+                    {
+                        Text = App.GetString("No"), Result = "No"
+                    }
+                });
             if (result == "Yes")
             {
+#pragma warning disable CS4014
                 IoHelpers.OpenBrowserAsync("https://github.com/Onebeld/Regul/tags");
+#pragma warning restore CS4014
             }
         }
 
@@ -262,7 +267,10 @@ public class MainWindowViewModel : ViewModelBase
                         module.HasUpdate = true;
                     }
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             });
         });
         if (ModuleManager.Modules.Any(x => x.HasUpdate))
@@ -270,7 +278,7 @@ public class MainWindowViewModel : ViewModelBase
 
         ApplicationSettings.Current.DateOfLastUpdateCheck = DateTime.Now.ToString(CultureInfo.CurrentCulture);
     }
-    
+
     private void OnSearch(AvaloniaList<Project> obj)
     {
         SortedProjects.Clear();
@@ -286,31 +294,22 @@ public class MainWindowViewModel : ViewModelBase
         if (!string.IsNullOrWhiteSpace(SearchEditor))
             list = list.FindAll(x =>
             {
-                Editor? editor = ModuleManager.Editors.FirstOrDefault(itemEditor => itemEditor.Name!.ToLower().Contains(SearchEditor.ToLower()));
-
-                if (editor is not null)
-                    return editor.Id == x.IdEditor;
-                return false;
+                string? nameEditor = ModuleManager.GetEditorById(x.IdEditor)?.Name;
+                return nameEditor is not null && App.GetString(nameEditor).ToLower().Contains(SearchEditor);
             });
 
         if (SortByDateOfChange)
-        {
-            if (ReverseProjectList)
-                SortedProjects.AddRange(list.OrderBy(x => DateTime.Parse(x.DateTime)));
-            else SortedProjects.AddRange(list.OrderByDescending(x => DateTime.Parse(x.DateTime)));
-        }
+            list = new List<Project>(list.OrderByDescending(x => DateTime.Parse(x.DateTime)));
         else if (SortByAlphabetical)
-        {
-            if (ReverseProjectList)
-                SortedProjects.AddRange(list.OrderByDescending(x => Path.GetFileNameWithoutExtension(x.Path)));
-            else SortedProjects.AddRange(list.OrderBy(x => Path.GetFileNameWithoutExtension(x.Path)));
-        }
+            list = new List<Project>(list.OrderBy(x => Path.GetFileNameWithoutExtension(x.Path)));
+
+        if (ReverseProjectList)
+            list.Reverse();
+
+        SortedProjects.AddRange(list);
     }
 
-    private void DoRaiseContentProperty(object? obj)
-    {
-        RaisePropertyChanged(nameof(IsHomePage));
-    }
+    private void DoRaiseContentProperty(object? obj) => RaisePropertyChanged(nameof(IsHomePage));
 
     public void OpenSettings(TitleBarType titleBarType = TitleBarType.Classic)
     {
@@ -355,7 +354,7 @@ public class MainWindowViewModel : ViewModelBase
         if (ModuleManager.Editors.Count < 1)
         {
             WindowsManager.MainWindow?.ShowNotification("EditorsNotInstalled", NotificationType.Error, TimeSpan.FromSeconds(5));
-            
+
             return;
         }
 
@@ -379,14 +378,14 @@ public class MainWindowViewModel : ViewModelBase
         if (isExistWorkbench)
         {
             SelectedWorkbench = existWorkbench;
-            
+
             if (Content is not EditorsPage)
                 WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
-            
+
             WindowsManager.MainWindow?.ShowNotification("ProjectAlreadyOpen", NotificationType.Warning, TimeSpan.FromSeconds(5));
             return;
         }
-        
+
         Editor? editor = ModuleManager.GetEditorById(project.IdEditor);
 
         if (editor is null)
@@ -401,13 +400,13 @@ public class MainWindowViewModel : ViewModelBase
             ApplicationSettings.Current.Projects.Remove(project);
             return;
         }
-        
+
         AddProject(project.Path, project.IdEditor);
 
         Workbench workbench = CreateWorkbench(project.Path, editor);
 
         SelectedWorkbench = workbench;
-        
+
         if (Content is not EditorsPage)
             WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
     }
@@ -423,7 +422,7 @@ public class MainWindowViewModel : ViewModelBase
             WindowsManager.MainWindow?.ShowNotification("EditorsNotInstalled", NotificationType.Error, TimeSpan.FromSeconds(5));
             return;
         }
-        
+
         string[]? paths = await OpenFilePicker();
         if (paths is null || paths.Length < 1)
             return;
@@ -431,16 +430,16 @@ public class MainWindowViewModel : ViewModelBase
         foreach (string s in paths)
         {
             (Editor? editor, bool openExtension) = await GetEditor(s);
-            
+
             if (editor is null) continue;
-            
+
             SaveExtension(openExtension, paths[0], editor.Id);
             LoadFile(s, editor);
-            
+
             AddProject(s, editor.Id);
         }
     }
-    
+
     private static void AddProject(string path, ulong editorId)
     {
         Project? project = ApplicationSettings.Current.Projects.FirstOrDefault(p => p.Path == path);
@@ -463,11 +462,11 @@ public class MainWindowViewModel : ViewModelBase
             WindowsManager.MainWindow?.ShowNotification($"{App.GetString("ThisFileIsAlreadyOpen")}: {Path.GetFileName(path)}", NotificationType.Information, TimeSpan.FromSeconds(4));
             return;
         }
-        
+
         CreateWorkbench(path, editor);
 
         SelectedWorkbench = Workbenches.ElementAt(Workbenches.Count - 1);
-        
+
         if (Content is not EditorsPage)
             WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
     }
@@ -475,11 +474,10 @@ public class MainWindowViewModel : ViewModelBase
     private void SaveExtension(bool openExtension, string path, ulong idEditor)
     {
         if (!openExtension) return;
-        
-        ApplicationSettings.Current.EditorRelatedExtensions.Add(new EditorRelatedExtension()
+
+        ApplicationSettings.Current.EditorRelatedExtensions.Add(new EditorRelatedExtension
         {
-            Extension = Path.GetExtension(path),
-            IdEditor = idEditor
+            Extension = Path.GetExtension(path), IdEditor = idEditor
         });
     }
 
@@ -498,9 +496,9 @@ public class MainWindowViewModel : ViewModelBase
         window.Width = 500;
         window.Height = 450;
         window.Icon = WindowsManager.MainWindow?.Icon;
-        
+
         window.Bind(Window.TitleProperty, new DynamicResourceExtension("Logs"));
-        
+
         window.Show();
     }
 
@@ -540,15 +538,15 @@ public class MainWindowViewModel : ViewModelBase
                     WindowsManager.MainWindow?.ShowNotification("FailedToLoadTheModules", NotificationType.Error, TimeSpan.FromSeconds(4));
                     return;
                 }
-                
+
                 copiedFiles.Add(path);
             }
         }
 
         App.LoadModules(copiedFiles);
-        
+
         OnSearch(ApplicationSettings.Current.Projects);
-        
+
         WindowsManager.MainWindow?.ShowNotification("ModulesWereLoadedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
     }
 
@@ -563,13 +561,13 @@ public class MainWindowViewModel : ViewModelBase
         foreach (string? file in files)
         {
             if (file is null) continue;
-            
+
             (Editor? editor, bool openExtension) = await GetEditor(file);
-        
+
             if (editor is null) continue;
-            
+
             SaveExtension(openExtension, file, editor.Id);
-            
+
             LoadFile(file, editor);
         }
     }
@@ -588,7 +586,7 @@ public class MainWindowViewModel : ViewModelBase
                     break;
             }
         }
-            
+
         if (editor is null)
             (editor, openExtension) = await EditorSelectionWindow.GetEditor(Path.GetFileName(file));
 
@@ -605,17 +603,14 @@ public class MainWindowViewModel : ViewModelBase
     {
         Workbench workbench = new()
         {
-            EditorViewModel = (IEditorViewModel?)Activator.CreateInstance(editor.Type),
-            EditorId = editor.Id,
-            PathToFile = path,
-            IsDirty = path is null
+            EditorViewModel = (IEditorViewModel?)Activator.CreateInstance(editor.Type), EditorId = editor.Id, PathToFile = path, IsDirty = path is null
         };
         if (workbench.EditorViewModel != null)
         {
             workbench.EditorViewModel.Workbench = workbench;
             workbench.EditorViewModel.Execute();
         }
-        
+
         Workbenches.Add(workbench);
 
         return workbench;
@@ -628,11 +623,11 @@ public class MainWindowViewModel : ViewModelBase
         if (workbench.PathToFile is null)
         {
             Editor? editor = ModuleManager.GetEditorById(workbench.EditorId);
-        
+
             if (editor is null) return SaveResult.Error;
 
             string? path = await OpenSaveFilePicker(editor);
-            
+
             if (path is null) return SaveResult.Cancel;
             workbench.PathToFile = path;
         }
@@ -646,7 +641,7 @@ public class MainWindowViewModel : ViewModelBase
         catch (Exception e)
         {
             Logger.Instance.WriteLog(LogType.Error, $"[{e.TargetSite?.DeclaringType}.{e.TargetSite?.Name}()] {e}\r\n");
-            
+
             if (_showNotificationAfterSaving)
             {
                 WindowsManager.MainWindow?.ShowNotification(
@@ -654,7 +649,7 @@ public class MainWindowViewModel : ViewModelBase
                     NotificationType.Error,
                     TimeSpan.FromSeconds(4));
             }
-            
+
             return SaveResult.Error;
         }
 
@@ -673,13 +668,13 @@ public class MainWindowViewModel : ViewModelBase
                 ApplicationSettings.Current.Projects.Add(project);
             }
             else project.DateTime = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-            
+
             AddProject(workbench.PathToFile, workbench.EditorId);
 
             if (_showNotificationAfterSaving)
             {
                 OnSearch(ApplicationSettings.Current.Projects);
-                
+
                 WindowsManager.MainWindow?.ShowNotification(
                     $"{App.GetString("ProjectSavedSuccessfully")}: {Path.GetFileName(workbench.PathToFile)}",
                     NotificationType.Success,
@@ -695,21 +690,21 @@ public class MainWindowViewModel : ViewModelBase
         if (SelectedWorkbench is null) return;
 
         Editor? editor = ModuleManager.GetEditorById(SelectedWorkbench.EditorId);
-        
+
         if (editor is null) return;
 
         string? path = await OpenSaveFilePicker(editor);
 
         if (path is null)
             return;
-        
+
         Project? project = ApplicationSettings.Current.Projects.FirstOrDefault(p => p.Path == SelectedWorkbench.PathToFile);
 
         if (project is not null)
             project.Path = path;
-        
+
         SelectedWorkbench.PathToFile = path;
-        
+
         await SaveWorkbench(SelectedWorkbench);
     }
 
@@ -721,7 +716,7 @@ public class MainWindowViewModel : ViewModelBase
             await SaveWorkbench(workbench);
         }
         _showNotificationAfterSaving = true;
-        
+
         OnSearch(ApplicationSettings.Current.Projects);
 
         WindowsManager.MainWindow?.ShowNotification("AllProjectsSavedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
@@ -763,16 +758,22 @@ public class MainWindowViewModel : ViewModelBase
 
         return pathList;*/
 
-        OpenFileDialog dialog = new() { Filters = new List<FileDialogFilter>(), AllowMultiple = true };
-        dialog.Filters.Add(new FileDialogFilter()
+        OpenFileDialog dialog = new()
+        {
+            Filters = new List<FileDialogFilter>(), AllowMultiple = true
+        };
+        dialog.Filters.Add(new FileDialogFilter
         {
             Name = App.GetString("AllFiles"),
-            Extensions = { "*" }
+            Extensions =
+            {
+                "*"
+            }
         });
-        
+
         return await dialog.ShowAsync(WindowsManager.MainWindow!);
     }
-    
+
     [Obsolete("Obsolete")]
     public async Task<string?> OpenSaveFilePicker(Editor editor)
     {
@@ -786,13 +787,15 @@ public class MainWindowViewModel : ViewModelBase
 
         return uri?.LocalPath;*/
 
-        SaveFileDialog saveFileDialog = new() { Filters = new List<FileDialogFilter>() };
+        SaveFileDialog saveFileDialog = new()
+        {
+            Filters = new List<FileDialogFilter>()
+        };
         foreach (FilePickerFileType fileType in editor.FileTypes)
         {
             saveFileDialog.Filters.Add(new FileDialogFilter
             {
-                Name = fileType.Name,
-                Extensions = fileType.Patterns!.Select(x => x.Remove(0, 2)).ToList()
+                Name = fileType.Name, Extensions = fileType.Patterns!.Select(x => x.Remove(0, 2)).ToList()
             });
         }
 
@@ -801,18 +804,18 @@ public class MainWindowViewModel : ViewModelBase
 
     #endregion
 
-    public bool TryGetExistenceWorkbench(string fileToPath, out Workbench? workbench)
+    private bool TryGetExistenceWorkbench(string fileToPath, out Workbench? workbench)
     {
         workbench = Workbenches.FirstOrDefault(w => w.PathToFile == fileToPath);
         return workbench is not null;
     }
 
-    public void OpenFileBrowser(Workbench workbench)
+    public static void OpenFileBrowser(Workbench workbench)
     {
         if (workbench.PathToFile is null) return;
-        
+
         IoHelpers.OpenFileInFileExplorer(workbench.PathToFile);
-        
+
 #if Windows
         Process.Start("explorer.exe", "/select, " + workbench.PathToFile);
 #endif

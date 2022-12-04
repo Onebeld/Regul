@@ -13,23 +13,19 @@ namespace PleasantUI.Converters;
 /// </remarks>
 public class AccentColorConverter : IValueConverter
 {
-    private static readonly Lazy<AccentColorConverter> _lazy = new(() => new AccentColorConverter());
+    private static readonly Lazy<AccentColorConverter> Lazy = new(() => new AccentColorConverter());
     public static AccentColorConverter Instance
     {
-        get => _lazy.Value;
+        get => Lazy.Value;
     }
-    
+
     /// <summary>
     /// The amount to change the Value component for each accent color step.
     /// </summary>
     public const double ValueDelta = 0.1;
 
     /// <inheritdoc/>
-    public object? Convert(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         int accentStep;
         Color? rgbColor = null;
@@ -78,18 +74,11 @@ public class AccentColorConverter : IValueConverter
         {
             return new SolidColorBrush(GetAccent(hsvColor.Value, accentStep).ToRgb());
         }
-        else
-        {
-            return AvaloniaProperty.UnsetValue;
-        }
+        return AvaloniaProperty.UnsetValue;
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return AvaloniaProperty.UnsetValue;
     }
@@ -108,7 +97,7 @@ public class AccentColorConverter : IValueConverter
     public static HsvColor GetAccent(HsvColor hsvColor, int accentStep)
     {
         if (accentStep == 0) return hsvColor;
-        
+
         double colorValue = hsvColor.V;
         colorValue += accentStep * ValueDelta;
         colorValue = Math.Round(colorValue, 2);

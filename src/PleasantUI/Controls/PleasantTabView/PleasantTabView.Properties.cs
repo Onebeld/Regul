@@ -11,19 +11,16 @@ public partial class PleasantTabView
 {
     private object _fallbackContent = new TextBlock
     {
-        Text = "Nothing here",
-        HorizontalAlignment = HorizontalAlignment.Center,
-        VerticalAlignment = VerticalAlignment.Center,
-        FontSize = 16
+        Text = "Nothing here", HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 16
     };
 
     private double _heightRemainingSpace;
     private double _widthRemainingSpace;
     private Grid? _grid;
     private double _lastSelectIndex = 0;
-    
+
     public Button? AdderButton;
-    
+
     /// <summary>
     ///     Defines the <see cref="ClickOnAddingButton" /> event.
     /// </summary>
@@ -178,7 +175,7 @@ public partial class PleasantTabView
         get => GetValue(MarginTypeProperty);
         set => SetValue(MarginTypeProperty, value);
     }
-    
+
     /// <summary>
     ///     It's raised when the adder button is clicked
     /// </summary>
