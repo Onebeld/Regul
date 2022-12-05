@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -74,5 +75,25 @@ public static class WindowsManager
             window.Show(host);
 
         return window;
+    }
+
+    public static void CloseAllWindowsByType(IReadOnlyList<Type> types)
+    {
+        for (int index = Windows.Count - 1; index >= 0; index--)
+        {
+            Window window = Windows[index];
+            if (types.Any(type => type.IsInstanceOfType(window.DataContext)))
+                window.Close();
+        }
+    }
+
+    public static void CloseAllModalWindowsByType(IReadOnlyList<Type> types)
+    {
+        for (int index = ModalWindows.Count - 1; index >= 0; index--)
+        {
+            ContentDialog window = ModalWindows[index];
+            if (types.Any(type => type.IsInstanceOfType(window)))
+                window.Close();
+        }
     }
 }

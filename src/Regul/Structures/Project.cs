@@ -6,7 +6,7 @@ namespace Regul.Structures;
 
 public class Project : ViewModelBase
 {
-    private ulong _idEditor;
+    private string _idEditor = string.Empty;
     private string _path = string.Empty;
     private string _dateTime = string.Empty;
 
@@ -20,7 +20,7 @@ public class Project : ViewModelBase
 
     [XmlAttribute]
     [DataMember]
-    public ulong IdEditor
+    public string IdEditor
     {
         get => _idEditor;
         set => RaiseAndSetIfChanged(ref _idEditor, value);
@@ -39,7 +39,7 @@ public class Project : ViewModelBase
 
     }
 
-    public Project(ulong idEditor, string path, string dateTime)
+    public Project(string idEditor, string path, string dateTime)
     {
         IdEditor = idEditor;
         Path = path;

@@ -8,7 +8,7 @@ public class Workbench : ViewModelBase
     private string? _pathToFile;
     private bool _isDirty;
     private IEditorViewModel? _editorViewModel;
-    private ulong _editorId;
+    private string _editorId;
 
     /// <summary>
     /// Open file name.
@@ -36,7 +36,7 @@ public class Workbench : ViewModelBase
         set => RaiseAndSetIfChanged(ref _editorViewModel, value);
     }
 
-    public ulong EditorId
+    public string EditorId
     {
         get => _editorId;
         set => RaiseAndSetIfChanged(ref _editorId, value);

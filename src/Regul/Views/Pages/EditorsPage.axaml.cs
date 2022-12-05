@@ -34,6 +34,14 @@ public class EditorsPage : UserControl
             if (_editorsTabView != null)
                 _editorsTabView.MarginType = TabViewMarginType.Little;
         }
+
+        TemplateApplied += (_, _) =>
+        {
+            if (WindowsManager.MainWindow is null) return;
+
+            if (WindowsManager.MainWindow.ViewModel.Workbenches.Count == 0)
+                WindowsManager.MainWindow.ChangePage(typeof(HomePage));
+        };
     }
 
     // ReSharper disable once UnusedParameter.Local

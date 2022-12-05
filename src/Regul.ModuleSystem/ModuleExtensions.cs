@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Avalonia;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 using Regul.ModuleSystem.Structures;
@@ -37,8 +36,7 @@ public static class ModuleExtensions
 
     public static void RemoveStyleLanguage(this Module module, Styles modulesLanguage)
     {
-        if (module.Instance.Localization?.SupportedLanguages is null || module.Instance.Localization?.SupportedLanguages?.Count < 1 ||
-            string.IsNullOrWhiteSpace(module.Instance.Localization.PathToLocalization) || module.Instance.Localization.LanguageStyle is null)
+        if (module.Instance.Localization?.LanguageStyle is null)
             return;
 
         modulesLanguage.Remove(module.Instance.Localization.LanguageStyle);

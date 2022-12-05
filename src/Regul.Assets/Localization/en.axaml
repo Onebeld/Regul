@@ -190,6 +190,7 @@
         <v:String x:Key="FailedToLoadTheModule">Failed to load the module.</v:String>
         <v:String x:Key="FailedToLoadTheModules">Failed to load the modules.</v:String>
         <v:String x:Key="InstallModule">Install module</v:String>
+        <v:String x:Key="ReloadModules">Reload modules</v:String>
         <v:String x:Key="ListOfAvailableModules">List of available modules</v:String>
         <v:String x:Key="CheckUpdateModules">Check update modules</v:String>
         <v:String x:Key="ModulesHaveNoUpdate">Modules have no update</v:String>
@@ -200,6 +201,7 @@
         <v:String x:Key="PreparingM">Preparing...</v:String>
         <v:String x:Key="DownloadingM">Downloading...</v:String>
         <v:String x:Key="NeedToRestartToFinishUpdatingModule">You will need to restart the program to finish updating the modules</v:String>
+        <v:String x:Key="ModulesHaveBeenReloaded">Modules have been reloaded</v:String>
 
         <!-- About Settings Content -->
         <v:String x:Key="ContactTheAuthor">Contact the author</v:String>

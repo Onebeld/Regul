@@ -9,7 +9,7 @@ public class Editor
     /// <summary>
     /// Editor's ID. It is used to identify the instance of the editor.
     /// </summary>
-    public ulong Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Editor's name. Can also be a key for localization.
@@ -31,7 +31,7 @@ public class Editor
     /// </summary>
     public IReadOnlyList<FilePickerFileType> FileTypes { get; }
 
-    public Editor(ulong id, string name, Type editorType, string? iconKey, List<FilePickerFileType> fileTypes)
+    public Editor(string id, string name, Type editorType, string? iconKey, List<FilePickerFileType> fileTypes)
     {
         Id = id;
         Name = name;

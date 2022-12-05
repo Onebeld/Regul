@@ -202,20 +202,12 @@ public class App : Application
             Module module = ModuleManager.Modules[i];
             
             bool b = await module.Instance.Release();
-            module.RemoveStyleLanguage(ModulesLanguage);
             if (!b) return false;
+            module.RemoveStyleLanguage(ModulesLanguage);
 
             ModuleManager.Modules.Remove(module);
-            AssemblyLoadContext assemblyLoadContext = AssemblyLoadContext.GetLoadContext(module.PluginLoader.LoadDefaultAssembly());
-            WeakReference weakReference = new(assemblyLoadContext, trackResurrection: true);
 
             module.PluginLoader.Dispose();
-
-            for (int i1 = 0; weakReference.IsAlive && (i1 < 10); i1++)
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
         }
 
         return true;
@@ -289,6 +281,20 @@ public class App : Application
         {
             Source = new Uri(pathToStyle)
         });
+    }
+    
+    public static void RemoveStyle(string pathToStyle)
+    {
+        if (Current is null) return;
+
+        for (int index = Current.Styles.Count - 1; index >= 0; index--)
+        {
+            IStyle currentStyle = Current.Styles[index];
+            if (currentStyle is StyleInclude { Source: { } } styleInclude && styleInclude.Source.Equals(new Uri(pathToStyle)))
+            {
+                Current.Styles.Remove(currentStyle);
+            }
+        }
     }
 
     public static readonly Language[] Languages =

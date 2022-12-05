@@ -440,7 +440,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private static void AddProject(string path, ulong editorId)
+    private static void AddProject(string path, string editorId)
     {
         Project? project = ApplicationSettings.Current.Projects.FirstOrDefault(p => p.Path == path);
 
@@ -471,7 +471,7 @@ public class MainWindowViewModel : ViewModelBase
             WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
     }
 
-    private void SaveExtension(bool openExtension, string path, ulong idEditor)
+    private void SaveExtension(bool openExtension, string path, string idEditor)
     {
         if (!openExtension) return;
 
@@ -614,6 +614,31 @@ public class MainWindowViewModel : ViewModelBase
         Workbenches.Add(workbench);
 
         return workbench;
+    }
+
+    public async Task<bool> CloseWorkbenchesByTypes(IReadOnlyList<Type> types)
+    {
+        if (WindowsManager.MainWindow is null)
+            return true;
+        
+        for (int index = Workbenches.Count - 1; index >= 0; index--)
+        {
+            Workbench workbench = Workbenches[index];
+            if (!types.Any(type => type.IsInstanceOfType(workbench.EditorViewModel)))
+                continue;
+
+            if (workbench.IsDirty)
+            {
+                SaveResult saveResult = await WindowsManager.MainWindow.SaveBeforeClosingWorkbench(workbench);
+
+                if (saveResult == SaveResult.Cancel)
+                    return false;
+            }
+
+            WindowsManager.MainWindow.ViewModel.Workbenches.RemoveAt(index);
+        }
+
+        return true;
     }
 
     public async Task<SaveResult> SaveWorkbench(Workbench? workbench)
@@ -777,7 +802,7 @@ public class MainWindowViewModel : ViewModelBase
     [Obsolete("Obsolete")]
     public async Task<string?> OpenSaveFilePicker(Editor editor)
     {
-        /*IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             FileTypeChoices = editor.FileTypes
         })!;
@@ -785,7 +810,7 @@ public class MainWindowViewModel : ViewModelBase
         if (file is null) return null;
         file.TryGetUri(out Uri? uri);
 
-        return uri?.LocalPath;*/
+        return uri?.LocalPath;
 
         SaveFileDialog saveFileDialog = new()
         {

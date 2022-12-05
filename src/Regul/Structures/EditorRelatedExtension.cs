@@ -8,5 +8,5 @@ public class EditorRelatedExtension
     public string Extension { get; set; } = string.Empty;
 
     [XmlAttribute]
-    public ulong IdEditor { get; set; }
+    public string IdEditor { get; set; } = string.Empty;
 }

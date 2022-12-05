@@ -640,20 +640,16 @@ public class SettingsPageViewModel : ViewModelBase
         }
     }
 
-    public async void DisableAllModulesAndWait()
+    public async void ReloadModules()
     {
         bool b = await App.UnloadModules();
         if (!b) return;
 
-        await MessageBox.Show(WindowsManager.MainWindow, "Modules disabled", "", new List<MessageBoxButton>()
-        {
-            new()
-            {
-                Text = "Ok", Default = true, IsKeyDown = true, Result = "OK"
-            }
-        });
-        
+        await Task.Delay(200);
+
         App.LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
+        
+        WindowsManager.MainWindow.ShowNotification("ModulesHaveBeenReloaded");
     }
 
     public async void CheckUpdate()

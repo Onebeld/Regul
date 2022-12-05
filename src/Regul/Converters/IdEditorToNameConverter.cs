@@ -17,7 +17,7 @@ public class IdEditorToNameConverter : IValueConverter
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is not ulong id) return null;
+        if (value is not string id) return null;
 
         string? name = ModuleManager.Editors.FirstOrDefault(x => x.Id == id)?.Name;
 

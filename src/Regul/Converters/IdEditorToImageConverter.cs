@@ -18,7 +18,7 @@ public class IdEditorToImageConverter : IValueConverter
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        Editor? editor = ModuleManager.GetEditorById((ulong)value!);
+        Editor? editor = ModuleManager.GetEditorById((string)value!);
         return editor?.IconKey is null ? App.GetResource<DrawingImage>("UnknownIcon") : App.GetResource<DrawingImage>(editor.IconKey);
     }
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

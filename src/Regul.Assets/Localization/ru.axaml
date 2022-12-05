@@ -190,6 +190,7 @@
         <v:String x:Key="FailedToLoadTheModule">Не удалось загрузить модуль.</v:String>
         <v:String x:Key="FailedToLoadTheModules">Не удалось загрузить модули.</v:String>
         <v:String x:Key="InstallModule">Установить модуль</v:String>
+        <v:String x:Key="ReloadModules">Перезагрузить модули</v:String>
         <v:String x:Key="ListOfAvailableModules">Список доступных модулей</v:String>
         <v:String x:Key="CheckUpdateModules">Проверка обновления модулей</v:String>
         <v:String x:Key="ModulesHaveNoUpdate">Модули не имеют обновлений</v:String>
@@ -200,7 +201,8 @@
         <v:String x:Key="PreparingM">Подготовка...</v:String>
         <v:String x:Key="DownloadingM">Загрузка...</v:String>
         <v:String x:Key="NeedToRestartToFinishUpdatingModule">Вам потребуется перезапустить программу, чтобы завершить обновление модулей</v:String>
-
+        <v:String x:Key="ModulesHaveBeenReloaded">Модули были перезагружены</v:String>
+        
         <!-- About Settings Content -->
         <v:String x:Key="ContactTheAuthor">Связаться с автором</v:String>
         <v:String x:Key="Description">Описание</v:String>

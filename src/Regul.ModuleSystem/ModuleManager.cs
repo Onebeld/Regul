@@ -27,7 +27,14 @@ public static class ModuleManager
     /// </summary>
     /// <param name="id">Editor ID</param>
     /// <returns>Editor's copy</returns>
-    public static Editor? GetEditorById(ulong id) => Editors.FirstOrDefault(editor => editor.Id == id);
+    public static Editor? GetEditorById(string id) => Editors.FirstOrDefault(editor => editor.Id == id);
+
+    public static void RemoveEditorById(string id)
+    {
+        Editor? editor = GetEditorById(id);
+        if (editor is not null)
+            Editors.Remove(editor);
+    }
 
     /// <summary>
     /// Allows you to load a module into the program
@@ -36,15 +43,27 @@ public static class ModuleManager
     /// <returns>A module instance, it is already automatically added to the list of modules.</returns>
     public static Module? InitializeModule(string path)
     {
-        PluginLoader moduleLoader = PluginLoader.CreateFromAssemblyFile(path, isUnloadable: true, sharedTypes: new [] { typeof(IModule) });
+        PluginLoader moduleLoader = PluginLoader.CreateFromAssemblyFile(path, x =>
+        {
+            x.IsUnloadable = true;
+            x.LoadInMemory = true;
+        });
         IModule? source = null;
 
-        foreach (Type type in moduleLoader
-                     .LoadDefaultAssembly()
-                     .GetTypes()
-                     .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsAbstract))
+        try
         {
-            source = (IModule?)Activator.CreateInstance(type);
+            foreach (Type type in moduleLoader
+                         .LoadDefaultAssembly()
+                         .GetTypes()
+                         .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsAbstract))
+            {
+                source = (IModule?)Activator.CreateInstance(type);
+            }
+        }
+        catch (Exception e)
+        {
+            moduleLoader.Dispose();
+            throw;
         }
 
         if (source is null)
