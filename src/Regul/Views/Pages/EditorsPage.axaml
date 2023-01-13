@@ -128,7 +128,7 @@
                                             Command="{CompiledBinding OpenProjectsWindow}"
                                             Click="MenuButtonsOnClick">
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource OpenFolder}" />
+                                            <Path Data="{StaticResource OpenFolderRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -172,7 +172,7 @@
                                                                 Command="{CompiledBinding SaveAsWorkbench}"
                                                                 Click="MenuButtonsOnClick">
                                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                                <Path Data="{StaticResource SaveEdit}"
+                                                                <Path Data="{StaticResource SaveEditRegular}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
                                                                       Height="16" />
@@ -183,7 +183,7 @@
                                                                 Command="{CompiledBinding SaveAllWorkbenches}"
                                                                 Click="MenuButtonsOnClick">
                                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                                <Path Data="{StaticResource SaveAll}"
+                                                                <Path Data="{StaticResource SaveAllRegular}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
                                                                       Height="16" />
@@ -238,7 +238,7 @@
                                             Classes="EnabledIconAnimation"
                                             Command="{CompiledBinding GoToHome}">
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource HomeScreen}" />
+                                            <Path Data="{StaticResource HomeScreenRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -391,7 +391,7 @@
                                     <StackPanel Orientation="Horizontal" Spacing="15">
                                         <Path Width="16"
                                               Height="16"
-                                              Data="{StaticResource OpenFolder}"
+                                              Data="{StaticResource OpenFolderRegular}"
                                               Margin="5 0 0 0"
                                               Stretch="Uniform" />
                                         <StackPanel>
@@ -412,7 +412,7 @@
                 <DataTemplate DataType="s:Workbench">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <Image Grid.Column="0"
-                               Source="{CompiledBinding EditorId, Converter={x:Static c:IdEditorToImageConverter.Instance}, TargetNullValue={StaticResource PleasantUIImage}}"
+                               Source="{CompiledBinding EditorId, Converter={x:Static c:IdEditorToImageConverter.Instance}, TargetNullValue={StaticResource PleasantUiImage}}"
                                Width="16"
                                Height="16"
                                Margin="5 0 10 0" />

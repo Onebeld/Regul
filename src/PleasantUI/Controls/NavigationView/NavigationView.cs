@@ -17,6 +17,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
 {
     private Button? _headerItem;
     private Button? _backButton;
+    private ContentPresenter? _contentPresenter;
     private SplitView? _splitView;
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
@@ -117,6 +118,7 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
         _splitView = e.NameScope.Find<SplitView>("split");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
+        _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
         if (_headerItem != null)
             _headerItem.Click += delegate
@@ -189,6 +191,9 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
 
     private void UpdateTitleAndSelectedContent()
     {
+        if (_contentPresenter is not null)
+            _contentPresenter.Opacity = 0;
+        
         if (SelectedItem is NavigationViewItemBase { TypeContent: { } } itemBase)
             SelectedContent = Activator.CreateInstance(itemBase.TypeContent);
     }

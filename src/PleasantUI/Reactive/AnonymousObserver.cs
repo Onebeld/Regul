@@ -1,4 +1,4 @@
-﻿namespace PleasantUI;
+﻿namespace PleasantUI.Reactive;
 
 internal class AnonymousObserver<T> : IObserver<T>
 {

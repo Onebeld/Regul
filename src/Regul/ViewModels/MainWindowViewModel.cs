@@ -555,13 +555,17 @@ public class MainWindowViewModel : ViewModelBase
 
     public async void DropFiles(IEnumerable<string?> files)
     {
+        IEnumerable<string?> enumerable = files.ToList();
+        
+        if (!enumerable.Any()) return;
+        
         if (ModuleManager.Editors.Count < 1)
         {
             WindowsManager.MainWindow?.ShowNotification("EditorsNotInstalled", NotificationType.Error, TimeSpan.FromSeconds(5));
             return;
         }
 
-        foreach (string? file in files)
+        foreach (string? file in enumerable)
         {
             if (file is null) continue;
 
