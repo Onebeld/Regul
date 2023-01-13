@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Reactive.Linq;
 using System.Reflection;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Extensions;
 
@@ -41,28 +41,7 @@ public static class PropertyChangedExtensions
     {
         return model.WhenAnyValue(v1, v2, (a1, a2) => (a1, a2));
     }
-
-    public static IObservable<TRes> WhenAnyValue<TModel, T1, T2, T3, TRes>(this TModel model,
-        Expression<Func<TModel, T1>> v1,
-        Expression<Func<TModel, T2>> v2,
-        Expression<Func<TModel, T3>> v3,
-        Func<T1, T2, T3, TRes> cb
-    ) where TModel : INotifyPropertyChanged
-    {
-        return model.WhenAnyValue(v1).CombineLatest(model.WhenAnyValue(v2),
-            model.WhenAnyValue(v3),
-            cb);
-    }
-
-    public static IObservable<ValueTuple<T1, T2, T3>> WhenAnyValue<TModel, T1, T2, T3>(this TModel model,
-        Expression<Func<TModel, T1>> v1,
-        Expression<Func<TModel, T2>> v2,
-        Expression<Func<TModel, T3>> v3
-    ) where TModel : INotifyPropertyChanged
-    {
-        return model.WhenAnyValue(v1, v2, v3, (a1, a2, a3) => (a1, a2, a3));
-    }
-
+    
     private class PropertyObservable<T> : IObservable<T>
     {
         private readonly PropertyInfo _info;

@@ -1,10 +1,11 @@
-﻿using System.Reactive.Linq;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -154,19 +155,19 @@ public sealed partial class SmoothScrollViewer : ContentControl, IScrollable, IS
     }
 
     /// <inheritdoc/>
-    public void RegisterAnchorCandidate(IControl element)
+    public void RegisterAnchorCandidate(Control element)
     {
         (Presenter as IScrollAnchorProvider)?.RegisterAnchorCandidate(element);
     }
 
     /// <inheritdoc/>
-    public void UnregisterAnchorCandidate(IControl element)
+    public void UnregisterAnchorCandidate(Control element)
     {
         (Presenter as IScrollAnchorProvider)?.UnregisterAnchorCandidate(element);
     }
 
     /// <inheritdoc/>
-    public IControl? CurrentAnchor => (Presenter as IScrollAnchorProvider)?.CurrentAnchor;
+    public Control? CurrentAnchor => (Presenter as IScrollAnchorProvider)?.CurrentAnchor;
 
     protected override bool RegisterContentPresenter(IContentPresenter presenter)
     {
@@ -175,7 +176,8 @@ public sealed partial class SmoothScrollViewer : ContentControl, IScrollable, IS
 
         if (base.RegisterContentPresenter(presenter))
         {
-            _childSubscription = Presenter?
+            ContentPresenter? contentPresenter = Presenter as ContentPresenter;
+            _childSubscription = contentPresenter?
                 .GetObservable(ContentPresenter.ChildProperty)
                 .Subscribe(ChildChanged);
             return true;
@@ -202,7 +204,7 @@ public sealed partial class SmoothScrollViewer : ContentControl, IScrollable, IS
         return double.IsNaN(result) ? 0 : result;
     }
 
-    private void ChildChanged(IControl? child)
+    private void ChildChanged(Control? child)
     {
         if (_logicalScrollable != null)
         {
@@ -233,17 +235,11 @@ public sealed partial class SmoothScrollViewer : ContentControl, IScrollable, IS
         {
             if (e.Property == HorizontalScrollBarVisibilityProperty)
             {
-                RaisePropertyChanged(
-                    CanHorizontallyScrollProperty,
-                    wasEnabled,
-                    isEnabled);
+                SetAndRaise(CanHorizontallyScrollProperty, ref wasEnabled, isEnabled);
             }
             else if (e.Property == VerticalScrollBarVisibilityProperty)
             {
-                RaisePropertyChanged(
-                    CanVerticallyScrollProperty,
-                    wasEnabled,
-                    isEnabled);
+                SetAndRaise(CanVerticallyScrollProperty, ref wasEnabled, isEnabled);
             }
         }
     }
@@ -261,7 +257,7 @@ public sealed partial class SmoothScrollViewer : ContentControl, IScrollable, IS
         RaisePropertyChanged(VisibleMaximumProperty, false, VisibleMaximum);
         RaisePropertyChanged(HorizontalScrollBarEnableIncreaseProperty, false, HorizontalScrollBarEnableIncrease);
         RaisePropertyChanged(HorizontalScrollBarEnableDecreaseProperty, false, HorizontalScrollBarEnableDecrease);
-
+        
         if (_logicalScrollable?.IsLogicalScrollEnabled == true)
         {
             SetAndRaise(SmallChangeProperty, ref _smallChange, _logicalScrollable.ScrollSize);

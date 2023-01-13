@@ -29,6 +29,9 @@
         <v:String x:Key="Paste">Вставить</v:String>
         <v:String x:Key="Change">Изменить</v:String>
         <v:String x:Key="Empty">Пусто</v:String>
+        
+        <v:String x:Key="On">Вкл.</v:String>
+        <v:String x:Key="Off">Выкл.</v:String>
 
         <v:String x:Key="AddColor">Добавить цвет</v:String>
 

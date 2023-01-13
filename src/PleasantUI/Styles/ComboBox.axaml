@@ -119,7 +119,7 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Stretch="Uniform"
-                              Data="{StaticResource chevron_down_regular}"
+                              Data="{StaticResource ChevronDownRegular}"
                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                               Stroke="{StaticResource TextFillColorPrimaryBrush}"
                               StrokeThickness="0.2" />
@@ -132,7 +132,8 @@
                                MinWidth="{CompiledBinding $parent[ComboBox].Bounds.Width}"
                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                PlacementTarget="Background"
-                               IsLightDismissEnabled="True">
+                               IsLightDismissEnabled="True"
+                               InheritsTransform="True">
                             <Border x:Name="PopupBorder"
                                     Background="{StaticResource AcrylicInAppFillColorDefaultBrush}"
                                     BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
@@ -168,7 +169,7 @@
             <Style.Animations>
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Width}" />
+                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Height}" />
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
@@ -183,7 +184,7 @@
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
                         <Setter Property="TranslateTransform.Y"
-                                Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                                Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">

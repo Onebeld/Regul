@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{7347E1FA
 		build\AvaloniaXamlLoader.props = build\AvaloniaXamlLoader.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regul.Logging", "src\Regul.Logging\Regul.Logging.csproj", "{E30AEE94-8411-476C-AA5A-35E2159597B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regul.ModuleSystem", "src\Regul.ModuleSystem\Regul.ModuleSystem.csproj", "{D61A5143-38B6-43B3-A4BC-96DE3F0A4910}"
 EndProject
 Global
@@ -38,10 +36,6 @@ Global
 		{C5BC17BF-8B1F-482C-A3C5-D25B48527169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5BC17BF-8B1F-482C-A3C5-D25B48527169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5BC17BF-8B1F-482C-A3C5-D25B48527169}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E30AEE94-8411-476C-AA5A-35E2159597B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E30AEE94-8411-476C-AA5A-35E2159597B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E30AEE94-8411-476C-AA5A-35E2159597B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E30AEE94-8411-476C-AA5A-35E2159597B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D61A5143-38B6-43B3-A4BC-96DE3F0A4910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D61A5143-38B6-43B3-A4BC-96DE3F0A4910}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61A5143-38B6-43B3-A4BC-96DE3F0A4910}.Release|Any CPU.ActiveCfg = Release|Any CPU

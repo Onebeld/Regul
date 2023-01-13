@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using Avalonia.Collections;
 using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 using Regul.ModuleSystem;
 using Regul.ModuleSystem.Structures;
 
@@ -66,12 +65,15 @@ public class ToolWindowViewModel : ViewModelBase
         this.WhenAnyValue(x => x.ModuleNameSearching, x => x.InvertModuleList)
             .Subscribe(_ => OnSearchModules(ModuleManager.Modules));
 
-        this.WhenAnyValue(x => x.SelectedModule, x => x.InstrumentNameSearching, x => x.InvertInstrumentList)
+        this.WhenAnyValue(x => x.SelectedModule, x => x.InstrumentNameSearching)
             .Skip(1)
             .Subscribe(items =>
             {
                 OnSearchInstruments(items.Item1?.Instance.Instruments);
             });
+        this.WhenAnyValue(x => x.InvertInstrumentList)
+            .Skip(1)
+            .Subscribe(items => OnSearchInstruments(SelectedModule.Instance.Instruments));
         this.WhenAnyValue(x => x.SelectedModule)
             .Skip(1)
             .Subscribe(module =>

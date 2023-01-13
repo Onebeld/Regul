@@ -7,7 +7,7 @@ namespace PleasantUI.Xaml.Interactivity;
 /// <summary>
 /// Represents a collection of <see cref="IBehavior"/>'s with a shared <see cref="AssociatedObject"/>.
 /// </summary>
-public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
+public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 {
     // After a VectorChanged event we need to compare the current state of the collection
     // with the old collection so that we can call Detach on all removed items.
@@ -24,7 +24,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
     /// <summary>
     /// Gets the <see cref="IAvaloniaObject"/> to which the <see cref="BehaviorCollection"/> is attached.
     /// </summary>
-    public IAvaloniaObject? AssociatedObject
+    public AvaloniaObject? AssociatedObject
     {
         get;
         private set;
@@ -35,7 +35,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
     /// </summary>
     /// <param name="associatedObject">The <see cref="IAvaloniaObject"/> to which to attach.</param>
     /// <exception cref="InvalidOperationException">The <see cref="BehaviorCollection"/> is already attached to a different <see cref="IAvaloniaObject"/>.</exception>
-    public void Attach(IAvaloniaObject? associatedObject)
+    public void Attach(AvaloniaObject? associatedObject)
     {
         if (Equals(associatedObject, AssociatedObject))
         {
@@ -50,7 +50,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
 
         AssociatedObject = associatedObject;
 
-        foreach (IAvaloniaObject? item in this)
+        foreach (AvaloniaObject? item in this)
         {
             IBehavior behavior = (IBehavior)item;
             behavior.Attach(AssociatedObject);
@@ -62,7 +62,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
     /// </summary>
     public void Detach()
     {
-        foreach (IAvaloniaObject? item in this)
+        foreach (AvaloniaObject? item in this)
         {
             if (item is IBehavior { AssociatedObject: { } } behaviorItem)
             {
@@ -76,7 +76,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
 
     internal void AttachedToVisualTree()
     {
-        foreach (IAvaloniaObject? item in this)
+        foreach (AvaloniaObject? item in this)
         {
             if (item is Behavior behavior)
             {
@@ -87,7 +87,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
 
     internal void DetachedFromVisualTree()
     {
-        foreach (IAvaloniaObject? item in this)
+        foreach (AvaloniaObject? item in this)
         {
             if (item is Behavior { AssociatedObject: { } } behavior)
             {
@@ -110,7 +110,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
 
             _oldCollection.Clear();
 
-            foreach (IAvaloniaObject? newItem in this)
+            foreach (AvaloniaObject? newItem in this)
             {
                 _oldCollection.Add(VerifiedAttach(newItem));
             }
@@ -122,7 +122,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
             case NotifyCollectionChangedAction.Add:
             {
                 int eventIndex = eventArgs.NewStartingIndex;
-                IAvaloniaObject? changedItem = eventArgs.NewItems?[0] as IAvaloniaObject;
+                AvaloniaObject? changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
                 _oldCollection.Insert(eventIndex, VerifiedAttach(changedItem));
             }
                 break;
@@ -132,7 +132,7 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
                 int eventIndex = eventArgs.OldStartingIndex;
                 eventIndex = eventIndex == -1 ? 0 : eventIndex;
 
-                IAvaloniaObject? changedItem = eventArgs.NewItems?[0] as IAvaloniaObject;
+                AvaloniaObject? changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
 
                 IBehavior oldItem = _oldCollection[eventIndex];
                 if (oldItem.AssociatedObject is { })
@@ -163,9 +163,9 @@ public class BehaviorCollection : AvaloniaList<IAvaloniaObject>
         }
     }
 
-    private IBehavior VerifiedAttach(IAvaloniaObject? item)
+    private IBehavior VerifiedAttach(AvaloniaObject? item)
     {
-        if (!(item is IBehavior behavior))
+        if (item is not IBehavior behavior)
         {
             throw new InvalidOperationException(
                 $"Only {nameof(IBehavior)} types are supported in a {nameof(BehaviorCollection)}.");

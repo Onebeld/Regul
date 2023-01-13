@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Regul.ViewModels.Windows"
-             xmlns:logging="clr-namespace:Regul.Logging;assembly=Regul.Logging"
+             xmlns:logging="using:Regul.Logging"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
              x:Class="Regul.Views.Windows.LogWindow"
              x:DataType="vm:LogWindowViewModel">

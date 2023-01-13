@@ -15,7 +15,7 @@
                        Theme="{StaticResource TitleTextBlockTheme}" />
 
             <OptionsDisplayItem Header="{StaticResource Language}"
-                                Icon="{StaticResource local_language_regular}">
+                                Icon="{StaticResource LocalLanguageRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox Items="{CompiledBinding Source={x:Static s:App.Languages}}"
                               SelectedItem="{CompiledBinding SelectedLanguage}"
@@ -30,7 +30,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource CreatorName}"
-                                Icon="{StaticResource person_regular}">
+                                Icon="{StaticResource PersonRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <TextBox Width="150"
                              Text="{CompiledBinding CreatorName, Source={x:Static s:ApplicationSettings.Current}}" />
@@ -38,7 +38,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource EnableHardwareAcceleration}"
-                                Icon="{StaticResource fast_acceleration_regular}"
+                                Icon="{StaticResource FastAccelerationRegular}"
                                 Description="{StaticResource EnableHardwareAccelerationDescription}"
                                 IsVisible="{CompiledBinding IsWindows}">
                 <OptionsDisplayItem.ActionButton>
@@ -49,7 +49,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource UpdateCheckInterval}"
-                                Icon="{StaticResource arrow_counterclockwise_regular}">
+                                Icon="{StaticResource ArrowCounterclockwiseRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox SelectedIndex="{CompiledBinding SelectedIndexCheckUpdateInterval}"
                               MinWidth="150">
@@ -63,7 +63,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource ResetToDefaultSettings}"
-                                Icon="{StaticResource arrow_repeat}">
+                                Icon="{StaticResource ArrowRepeatRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <Button Theme="{StaticResource DangerButtonTheme}"
                             Content="{StaticResource Reset}"
@@ -102,7 +102,7 @@
                                         CornerRadius="4"
                                         ToolTip.Tip="{StaticResource NumberOfElementsFound}">
                                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                        <Path Data="{StaticResource search}"
+                                        <Path Data="{StaticResource SearchRegular}"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                               VerticalAlignment="Center"
                                               Width="14"
@@ -162,7 +162,7 @@
                                             </ToolTip>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource arrow_repeat}" />
+                                            <Path Data="{StaticResource ArrowRepeatRegular}" />
                                         </Viewbox>
                                     </ToggleButton>
                                 </Border>
@@ -171,7 +171,7 @@
                     </Button.Flyout>
 
                     <Viewbox Width="16" Height="16">
-                        <Path Data="{StaticResource search}" />
+                        <Path Data="{StaticResource SearchRegular}" />
                     </Viewbox>
                 </Button>
                     
@@ -179,7 +179,7 @@
                             VerticalAlignment="Center"
                             ToolTip.Tip="{StaticResource NumberOfEditorRelatedExtensions}">
                         <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                            <Path Data="{StaticResource open_regular}"
+                            <Path Data="{StaticResource OpenRegular}"
                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                   Width="14"
                                   Height="14"

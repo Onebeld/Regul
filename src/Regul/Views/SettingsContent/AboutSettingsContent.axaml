@@ -69,7 +69,7 @@
                                                 Command="{CompiledBinding WriteEmail}"
                                                 Click="MenuButtonsOnClick">
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource mail_regular}" />
+                                                <Path Data="{StaticResource MailRegular}" />
                                             </Viewbox>
                                         </Button>
                                     </DockPanel>
@@ -85,7 +85,7 @@
                                                 Command="{CompiledBinding OpenDiscord}"
                                                 Click="MenuButtonsOnClick">
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource discord_regular}" />
+                                                <Path Data="{StaticResource DiscordRegular}" />
                                             </Viewbox>
                                         </Button>
                                     </DockPanel>
@@ -101,7 +101,7 @@
                                                 Command="{CompiledBinding OpenSocialNetwork}"
                                                 Click="MenuButtonsOnClick">
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource people_regular}" />
+                                                <Path Data="{StaticResource PeopleRegular}" />
                                             </Viewbox>
                                         </Button>
                                     </DockPanel>
@@ -113,7 +113,7 @@
             </Panel>
 
             <OptionsDisplayItem Header="{StaticResource Update}"
-                                Icon="{StaticResource arrow_counterclockwise_regular}">
+                                Icon="{StaticResource ArrowCounterclockwiseRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
                         <ProgressRing IsVisible="{CompiledBinding IsCheckUpdateProgram}"
@@ -129,13 +129,13 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource UsedLibraries}"
-                                Icon="{StaticResource app_folder_regular}"
+                                Icon="{StaticResource AppFolderRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="10">
                         <Panel Margin="5">
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <Image Source="{StaticResource AvaloniaUIImage}" Width="30" Height="30" />
+                                <Image Source="{StaticResource AvaloniaUiImage}" Width="30" Height="30" />
                                 <TextBlock Text="Avalonia" FontSize="20" VerticalAlignment="Center"
                                            FontWeight="SemiBold" />
                             </StackPanel>
@@ -150,8 +150,8 @@
                         <Separator Background="{StaticResource CardStrokeColorDefaultBrush}" Margin="-12 0" />
                         <Panel Margin="5">
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <Image Source="{StaticResource PleasantUIImage}" Width="30" Height="30" />
-                                <Image Source="{StaticResource PleasantUILogo}" VerticalAlignment="Center" Width="110" />
+                                <Image Source="{StaticResource PleasantUiImage}" Width="30" Height="30" />
+                                <Image Source="{StaticResource PleasantUiLogo}" VerticalAlignment="Center" Width="110" />
                             </StackPanel>
 
                             <StackPanel>
@@ -174,7 +174,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource Links}"
-                                Icon="{StaticResource open_regular}"
+                                Icon="{StaticResource OpenRegular}"
                                 Expands="True"
                                 IsExpanded="True">
                 <OptionsDisplayItem.Content>
@@ -216,7 +216,7 @@
 
                     <TextBlock TextWrapping="Wrap" Margin="0 10 0 0">
                         <Run Text="{StaticResource Copyright}" />
-                        &#8203;<Run Text="©2020-2022 Dmitry Zhutkov (Onebeld)" />
+                        &#8203;<Run Text="©2020-2023 Dmitry Zhutkov (Onebeld)" />
                     </TextBlock>
                 </StackPanel>
             </Border>

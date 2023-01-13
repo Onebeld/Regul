@@ -49,7 +49,7 @@
                                                 ToolTip.Tip="{StaticResource NumberOfElementsFound}">
                                             <StackPanel Orientation="Horizontal" Spacing="8"
                                                         Margin="8 5">
-                                                <Path Data="{StaticResource search}"
+                                                <Path Data="{StaticResource SearchRegular}"
                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                       VerticalAlignment="Center"
                                                       Width="14"
@@ -119,7 +119,7 @@
                                                 </ToolTip>
                                             </ToolTip.Tip>
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource alphabet}"
+                                                <Path Data="{StaticResource AlphabetRegular}"
                                                       Stretch="Uniform" />
                                             </Viewbox>
                                         </RadioButton>
@@ -140,7 +140,7 @@
                                                 </ToolTip>
                                             </ToolTip.Tip>
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource calendar}"
+                                                <Path Data="{StaticResource CalendarRegular}"
                                                       Stretch="Uniform" />
                                             </Viewbox>
                                         </RadioButton>
@@ -161,7 +161,7 @@
                                             </ToolTip>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource arrow_repeat}"
+                                            <Path Data="{StaticResource ArrowRepeatRegular}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </ToggleButton>
@@ -173,7 +173,7 @@
 
                 <Viewbox Width="17"
                          Height="17">
-                    <Path Data="{StaticResource search}"
+                    <Path Data="{StaticResource SearchRegular}"
                           Stretch="Uniform" />
                 </Viewbox>
             </Button>
@@ -184,7 +184,7 @@
                     CornerRadius="4"
                     ToolTip.Tip="{StaticResource NumberOfAllProjectsInTheProgram}">
                 <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                    <Path Data="{StaticResource navigation_regular}"
+                    <Path Data="{StaticResource NavigationRegular}"
                           Fill="{StaticResource TextFillColorPrimaryBrush}"
                           Width="14"
                           VerticalAlignment="Center"

@@ -44,7 +44,7 @@
                                 <Border Theme="{StaticResource BorderBlockInformationTheme}"
                                         ToolTip.Tip="{StaticResource NumberOfOpenWorkbenches}">
                                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                        <Path Data="{StaticResource tab_desktop}"
+                                        <Path Data="{StaticResource TabDesktopRegular}"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                               Width="14"
                                               Height="14"
@@ -55,7 +55,7 @@
                                 <Border Theme="{StaticResource BorderBlockInformationTheme}"
                                         ToolTip.Tip="{StaticResource NumberOfLoadedModules}">
                                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                        <Path Data="{StaticResource app_folder_regular}"
+                                        <Path Data="{StaticResource AppFolderRegular}"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                               Width="14"
                                               Height="14"
@@ -88,7 +88,7 @@
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource add_regular}" />
+                                            <Path Data="{StaticResource AddRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -112,7 +112,7 @@
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource open_regular}" />
+                                            <Path Data="{StaticResource OpenRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -128,7 +128,7 @@
                                             Command="{CompiledBinding OpenProjectsWindow}"
                                             Click="MenuButtonsOnClick">
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource open_folder}" />
+                                            <Path Data="{StaticResource OpenFolder}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -157,7 +157,7 @@
                                                 </TextBlock>
                                             </ToolTip.Tip>
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource save_regular}" />
+                                                <Path Data="{StaticResource SaveRegular}" />
                                             </Viewbox>
                                         </Button>
                                         <Button Grid.Column="1"
@@ -172,7 +172,7 @@
                                                                 Command="{CompiledBinding SaveAsWorkbench}"
                                                                 Click="MenuButtonsOnClick">
                                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                                <Path Data="{StaticResource save_edit}"
+                                                                <Path Data="{StaticResource SaveEdit}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
                                                                       Height="16" />
@@ -183,7 +183,7 @@
                                                                 Command="{CompiledBinding SaveAllWorkbenches}"
                                                                 Click="MenuButtonsOnClick">
                                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                                <Path Data="{StaticResource save_all}"
+                                                                <Path Data="{StaticResource SaveAll}"
                                                                       Stretch="Uniform"
                                                                       Width="16"
                                                                       Height="16" />
@@ -195,7 +195,7 @@
                                             </Button.Flyout>
 
                                             <Viewbox Width="12" Height="12">
-                                                <Path Data="{StaticResource chevron_down_regular}"
+                                                <Path Data="{StaticResource ChevronDownRegular}"
                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                       Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                                       StrokeThickness="2" />
@@ -223,7 +223,7 @@
                                             </TextBlock>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource wrench_regular}" />
+                                            <Path Data="{StaticResource WrenchRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -238,7 +238,7 @@
                                             Classes="EnabledIconAnimation"
                                             Command="{CompiledBinding GoToHome}">
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource home_screen}" />
+                                            <Path Data="{StaticResource HomeScreen}" />
                                         </Viewbox>
                                     </Button>
                                 </DockPanel>
@@ -259,7 +259,7 @@
                                             Command="{CompiledBinding OpenSettings}"
                                             CommandParameter="{x:Static e:TitleBarType.ExtendedWithoutContent}">
                                         <Viewbox Width="15" Height="15">
-                                            <Path Data="{StaticResource settings_regular}"
+                                            <Path Data="{StaticResource SettingsRegular}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </Button>
@@ -273,7 +273,7 @@
                                                 ToolTip.Tip="{StaticResource Logs}"
                                                 Command="{CompiledBinding OpenLogWindow}">
                                             <Viewbox Width="15" Height="15">
-                                                <Path Data="{StaticResource window_text_regular}" />
+                                                <Path Data="{StaticResource WindowTextRegular}" />
                                             </Viewbox>
                                         </Button>
 
@@ -283,7 +283,7 @@
                                                 ToolTip.Tip="{StaticResource ExitFromRegul}"
                                                 Command="{CompiledBinding Exit}">
                                             <Viewbox Width="15" Height="15">
-                                                <Path Data="{StaticResource arrow_enter_regular}" />
+                                                <Path Data="{StaticResource ArrowEnterRegular}" />
                                             </Viewbox>
                                         </Button>
                                     </StackPanel>
@@ -338,7 +338,7 @@
                                       IsEnabled="{CompiledBinding PathToFile, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
                                 <MenuItem.Icon>
                                     <Viewbox Width="16" Height="16">
-                                        <Path Data="{StaticResource folder_regular}"
+                                        <Path Data="{StaticResource FolderRegular}"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}" />
                                     </Viewbox>
                                 </MenuItem.Icon>
@@ -357,7 +357,7 @@
                                     <StackPanel Orientation="Horizontal" Spacing="15">
                                         <Path Width="16"
                                               Height="16"
-                                              Data="{StaticResource add_regular}"
+                                              Data="{StaticResource AddRegular}"
                                               Margin="5 0 0 0"
                                               Stretch="Uniform" />
                                         <StackPanel>
@@ -374,7 +374,7 @@
                                     <StackPanel Orientation="Horizontal" Spacing="15">
                                         <Path Width="16"
                                               Height="16"
-                                              Data="{StaticResource open_regular}"
+                                              Data="{StaticResource OpenRegular}"
                                               Margin="5 0 0 0"
                                               Stretch="Uniform" />
                                         <StackPanel>
@@ -391,7 +391,7 @@
                                     <StackPanel Orientation="Horizontal" Spacing="15">
                                         <Path Width="16"
                                               Height="16"
-                                              Data="{StaticResource open_folder}"
+                                              Data="{StaticResource OpenFolder}"
                                               Margin="5 0 0 0"
                                               Stretch="Uniform" />
                                         <StackPanel>

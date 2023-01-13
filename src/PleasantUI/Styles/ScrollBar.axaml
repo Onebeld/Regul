@@ -191,7 +191,7 @@
     <!--                     <Path Name="ArrowGlyph" -->
     <!--                           Margin="3" -->
     <!--                           Stretch="Uniform" -->
-    <!--                           Data="{StaticResource arrow_regular}"/> -->
+    <!--                           Data="{StaticResource ArrowRegular}"/> -->
     <!--                 </Viewbox> -->
     <!--             </Border> -->
     <!--         </ControlTemplate> -->
@@ -296,7 +296,7 @@
                         <Path Name="ArrowGlyph"
                               Margin="3"
                               Stretch="Uniform"
-                              Data="{StaticResource arrow_regular}" />
+                              Data="{StaticResource ArrowRegular}" />
                     </Viewbox>
                 </Border>
             </ControlTemplate>

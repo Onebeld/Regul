@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
@@ -142,11 +143,9 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         return false;
     }
 
-    public SelectorMatchResult TryAttach(IStyleable target, object? host) => Loaded.TryAttach(target, host);
-
     public IReadOnlyList<IStyle> Children => _loaded?.Children ?? Array.Empty<IStyle>();
 
-    public void UpdateCustomTheme() => RaisePropertyChanged(CustomThemeProperty, CustomTheme, CustomTheme);
+    public void UpdateCustomTheme() => OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<Theme?>(this, CustomThemeProperty, CustomTheme, CustomTheme, BindingPriority.Style));
 
     public bool HasResources => (Loaded as IResourceProvider)?.HasResources ?? false;
 

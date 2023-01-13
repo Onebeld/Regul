@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using PleasantUI.Controls;
 using PleasantUI.Generators;
-using PleasantUI.Structures;
-using PleasantUI.Windows;
 using Regul.Enums;
 using Regul.Managers;
 using Regul.Structures;
@@ -21,7 +17,7 @@ public class EditorsItemContainerGenerator : PleasantTabItemContainerGenerator
     {
     }
 
-    protected override IControl CreateContainer(object item)
+    protected override Control CreateContainer(object item)
     {
         if (base.CreateContainer(item) is PleasantTabItem tabItem)
         {

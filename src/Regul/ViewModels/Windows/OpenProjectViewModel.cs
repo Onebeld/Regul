@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using Avalonia.Collections;
 using PleasantUI;
 using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 using Regul.Managers;
 using Regul.ModuleSystem;
 using Regul.Structures;
@@ -67,7 +67,10 @@ public class OpenProjectViewModel : ViewModelBase
         OnSearch(ApplicationSettings.Current.Projects);
         ApplicationSettings.Current.Projects.CollectionChanged += ProjectsOnCollectionChanged;
 
-        this.WhenAnyValue(x => x.SearchName, x => x.SearchPath, x => x.SearchEditor)
+        this.WhenAnyValue(x => x.SearchName, x => x.SearchPath)
+            .Skip(1)
+            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+        this.WhenAnyValue(x => x.SearchEditor)
             .Skip(1)
             .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
         this.WhenAnyValue(x => x.SortByAlphabetical, x => x.SortByDateOfChange)

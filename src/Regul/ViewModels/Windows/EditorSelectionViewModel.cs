@@ -5,6 +5,7 @@ using Avalonia.Collections;
 using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 using Regul.ModuleSystem;
 using Regul.ModuleSystem.Structures;
 

@@ -29,6 +29,9 @@
         <v:String x:Key="Paste">Paste</v:String>
         <v:String x:Key="Change">Change</v:String>
         <v:String x:Key="Empty">Empty</v:String>
+        
+        <v:String x:Key="On">On</v:String>
+        <v:String x:Key="Off">Off</v:String>
 
         <v:String x:Key="AddColor">Add color</v:String>
 

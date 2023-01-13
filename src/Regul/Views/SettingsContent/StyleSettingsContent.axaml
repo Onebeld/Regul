@@ -26,7 +26,7 @@
                     CornerRadius="4"
                     IsVisible="{CompiledBinding !IsSupportedOperatingSystem}">
                 <Grid ColumnDefinitions="Auto,*">
-                    <Path Grid.Column="0" Data="{StaticResource info_regular}"
+                    <Path Grid.Column="0" Data="{StaticResource InfoRegular}"
                           Fill="{StaticResource SystemFillColorCautionBrush}"
                           Stretch="Uniform"
                           Width="16"
@@ -40,7 +40,7 @@
             </Border>
 
             <OptionsDisplayItem Header="{StaticResource Font}"
-                                Icon="{StaticResource text_font_regular}">
+                                Icon="{StaticResource TextFontRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
                               DataTemplates="{StaticResource FontItemTemplate}"
@@ -50,7 +50,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource EnableShadow}"
-                                Icon="{StaticResource sparkle_regular}"
+                                Icon="{StaticResource SparkleRegular}"
                                 Description="{StaticResource EnableShadowDescription}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch Classes="RightToggle"
@@ -60,7 +60,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource EnableCustomTitleBar}"
-                                Icon="{StaticResource window_regular}"
+                                Icon="{StaticResource WindowRegular}"
                                 IsEnabled="{CompiledBinding IsSupportedOperatingSystem}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch Classes="RightToggle"
@@ -70,7 +70,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource EnableBlur}"
-                                Icon="{StaticResource window_inprivate_regular}"
+                                Icon="{StaticResource WindowInPrivateRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.IsEnabled>
                     <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -125,7 +125,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource AccentColor}"
-                                Icon="{StaticResource color_regular}">
+                                Icon="{StaticResource ColorRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <CheckBox Content="{StaticResource UseAccentFromSystem}"
@@ -153,7 +153,7 @@
                                       Margin="0"
                                       ToolTip.Tip="{StaticResource Menu}">
                                 <MenuItem.Header>
-                                    <Path Data="{StaticResource more_regular}"
+                                    <Path Data="{StaticResource MoreRegular}"
                                           VerticalAlignment="Center"
                                           Fill="{StaticResource TextFillColorPrimaryBrush}"
                                           Stretch="Uniform"
@@ -165,7 +165,7 @@
                                           Command="{CompiledBinding CopyAccentColor}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource copy_regular}"
+                                            <Path Data="{StaticResource CopyRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -176,7 +176,7 @@
                                           Command="{CompiledBinding PasteAccentColor}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource clipboard_paste_regular}"
+                                            <Path Data="{StaticResource ClipboardPasteRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -190,7 +190,7 @@
                                           Command="{CompiledBinding ChangeAccentColor}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource edit_regular}"
+                                            <Path Data="{StaticResource EditRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -204,7 +204,7 @@
 
             <OptionsDisplayItem Header="{StaticResource Theme}"
                                 Description="{StaticResource ThemeDescription}"
-                                Icon="{StaticResource paint_brush_regular}"
+                                Icon="{StaticResource PaintBrushRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -249,7 +249,7 @@
                                                Foreground="{StaticResource TextFillColorPrimaryBrush}"
                                                FontWeight="Normal" />
                                 </ToolTip.Tip>
-                                <Path Data="{StaticResource checkmark_regular}"
+                                <Path Data="{StaticResource CheckmarkRegular}"
                                       VerticalAlignment="Center"
                                       Stroke="{CompiledBinding $parent[Button].Foreground}"
                                       StrokeThickness="0.5"
@@ -259,7 +259,7 @@
                             <Button IsVisible="{CompiledBinding InRenameProcess}"
                                     Command="{CompiledBinding CancelRenameTheme}"
                                     ToolTip.Tip="{StaticResource Cancel}">
-                                <Path Data="{StaticResource dismiss_regular}"
+                                <Path Data="{StaticResource DismissRegular}"
                                       VerticalAlignment="Center"
                                       Stroke="{CompiledBinding $parent[Button].Foreground}"
                                       StrokeThickness="0.5"
@@ -271,7 +271,7 @@
                                     IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
                                     IsVisible="{CompiledBinding !InRenameProcess}"
                                     Command="{CompiledBinding RenameTheme}">
-                                <Path Data="{StaticResource rename_regular}"
+                                <Path Data="{StaticResource RenameRegular}"
                                       VerticalAlignment="Center"
                                       Width="16"
                                       Stretch="Uniform" />
@@ -279,7 +279,7 @@
                             <Button IsVisible="{CompiledBinding !InRenameProcess}"
                                     Command="{CompiledBinding CreateTheme}">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <Path Data="{StaticResource add_regular}"
+                                    <Path Data="{StaticResource AddRegular}"
                                           StrokeThickness="0.5"
                                           Width="16"
                                           VerticalAlignment="Center"
@@ -295,7 +295,7 @@
                                           Margin="0"
                                           ToolTip.Tip="{StaticResource Menu}">
                                     <MenuItem.Header>
-                                        <Path Data="{StaticResource more_regular}"
+                                        <Path Data="{StaticResource MoreRegular}"
                                               VerticalAlignment="Center"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                               Stretch="Uniform"
@@ -308,7 +308,7 @@
                                               IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
                                         <MenuItem.Icon>
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource copy_regular}"
+                                                <Path Data="{StaticResource CopyRegular}"
                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                       Stretch="Uniform" />
                                             </Viewbox>
@@ -320,7 +320,7 @@
                                               CommandParameter="False">
                                         <MenuItem.Icon>
                                             <Viewbox Width="16" Height="16">
-                                                <Path Data="{StaticResource clipboard_paste_regular}"
+                                                <Path Data="{StaticResource ClipboardPasteRegular}"
                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                       Stretch="Uniform" />
                                             </Viewbox>
@@ -340,7 +340,7 @@
                                 IsEnabled="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
                                 Command="{CompiledBinding DeleteTheme}">
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <Path Data="{StaticResource delete_regular}"
+                                <Path Data="{StaticResource DeleteRegular}"
                                       StrokeThickness="0.5"
                                       Width="16"
                                       VerticalAlignment="Center"
@@ -394,7 +394,7 @@
                                                           Margin="0"
                                                           ToolTip.Tip="{StaticResource Menu}">
                                                     <MenuItem.Header>
-                                                        <Path Data="{StaticResource more_regular}"
+                                                        <Path Data="{StaticResource MoreRegular}"
                                                               VerticalAlignment="Center"
                                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                               Stretch="Uniform"
@@ -407,7 +407,7 @@
                                                               CommandParameter="{CompiledBinding}">
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
-                                                                <Path Data="{StaticResource copy_regular}"
+                                                                <Path Data="{StaticResource CopyRegular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                                       Stretch="Uniform" />
                                                             </Viewbox>
@@ -418,7 +418,7 @@
                                                               CommandParameter="{CompiledBinding}">
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
-                                                                <Path Data="{StaticResource clipboard_paste_regular}"
+                                                                <Path Data="{StaticResource ClipboardPasteRegular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                                       Stretch="Uniform" />
                                                             </Viewbox>
@@ -432,7 +432,7 @@
                                                               CommandParameter="{CompiledBinding}">
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
-                                                                <Path Data="{StaticResource edit_regular}"
+                                                                <Path Data="{StaticResource EditRegular}"
                                                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                                       Stretch="Uniform" />
                                                             </Viewbox>

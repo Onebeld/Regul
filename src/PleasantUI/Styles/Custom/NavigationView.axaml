@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="0" Width="700" Height="300">
             <NavigationView>
-                <NavigationViewItem Header="Header" Icon="{StaticResource delete_regular}" />
+                <NavigationViewItem Header="Header" Icon="{StaticResource DeleteRegular}" />
             </NavigationView>
         </Border>
     </Design.PreviewWith>
@@ -14,7 +14,7 @@
         <Setter Property="OpenPaneLength" Value="250" />
         <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
-        <Setter Property="Icon" Value="{StaticResource line_horizontal_3_regular}" />
+        <Setter Property="Icon" Value="{StaticResource LineHorizontal3Regular}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <DockPanel />
@@ -88,7 +88,7 @@
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
                             <Viewbox Width="16"
                                      Height="16">
-                                <Path Data="{StaticResource arrow_left_regular}"
+                                <Path Data="{StaticResource ArrowLeftRegular}"
                                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
                             </Viewbox>
                         </Button>

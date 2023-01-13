@@ -56,7 +56,7 @@
                             Padding="5"
                             Command="{CompiledBinding $parent[views:MainWindow].ViewModel.OpenProject}"
                             CommandParameter="{CompiledBinding}">
-                        <Path Data="{StaticResource open_regular}"
+                        <Path Data="{StaticResource OpenRegular}"
                               Stretch="Uniform"
                               Width="16"
                               Height="16" />
@@ -68,7 +68,7 @@
                             Padding="5"
                             Command="{CompiledBinding $parent[views:MainWindow].ViewModel.DeleteProject}"
                             CommandParameter="{CompiledBinding}">
-                        <Path Data="{StaticResource delete_regular}"
+                        <Path Data="{StaticResource DeleteRegular}"
                               Stretch="Uniform"
                               Width="16"
                               Height="16" />
@@ -130,7 +130,7 @@
                             Padding="5"
                             Command="{CompiledBinding $parent[w:OpenProjectWindow].ViewModel.OpenProject}"
                             CommandParameter="{CompiledBinding}">
-                        <Path Data="{StaticResource open_regular}"
+                        <Path Data="{StaticResource OpenRegular}"
                               Stretch="Uniform"
                               Width="16"
                               Height="16" />
@@ -142,7 +142,7 @@
                             Padding="5"
                             Command="{CompiledBinding $parent[w:OpenProjectWindow].ViewModel.DeleteProject}"
                             CommandParameter="{CompiledBinding}">
-                        <Path Data="{StaticResource delete_regular}"
+                        <Path Data="{StaticResource DeleteRegular}"
                               Stretch="Uniform"
                               Width="16"
                               Height="16" />

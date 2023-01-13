@@ -1,6 +1,5 @@
-﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Reactive;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -9,6 +8,8 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -57,7 +58,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
     }
 
     /// <inheritdoc/>
-    IControl? IScrollAnchorProvider.CurrentAnchor
+    Control? IScrollAnchorProvider.CurrentAnchor
     {
         get
         {
@@ -72,7 +73,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
     /// <param name="target">The target visual.</param>
     /// <param name="targetRect">The portion of the target visual to bring into view.</param>
     /// <returns>True if the scroll offset was changed; otherwise false.</returns>
-    public bool BringDescendantIntoView(IVisual? target, Rect targetRect)
+    public bool BringDescendantIntoView(Visual? target, Rect targetRect)
     {
         if (Child?.IsEffectivelyVisible != true)
         {
@@ -81,7 +82,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
 
         ILogicalScrollable? scrollable = Child as ILogicalScrollable;
 
-        if (scrollable?.IsLogicalScrollEnabled == true && target is IControl control)
+        if (scrollable?.IsLogicalScrollEnabled == true && target is Control control)
         {
             return scrollable.BringIntoView(control, targetRect);
         }
@@ -130,7 +131,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
     }
 
     /// <inheritdoc/>
-    void IScrollAnchorProvider.RegisterAnchorCandidate(IControl element)
+    void IScrollAnchorProvider.RegisterAnchorCandidate(Control element)
     {
         if (!this.IsVisualAncestorOf(element))
         {
@@ -138,13 +139,13 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
                 "An anchor control must be a visual descendent of the SmoothScrollContentPresenter.");
         }
 
-        _anchorCandidates ??= new List<IControl>();
+        _anchorCandidates ??= new List<Control>();
         _anchorCandidates.Add(element);
         _isAnchorElementDirty = true;
     }
 
     /// <inheritdoc/>
-    void IScrollAnchorProvider.UnregisterAnchorCandidate(IControl element)
+    void IScrollAnchorProvider.UnregisterAnchorCandidate(Control element)
     {
         _anchorCandidates?.Remove(element);
         _isAnchorElementDirty = true;
@@ -442,7 +443,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
 
     private void ChildChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        UpdateScrollableSubscription((IControl?)e.NewValue);
+        UpdateScrollableSubscription((Control?)e.NewValue);
 
         if (e.OldValue != null)
         {
@@ -530,7 +531,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
             PseudoClasses.Remove(AnimPseudoclass);
     }*/
 
-    private void UpdateScrollableSubscription(IControl? child)
+    private void UpdateScrollableSubscription(Control? child)
     {
         ILogicalScrollable? scrollable = child as ILogicalScrollable;
 
@@ -582,20 +583,18 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
     private void EnsureAnchorElementSelection()
     {
         if (!_isAnchorElementDirty || _anchorCandidates is null)
-        {
             return;
-        }
 
         _anchorElement = null;
         _anchorElementBounds = default;
         _isAnchorElementDirty = false;
 
-        IControl? bestCandidate = default;
+        Control? bestCandidate = default;
         double bestCandidateDistance = double.MaxValue;
 
         // Find the anchor candidate that is scrolled closest to the top-left of this
         // SmoothScrollContentPresenter.
-        foreach (IControl element in _anchorCandidates)
+        foreach (Control element in _anchorCandidates)
         {
             if (element.IsVisible && GetViewportBounds(element, out Rect bounds))
             {
@@ -621,7 +620,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
         }
     }
 
-    private bool GetViewportBounds(IControl element, out Rect bounds)
+    private bool GetViewportBounds(Control element, out Rect bounds)
     {
         if (TranslateBounds(element, Child!, out Rect childBounds))
         {
@@ -638,7 +637,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
         return false;
     }
 
-    private Rect TranslateBounds(IControl control, IControl to)
+    private Rect TranslateBounds(Control control, Control to)
     {
         if (TranslateBounds(control, to, out Rect bounds))
         {
@@ -648,7 +647,7 @@ public partial class SmoothScrollContentPresenter : ContentPresenter, IScrollabl
         throw new InvalidOperationException("The control's bounds could not be translated to the requested control.");
     }
 
-    private bool TranslateBounds(IVisual control, IVisual to, out Rect bounds)
+    private bool TranslateBounds(Visual control, Visual to, out Rect bounds)
     {
         if (!control.IsVisible)
         {

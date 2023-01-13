@@ -19,20 +19,20 @@
         </NavigationView.NotMakeOffsetForContentPanel>
 
         <NavigationViewItem Header="{StaticResource General}"
-                            Icon="{StaticResource settings_regular}"
+                            Icon="{StaticResource SettingsRegular}"
                             TypeContent="{x:Type c:GeneralSettingsContent}" />
         <NavigationViewItem Header="{StaticResource Style}"
                             Margin="0 5"
-                            Icon="{StaticResource color_regular}"
+                            Icon="{StaticResource ColorRegular}"
                             TypeContent="{x:Type c:StyleSettingsContent}" />
         <NavigationViewItem Header="{StaticResource Modules}"
-                            Icon="{StaticResource app_folder_regular}"
+                            Icon="{StaticResource AppFolderRegular}"
                             TypeContent="{x:Type c:ModulesSettingsContent}" />
 
         <NavigationViewItem DockPanel.Dock="Bottom"
                             Margin="0 0 0 5"
                             Header="{StaticResource About}"
-                            Icon="{StaticResource question_circle_regular}"
+                            Icon="{StaticResource QuestionCircleRegular}"
                             TypeContent="{x:Type c:AboutSettingsContent}" />
 
         <Panel />

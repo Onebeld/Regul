@@ -6,12 +6,10 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.OpenGL;
+using Avalonia.Win32;
 using PleasantUI;
 using Regul.Logging;
 using Regul.Managers;
-using Regul.ModuleSystem;
-using Regul.ModuleSystem.Structures;
 using Regul.Other;
 using Regul.Structures;
 
@@ -180,7 +178,7 @@ public static class Program
             {
                 AllowEglInitialization = ApplicationSettings.Current.HardwareAcceleration,
                 UseDeferredRendering = true,
-                OverlayPopups = false,
+                OverlayPopups = true,
                 UseWgl = false,
                 UseWindowsUIComposition = true,
                 UseCompositor = true

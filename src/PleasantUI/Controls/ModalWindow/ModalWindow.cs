@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -7,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Rendering;
 using Avalonia.Styling;
 using PleasantUI.Interfaces;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -40,7 +40,7 @@ public partial class ModalWindow : ContentControl, IStyleable, ICustomHitTest
 
         TaskCompletionSource<T?> result = new();
 
-        Observable.FromEventPattern<EventHandler, System.EventArgs>(
+        Observable.FromEventPattern(
                 x => Closed += x,
                 x => Closed -= x)
             .Take(1)

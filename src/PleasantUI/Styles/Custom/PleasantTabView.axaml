@@ -54,7 +54,7 @@
                                     Width="24"
                                     Margin="-35 0 0 0">
                                 <Viewbox Width="16" Height="16">
-                                    <Path Data="{StaticResource add_regular}" />
+                                    <Path Data="{StaticResource AddRegular}" />
                                 </Viewbox>
                             </Button>
                         </DockPanel>

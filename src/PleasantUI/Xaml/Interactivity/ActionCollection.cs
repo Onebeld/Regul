@@ -7,7 +7,7 @@ namespace PleasantUI.Xaml.Interactivity;
 /// <summary>
 /// Represents a collection of <see cref="IAction"/>'s.
 /// </summary>
-public class ActionCollection : AvaloniaList<IAvaloniaObject>
+public class ActionCollection : AvaloniaList<AvaloniaObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ActionCollection"/> class.
@@ -23,19 +23,19 @@ public class ActionCollection : AvaloniaList<IAvaloniaObject>
 
         if (collectionChangedAction == NotifyCollectionChangedAction.Reset)
         {
-            foreach (IAvaloniaObject? item in this)
+            foreach (AvaloniaObject? item in this)
             {
                 VerifyType(item);
             }
         }
         else if (collectionChangedAction is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
         {
-            IAvaloniaObject? changedItem = eventArgs.NewItems?[0] as IAvaloniaObject;
+            AvaloniaObject? changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
             VerifyType(changedItem);
         }
     }
 
-    private static void VerifyType(IAvaloniaObject? item)
+    private static void VerifyType(AvaloniaObject? item)
     {
         if (item is null)
         {

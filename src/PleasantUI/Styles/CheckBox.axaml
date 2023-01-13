@@ -33,7 +33,7 @@
 
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
-                                  Data="{StaticResource checkmark_regular}"
+                                  Data="{StaticResource CheckmarkRegular}"
                                   Fill="{StaticResource AccentTextFillColorLightSecondaryBrush}"
                                   Stroke="{StaticResource AccentTextFillColorLightSecondaryBrush}"
                                   HorizontalAlignment="Center"

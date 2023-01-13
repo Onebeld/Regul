@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia;
@@ -102,7 +101,7 @@ public class App : Application
 
         ApplicationSettings.Current.Language = key;
 
-        Current!.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+        Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
         {
             Source = new Uri($"avares://Regul.Assets/Localization/{key}.axaml")
         };
@@ -262,7 +261,7 @@ public class App : Application
                 }
             }
 
-            current = ((IStyledElement)current).StylingParent as IResourceHost;
+            current = ((IStyleHost)current).StylingParent as IResourceHost;
         }
 
         return (T)value!;
@@ -277,7 +276,7 @@ public class App : Application
 
     public static void AddStyle(string pathToStyle)
     {
-        Current?.Styles.Add(new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+        Current?.Styles.Add(new StyleInclude(new Uri("avares://Regul/App.axaml"))
         {
             Source = new Uri(pathToStyle)
         });

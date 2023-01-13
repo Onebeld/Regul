@@ -22,7 +22,7 @@
                                           Header="{DynamicResource Reestablish}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource square_multiple_regular}"
+                                            <Path Data="{StaticResource SquareMultipleRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                                   StrokeThickness="2"
@@ -34,7 +34,7 @@
                                           Header="{DynamicResource Collapse}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource subtract_regular}"
+                                            <Path Data="{StaticResource SubtractRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                                   StrokeThickness="2"
@@ -46,7 +46,7 @@
                                           Header="{DynamicResource Expand}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource maximize_regular}"
+                                            <Path Data="{StaticResource MaximizeRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -63,7 +63,7 @@
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource dismiss_regular}"
+                                            <Path Data="{StaticResource DismissRegular}"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                                   StrokeThickness="2"

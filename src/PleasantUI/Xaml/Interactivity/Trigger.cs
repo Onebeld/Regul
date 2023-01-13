@@ -27,7 +27,7 @@ public abstract class Trigger : Behavior, ITrigger
 /// A base class for behaviors, implementing the basic plumbing of <seealso cref="ITrigger"/>.
 /// </summary>
 /// <typeparam name="T">The object type to attach to</typeparam>
-public abstract class Trigger<T> : Trigger where T : class, IAvaloniaObject
+public abstract class Trigger<T> : Trigger where T : AvaloniaObject
 {
     /// <summary>
     /// Gets the object to which this behavior is attached.

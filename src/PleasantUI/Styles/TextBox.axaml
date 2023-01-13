@@ -34,7 +34,7 @@
                           InputGesture="{x:Static TextBox.CutGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource cut_regular}"
+                            <Path Data="{StaticResource CutRegular}"
                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                   Stretch="Uniform" />
@@ -47,7 +47,7 @@
                           InputGesture="{x:Static TextBox.CopyGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource copy_regular}"
+                            <Path Data="{StaticResource CopyRegular}"
                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                   Stretch="Uniform" />
@@ -60,7 +60,7 @@
                           InputGesture="{x:Static TextBox.PasteGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource clipboard_paste_regular}"
+                            <Path Data="{StaticResource ClipboardPasteRegular}"
                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
                                   Stroke="{StaticResource TextFillColorPrimaryBrush}"
                                   Stretch="Uniform" />
@@ -155,7 +155,7 @@
                             Margin="5"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
                         <Viewbox Width="8" Height="8">
-                            <Path Data="{StaticResource dismiss_regular}"
+                            <Path Data="{StaticResource DismissRegular}"
                                   StrokeThickness="2" />
                         </Viewbox>
                     </Button>

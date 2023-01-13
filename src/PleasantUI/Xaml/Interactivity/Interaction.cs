@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Xaml.Interactivity;
 
@@ -14,14 +15,14 @@ public class Interaction
     /// Gets or sets the <see cref="BehaviorCollection"/> associated with a specified object.
     /// </summary>
     public static readonly AttachedProperty<BehaviorCollection?> BehaviorsProperty =
-        AvaloniaProperty.RegisterAttached<Interaction, IAvaloniaObject, BehaviorCollection?>("Behaviors");
+        AvaloniaProperty.RegisterAttached<Interaction, AvaloniaObject, BehaviorCollection?>("Behaviors");
 
     /// <summary>
     /// Gets the <see cref="BehaviorCollection"/> associated with a specified object.
     /// </summary>
     /// <param name="obj">The <see cref="IAvaloniaObject"/> from which to retrieve the <see cref="BehaviorCollection"/>.</param>
     /// <returns>A <see cref="BehaviorCollection"/> containing the behaviors associated with the specified object.</returns>
-    public static BehaviorCollection GetBehaviors(IAvaloniaObject obj)
+    public static BehaviorCollection GetBehaviors(AvaloniaObject obj)
     {
         if (obj is null)
         {
@@ -44,7 +45,7 @@ public class Interaction
     /// </summary>
     /// <param name="obj">The <see cref="IAvaloniaObject"/> on which to set the <see cref="BehaviorCollection"/>.</param>
     /// <param name="value">The <see cref="BehaviorCollection"/> associated with the object.</param>
-    public static void SetBehaviors(IAvaloniaObject obj, BehaviorCollection? value)
+    public static void SetBehaviors(AvaloniaObject obj, BehaviorCollection? value)
     {
         if (obj is null)
         {
@@ -69,7 +70,7 @@ public class Interaction
 
         List<object> results = new();
 
-        foreach (IAvaloniaObject? avaloniaObject in actions)
+        foreach (AvaloniaObject? avaloniaObject in actions)
         {
             if (avaloniaObject is not IAction action)
             {
@@ -108,7 +109,7 @@ public class Interaction
         }
     }
 
-    private static void SetVisualTreeEventHandlersInitial(IAvaloniaObject obj)
+    private static void SetVisualTreeEventHandlersInitial(AvaloniaObject obj)
     {
         if (obj is not Control control)
         {
@@ -125,7 +126,7 @@ public class Interaction
         control.DetachedFromVisualTree += Control_DetachedFromVisualTreeInitial;
     }
 
-    private static void SetVisualTreeEventHandlersRuntime(IAvaloniaObject obj)
+    private static void SetVisualTreeEventHandlersRuntime(AvaloniaObject obj)
     {
         if (obj is not Control control)
         {
@@ -144,7 +145,7 @@ public class Interaction
 
     private static void Control_AttachedToVisualTreeInitial(object? sender, VisualTreeAttachmentEventArgs e)
     {
-        if (sender is IAvaloniaObject d)
+        if (sender is AvaloniaObject d)
         {
             GetBehaviors(d).Attach(d);
             GetBehaviors(d).AttachedToVisualTree();
@@ -153,7 +154,7 @@ public class Interaction
 
     private static void Control_DetachedFromVisualTreeInitial(object? sender, VisualTreeAttachmentEventArgs e)
     {
-        if (sender is IAvaloniaObject d)
+        if (sender is AvaloniaObject d)
         {
             GetBehaviors(d).DetachedFromVisualTree();
             GetBehaviors(d).Detach();
@@ -162,7 +163,7 @@ public class Interaction
 
     private static void Control_AttachedToVisualTreeRuntime(object? sender, VisualTreeAttachmentEventArgs e)
     {
-        if (sender is IAvaloniaObject d)
+        if (sender is AvaloniaObject d)
         {
             GetBehaviors(d).AttachedToVisualTree();
         }
@@ -170,7 +171,7 @@ public class Interaction
 
     private static void Control_DetachedFromVisualTreeRuntime(object? sender, VisualTreeAttachmentEventArgs e)
     {
-        if (sender is IAvaloniaObject d)
+        if (sender is AvaloniaObject d)
         {
             GetBehaviors(d).DetachedFromVisualTree();
         }

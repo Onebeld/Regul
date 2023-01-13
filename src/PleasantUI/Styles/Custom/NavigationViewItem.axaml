@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="0" Width="700" Height="300">
             <NavigationView>
-                <NavigationViewItem Icon="{StaticResource delete_regular}"
+                <NavigationViewItem Icon="{StaticResource DeleteRegular}"
                                     Header="Header" />
             </NavigationView>
         </Border>
@@ -91,7 +91,7 @@
                                             <Path Name="PART_PathChevronDown"
                                                   Margin="2.5"
                                                   Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Data="{StaticResource chevron_down_regular}"
+                                                  Data="{StaticResource ChevronDownRegular}"
                                                   Stretch="Uniform">
                                                 <Path.Transitions>
                                                     <Transitions>

@@ -17,8 +17,7 @@
                         </DataTemplate>
                         <DataTemplate DataType="x:String">
                             <TextBlock Text="{CompiledBinding}"
-                                       Margin="10"
-                                       Foreground="{StaticResource TextFillColorPrimaryBrush}" />
+                                       Margin="10" />
                         </DataTemplate>
                     </ReversibleStackPanel.DataTemplates>
                 </ReversibleStackPanel>

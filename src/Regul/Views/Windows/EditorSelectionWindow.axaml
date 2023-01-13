@@ -33,7 +33,7 @@
                        DockPanel.Dock="Top" />
 
             <TextBlock Grid.Column="1"
-                       x:Name="PART_FileName"
+                       x:Name="PartFileName"
                        Foreground="{StaticResource TextFillColorTertiaryBrush}"
                        FontSize="12"
                        Text="File.txt"
@@ -66,7 +66,7 @@
                                         HorizontalAlignment="Right"
                                         ToolTip.Tip="{StaticResource NumberOfElementsFound}">
                                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                        <Path Data="{StaticResource search}"
+                                        <Path Data="{StaticResource SearchRegular}"
                                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                                               VerticalAlignment="Center"
                                               Width="14"
@@ -107,7 +107,7 @@
                                             </ToolTip>
                                         </ToolTip.Tip>
                                         <Viewbox Width="16" Height="16">
-                                            <Path Data="{StaticResource arrow_repeat}" Stretch="Uniform" />
+                                            <Path Data="{StaticResource ArrowRepeatRegular}" Stretch="Uniform" />
                                         </Viewbox>
                                     </ToggleButton>
                                 </Border>
@@ -116,7 +116,7 @@
                     </Button.Flyout>
 
                     <Viewbox Width="17" Height="17">
-                        <Path Data="{StaticResource search}" Stretch="Uniform" />
+                        <Path Data="{StaticResource SearchRegular}" Stretch="Uniform" />
                     </Viewbox>
                 </Button>
                 <Border Theme="{StaticResource BorderBlockInformationTheme}"
@@ -124,7 +124,7 @@
                         VerticalAlignment="Center"
                         ToolTip.Tip="{StaticResource NumberOfInstalledEditors}">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                        <Path Data="{StaticResource edit_regular}"
+                        <Path Data="{StaticResource EditRegular}"
                               Fill="{StaticResource TextFillColorPrimaryBrush}"
                               VerticalAlignment="Center"
                               Width="14"
@@ -172,7 +172,7 @@
 
         <CheckBox Grid.Row="2"
                   Margin="0 0 0 5"
-                  x:Name="PART_AlwaysOpen"
+                  x:Name="PartAlwaysOpen"
                   HorizontalAlignment="Center"
                   Content="{StaticResource AlwaysOpenFile}" />
     </Grid>

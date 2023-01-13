@@ -20,7 +20,7 @@
                      Height="14"
                      IsVisible="{CompiledBinding HasUpdate}"
                      VerticalAlignment="Center">
-                <Path Data="{StaticResource arrow_counterclockwise_regular}"
+                <Path Data="{StaticResource ArrowCounterclockwiseRegular}"
                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
             </Viewbox>
         </Grid>

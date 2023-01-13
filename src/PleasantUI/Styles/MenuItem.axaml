@@ -16,7 +16,7 @@
                               InputGesture="Ctrl+N">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
-                                <Path Data="{StaticResource checkmark_regular}"
+                                <Path Data="{StaticResource CheckmarkRegular}"
                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                       Stretch="Uniform" />
                             </Viewbox>
@@ -105,7 +105,7 @@
                                      Margin="24 0 0 0"
                                      Height="10"
                                      Width="10">
-                                <Path Data="{StaticResource chevron_right_regular}"
+                                <Path Data="{StaticResource ChevronRightRegular}"
                                       Fill="{StaticResource TextFillColorPrimaryBrush}"
                                       Stretch="Uniform" />
                             </Viewbox>
@@ -151,7 +151,7 @@
                 <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
                         <Setter Property="TranslateTransform.Y"
-                                Value="{CompiledBinding $self.Bounds.Width, Converter={x:Static GlobalConverters.DoubleInverse}}" />
+                                Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static GlobalConverters.DoubleInverse}}" />
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">

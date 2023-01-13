@@ -7,7 +7,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
-using Avalonia.VisualTree;
 using PleasantUI.Xaml.Interactivity;
 
 namespace PleasantUI.Xaml.Behaviors;
@@ -35,7 +34,7 @@ public class ItemDragBehavior : Behavior<Control>
     private int _draggedIndex;
     private int _targetIndex;
     private ItemsControl? _itemsControl;
-    private IControl? _draggedContainer;
+    private Control? _draggedContainer;
 
     public Orientation Orientation
     {
@@ -180,7 +179,7 @@ public class ItemDragBehavior : Behavior<Control>
 
         foreach (object _ in itemsControl.Items)
         {
-            IControl? container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+            Control? container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
             if (container is not null) SetTranslateTransform(container, 0, 0);
 
             i++;
@@ -195,7 +194,7 @@ public class ItemDragBehavior : Behavior<Control>
 
         foreach (object _ in itemsControl.Items)
         {
-            IControl? container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+            Control? container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
             if (container is not null) SetTranslateTransform(container, 0, 0);
 
             i++;
@@ -274,7 +273,7 @@ public class ItemDragBehavior : Behavior<Control>
 
             foreach (object _ in _itemsControl.Items)
             {
-                IControl? targetContainer = _itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+                Control? targetContainer = _itemsControl.ItemContainerGenerator.ContainerFromIndex(i);
                 if (targetContainer?.RenderTransform is null || ReferenceEquals(targetContainer, _draggedContainer))
                 {
                     i++;
@@ -324,7 +323,7 @@ public class ItemDragBehavior : Behavior<Control>
         }
     }
 
-    private void SetDraggingPseudoClasses(IStyledElement control, bool isDragging)
+    private void SetDraggingPseudoClasses(Control control, bool isDragging)
     {
         if (isDragging)
             ((IPseudoClasses)control.Classes).Add(":dragging");
@@ -332,7 +331,7 @@ public class ItemDragBehavior : Behavior<Control>
             ((IPseudoClasses)control.Classes).Remove(":dragging");
     }
 
-    private void SetTranslateTransform(IVisual? control, double x, double y)
+    private void SetTranslateTransform(Visual? control, double x, double y)
     {
         TransformOperations.Builder transformBuilder = new(1);
         transformBuilder.AppendTranslate(x, y);

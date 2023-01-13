@@ -5,6 +5,8 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 using PleasantUI.EventArgs;
 using PleasantUI.Interfaces;
+using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 
 #if OSX
 using PleasantUI.Enums;
@@ -41,6 +43,7 @@ public partial class PleasantWindow : Window, IStyleable, IPleasantWindowModal
         {
             ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
         });
+        
         _modalWindows.Children.CollectionChanged += ChildrenOnCollectionChanged;
     }
     private void ChildrenOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

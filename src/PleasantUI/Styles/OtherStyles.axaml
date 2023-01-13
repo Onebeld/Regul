@@ -128,7 +128,7 @@
                                                   Background="{TemplateBinding Background}"
                                                   FontSize="18"
                                                   Margin="4 4 2 4">
-                                        <Path Data="{StaticResource chevron_up_regular}"
+                                        <Path Data="{StaticResource ChevronUpRegular}"
                                               Stretch="Uniform"
                                               Width="15" />
                                     </RepeatButton>
@@ -141,7 +141,7 @@
                                                   VerticalContentAlignment="Center"
                                                   FontSize="18"
                                                   Margin="0 4 4 4">
-                                        <Path Data="{StaticResource chevron_down_regular}"
+                                        <Path Data="{StaticResource ChevronDownRegular}"
                                               Stretch="Uniform"
                                               Width="15" />
                                     </RepeatButton>
@@ -206,10 +206,10 @@
         <Setter Property="Background" Value="#FF00B61F" />
     </Style>
     <Style Selector="PleasantCaptionButtons /template/ Button#PART_MaximizeButton > Viewbox > Path">
-        <Setter Property="Data" Value="{StaticResource maximize_regular}" />
+        <Setter Property="Data" Value="{StaticResource MaximizeRegular}" />
     </Style>
     <Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton > Viewbox > Path">
-        <Setter Property="Data" Value="{StaticResource square_multiple_regular}" />
+        <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
         <Setter Property="StrokeThickness" Value="2" />
     </Style>
 

@@ -37,7 +37,7 @@
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
                                               ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
                                     <Viewbox Width="10" Height="10">
-                                        <Path Data="{StaticResource pin_regular}"
+                                        <Path Data="{StaticResource PinRegular}"
                                               StrokeThickness="2" />
                                     </Viewbox>
                                 </ToggleButton>
@@ -60,7 +60,7 @@
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Collapse}">
                                         <Viewbox Width="10" Height="10">
-                                            <Path Data="{StaticResource subtract_regular}"
+                                            <Path Data="{StaticResource SubtractRegular}"
                                                   StrokeThickness="2" />
                                         </Viewbox>
                                     </Button>
@@ -69,7 +69,7 @@
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Close}">
                                         <Viewbox Width="8" Height="8">
-                                            <Path Data="{StaticResource dismiss_regular}"
+                                            <Path Data="{StaticResource DismissRegular}"
                                                   StrokeThickness="2" />
                                         </Viewbox>
                                     </Button>

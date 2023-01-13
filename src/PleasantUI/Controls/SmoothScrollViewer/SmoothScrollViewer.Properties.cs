@@ -3,6 +3,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Interactivity;
 
 namespace PleasantUI.Controls;
@@ -313,7 +314,7 @@ public sealed partial class SmoothScrollViewer
             {
                 double old = Offset.X;
                 Offset = Offset.WithX(value);
-                RaisePropertyChanged(HorizontalScrollBarValueProperty, old, value);
+                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, HorizontalScrollBarValueProperty, old, value, BindingPriority.Style));
             }
         }
     }
@@ -340,7 +341,7 @@ public sealed partial class SmoothScrollViewer
             {
                 double old = Offset.Y;
                 Offset = Offset.WithY(value);
-                RaisePropertyChanged(VerticalScrollBarValueProperty, old, value);
+                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, VerticalScrollBarValueProperty, old, value, BindingPriority.Style));
             }
         }
     }

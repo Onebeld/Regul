@@ -13,7 +13,6 @@
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="Template">

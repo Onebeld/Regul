@@ -6,6 +6,7 @@ using Avalonia.Data;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using PleasantUI.Controls;
+using PleasantUI.Reactive;
 using AvaloniaProperty = Avalonia.AvaloniaProperty;
 
 namespace PleasantUI.Generators;
@@ -18,7 +19,7 @@ public class PleasantTabItemContainerGenerator : ItemContainerGenerator<Pleasant
     {
     }
 
-    private IControl CreateContainer<T>(object item) where T : class, IControl, new()
+    private Control CreateContainer<T>(object item) where T : Control, new()
     {
         if (item is T container)
         {
@@ -35,7 +36,7 @@ public class PleasantTabItemContainerGenerator : ItemContainerGenerator<Pleasant
 
             result.SetValue(ContentProperty, item, BindingPriority.Style);
 
-            if (item is not IControl)
+            if (item is not Control)
             {
                 result.DataContext = item;
             }
@@ -44,14 +45,14 @@ public class PleasantTabItemContainerGenerator : ItemContainerGenerator<Pleasant
         }
     }
 
-    protected override IControl? CreateContainer(object item)
+    protected override Control? CreateContainer(object item)
     {
         PleasantTabItem? tabItem = (PleasantTabItem)CreateContainer<PleasantTabItem>(item);
 
         tabItem.Bind(PleasantTabItem.TabStripPlacementProperty,
             new OwnerBinding<Dock>(tabItem, PleasantTabView.TabStripPlacementProperty));
 
-        if (tabItem.Content is not IControl)
+        if (tabItem.Content is not Control)
             tabItem.Bind(PleasantTabItem.ContentTemplateProperty, new OwnerBinding<IDataTemplate?>(
                 tabItem,
                 PleasantTabView.ContentTemplateProperty!));
@@ -68,7 +69,7 @@ public class PleasantTabItemContainerGenerator : ItemContainerGenerator<Pleasant
             }
             else
             {
-                if (tabItem.DataContext is not IControl) tabItem.Header = tabItem.DataContext;
+                if (tabItem.DataContext is not Control) tabItem.Header = tabItem.DataContext;
             }
         }
 

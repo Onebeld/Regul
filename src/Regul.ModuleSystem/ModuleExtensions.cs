@@ -25,7 +25,7 @@ public static class ModuleExtensions
         }
         else return;
 
-        module.Instance.Localization.LanguageStyle = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+        module.Instance.Localization.LanguageStyle = new StyleInclude(new Uri("avares://Regul/App.axaml"))
         {
             Source = new Uri($"{module.Instance.Localization.PathToLocalization}/{language.Value.Key}.axaml")
         };

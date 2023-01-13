@@ -10,10 +10,9 @@
     <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0-beta.130" />
+    </ItemGroup>
 
     <Import Project="..\..\build\Avalonia.props" />
-
-    <ItemGroup>
-        <PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0-beta.130" />
-    </ItemGroup>
 </Project>

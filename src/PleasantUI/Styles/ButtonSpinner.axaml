@@ -96,7 +96,7 @@
                                                       Background="{TemplateBinding Background}"
                                                       FontSize="18"
                                                       Margin="4 4 2 4">
-                                            <Path Data="{StaticResource chevron_up_regular}"
+                                            <Path Data="{StaticResource ChevronUpRegular}"
                                                   Stretch="Uniform"
                                                   Width="15" />
                                         </RepeatButton>
@@ -109,7 +109,7 @@
                                                       VerticalContentAlignment="Center"
                                                       FontSize="18"
                                                       Margin="0 4 4 4">
-                                            <Path Data="{StaticResource chevron_down_regular}"
+                                            <Path Data="{StaticResource ChevronDownRegular}"
                                                   Stretch="Uniform"
                                                   Width="15" />
                                         </RepeatButton>

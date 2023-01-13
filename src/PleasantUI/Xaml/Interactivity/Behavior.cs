@@ -9,14 +9,14 @@ public class Behavior : AvaloniaObject, IBehavior
     /// <summary>
     /// Gets the <see cref="IAvaloniaObject"/> to which the behavior is attached.
     /// </summary>
-    public IAvaloniaObject? AssociatedObject { get; private set; }
+    public Control? AssociatedObject { get; private set; }
 
     /// <summary>
     /// Attaches the behavior to the specified <see cref="IAvaloniaObject"/>.
     /// </summary>
     /// <param name="associatedObject">The <see cref="IAvaloniaObject"/> to which to attach.</param>
     /// <exception cref="ArgumentNullException"><paramref name="associatedObject"/> is null.</exception>
-    public void Attach(IAvaloniaObject? associatedObject)
+    public void Attach(AvaloniaObject? associatedObject)
     {
         if (Equals(associatedObject, AssociatedObject))
         {
@@ -29,7 +29,7 @@ public class Behavior : AvaloniaObject, IBehavior
                 CultureInfo.CurrentCulture,
                 "An instance of a behavior cannot be attached to more than one object at a time."));
         }
-        AssociatedObject = associatedObject ?? throw new ArgumentNullException(nameof(associatedObject));
+        AssociatedObject = associatedObject as Control ?? throw new ArgumentNullException(nameof(associatedObject));
 
         OnAttached();
     }
@@ -99,7 +99,7 @@ public class Behavior : AvaloniaObject, IBehavior
 /// and allow for typed associated objects.
 /// </summary>
 /// <typeparam name="T">The object type to attach to</typeparam>
-public abstract class Behavior<T> : Behavior where T : class, IAvaloniaObject
+public abstract class Behavior<T> : Behavior where T : Control
 {
     /// <summary>
     /// Gets the object to which this behavior is attached.

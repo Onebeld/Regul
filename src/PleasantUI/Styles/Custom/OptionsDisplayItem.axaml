@@ -12,7 +12,7 @@
 
                 <OptionsDisplayItem Header="Header"
                                     Description="This is a description of whatver this does"
-                                    Icon="{StaticResource checkmark_regular}"
+                                    Icon="{StaticResource CheckmarkRegular}"
                                     Content="Hello World">
                     <OptionsDisplayItem.ActionButton>
                         <ComboBox />
@@ -133,14 +133,14 @@
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:navigates /template/ Path#Chevron">
-            <Setter Property="Data" Value="{StaticResource chevron_right_regular}" />
+            <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
         </Style>
 
         <Style Selector="^:expands /template/ Viewbox#ChevronHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:expands /template/ Path#Chevron">
-            <Setter Property="Data" Value="{StaticResource chevron_down_regular}" />
+            <Setter Property="Data" Value="{StaticResource ChevronDownRegular}" />
         </Style>
 
         <Style Selector="^:expanded /template/ Viewbox#ChevronHost">

@@ -12,7 +12,7 @@
     <Panel Margin="30">
         <Grid x:Name="ModuleType" ColumnDefinitions="Auto,Auto">
             <Viewbox Grid.Column="0" Width="28" Height="28">
-                <Path Data="{StaticResource app_folder_regular}"
+                <Path Data="{StaticResource AppFolderRegular}"
                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
             </Viewbox>
 
@@ -22,7 +22,7 @@
 
         <Grid x:Name="FileType" ColumnDefinitions="Auto,Auto">
             <Viewbox Grid.Column="0" Width="28" Height="28">
-                <Path Data="{StaticResource open_regular}"
+                <Path Data="{StaticResource OpenRegular}"
                       Fill="{StaticResource TextFillColorPrimaryBrush}" />
             </Viewbox>
 

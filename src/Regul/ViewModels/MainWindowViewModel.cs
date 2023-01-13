@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -18,6 +17,7 @@ using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
+using PleasantUI.Reactive;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
@@ -124,7 +124,10 @@ public class MainWindowViewModel : ViewModelBase
         OnSearch(ApplicationSettings.Current.Projects);
         ApplicationSettings.Current.Projects.CollectionChanged += ProjectsOnCollectionChanged;
 
-        this.WhenAnyValue(x => x.SearchName, x => x.SearchPath, x => x.SearchEditor)
+        this.WhenAnyValue(x => x.SearchName, x => x.SearchPath)
+            .Skip(1)
+            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+        this.WhenAnyValue(x => x.SearchEditor)
             .Skip(1)
             .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
         this.WhenAnyValue(x => x.SortByAlphabetical, x => x.SortByDateOfChange)
@@ -802,7 +805,7 @@ public class MainWindowViewModel : ViewModelBase
     [Obsolete("Obsolete")]
     public async Task<string?> OpenSaveFilePicker(Editor editor)
     {
-        IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        /*IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             FileTypeChoices = editor.FileTypes
         })!;
@@ -810,7 +813,7 @@ public class MainWindowViewModel : ViewModelBase
         if (file is null) return null;
         file.TryGetUri(out Uri? uri);
 
-        return uri?.LocalPath;
+        return uri?.LocalPath;*/
 
         SaveFileDialog saveFileDialog = new()
         {

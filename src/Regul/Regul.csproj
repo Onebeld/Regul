@@ -19,7 +19,6 @@
     <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
         <ProjectReference Include="..\Regul.Assets\Regul.Assets.csproj" />
-        <ProjectReference Include="..\Regul.Logging\Regul.Logging.csproj" />
         <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
     </ItemGroup>
 
@@ -33,9 +32,5 @@
         <None Include="..\Regul.Assets\icon.ico">
             <Link>icon.ico</Link>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0-beta.130" />
     </ItemGroup>
 </Project>

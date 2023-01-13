@@ -1,5 +1,5 @@
 <Project>
     <ItemGroup>
-        <PackageReference Condition="'$(IsWindows)'=='true'" Include="Avalonia.Win32" Version="11.0.0-preview4"/>
+        <PackageReference Condition="'$(IsWindows)'=='true'" Include="Avalonia.Win32" Version="11.0.999-cibuild0028583-beta"/>
     </ItemGroup>
 </Project>

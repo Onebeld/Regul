@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Collections;
+using Avalonia.Styling;
 using McMaster.NETCore.Plugins;
 using Regul.ModuleSystem.Structures;
 using Module = Regul.ModuleSystem.Structures.Module;
@@ -60,7 +62,7 @@ public static class ModuleManager
                 source = (IModule?)Activator.CreateInstance(type);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             moduleLoader.Dispose();
             throw;
@@ -76,5 +78,18 @@ public static class ModuleManager
         Modules.Add(module);
 
         return module;
+    }
+    
+    public static async Task<bool> UnloadModule(Module module, Styles modulesLanguage)
+    {
+        bool b = await module.Instance.Release();
+        if (!b) return false;
+
+        module.RemoveStyleLanguage(modulesLanguage);
+        Modules.Remove(module);
+
+        module.PluginLoader.Dispose();
+
+        return true;
     }
 }

@@ -8,6 +8,7 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

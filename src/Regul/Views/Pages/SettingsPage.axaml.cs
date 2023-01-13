@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
@@ -7,6 +6,7 @@ using PleasantUI.Enums;
 using Regul.Managers;
 using Regul.ModuleSystem;
 using Regul.ViewModels.Pages;
+using PleasantUI.Reactive;
 
 namespace Regul.Views.Pages;
 

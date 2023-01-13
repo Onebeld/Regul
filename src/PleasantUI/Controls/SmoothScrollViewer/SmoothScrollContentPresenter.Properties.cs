@@ -31,8 +31,8 @@ public partial class SmoothScrollContentPresenter
     private IDisposable? _logicalScrollSubscription;
     private Size _viewport;
     private Dictionary<int, Vector>? _activeLogicalGestureScrolls;
-    private List<IControl>? _anchorCandidates;
-    private IControl? _anchorElement;
+    private List<Control>? _anchorCandidates;
+    private Control? _anchorElement;
     private Rect _anchorElementBounds;
     private bool _isAnchorElementDirty;
 

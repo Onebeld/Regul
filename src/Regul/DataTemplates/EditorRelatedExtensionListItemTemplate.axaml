@@ -40,7 +40,7 @@
                         Padding="5"
                         Command="{CompiledBinding $parent[pages:SettingsPage].ViewModel.DeleteEditorRelatedExtension}"
                         CommandParameter="{CompiledBinding}">
-                    <Path Data="{StaticResource delete_regular}"
+                    <Path Data="{StaticResource DeleteRegular}"
                           Stretch="Uniform"
                           Width="16"
                           Height="16" />

@@ -21,6 +21,7 @@ using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Media;
 using PleasantUI.Other;
+using PleasantUI.Reactive;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
@@ -246,7 +247,7 @@ public class SettingsPageViewModel : ViewModelBase
         {
             ApplicationSettings.Current.Language = value.Key;
 
-            Application.Current!.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+            Application.Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
             {
                 Source = new Uri($"avares://Regul.Assets/Localization/{value.Key}.axaml")
             };
@@ -315,7 +316,9 @@ public class SettingsPageViewModel : ViewModelBase
 
         this.WhenAnyValue(x => x.ModuleNameSearching, x => x.InvertModuleList)
             .Subscribe(_ => OnSearchModules(ModuleManager.Modules));
-        this.WhenAnyValue(x => x.EditorRelatedExtensionSearching, x => x.ExtensionSearching, x => x.InvertEditorRelatedExtensionList)
+        this.WhenAnyValue(x => x.EditorRelatedExtensionSearching, x => x.ExtensionSearching)
+            .Subscribe(_ => OnSearchEditorRelatedExtensions(ApplicationSettings.Current.EditorRelatedExtensions));
+        this.WhenAnyValue(x => x.InvertEditorRelatedExtensionList)
             .Subscribe(_ => OnSearchEditorRelatedExtensions(ApplicationSettings.Current.EditorRelatedExtensions));
     }
     private void EditorRelatedExtensionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearchEditorRelatedExtensions(ApplicationSettings.Current.EditorRelatedExtensions);
@@ -409,7 +412,7 @@ public class SettingsPageViewModel : ViewModelBase
         ApplicationSettings.Reset();
         PleasantUiSettings.Reset();
 
-        Application.Current!.Styles[1] = new StyleInclude(new Uri("resm:Styles?assembly=Regul"))
+        Application.Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
         {
             Source = new Uri($"avares://Regul.Assets/Localization/{ApplicationSettings.Current.Language}.axaml")
         };

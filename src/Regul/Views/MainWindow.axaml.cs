@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.Notifications;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
-using Avalonia.VisualTree;
 using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Enums;
@@ -36,7 +34,7 @@ public class MainWindow : PleasantWindow
 #endif
 
     private bool _closing;
-    private readonly WindowNotificationManager _notificationManager;
+    private WindowNotificationManager _notificationManager;
 
     public MainWindowViewModel ViewModel { get; }
 
@@ -67,25 +65,17 @@ public class MainWindow : PleasantWindow
         DataContext = viewModel;
         ViewModel = viewModel;
 
-        _notificationManager = new WindowNotificationManager(this)
-        {
-            Position = NotificationPosition.TopRight,
-            MaxItems = 3,
-            ZIndex = 1,
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Top
-        };
-
         SetupDragAndDrop();
 
         Closing += OnClosing;
         TemplateApplied += (_, _) =>
         {
-            AdornerLayer? adornerLayer = this.FindDescendantOfType<VisualLayerManager>()?.AdornerLayer;
-            if (adornerLayer is null) return;
-
-            adornerLayer.HorizontalAlignment = HorizontalAlignment.Right;
-            adornerLayer.Margin = new Thickness(-355, 0, 0, 0);
+            _notificationManager = new WindowNotificationManager(this)
+            {
+                Position = NotificationPosition.TopRight,
+                MaxItems = 3,
+                ZIndex = 1
+            };
         };
         Loaded += (_, _) =>
         {
@@ -110,6 +100,9 @@ public class MainWindow : PleasantWindow
 
             if (ViewModel.SynchronizationContext is not null)
                 Task.Run(() => ViewModel.LaunchEventWaitHandler(ViewModel.SynchronizationContext));
+            
+            GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+            GC.Collect();
         };
     }
     private async void OnClosing(object? sender, CancelEventArgs e)
