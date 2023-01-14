@@ -18,7 +18,7 @@ To delete modules, you need to delete the files of the module you don't need in 
 * [Regul.OlibKey](https://github.com/Onebeld/Regul.OlibKey) *(WIP)* - password manager. It is a rebirth of an [old](https://github.com/Onebeld/OlibKey) project.
 * [Regul.S3PE](https://github.com/Onebeld/Regul.S3PE) - package-files editor for The Sims™ 3 by Electronic Arts™ and Maxis™.
 * [Regul.SaveCleaner](https://github.com/Onebeld/Regul.SaveCleaner) - tool to clean The Sims™ 3 game and keep it stable.
-* Regul.Jekyll *(planned)* - set of various tools to perform everyday tasks. Is a rebirth of an old project that has no source code (because the code is too bad)
+* Regul.Niver - set of various tools to perform everyday tasks. Is a rebirth of an old project that has no source code (because the code is too bad)
 
 ### List of user modules:
 *(This is a list of modules submitted by other people. If you want to publish your module, create a PR to add your link in modules.md)*
