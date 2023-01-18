@@ -7,7 +7,7 @@
         <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
                 BorderThickness="1"
-                CornerRadius="5"
+                CornerRadius="4"
                 Padding="5">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <Image Grid.Column="0"

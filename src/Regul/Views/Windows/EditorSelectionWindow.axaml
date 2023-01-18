@@ -33,7 +33,7 @@
                        DockPanel.Dock="Top" />
 
             <TextBlock Grid.Column="1"
-                       x:Name="PartFileName"
+                       x:Name="FileName"
                        Foreground="{StaticResource TextFillColorTertiaryBrush}"
                        FontSize="12"
                        Text="File.txt"
@@ -138,6 +138,7 @@
         </Grid>
 
         <ListBox Grid.Row="1"
+                 x:Name="ListBox"
                  Items="{CompiledBinding SortedEditors}"
                  SelectedItem="{CompiledBinding SelectedEditor}"
                  SelectionMode="AlwaysSelected"
@@ -172,7 +173,7 @@
 
         <CheckBox Grid.Row="2"
                   Margin="0 0 0 5"
-                  x:Name="PartAlwaysOpen"
+                  x:Name="AlwaysOpen"
                   HorizontalAlignment="Center"
                   Content="{StaticResource AlwaysOpenFile}" />
     </Grid>

@@ -16,6 +16,7 @@ using PleasantUI.Enums;
 using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
+using Regul.Helpers;
 using Regul.Managers;
 using Regul.Other;
 using Regul.Structures;
@@ -146,22 +147,11 @@ public class MainWindow : PleasantWindow
 
     public async Task<SaveResult> SaveBeforeClosingWorkbench(Workbench? workbench)
     {
-        string result = await MessageBox.Show(this, $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", string.Empty,
-            new List<MessageBoxButton>
-            {
-                new()
-                {
-                    Text = "Yes", Default = true, Result = "Yes", IsKeyDown = true
-                },
-                new()
-                {
-                    Text = "No", Result = "No"
-                },
-                new()
-                {
-                    Text = "Cancel", Result = "Cancel"
-                }
-            });
+        string result = await MessageBox.Show(
+            this, 
+            $"{App.GetString("YouWantToSaveProject")}: {Path.GetFileName(workbench.PathToFile) ?? App.GetString("NoName")}?", 
+            string.Empty,
+            MessageBoxButtons.YesNoCancel);
 
         if (result == "Yes")
         {
@@ -266,4 +256,30 @@ public class MainWindow : PleasantWindow
         TitleBarType = titleBarType;
 #endif
     }
+
+    public void RunLoading(double maximum)
+    {
+        ViewModel.LoadingWindow = new LoadingWindow
+        {
+            Maximum = maximum
+        };
+        ViewModel.LoadingWindow.Show(this);
+    }
+
+    public bool LoadingIsOpened() => ViewModel.LoadingWindow is not null && !ViewModel.LoadingWindow.IsClosed;
+
+    public void ChangeLoadingProgress(double progress, string userState, bool isIndeterminate)
+    {
+        if (ViewModel.LoadingWindow is null)
+            throw new NullReferenceException("LoadingWindow is null");
+        
+        ViewModel.SynchronizationContext?.Send(_ =>
+        {
+            ViewModel.LoadingWindow.IsIndeterminate = isIndeterminate;
+            ViewModel.LoadingWindow.Value = progress;
+            ViewModel.LoadingWindow.Text = App.GetString(userState);
+        }, "");
+    }
+
+    public void CloseLoading() => ViewModel.LoadingWindow?.Close();
 }

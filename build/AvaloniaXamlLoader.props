@@ -1,5 +1,5 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.999-cibuild0028583-beta"/>
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.999-cibuild0028700-beta"/>
     </ItemGroup>
 </Project>

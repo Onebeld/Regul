@@ -41,7 +41,7 @@
                                             Margin="-2 8 0 8"
                                             HorizontalAlignment="Left"
                                             IsVisible="False"
-                                            CornerRadius="5"
+                                            CornerRadius="4"
                                             Background="{StaticResource AccentFillColorLightSecondaryBrush}" />
 
                                     <Viewbox Name="PART_ViewBox"

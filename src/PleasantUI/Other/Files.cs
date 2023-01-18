@@ -2,5 +2,5 @@
 
 public static class Files
 {
-    public static readonly string Settings = Path.Combine(Directories.Settings, "pleasantUI.xml");
+    public static readonly string Settings = Path.Combine(Directories.Settings, "pleasantUI.json");
 }

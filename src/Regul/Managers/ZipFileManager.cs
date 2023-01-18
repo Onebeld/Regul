@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using Regul.Enums;
@@ -35,7 +36,10 @@ public static class ZipFileManager
     {
         //Gets the complete path for the destination file, including any
         //relative paths that were in the zip file
-        string destinationFileName = Path.Combine(destinationPath, entry.FullName);
+        string destinationFileName = Path.GetFullPath(Path.Combine(destinationPath, entry.FullName));
+        string fullDestDirPath = Path.GetFullPath(destinationPath + Path.DirectorySeparatorChar);
+        if (!destinationFileName.StartsWith(fullDestDirPath))
+            throw new InvalidOperationException("Entry is outside the target dir: " + destinationFileName);
 
         //Gets just the new path, minus the file name so we can create the
         //directory if it does not exist
@@ -75,7 +79,10 @@ public static class ZipFileManager
     {
         //Gets the complete path for the destination file, including any
         //relative paths that were in the zip file
-        string destinationFileName = Path.Combine(destinationPath, entry.FullName);
+        string destinationFileName = Path.GetFullPath(Path.Combine(destinationPath, entry.FullName));
+        string fullDestDirPath = Path.GetFullPath(destinationPath + Path.DirectorySeparatorChar);
+        if (!destinationFileName.StartsWith(fullDestDirPath))
+            throw new InvalidOperationException("Entry is outside the target dir: " + destinationFileName);
 
         //Gets just the new path, minus the file name so we can create the
         //directory if it does not exist

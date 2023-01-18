@@ -56,6 +56,10 @@ public static class Program
 
         ApplicationSettings.Load();
 
+        if (string.IsNullOrWhiteSpace(ApplicationSettings.Current.VirusTotalApiKey) 
+            || ApplicationSettings.Current.VirusTotalApiKey.Length < 64)
+            ApplicationSettings.Current.ScanForVirus = false;
+
         AppBuilder mainAppBuilder = BuildAvaloniaApp();
         mainAppBuilder.SetupWithoutStarting();
 

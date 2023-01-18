@@ -1,7 +1,4 @@
-﻿using Avalonia.Reactive;
-using Avalonia.Reactive.Operators;
-
-namespace PleasantUI.Reactive.Operators;
+﻿namespace PleasantUI.Reactive.Operators;
 
 internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TResult>
 {

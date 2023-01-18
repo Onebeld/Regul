@@ -57,11 +57,13 @@
         <v:String x:Key="Information">Information</v:String>
         <v:String x:Key="Warning">Warning</v:String>
         <v:String x:Key="Error">Error</v:String>
+        
+        <v:String x:Key="LicenseAgreement">License Agreement</v:String>
 
         <!-- Crash Report -->
         <v:String x:Key="ThereWasAnException">There was an exception!</v:String>
         <v:String x:Key="Restart">Restart</v:String>
-        <v:String x:Key="ThereWasAnExceptionDescription">Don't worry! The settings have been saved wherever possible. You will be able to restart the application and continue working, or end the session. You can also see more information about what caused the error at the bottom. Be sure to send this information to the developer.</v:String>
+        <v:String x:Key="ThereWasAnExceptionDescription">Don't worry! The settings have been saved wherever possible. You will be able to restart the application and continue working, or end the session. You can also see more information about what caused the error at the bottom.</v:String>
 
         <!-- Home page -->
         <v:String x:Key="Welcome">Welcome!</v:String>
@@ -119,7 +121,6 @@
 
         <!-- Tool Window -->
         <v:String x:Key="FindATool">Find a tool</v:String>
-        <v:String x:Key="FindTheModule">Find the module</v:String>
         <v:String x:Key="NumberOfToolsInTheModule">Number of tools in the module</v:String>
         <v:String x:Key="NumberOfModulesThatHaveTools">Number of modules that have tools</v:String>
         <v:String x:Key="SelectModule">Select a module</v:String>
@@ -143,14 +144,29 @@
         <v:String x:Key="EnableHardwareAcceleration">Enable hardware acceleration</v:String>
         <v:String x:Key="EnableHardwareAccelerationDescription">Allows you to enable transparency, makes animations smoother. Requires you to restart the program for the changes to take effect.</v:String>
         <v:String x:Key="NumberOfEditorRelatedExtensions">Number of editor related extensions</v:String>
-
+        
         <v:String x:Key="EveryDay">Every day</v:String>
         <v:String x:Key="EveryWeek">Every week</v:String>
         <v:String x:Key="EveryMonth">Every month</v:String>
         <v:String x:Key="EveryYear">Every year</v:String>
         <v:String x:Key="Never">Never</v:String>
+        
+        <v:String x:Key="CheckForViruses">Check for viruses</v:String>
+        <v:String x:Key="CheckForVirusesDescription">When installing the module Regul will check it for viruses using VirusTotal technology, which requires an Internet connection and an API key</v:String>
+        <v:String x:Key="ApiKey">API Key</v:String>
+        <v:String x:Key="YouNeedToEnterVirusTotalApiKey">You need to enter the VirusTotal API key!</v:String>
+        <v:String x:Key="GetApiKey">Get API key</v:String>
+        <v:String x:Key="FailedToCheckForViruses">Failed to check for viruses</v:String>
+        <v:String x:Key="ThreatDetected">Threat detected!</v:String>
+        <v:String x:Key="CheckLimitExceeded">Check limit exceeded!</v:String>
+        <v:String x:Key="FileName">File name</v:String>
+        <v:String x:Key="YouReallyWantToContinueInstallation">Do you really want to continue the installation?</v:String>
+        <v:String x:Key="CheckForVirusesM">Check for viruses...</v:String>
+        <v:String x:Key="ApiKeyIsTooShort">The API key is too short!</v:String>
+        <v:String x:Key="GettingInformationM">Getting Information...</v:String>
 
         <!-- Style Settings Content -->
+        <v:String x:Key="System">System</v:String>
         <v:String x:Key="Light">Light</v:String>
         <v:String x:Key="Dark">Dark</v:String>
         <v:String x:Key="Mysterious">Mysterious</v:String>
@@ -217,7 +233,8 @@
         <v:String x:Key="Links">Links</v:String>
         <v:String x:Key="Author">Author</v:String>
         <v:String x:Key="Update">Update</v:String>
-        <v:String x:Key="CheckAvailability">Check availability</v:String>
+        <v:String x:Key="UpdateAvailability">Update availability</v:String>
+        <v:String x:Key="Check">Check</v:String>
         <v:String x:Key="WriteLetter">Write a letter</v:String>
         <v:String x:Key="SocialNetwork">Social network</v:String>
         <v:String x:Key="NoUpdatesAtThisTime">No updates at this time</v:String>

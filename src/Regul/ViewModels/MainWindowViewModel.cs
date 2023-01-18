@@ -18,7 +18,6 @@ using PleasantUI.Controls;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Reactive;
-using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
 using Regul.Helpers;
@@ -57,6 +56,8 @@ public class MainWindowViewModel : ViewModelBase
     private bool _sortByDateOfChange = true;
 
     private Workbench? _selectedWorkbench;
+    
+    internal LoadingWindow? LoadingWindow;
 
     public AvaloniaList<Workbench> Workbenches { get; } = new();
     public AvaloniaList<Project> SortedProjects { get; } = new();
@@ -121,22 +122,22 @@ public class MainWindowViewModel : ViewModelBase
         this.WhenAnyValue(x => x.Content)
             .Subscribe(DoRaiseContentProperty);
 
-        OnSearch(ApplicationSettings.Current.Projects);
+        OnSearchProjects(ApplicationSettings.Current.Projects);
         ApplicationSettings.Current.Projects.CollectionChanged += ProjectsOnCollectionChanged;
 
         this.WhenAnyValue(x => x.SearchName, x => x.SearchPath)
             .Skip(1)
-            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+            .Subscribe(_ => OnSearchProjects(ApplicationSettings.Current.Projects));
         this.WhenAnyValue(x => x.SearchEditor)
             .Skip(1)
-            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+            .Subscribe(_ => OnSearchProjects(ApplicationSettings.Current.Projects));
         this.WhenAnyValue(x => x.SortByAlphabetical, x => x.SortByDateOfChange)
             .Skip(1)
             .Where(x => x.Item1 || x.Item2)
-            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+            .Subscribe(_ => OnSearchProjects(ApplicationSettings.Current.Projects));
         this.WhenAnyValue(x => x.ReverseProjectList)
             .Skip(1)
-            .Subscribe(_ => OnSearch(ApplicationSettings.Current.Projects));
+            .Subscribe(_ => OnSearchProjects(ApplicationSettings.Current.Projects));
 
         CheckUpdate();
     }
@@ -203,7 +204,7 @@ public class MainWindowViewModel : ViewModelBase
         return fileArgs;
     }
 
-    private void ProjectsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearch(ApplicationSettings.Current.Projects);
+    private void ProjectsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearchProjects(ApplicationSettings.Current.Projects);
 
     private async void CheckUpdate()
     {
@@ -233,24 +234,14 @@ public class MainWindowViewModel : ViewModelBase
 
         if (checkUpdateResult == CheckUpdateResult.HasUpdate && newVersion is not null && WindowsManager.MainWindow is not null)
         {
-            string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion.ToString()}", "GoToTheWebsiteToDownloadNewUpdate",
-                new List<MessageBoxButton>
-                {
-                    new()
-                    {
-                        Text = App.GetString("Yes"), Default = true, Result = "Yes", IsKeyDown = true
-                    },
-                    new()
-                    {
-                        Text = App.GetString("No"), Result = "No"
-                    }
-                });
+            string result = await MessageBox.Show(
+                WindowsManager.MainWindow, 
+                $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion.ToString()}", 
+                "GoToTheWebsiteToDownloadNewUpdate", 
+                MessageBoxButtons.YesNo);
+            
             if (result == "Yes")
-            {
-#pragma warning disable CS4014
                 IoHelpers.OpenBrowserAsync("https://github.com/Onebeld/Regul/tags");
-#pragma warning restore CS4014
-            }
         }
 
         // Check modules update
@@ -282,7 +273,7 @@ public class MainWindowViewModel : ViewModelBase
         ApplicationSettings.Current.DateOfLastUpdateCheck = DateTime.Now.ToString(CultureInfo.CurrentCulture);
     }
 
-    private void OnSearch(AvaloniaList<Project> obj)
+    private void OnSearchProjects(AvaloniaList<Project> obj)
     {
         SortedProjects.Clear();
 
@@ -413,8 +404,7 @@ public class MainWindowViewModel : ViewModelBase
         if (Content is not EditorsPage)
             WindowsManager.MainWindow?.ChangePage(typeof(EditorsPage), TitleBarType.ExtendedWithoutContent);
     }
-
-    [Obsolete("Obsolete")]
+    
     public async void OpenFile()
     {
         if (Content is not HomePage && Content is not EditorsPage)
@@ -426,8 +416,8 @@ public class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        string[]? paths = await OpenFilePicker();
-        if (paths is null || paths.Length < 1)
+        List<string> paths = await OpenFilePicker() as List<string>;
+        if (paths is null || paths.Count < 1)
             return;
 
         foreach (string s in paths)
@@ -509,48 +499,11 @@ public class MainWindowViewModel : ViewModelBase
 
     #region DragAndDrop
 
-    public void DropModules(IEnumerable<string?> files)
+    public void DropModules(IReadOnlyList<string> files)
     {
-        List<string> copiedFiles = new();
+        App.InstallModules(files);
 
-        foreach (string? file in files)
-        {
-            if (file is null) continue;
-
-            if (Path.GetExtension(file) == ".zip")
-            {
-                try
-                {
-                    copiedFiles.AddRange(ZipFileManager.ExtractToDirectoryWithPaths(file, RegulDirectories.Modules));
-                }
-                catch
-                {
-                    WindowsManager.MainWindow?.ShowNotification("FailedToLoadTheModules", NotificationType.Error, TimeSpan.FromSeconds(4));
-                    return;
-                }
-            }
-            else if (Path.GetExtension(file) == ".dll")
-            {
-                string path = Path.Combine(RegulDirectories.Modules, Path.GetFileName(file));
-                try
-                {
-                    File.Copy(file, path);
-                }
-                catch
-                {
-                    WindowsManager.MainWindow?.ShowNotification("FailedToLoadTheModules", NotificationType.Error, TimeSpan.FromSeconds(4));
-                    return;
-                }
-
-                copiedFiles.Add(path);
-            }
-        }
-
-        App.LoadModules(copiedFiles);
-
-        OnSearch(ApplicationSettings.Current.Projects);
-
-        WindowsManager.MainWindow?.ShowNotification("ModulesWereLoadedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
+        OnSearchProjects(ApplicationSettings.Current.Projects);
     }
 
     public async void DropFiles(IEnumerable<string?> files)
@@ -661,6 +614,12 @@ public class MainWindowViewModel : ViewModelBase
             string? path = await OpenSaveFilePicker(editor);
 
             if (path is null) return SaveResult.Cancel;
+
+            if (!Path.HasExtension(path))
+            {
+                
+            }
+            
             workbench.PathToFile = path;
         }
 
@@ -705,7 +664,7 @@ public class MainWindowViewModel : ViewModelBase
 
             if (_showNotificationAfterSaving)
             {
-                OnSearch(ApplicationSettings.Current.Projects);
+                OnSearchProjects(ApplicationSettings.Current.Projects);
 
                 WindowsManager.MainWindow?.ShowNotification(
                     $"{App.GetString("ProjectSavedSuccessfully")}: {Path.GetFileName(workbench.PathToFile)}",
@@ -749,7 +708,7 @@ public class MainWindowViewModel : ViewModelBase
         }
         _showNotificationAfterSaving = true;
 
-        OnSearch(ApplicationSettings.Current.Projects);
+        OnSearchProjects(ApplicationSettings.Current.Projects);
 
         WindowsManager.MainWindow?.ShowNotification("AllProjectsSavedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
     }
@@ -757,13 +716,26 @@ public class MainWindowViewModel : ViewModelBase
     #endregion
 
     #region FilePicker
-
-    [Obsolete("Obsolete")]
-    public async Task<string[]?> OpenFilePicker()
+    
+    public async Task<IReadOnlyList<string>> OpenFilePicker()
     {
-        /*IReadOnlyList<IStorageFile> files = await WindowsManager.MainWindow?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        List<FilePickerFileType> filePickerFileTypes = new()
         {
-            FileTypeFilter = editor.FileTypes
+            new FilePickerFileType(App.GetString("AllFiles"))
+            {
+                Patterns = new [] { "*" }
+            }
+        };
+
+        foreach (Editor editor in ModuleManager.Editors)
+            filePickerFileTypes.AddRange(editor.FileTypes);
+
+        filePickerFileTypes = filePickerFileTypes.DistinctBy(x => x.Patterns).ToList();
+
+        IReadOnlyList<IStorageFile> files = await WindowsManager.MainWindow?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            FileTypeFilter = filePickerFileTypes,
+            AllowMultiple = true
         })!;
 
         List<string> pathList = new();
@@ -774,23 +746,12 @@ public class MainWindowViewModel : ViewModelBase
 
             if (uri is null) continue;
 
-            bool f = TryGetExistenceWorkbench(uri.LocalPath, out _);
-            if (f) continue;
-
-            bool isExistWorkbench = TryGetExistenceWorkbench(uri.LocalPath, out _);
-
-            if (isExistWorkbench)
-            {
-                WindowsManager.MainWindow?.ShowNotification("ProjectAlreadyOpen", NotificationType.Warning, TimeSpan.FromSeconds(5));
-                continue;
-            }
-
             pathList.Add(uri.LocalPath);
         }
 
-        return pathList;*/
+        return pathList;
 
-        OpenFileDialog dialog = new()
+        /*OpenFileDialog dialog = new()
         {
             Filters = new List<FileDialogFilter>(), AllowMultiple = true
         };
@@ -803,23 +764,23 @@ public class MainWindowViewModel : ViewModelBase
             }
         });
 
-        return await dialog.ShowAsync(WindowsManager.MainWindow!);
+        return await dialog.ShowAsync(WindowsManager.MainWindow!);*/
     }
-
-    [Obsolete("Obsolete")]
+    
     public async Task<string?> OpenSaveFilePicker(Editor editor)
     {
-        /*IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        IStorageFile? file = await WindowsManager.MainWindow?.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            FileTypeChoices = editor.FileTypes
+            FileTypeChoices = editor.FileTypes,
+            DefaultExtension = editor.FileTypes.First().Patterns.First()
         })!;
         
         if (file is null) return null;
         file.TryGetUri(out Uri? uri);
 
-        return uri?.LocalPath;*/
+        return uri?.LocalPath;
 
-        SaveFileDialog saveFileDialog = new()
+        /*SaveFileDialog saveFileDialog = new()
         {
             Filters = new List<FileDialogFilter>()
         };
@@ -831,7 +792,9 @@ public class MainWindowViewModel : ViewModelBase
             });
         }
 
-        return await saveFileDialog.ShowAsync(WindowsManager.MainWindow!);
+        saveFileDialog.DefaultExtension = saveFileDialog.Filters.First().Extensions.First();
+
+        return await saveFileDialog.ShowAsync(WindowsManager.MainWindow!);*/
     }
 
     #endregion

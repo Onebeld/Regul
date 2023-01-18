@@ -16,7 +16,7 @@ public class MessageBox : ContentDialog
     public MessageBox() => AvaloniaXamlLoader.Load(this);
 
     public static Task<string> Show(IPleasantWindowModal parent, string title, string text,
-        IList<MessageBoxButton>? buttons = null, string? additionalText = null)
+        IReadOnlyList<MessageBoxButton>? buttons = null, string? additionalText = null)
     {
         MessageBox messageBox = new();
 

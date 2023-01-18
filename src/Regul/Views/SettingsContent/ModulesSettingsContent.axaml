@@ -171,7 +171,7 @@
                     Background="{StaticResource ControlFillColorTertiaryBrush}"
                     BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="5">
+                    CornerRadius="4">
                 <Panel>
                     <ListBox Items="{CompiledBinding SortedModules}"
                              SelectedItem="{CompiledBinding SelectedModule}"
@@ -190,7 +190,7 @@
                     Background="{StaticResource ControlFillColorTertiaryBrush}"
                     BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="5">
+                    CornerRadius="4">
                 <Panel>
                     <SmoothScrollViewer
                         IsVisible="{CompiledBinding SelectedModule, Converter={x:Static ObjectConverters.IsNotNull}}">
@@ -241,44 +241,38 @@
                                 </Grid>
                             </Border>
 
-                            <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                    BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="4"
-                                    Padding="10">
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Image Grid.Column="0"
-                                           Margin="0 0 15 0"
-                                           VerticalAlignment="Center"
-                                           Source="{CompiledBinding SelectedModule.Instance.Icon}"
-                                           IsVisible="{CompiledBinding SelectedModule.Instance.Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                           Width="50"
-                                           Height="50" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0 0 0 10">
+                                <Image Grid.Column="0"
+                                       Margin="0 0 15 0"
+                                       VerticalAlignment="Center"
+                                       Source="{CompiledBinding SelectedModule.Instance.Icon}"
+                                       IsVisible="{CompiledBinding SelectedModule.Instance.Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                       Width="50"
+                                       Height="50" />
 
-                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
-                                        <TextBlock
-                                            Text="{CompiledBinding SelectedModule.Instance.Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
-                                            TextWrapping="Wrap"
-                                            FontSize="20"
-                                            VerticalAlignment="Center"
-                                            FontWeight="SemiBold" />
-                                        <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}"
-                                                   FontSize="12">
-                                            <Run Text="{StaticResource Version}" /><Run Text=":" />
-                                            &#8203;<Run Text="{CompiledBinding SelectedModule.Instance.Version}" />
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               FontSize="12"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Right"
-                                               Foreground="{StaticResource TextFillColorTertiaryBrush}">
-                                        <Run Text="{StaticResource Author}" /><Run Text=":" />
-                                        &#8203;<Run Text="{CompiledBinding SelectedModule.Instance.Author}" />
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                                    <TextBlock
+                                        Text="{CompiledBinding SelectedModule.Instance.Name, Converter={x:Static c:StringOrKeyToResourceOrStringConverter.Instance}}"
+                                        TextWrapping="Wrap"
+                                        FontSize="20"
+                                        VerticalAlignment="Center"
+                                        FontWeight="SemiBold" />
+                                    <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                                               FontSize="12">
+                                        <Run Text="{StaticResource Version}" /><Run Text=":" />
+                                        &#8203;<Run Text="{CompiledBinding SelectedModule.Instance.Version}" />
                                     </TextBlock>
-                                </Grid>
-                            </Border>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="2"
+                                           FontSize="12"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                    <Run Text="{StaticResource Author}" /><Run Text=":" />
+                                    &#8203;<Run Text="{CompiledBinding SelectedModule.Instance.Author}" />
+                                </TextBlock>
+                            </Grid>
 
                             <Border IsVisible="{CompiledBinding SelectedModule.HasUpdate}"
                                     Background="{StaticResource ControlFillColorDefaultBrush}"

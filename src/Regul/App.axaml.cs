@@ -77,7 +77,7 @@ public class App : Application
 
             try
             {
-                ZipFileManager.ExtractToDirectory(updatableModule.Path, updatableModule.PathToModule);
+                ZipFileManager.ExtractToDirectory(updatableModule.Path, RegulDirectories.Modules);
             }
             finally
             {
@@ -163,6 +163,69 @@ public class App : Application
         {
             return (CheckUpdateResult.Error, null);
         }
+    }
+
+    public static async void InstallModules(IReadOnlyList<string> paths)
+    {
+        if (WindowsManager.MainWindow is null) return;
+
+        List<string> listPaths = new(paths);
+
+        if (ApplicationSettings.Current.ScanForVirus)
+        {
+            WindowsManager.MainWindow.RunLoading(100);
+
+            for (int index = listPaths.Count - 1; index >= 0; index--)
+            {
+                string path = listPaths[index];
+                if (!await VirusScanner.Scan(path))
+                    listPaths.Remove(path);
+            }
+
+            WindowsManager.MainWindow.CloseLoading();
+            
+            if (listPaths.Count <= 0)
+                return;
+        }
+        
+        List<string> copiedFiles = new();
+        
+        foreach (string path in listPaths)
+        {
+            if (Path.GetExtension(path).ToLower() == ".zip")
+            {
+                try
+                {
+                    copiedFiles.AddRange(ZipFileManager.ExtractToDirectoryWithPaths(path, RegulDirectories.Modules));
+                }
+                catch
+                {
+                    WindowsManager.MainWindow?.ShowNotification("Error", NotificationType.Error, TimeSpan.FromSeconds(4));
+                    return;
+                }
+            }
+            else if (Path.GetExtension(path).ToLower() == ".dll")
+            {
+                string pathInModulesFolder = Path.Combine(RegulDirectories.Modules, Path.GetFileName(path));
+
+                try
+                {
+                    File.Copy(path, pathInModulesFolder);
+                }
+                catch
+                {
+                    WindowsManager.MainWindow?.ShowNotification("Error", NotificationType.Error, TimeSpan.FromSeconds(4));
+                    return;
+                }
+
+                copiedFiles.Add(pathInModulesFolder);
+            }
+        }
+
+        bool successfulLoad = LoadModules(copiedFiles);
+
+        if (successfulLoad)
+            WindowsManager.MainWindow.ShowNotification("ModulesWereLoadedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
     }
 
     public static bool LoadModules(IEnumerable<string> paths)

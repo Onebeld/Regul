@@ -15,6 +15,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using Avalonia.Win32;
 using PleasantUI;
 using PleasantUI.Enums;
@@ -33,7 +34,6 @@ using Regul.ModuleSystem.Structures;
 using Regul.Other;
 using Regul.Structures;
 using Regul.Views.Pages;
-using Regul.Views.Windows;
 using Language = Regul.Structures.Language;
 
 #pragma warning disable CS4014
@@ -59,7 +59,6 @@ public class SettingsPageViewModel : ViewModelBase
     private string _extensionSearching = string.Empty;
     private bool _invertModuleList;
     private bool _invertEditorRelatedExtensionList;
-    private LoadingWindow? _loadingWindow;
 
     private readonly TextBox? _renameTextBox = null!;
 
@@ -90,6 +89,52 @@ public class SettingsPageViewModel : ViewModelBase
     {
         get => _renameText;
         set => RaiseAndSetIfChanged(ref _renameText, value);
+    }
+
+    public string DecryptedVirusTotalApiKey
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.VirusTotalApiKey))
+                return AesEncryption.DecryptString(ApplicationSettings.Current.Key, ApplicationSettings.Current.VirusTotalApiKey);
+            return string.Empty;
+        }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                ApplicationSettings.Current.VirusTotalApiKey = string.Empty;
+            else
+                ApplicationSettings.Current.VirusTotalApiKey = AesEncryption.EncryptString(ApplicationSettings.Current.Key, value);
+
+            if (string.IsNullOrWhiteSpace(ApplicationSettings.Current.VirusTotalApiKey) || DecryptedVirusTotalApiKey.Length < 64 && ScanForVirus)
+            {
+                ScanForVirus = false;
+                RaisePropertyChanged(nameof(ScanForVirus));
+            }
+        }
+    }
+
+    public bool ScanForVirus
+    {
+        get => ApplicationSettings.Current.ScanForVirus;
+        set
+        {
+            if (value && string.IsNullOrWhiteSpace(ApplicationSettings.Current.VirusTotalApiKey))
+            {
+                WindowsManager.MainWindow?.ShowNotification("YouNeedToEnterVirusTotalApiKey", NotificationType.Error, TimeSpan.FromSeconds(3));
+                RaisePropertyChanged();
+                return;
+            }
+
+            if (value && DecryptedVirusTotalApiKey.Length < 64)
+            {
+                WindowsManager.MainWindow?.ShowNotification("ApiKeyIsTooShort", NotificationType.Error, TimeSpan.FromSeconds(3));
+                RaisePropertyChanged();
+                return;
+            }
+
+            ApplicationSettings.Current.ScanForVirus = value;
+        }
     }
 
     public string ModuleNameSearching
@@ -218,11 +263,12 @@ public class SettingsPageViewModel : ViewModelBase
         {
             return PleasantUiSettings.Instance.ThemeMode switch
             {
-                PleasantThemeMode.Dark => 1,
-                PleasantThemeMode.Mysterious => 2,
-                PleasantThemeMode.Emerald => 3,
-                PleasantThemeMode.Turquoise => 4,
-                PleasantThemeMode.Custom => 5,
+                PleasantThemeMode.Light => 1,
+                PleasantThemeMode.Dark => 2,
+                PleasantThemeMode.Mysterious => 3,
+                PleasantThemeMode.Emerald => 4,
+                PleasantThemeMode.Turquoise => 5,
+                PleasantThemeMode.Custom => 6,
                 _ => 0
             };
         }
@@ -230,12 +276,13 @@ public class SettingsPageViewModel : ViewModelBase
         {
             PleasantUiSettings.Instance.ThemeMode = value switch
             {
-                1 => PleasantThemeMode.Dark,
-                2 => PleasantThemeMode.Mysterious,
-                3 => PleasantThemeMode.Emerald,
-                4 => PleasantThemeMode.Turquoise,
-                5 => PleasantThemeMode.Custom,
-                _ => PleasantThemeMode.Light
+                1 => PleasantThemeMode.Light,
+                2 => PleasantThemeMode.Dark,
+                3 => PleasantThemeMode.Mysterious,
+                4 => PleasantThemeMode.Emerald,
+                5 => PleasantThemeMode.Turquoise,
+                6 => PleasantThemeMode.Custom,
+                _ => PleasantThemeMode.System
             };
         }
     }
@@ -601,6 +648,8 @@ public class SettingsPageViewModel : ViewModelBase
     {
         ApplicationSettings.Current.EditorRelatedExtensions.Remove(editorRelatedExtension);
     }
+    
+    public void GetApiKey() => IoHelpers.OpenBrowserAsync("https://www.virustotal.com/gui/my-apikey");
 
     public void OpenPatreon() => IoHelpers.OpenBrowserAsync("https://www.patreon.com/onebeld");
 
@@ -630,16 +679,7 @@ public class SettingsPageViewModel : ViewModelBase
         {
             if (WindowsManager.MainWindow is null) return;
             
-            MessageBox.Show(WindowsManager.MainWindow, "FeatureIsNotSupported", null, new List<MessageBoxButton>()
-            {
-                new()
-                {
-                    Text = "Ok",
-                    Default = true,
-                    Result = "Ok",
-                    IsKeyDown = true
-                },
-            });
+            MessageBox.Show(WindowsManager.MainWindow, "FeatureIsNotSupported", null, MessageBoxButtons.Ok);
         }
     }
 
@@ -652,7 +692,7 @@ public class SettingsPageViewModel : ViewModelBase
 
         App.LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
         
-        WindowsManager.MainWindow.ShowNotification("ModulesHaveBeenReloaded");
+        WindowsManager.MainWindow?.ShowNotification("ModulesHaveBeenReloaded");
     }
 
     public async void CheckUpdate()
@@ -665,22 +705,12 @@ public class SettingsPageViewModel : ViewModelBase
         if (checkUpdateResult == CheckUpdateResult.HasUpdate)
         {
             IsCheckUpdateProgram = false;
-            string result = await MessageBox.Show(WindowsManager.MainWindow, $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion?.ToString()}", "GoToTheWebsiteToDownloadNewUpdate",
-                new List<MessageBoxButton>
-                {
-                    new()
-                    {
-                        Text = "Yes",
-                        Default = true,
-                        Result = "Yes",
-                        IsKeyDown = true
-                    },
-                    new()
-                    {
-                        Text = "No",
-                        Result = "No"
-                    }
-                });
+            string result = await MessageBox.Show(
+                WindowsManager.MainWindow, 
+                $"{App.GetString("UpgradeProgramIsAvailable")}: {newVersion?.ToString()}", 
+                "GoToTheWebsiteToDownloadNewUpdate",
+                MessageBoxButtons.YesNo);
+            
             if (result == "Yes")
                 IoHelpers.OpenBrowserAsync("https://github.com/Onebeld/Regul/tags");
         }
@@ -692,70 +722,39 @@ public class SettingsPageViewModel : ViewModelBase
     }
 
     #region Modules
-
-    [Obsolete("Obsolete")]
+    
     public async void InstallModule()
     {
-        OpenFileDialog dialog = new()
+        IReadOnlyList<IStorageFile> files = await WindowsManager.MainWindow?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            AllowMultiple = true,
-            Filters = new List<FileDialogFilter>
+            FileTypeFilter = new []
             {
-                new()
+                new FilePickerFileType($"ZIP {App.GetString("FilesS")}")
                 {
-                    Name = $"ZIP {App.GetString("FilesS")}",
-                    Extensions = { "zip" }
+                    Patterns = new [] { ".zip" }
                 },
-                new()
+                new FilePickerFileType($"DLL {App.GetString("FilesS")}")
                 {
-                    Name = $"DLL {App.GetString("FilesS")}",
-                    Extensions = { "dll" }
+                    Patterns = new [] { ".dll" }
                 }
-            }
-        };
+            },
+            AllowMultiple = true
+        })!;
+        
+        List<string> result = new();
 
-        string[]? result = await dialog.ShowAsync(WindowsManager.MainWindow!);
-
-        if (result is not { Length: > 0 }) return;
-
-        List<string> copiedFiles = new();
-
-        foreach (string path in result)
+        foreach (IStorageFile storageFile in files)
         {
-            if (Path.GetExtension(path).ToLower() == ".zip")
-            {
-                try
-                {
-                    copiedFiles.AddRange(ZipFileManager.ExtractToDirectoryWithPaths(path, RegulDirectories.Modules));
-                }
-                catch
-                {
-                    WindowsManager.MainWindow?.ShowNotification("Error", NotificationType.Error, TimeSpan.FromSeconds(4));
-                    return;
-                }
-            }
-            else if (Path.GetExtension(path).ToLower() == ".dll")
-            {
-                string pathInModulesFolder = Path.Combine(RegulDirectories.Modules, Path.GetFileName(path));
+            storageFile.TryGetUri(out Uri? uri);
 
-                try
-                {
-                    File.Copy(path, pathInModulesFolder);
-                }
-                catch
-                {
-                    WindowsManager.MainWindow?.ShowNotification("Error", NotificationType.Error, TimeSpan.FromSeconds(4));
-                    return;
-                }
+            if (uri is null) continue;
 
-                copiedFiles.Add(pathInModulesFolder);
-            }
+            result.Add(uri.LocalPath);
         }
 
-        bool successfulLoad = App.LoadModules(copiedFiles);
-
-        if (successfulLoad)
-            WindowsManager.MainWindow?.ShowNotification("ModulesWereLoadedSuccessfully", NotificationType.Success, TimeSpan.FromSeconds(4));
+        if (result is not { Count: > 0 }) return;
+        
+        App.InstallModules(result);
     }
 
     public async void CheckUpdateModules()
@@ -798,17 +797,12 @@ public class SettingsPageViewModel : ViewModelBase
     public async void BeginUpdatingModule(Module module)
     {
         if (WindowsManager.MainWindow is null) return;
-
-        _loadingWindow = new LoadingWindow
-        {
-            Maximum = 100
-        };
-        _loadingWindow.Show(WindowsManager.MainWindow);
+        
+        WindowsManager.MainWindow.RunLoading(100);
 
         await UpdateModule(module);
 
-        _loadingWindow.Close();
-
+        WindowsManager.MainWindow.CloseLoading();
         WindowsManager.MainWindow.ShowNotification("NeedToRestartToFinishUpdatingModule", timeSpan: TimeSpan.FromSeconds(5));
     }
 
@@ -816,11 +810,7 @@ public class SettingsPageViewModel : ViewModelBase
     {
         if (WindowsManager.MainWindow is null) return;
 
-        _loadingWindow = new LoadingWindow
-        {
-            Maximum = 100
-        };
-        _loadingWindow.Show(WindowsManager.MainWindow);
+        WindowsManager.MainWindow.RunLoading(100);
 
         foreach (Module module in ModuleManager.Modules)
         {
@@ -828,17 +818,19 @@ public class SettingsPageViewModel : ViewModelBase
                 await UpdateModule(module);
         }
         
+        WindowsManager.MainWindow.ChangeLoadingProgress(0, "PreparingM", true);
+        
         bool b = await App.UnloadModules();
         if (!b)
         {
-            _loadingWindow.Close();
+            WindowsManager.MainWindow.CloseLoading();
             return;
         }
         
         App.UpdateModules();
         App.LoadModules(Directory.EnumerateFiles(RegulDirectories.Modules, "*.dll", SearchOption.AllDirectories));
 
-        _loadingWindow.Close();
+        WindowsManager.MainWindow.CloseLoading();
 
         WindowsManager.MainWindow.ShowNotification("NeedToRestartToFinishUpdatingModule", timeSpan: TimeSpan.FromSeconds(5));
     }
@@ -851,8 +843,8 @@ public class SettingsPageViewModel : ViewModelBase
             {
                 if (!Directory.Exists(RegulDirectories.Cache))
                     Directory.CreateDirectory(RegulDirectories.Cache);
-
-                WorkerProgressChanged(0, "PreparingM", true);
+                
+                WindowsManager.MainWindow?.ChangeLoadingProgress(0, "PreparingM", true);
 
                 string zipFile = Path.Combine(RegulDirectories.Cache, module.Instance.Name + ".zip");
                 if (File.Exists(zipFile))
@@ -870,13 +862,13 @@ public class SettingsPageViewModel : ViewModelBase
                     return;
                 }
 
-                if (module.LinkToUpdate is null || _loadingWindow is null) return;
+                if (module.LinkToUpdate is null) return;
 
                 using (HttpClientDownloadWithProgress client = new(module.LinkToUpdate, zipFile))
                 {
                     client.ProgressChanged += (size, downloaded, percentage) =>
                     {
-                        WorkerProgressChanged(percentage ?? 0, $"{App.GetString("DownloadingM")}\n{downloaded / 1024}KB / {size / 1024}KB", false);
+                        WindowsManager.MainWindow?.ChangeLoadingProgress(percentage ?? 0, $"{App.GetString("DownloadingM")}\n{downloaded / 1024}KB / {size / 1024}KB", false);
                     };
 
                     await client.StartDownload();
@@ -896,18 +888,6 @@ public class SettingsPageViewModel : ViewModelBase
         {
             Logger.Instance.WriteLog(LogType.Error, e.ToString());
         }
-    }
-
-    private void WorkerProgressChanged(double progress, string userState, bool isIndeterminate)
-    {
-        if (_loadingWindow is null) return;
-
-        _synchronizationContext?.Send(_ =>
-        {
-            _loadingWindow.IsIndeterminate = isIndeterminate;
-            _loadingWindow.Value = progress;
-            _loadingWindow.Text = App.GetString(userState);
-        }, "");
     }
 
     #endregion

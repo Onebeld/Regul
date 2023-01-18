@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
@@ -13,6 +14,8 @@ namespace PleasantUI;
 
 public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 {
+    private readonly IPlatformSettings _platformSettings;
+    
     private StyleInclude _styleCommon = null!;
     private StyleInclude _styleControls = null!;
     private StyleInclude _pleasantLight = null!;
@@ -25,8 +28,17 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
     public PleasantTheme(IServiceProvider serviceProvider)
     {
+        _platformSettings = AvaloniaLocator.Current.GetRequiredService<IPlatformSettings>();
+        
         Uri baseUri = ((IUriContext)serviceProvider.GetService(typeof(IUriContext))!).BaseUri;
         InitStyles(baseUri);
+        
+        _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
+    }
+    private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
+    {
+        if (PleasantUiSettings.Instance.ThemeMode == PleasantThemeMode.System)
+            EnsureTheme();
     }
 
     public static readonly StyledProperty<PleasantThemeMode> ModeProperty =
@@ -74,7 +86,12 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
                     PleasantThemeMode.Light => _pleasantLight,
                     PleasantThemeMode.Custom => _pleasantLight,
-                    _ => throw new ArgumentOutOfRangeException()
+                    _ => _platformSettings.GetColorValues().ThemeVariant switch
+                    {
+                        PlatformThemeVariant.Light => _pleasantLight,
+                        PlatformThemeVariant.Dark => _pleasantDark,
+                        _ => throw new ArgumentOutOfRangeException()
+                    }
                 };
 
                 _loaded = new Styles
@@ -183,7 +200,12 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
             PleasantThemeMode.Light => _pleasantLight,
             PleasantThemeMode.Custom => _pleasantLight,
 
-            _ => throw new ArgumentOutOfRangeException()
+            _ => _platformSettings.GetColorValues().ThemeVariant switch
+            {
+                PlatformThemeVariant.Light => _pleasantLight,
+                PlatformThemeVariant.Dark => _pleasantDark,
+                _ => throw new ArgumentOutOfRangeException()
+            }
         };
 
         if (Mode == PleasantThemeMode.Custom && CustomTheme is not null)
@@ -198,7 +220,7 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
 #if Windows
         if (PleasantUiSettings.Instance.UseAccentColorFromSystem)
-            PleasantUiSettings.Instance.UIntAccentColor = ColorExtensions.GetWindowsAccentColor();
+            PleasantUiSettings.Instance.UIntAccentColor = _platformSettings.GetColorValues().AccentColor1.ToUint32();
 #endif
 
         _styleCommon = new StyleInclude(baseUri)

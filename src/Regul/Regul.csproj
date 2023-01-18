@@ -33,4 +33,8 @@
             <Link>icon.ico</Link>
         </None>
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="VirusTotalNet" Version="2.1.0" />
+    </ItemGroup>
 </Project>

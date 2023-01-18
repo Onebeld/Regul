@@ -11,34 +11,6 @@ namespace PleasantUI.Extensions;
 
 public static class ThemeExtensions
 {
-#if Windows
-#pragma warning disable CA1416
-    public static bool WindowsThemeIsLight()
-    {
-        using RegistryKey? registry = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-
-        try
-        {
-            string? appsUseLightTheme = registry?.GetValue("AppsUseLightTheme")?.ToString();
-            if (appsUseLightTheme is not null && int.TryParse(appsUseLightTheme, out int val))
-                return val == 1;
-        }
-        catch { }
-
-        try
-        {
-            string? systemUsesLightTheme = registry?.GetValue("SystemUsesLightTheme")?.ToString();
-            if (systemUsesLightTheme is not null && int.TryParse(systemUsesLightTheme, out int val2))
-                return val2 == 1;
-        }
-        catch { }
-
-
-        return true;
-    }
-#pragma warning disable CA1416
-#endif
-
     public static string ToAxaml(this Theme theme)
     {
         StringBuilder stringBuilder = new();

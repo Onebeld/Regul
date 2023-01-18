@@ -1,27 +1,32 @@
 ﻿using System.Runtime.Serialization;
-using System.Xml.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Media;
-#if Windows
-using Avalonia.Win32;
-#endif
+using Avalonia.Platform;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Other;
+
+#if Windows
+using Avalonia.Win32;
+#endif
+
 
 namespace PleasantUI;
 
 [DataContract]
 public class PleasantUiSettings : ViewModelBase
 {
-    public const uint DefaultAccentColor = 0xFF176A80;
+    private readonly IPlatformSettings _platformSettings;
 
     private bool _enableShadowing = true;
     private bool _useAccentColorFromSystem = true;
     private bool _enableTransparency;
     private bool _enableCustomTitleBar;
-    private PleasantThemeMode _themeMode = PleasantThemeMode.Light;
+    private PleasantThemeMode _themeMode = PleasantThemeMode.System;
     private string? _customThemeModeName;
     private WindowTransparencyLevel _blurMode;
     private double _opacityLevel = 0.8;
@@ -38,7 +43,17 @@ public class PleasantUiSettings : ViewModelBase
 
     public static PleasantUiSettings Instance = new();
 
-    public PleasantUiSettings() => Setup();
+    public PleasantUiSettings()
+    {
+        _platformSettings = AvaloniaLocator.Current.GetRequiredService<IPlatformSettings>();
+        Setup();
+        _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
+    }
+    private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
+    {
+        if (UseAccentColorFromSystem)
+            UIntAccentColor = e.AccentColor1.ToUint32();
+    }
 
     private void Setup()
     {
@@ -49,8 +64,6 @@ public class PleasantUiSettings : ViewModelBase
             BlurMode = WindowTransparencyLevel.Mica;
             UseAccentColorFromSystem = true;
             EnableCustomTitleBar = true;
-
-            ThemeMode = ThemeExtensions.WindowsThemeIsLight() ? PleasantThemeMode.Light : PleasantThemeMode.Dark;
         }
         else if (Win32Platform.WindowsVersion >= new Version(10, 0, 10586))
         {
@@ -58,8 +71,6 @@ public class PleasantUiSettings : ViewModelBase
             BlurMode = WindowTransparencyLevel.Blur;
             UseAccentColorFromSystem = true;
             EnableCustomTitleBar = true;
-
-            ThemeMode = ThemeExtensions.WindowsThemeIsLight() ? PleasantThemeMode.Light : PleasantThemeMode.Dark;
         }
         else
         {
@@ -67,66 +78,60 @@ public class PleasantUiSettings : ViewModelBase
             BlurMode = WindowTransparencyLevel.None;
             UseAccentColorFromSystem = false;
             EnableCustomTitleBar = false;
+
+            ThemeMode = PleasantThemeMode.Light;
         }
 
 #elif OSX
         EnableTransparency = true;
         UseAccentColorFromSystem = false;
         BlurMode = WindowTransparencyLevel.Blur;
-        AccentColor = Color.FromUInt32(DefaultAccentColor);
         EnableCustomTitleBar = true;
 #else
         EnableTransparency = false;
         UseAccentColorFromSystem = false;
         BlurMode = WindowTransparencyLevel.None;
-        AccentColor = Color.FromUInt32(DefaultAccentColor);
         EnableCustomBar = false;
 #endif
 
         FontName = FontManager.Current.DefaultFontFamilyName;
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public bool EnableShadowing
     {
         get => _enableShadowing;
         set => RaiseAndSetIfChanged(ref _enableShadowing, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public bool EnableCustomTitleBar
     {
         get => _enableCustomTitleBar;
         set => RaiseAndSetIfChanged(ref _enableCustomTitleBar, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public PleasantThemeMode ThemeMode
     {
         get => _themeMode;
         set => RaiseAndSetIfChanged(ref _themeMode, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public string? CustomThemeModeName
     {
         get => _customThemeModeName;
         set => RaiseAndSetIfChanged(ref _customThemeModeName, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public WindowTransparencyLevel BlurMode
     {
         get => _blurMode;
         set => RaiseAndSetIfChanged(ref _blurMode, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public bool UseAccentColorFromSystem
     {
@@ -137,28 +142,25 @@ public class PleasantUiSettings : ViewModelBase
 
 #if Windows
             if (value)
-                UIntAccentColor = ColorExtensions.GetWindowsAccentColor();
+                UIntAccentColor = _platformSettings.GetColorValues().AccentColor1.ToUint32();
 #endif
         }
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public double OpacityLevel
     {
         get => _opacityLevel;
         set => RaiseAndSetIfChanged(ref _opacityLevel, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public string FontName
     {
         get => _fontName;
         set => RaiseAndSetIfChanged(ref _fontName, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public uint UIntAccentColor
     {
@@ -176,8 +178,7 @@ public class PleasantUiSettings : ViewModelBase
         get => _colorPalette;
         set => RaiseAndSetIfChanged(ref _colorPalette, value);
     }
-
-    [XmlAttribute]
+    
     [DataMember]
     public bool EnableTransparency
     {
@@ -185,16 +186,16 @@ public class PleasantUiSettings : ViewModelBase
         set => RaiseAndSetIfChanged(ref _enableTransparency, value);
     }
 
-    #region XmlIgnored
+    #region JsonIgnored
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColor
     {
         get => _accentColor;
         private set
         {
             RaiseAndSetIfChanged(ref _accentColor, value);
-
+            
             AccentColorDarkSecondary = value.ChangeColorBrightness(1.5);
             AccentColorDarkTertiary = value.ChangeColorBrightness(1.7);
             AccentColorLightSelected = value.ChangeColorBrightness(0.75);
@@ -203,35 +204,35 @@ public class PleasantUiSettings : ViewModelBase
         }
     }
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColorDarkSecondary
     {
         get => _accentColorDarkSecondary;
         private set => RaiseAndSetIfChanged(ref _accentColorDarkSecondary, value);
     }
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColorDarkTertiary
     {
         get => _accentColorDarkTertiary;
         private set => RaiseAndSetIfChanged(ref _accentColorDarkTertiary, value);
     }
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColorLightSecondary
     {
         get => _accentColorLightSecondary;
         private set => RaiseAndSetIfChanged(ref _accentColorLightSecondary, value);
     }
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColorLightTertiary
     {
         get => _accentColorLightTertiary;
         private set => RaiseAndSetIfChanged(ref _accentColorLightTertiary, value);
     }
 
-    [XmlIgnore]
+    [JsonIgnore]
     public Color AccentColorLightSelected
     {
         get => _accentColorLightSelected;
@@ -250,7 +251,7 @@ public class PleasantUiSettings : ViewModelBase
         using FileStream stream = File.OpenRead(Files.Settings);
         try
         {
-            Instance = (PleasantUiSettings)new XmlSerializer(typeof(PleasantUiSettings)).Deserialize(stream)!;
+            Instance = JsonSerializer.Deserialize<PleasantUiSettings>(stream)!;
         }
         catch { }
     }
@@ -258,7 +259,7 @@ public class PleasantUiSettings : ViewModelBase
     public static void Save()
     {
         using FileStream fileStream = File.Create(Path.Combine(Files.Settings));
-        new XmlSerializer(typeof(PleasantUiSettings)).Serialize(fileStream, Instance);
+        JsonSerializer.Serialize(fileStream, Instance);
     }
 
     public static void Reset()

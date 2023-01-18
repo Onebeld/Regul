@@ -209,6 +209,7 @@
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
                               SelectedIndex="{CompiledBinding SelectedIndexMode}">
+                        <ComboBoxItem Content="{StaticResource System}" />
                         <ComboBoxItem Content="{StaticResource Light}" />
                         <ComboBoxItem Content="{StaticResource Dark}" />
                         <ComboBoxItem Content="{StaticResource Mysterious}" />

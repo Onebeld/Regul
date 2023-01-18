@@ -2,7 +2,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
        xmlns:v="using:System">
     <Style.Resources>
-        <!-- English -->
+        <!-- Russian -->
 
         <v:String x:Key="Expand">Развернуть</v:String>
         <v:String x:Key="Collapse">Свернуть</v:String>
@@ -15,8 +15,8 @@
         <v:String x:Key="MemorySuccessfullyCleared">Память была успешно очищена!</v:String>
         <v:String x:Key="ToolsNotInstalled">В программе нет установленных инструментов!</v:String>
         <v:String x:Key="UpgradeProgramIsAvailable">Для программы доступно обновление до версии</v:String>
-        <v:String x:Key="ThisFileDoesNotExist">Этот файл не существует в системе</v:String>
-        <v:String x:Key="ThisFileIsAlreadyOpen">Этот файл уже открыт в программе</v:String>
+        <v:String x:Key="ThisFileDoesNotExist">Этот файл не существует в системе!</v:String>
+        <v:String x:Key="ThisFileIsAlreadyOpen">Этот файл уже открыт в программе!</v:String>
         <v:String x:Key="GoToTheWebsiteToDownloadNewUpdate">Перейти на веб-сайт для загрузки нового обновления?</v:String>
 
         <v:String x:Key="Ok">OK</v:String>
@@ -57,11 +57,13 @@
         <v:String x:Key="Information">Информация</v:String>
         <v:String x:Key="Warning">Предупреждение</v:String>
         <v:String x:Key="Error">Ошибка</v:String>
+        
+        <v:String x:Key="LicenseAgreement">Лицензионное соглашение</v:String>
 
         <!-- Crash Report -->
-        <v:String x:Key="ThereWasAnException">Возникло исключение!</v:String>
+        <v:String x:Key="ThereWasAnException">Возникла ошибка!</v:String>
         <v:String x:Key="Restart">Перезапустить</v:String>
-        <v:String x:Key="ThereWasAnExceptionDescription">Не волнуйтесь! Настройки были сохранены, где это возможно. Вы сможете перезапустить приложение и продолжить работу или завершить сеанс. Внизу вы также можете увидеть дополнительную информацию о том, что вызвало ошибку. Обязательно отправьте эту информацию разработчику.</v:String>
+        <v:String x:Key="ThereWasAnExceptionDescription">Не волнуйтесь! Настройки были сохранены, где это возможно. Вы сможете перезапустить приложение и продолжить работу или завершить сеанс. Внизу вы также можете увидеть дополнительную информацию о том, что вызвало ошибку.</v:String>
 
         <!-- Home page -->
         <v:String x:Key="Welcome">Добро пожаловать!</v:String>
@@ -81,9 +83,9 @@
         <v:String x:Key="LastChange">Последнее изменение</v:String>
         <v:String x:Key="EditorNotDefined">Редактор не определен</v:String>
 
-        <v:String x:Key="FileNotExistAndProjectDeleted">Этот файл не существует в вашей системе. Проект был удален.</v:String>
-        <v:String x:Key="EditorsNotInstalled">В программе не установлены редакторы.</v:String>
-        <v:String x:Key="EditorsNotInstalledForProject">Редактор для этого проекта не установлен в программе.</v:String>
+        <v:String x:Key="FileNotExistAndProjectDeleted">Этот файл не существует в вашей системе! Проект был удален</v:String>
+        <v:String x:Key="EditorsNotInstalled">В программе не установлены редакторы!</v:String>
+        <v:String x:Key="EditorsNotInstalledForProject">Редактор для этого проекта не установлен в программе!</v:String>
 
         <v:String x:Key="Search">Поиск</v:String>
         <v:String x:Key="Name">Имя</v:String>
@@ -104,14 +106,14 @@
         <v:String x:Key="OpenProjectYouRecentlyStarted">Откройте проект, который вы недавно начали</v:String>
         <v:String x:Key="YouWantToSaveProject">Вы хотите сохранить проект</v:String>
 
-        <v:String x:Key="ProjectSavedSuccessfully">Проект успешно сохранен</v:String>
-        <v:String x:Key="ProjectSaveError">Произошла ошибка при сохранении проекта</v:String>
+        <v:String x:Key="ProjectSavedSuccessfully">Проект успешно сохранен!</v:String>
+        <v:String x:Key="ProjectSaveError">Произошла ошибка при сохранении проекта!</v:String>
         <v:String x:Key="AllProjectsSavedSuccessfully">Все проекты были успешно сохранены!</v:String>
         <v:String x:Key="ProjectAlreadyOpen">Этот проект уже открыт в программе!</v:String>
-        <v:String x:Key="FileAlreadyOpen">Этот файл уже открыт в программе</v:String>
+        <v:String x:Key="FileAlreadyOpen">Этот файл уже открыт в программе!</v:String>
 
         <!-- Settings page -->
-        <v:String x:Key="SettingsNotBeSupported">Некоторые параметры могут не поддерживаться в вашей системе.</v:String>
+        <v:String x:Key="SettingsNotBeSupported">Некоторые параметры могут не поддерживаться в вашей системе</v:String>
 
         <v:String x:Key="General">Общее</v:String>
         <v:String x:Key="Style">Стиль</v:String>
@@ -119,7 +121,6 @@
 
         <!-- Tool Window -->
         <v:String x:Key="FindATool">Найти инструмент</v:String>
-        <v:String x:Key="FindTheModule">Найдите модуль</v:String>
         <v:String x:Key="NumberOfToolsInTheModule">Количество инструментов в модуле</v:String>
         <v:String x:Key="NumberOfModulesThatHaveTools">Количество модулей, в которых есть инструменты</v:String>
         <v:String x:Key="SelectModule">Выберите модуль</v:String>
@@ -149,8 +150,23 @@
         <v:String x:Key="EveryMonth">Каждый месяц</v:String>
         <v:String x:Key="EveryYear">Каждый год</v:String>
         <v:String x:Key="Never">Никогда</v:String>
+        
+        <v:String x:Key="CheckForViruses">Проверять на наличие вирусов</v:String>
+        <v:String x:Key="CheckForVirusesDescription">При установке модуля Regul проверит его на вирусы с помощью технологии VirusTotal, для чего требуется подключение к Интернету и API-ключ</v:String>
+        <v:String x:Key="ApiKey">API-ключ</v:String>
+        <v:String x:Key="YouNeedToEnterVirusTotalApiKey">Вам необходимо ввести API-ключ VirusTotal!</v:String>
+        <v:String x:Key="GetApiKey">Получить API-ключ</v:String>
+        <v:String x:Key="FailedToCheckForViruses">Не удалось проверить на наличие вирусов</v:String>
+        <v:String x:Key="ThreatDetected">Обнаружена угроза!</v:String>
+        <v:String x:Key="CheckLimitExceeded">Превышен лимит проверки!</v:String>
+        <v:String x:Key="FileName">Имя файла</v:String>
+        <v:String x:Key="YouReallyWantToContinueInstallation">Вы действительно хотите продолжить установку?</v:String>
+        <v:String x:Key="CheckForVirusesM">Проверка на вирусы...</v:String>
+        <v:String x:Key="ApiKeyIsTooShort">API-ключ слишком короткий!</v:String>
+        <v:String x:Key="GettingInformationM">Получение информации...</v:String>
 
         <!-- Style Settings Content -->
+        <v:String x:Key="System">Системная</v:String>
         <v:String x:Key="Light">Светлая</v:String>
         <v:String x:Key="Dark">Темная</v:String>
         <v:String x:Key="Mysterious">Загадочная</v:String>
@@ -190,16 +206,16 @@
         <v:String x:Key="ModuleInformation">Информация о модуле</v:String>
         <v:String x:Key="ModuleSettings">Настройки модуля</v:String>
         <v:String x:Key="ModulesWereLoadedSuccessfully">Модули были загружены успешно!</v:String>
-        <v:String x:Key="FailedToLoadTheModule">Не удалось загрузить модуль.</v:String>
-        <v:String x:Key="FailedToLoadTheModules">Не удалось загрузить модули.</v:String>
+        <v:String x:Key="FailedToLoadTheModule">Не удалось загрузить модуль!</v:String>
+        <v:String x:Key="FailedToLoadTheModules">Не удалось загрузить модули!</v:String>
         <v:String x:Key="InstallModule">Установить модуль</v:String>
         <v:String x:Key="ReloadModules">Перезагрузить модули</v:String>
         <v:String x:Key="ListOfAvailableModules">Список доступных модулей</v:String>
         <v:String x:Key="CheckUpdateModules">Проверка обновления модулей</v:String>
-        <v:String x:Key="ModulesHaveNoUpdate">Модули не имеют обновлений</v:String>
+        <v:String x:Key="ModulesHaveNoUpdate">Модули не имеют обновлений!</v:String>
         <v:String x:Key="UpdateAllModules">Обновление всех модулей</v:String>
-        <v:String x:Key="UpdatesAreAvailableForModules">Обновления доступны для модулей!</v:String>
-        <v:String x:Key="ModuleUpdateAvailable">Доступно обновление модуля!</v:String>
+        <v:String x:Key="UpdatesAreAvailableForModules">Доступны обновления для модулей!</v:String>
+        <v:String x:Key="ModuleUpdateAvailable">Доступно обновление для модуля!</v:String>
         <v:String x:Key="NewVersion">Новая версия</v:String>
         <v:String x:Key="PreparingM">Подготовка...</v:String>
         <v:String x:Key="DownloadingM">Загрузка...</v:String>
@@ -217,7 +233,8 @@
         <v:String x:Key="Links">Ссылки</v:String>
         <v:String x:Key="Author">Автор</v:String>
         <v:String x:Key="Update">Обновление</v:String>
-        <v:String x:Key="CheckAvailability">Проверить наличие</v:String>
+        <v:String x:Key="UpdateAvailability">Наличие обновлений</v:String>
+        <v:String x:Key="Check">Проверить</v:String>
         <v:String x:Key="WriteLetter">Написать письмо</v:String>
         <v:String x:Key="SocialNetwork">Социальная сеть</v:String>
         <v:String x:Key="NoUpdatesAtThisTime">На данный момент обновлений нет</v:String>

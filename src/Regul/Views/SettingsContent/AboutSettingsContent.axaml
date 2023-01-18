@@ -112,7 +112,7 @@
                 </StackPanel>
             </Panel>
 
-            <OptionsDisplayItem Header="{StaticResource Update}"
+            <OptionsDisplayItem Header="{StaticResource UpdateAvailability}"
                                 Icon="{StaticResource ArrowCounterclockwiseRegular}">
                 <OptionsDisplayItem.ActionButton>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
@@ -122,7 +122,7 @@
                         <Button Theme="{StaticResource AccentButtonTheme}"
                                 IsEnabled="{CompiledBinding !IsCheckUpdateProgram}"
                                 Padding="20 5"
-                                Content="{StaticResource CheckAvailability}"
+                                Content="{StaticResource Check}"
                                 Command="{CompiledBinding CheckUpdate}" />
                     </StackPanel>
                 </OptionsDisplayItem.ActionButton>
@@ -144,7 +144,7 @@
                                        HorizontalAlignment="Right"
                                        Foreground="{StaticResource TextFillColorTertiaryBrush}">
                                 <Run Text="{StaticResource Version}" /><Run Text=":" />
-                                &#8203;<Run Text="11.0-preview4" />
+                                &#8203;<Run Text="11.0.999-cibuild0028700-beta" />
                             </TextBlock>
                         </Panel>
                         <Separator Background="{StaticResource CardStrokeColorDefaultBrush}" Margin="-12 0" />
@@ -166,6 +166,33 @@
                                            Foreground="{StaticResource TextFillColorTertiaryBrush}">
                                     <Run Text="{StaticResource Author}" /><Run Text=":" />
                                     &#8203;<Run Text="Onebeld" />
+                                </TextBlock>
+                            </StackPanel>
+                        </Panel>
+                        <Separator Background="{StaticResource CardStrokeColorDefaultBrush}" Margin="-12 0" />
+                        <Panel Margin="5">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Path Data="{StaticResource VirusTotalIcon}"
+                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                      Stretch="Uniform"
+                                      Width="30"
+                                      Height="30" />
+                                <TextBlock Text="VirusTotal.NET" FontSize="20" VerticalAlignment="Center"
+                                           FontWeight="SemiBold" />
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                    <Run Text="{StaticResource Version}" /><Run Text=":" />
+                                    &#8203;<Run Text="2.1.0" />
+                                </TextBlock>
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource TextFillColorTertiaryBrush}">
+                                    <Run Text="{StaticResource Author}" /><Run Text=":" />
+                                    &#8203;<Run Text="Genbox" />
                                 </TextBlock>
                             </StackPanel>
                         </Panel>

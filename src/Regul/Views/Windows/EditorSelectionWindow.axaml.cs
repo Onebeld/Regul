@@ -22,8 +22,8 @@ public class EditorSelectionWindow : ContentDialog
 
         editorSelectionWindow.DataContext = new EditorSelectionViewModel();
 
-        TextBlock? textBlock = editorSelectionWindow.FindControl<TextBlock>("PART_FileName");
-        CheckBox? checkBox = editorSelectionWindow.FindControl<CheckBox>("PART_AlwaysOpen");
+        TextBlock? textBlock = editorSelectionWindow.FindControl<TextBlock>("FileName");
+        CheckBox? checkBox = editorSelectionWindow.FindControl<CheckBox>("AlwaysOpen");
 
         if (textBlock is not null)
         {
@@ -33,7 +33,7 @@ public class EditorSelectionWindow : ContentDialog
         if (checkBox is not null)
             checkBox.IsVisible = showCheckBox;
 
-        editorSelectionWindow.FindControl<ListBox>("PART_ListBox")?.Focus();
+        editorSelectionWindow.FindControl<ListBox>("ListBox")?.Focus();
 
         Editor? editor = await editorSelectionWindow.Show<Editor?>(WindowsManager.MainWindow);
 

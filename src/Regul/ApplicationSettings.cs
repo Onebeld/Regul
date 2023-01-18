@@ -1,12 +1,16 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
 using PleasantUI;
 using PleasantUI.Other;
 using Regul.Enums;
+using Regul.Managers;
 using Regul.Structures;
 
 namespace Regul;
@@ -18,13 +22,23 @@ public class ApplicationSettings : ViewModelBase
 
     private string _language = null!;
     private string _creatorName = string.Empty;
+    private string _virusTotalApiKey = string.Empty;
+    private string _key = Guid.NewGuid().ToString("N");
     private bool _hardwareAcceleration = true;
+    private bool _scanForVirus;
 
     private CheckUpdateInterval _checkUpdateInterval = CheckUpdateInterval.EveryWeek;
 
     private AvaloniaList<Project> _projects = new();
     private AvaloniaList<UpdatableModule> _updatableModules = new();
     private AvaloniaList<EditorRelatedExtension> _editorRelatedExtensions = new();
+
+    [DataMember]
+    public string Key
+    {
+        get => _key;
+        set => RaiseAndSetIfChanged(ref _key, value);
+    }
 
     [DataMember]
     public string Language
@@ -69,43 +83,54 @@ public class ApplicationSettings : ViewModelBase
     }
 
     [DataMember]
+    public string VirusTotalApiKey
+    {
+        get => _virusTotalApiKey;
+        set => RaiseAndSetIfChanged(ref _virusTotalApiKey, value);
+    }
+
+    [DataMember]
     public CheckUpdateInterval CheckUpdateInterval
     {
         get => _checkUpdateInterval;
         set => RaiseAndSetIfChanged(ref _checkUpdateInterval, value);
     }
+    
+    [DataMember]
+    public bool ScanForVirus
+    {
+        get => _scanForVirus;
+        set => RaiseAndSetIfChanged(ref _scanForVirus, value);
+    }
 
     [DataMember]
     public string? DateOfLastUpdateCheck { get; set; }
 
-    [XmlIgnore]
+    [JsonIgnore]
     internal bool ExceptionCalled { get; set; }
 
-    [XmlIgnore]
+    [JsonIgnore]
     internal bool RestartingApp { get; set; }
 
-    [XmlIgnore]
+    [JsonIgnore]
     internal string ExceptionText { get; set; } = string.Empty;
 
     public ApplicationSettings() => Setup();
 
-    private void Setup()
-    {
-        Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-    }
+    private void Setup() => Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
     public static void Load()
     {
         if (!Directory.Exists(Directories.Settings))
             Directory.CreateDirectory(Directories.Settings);
 
-        string appSettings = Path.Combine(Directories.Settings, "settings.xml");
+        string appSettings = Path.Combine(Directories.Settings, "settings.json");
         if (!File.Exists(appSettings)) return;
 
         using FileStream fileStream = File.OpenRead(appSettings);
         try
         {
-            Current = (ApplicationSettings)new XmlSerializer(typeof(ApplicationSettings)).Deserialize(fileStream)!;
+            Current = JsonSerializer.Deserialize<ApplicationSettings>(fileStream)!;
         }
         catch
         {
@@ -115,8 +140,8 @@ public class ApplicationSettings : ViewModelBase
 
     public static void Save()
     {
-        using FileStream fileStream = File.Create(Path.Combine(Directories.Settings, "settings.xml"));
-        new XmlSerializer(typeof(ApplicationSettings)).Serialize(fileStream, Current);
+        using FileStream fileStream = File.Create(Path.Combine(Directories.Settings, "settings.json"));
+        JsonSerializer.Serialize(fileStream, Current);
     }
 
     public static void Reset()

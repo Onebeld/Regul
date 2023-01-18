@@ -5,7 +5,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 using PleasantUI.EventArgs;
 using PleasantUI.Interfaces;
-using PleasantUI.Extensions;
 using PleasantUI.Reactive;
 
 #if OSX

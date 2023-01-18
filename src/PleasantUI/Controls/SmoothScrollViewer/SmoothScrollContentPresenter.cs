@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Reactive;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -8,7 +7,6 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using PleasantUI.Extensions;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;

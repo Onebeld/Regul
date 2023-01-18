@@ -9,40 +9,10 @@ namespace PleasantUI.Extensions;
 
 public static class ColorExtensions
 {
-#if Windows
-#pragma warning disable CA1416
-    public static uint GetWindowsAccentColor()
-    {
-        if (Win32Platform.WindowsVersion < new Version(10, 0, 10586))
-            return PleasantUiSettings.DefaultAccentColor;
-
-        const string dwmKey = @"Software\Microsoft\Windows\DWM";
-
-        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(dwmKey);
-
-        if (key is null)
-            throw new InvalidOperationException("The \"HKCU\\" + dwmKey + "\" registry key does not exist.");
-
-        object? accentColorObject = key.GetValue("AccentColor");
-        if (accentColorObject is int accentColorDword)
-        {
-            uint a = (uint)((accentColorDword >> 24) & 0xFF);
-            uint b = (uint)((accentColorDword >> 16) & 0xFF);
-            uint g = (uint)((accentColorDword >> 8) & 0xFF);
-            uint r = (uint)((accentColorDword >> 0) & 0xFF);
-
-            return (a << 24) | (r << 16) | (g << 8) | b << 0;
-        }
-
-        throw new InvalidOperationException("The \"HKCU\\" + dwmKey + "\\AccentColor\" registry key value could not be parsed as an ABGR color.");
-    }
-#pragma warning disable CA1416
-#endif
-
-    public static Color ChangeColorBrightness(this Color color, double coefficient)
+    public static Color ChangeColorBrightness(this Color color, double correctionFactor)
     {
         Hsl hsl = ToHsl(color);
-        hsl.L = Math.Min(hsl.L / coefficient, 1);
+        hsl.L = Math.Min(hsl.L / correctionFactor, 1);
 
         return hsl.ToRgb(color.A);
     }

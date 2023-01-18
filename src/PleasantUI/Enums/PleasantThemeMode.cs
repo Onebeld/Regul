@@ -2,6 +2,8 @@
 
 public enum PleasantThemeMode
 {
+    System,
+    
     Light,
     Dark,
 

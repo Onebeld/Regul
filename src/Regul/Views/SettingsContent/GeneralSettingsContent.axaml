@@ -47,6 +47,31 @@
                                   IsChecked="{CompiledBinding HardwareAcceleration, Source={x:Static s:ApplicationSettings.Current}}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="{StaticResource CheckForViruses}"
+                                Icon="{StaticResource BugRegular}"
+                                Description="{StaticResource CheckForVirusesDescription}"
+                                Expands="True">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  MinWidth="0"
+                                  IsChecked="{CompiledBinding ScanForVirus}" />
+                </OptionsDisplayItem.ActionButton>
+                <OptionsDisplayItem.Content>
+                    <StackPanel Margin="-12">
+                        <DockPanel Margin="48 10 33 10">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Spacing="5">
+                                <Button Content="{StaticResource GetApiKey}" Command="{CompiledBinding GetApiKey}" />
+                                <TextBox Width="150"
+                                         Text="{CompiledBinding DecryptedVirusTotalApiKey}" />
+                            </StackPanel>
+
+                            <TextBlock VerticalAlignment="Center" Text="{StaticResource ApiKey}"
+                                       TextWrapping="Wrap" />
+                        </DockPanel>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{StaticResource UpdateCheckInterval}"
                                 Icon="{StaticResource ArrowCounterclockwiseRegular}">
