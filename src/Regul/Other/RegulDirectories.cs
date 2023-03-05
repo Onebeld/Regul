@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Regul.Other;
+﻿namespace Regul.Other;
 
 public static class RegulDirectories
 {

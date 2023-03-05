@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
+﻿using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -22,7 +18,7 @@ public static class Program
     public static string[] Arguments { get; private set; } = null!;
 
     [STAThread]
-    public static int Main(string[] args)
+    public static async Task Main(string[] args)
     {
         try
         {
@@ -41,12 +37,12 @@ public static class Program
 
             string newArgs = string.Join("|", args);
 
-            File.WriteAllText(Path.Combine(RegulDirectories.Cache, "OpenFiles", guid + ".cache"), newArgs);
+            await File.WriteAllTextAsync(Path.Combine(RegulDirectories.Cache, "OpenFiles", guid + ".cache"), newArgs);
 
             EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, "Onebeld-Regul-MemoryMap-dG17tr7Nv3_BytesWritten");
             eventWaitHandle.Set();
 
-            return 0;
+            return;
         }
 
         Arguments = args;
@@ -55,10 +51,6 @@ public static class Program
         AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
 
         ApplicationSettings.Load();
-
-        if (string.IsNullOrWhiteSpace(ApplicationSettings.Current.VirusTotalApiKey) 
-            || ApplicationSettings.Current.VirusTotalApiKey.Length < 64)
-            ApplicationSettings.Current.ScanForVirus = false;
 
         AppBuilder mainAppBuilder = BuildAvaloniaApp();
         mainAppBuilder.SetupWithoutStarting();
@@ -71,7 +63,7 @@ public static class Program
                 lifeTime.Start(args);
                 lifeTime.Dispose();
 
-                App.UnloadModules();
+                await App.UnloadModules();
                 break;
             }
             catch (Exception exception)
@@ -115,12 +107,12 @@ public static class Program
                     continue;
                 }
 
-                App.UnloadModules();
-                return 1;
+                await App.UnloadModules();
+                return;
             }
         }
 
-        return 0;
+        return;
     }
     private static void CurrentDomainOnProcessExit(object? sender, EventArgs e)
     {
@@ -181,11 +173,9 @@ public static class Program
             .With(new Win32PlatformOptions
             {
                 AllowEglInitialization = ApplicationSettings.Current.HardwareAcceleration,
-                UseDeferredRendering = true,
                 OverlayPopups = true,
                 UseWgl = false,
-                UseWindowsUIComposition = true,
-                UseCompositor = true
+                UseWindowsUIComposition = true
             });
 #elif OSX
             .With(new MacOSPlatformOptions
@@ -196,7 +186,6 @@ public static class Program
 #else
             .With(new AvaloniaNativePlatformOptions
 			{
-                UseDeferredRendering = true,
                 UseGpu = ApplicationSettings.Current.HardwareAcceleration,
 			});
 #endif

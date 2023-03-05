@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using PleasantUI.Windows;
+﻿using PleasantUI.Windows;
 using Regul.Helpers;
 using Regul.Managers;
 using VirusTotalNet;

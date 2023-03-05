@@ -42,7 +42,7 @@
                         </Style>
                     </Panel.Styles>
                     <ToolTip.Tip>
-                        <ItemsPresenter Items="{Binding}" />
+                        <ItemsPresenter />
                     </ToolTip.Tip>
                     <Path Width="14"
                           Height="14"

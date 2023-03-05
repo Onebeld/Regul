@@ -58,7 +58,14 @@
         <v:String x:Key="Warning">Warning</v:String>
         <v:String x:Key="Error">Error</v:String>
         
-        <v:String x:Key="LicenseAgreement">License Agreement</v:String>
+        <v:String x:Key="UserAgreement">User Agreement</v:String>
+        <v:String x:Key="UserAgreementWelcome">Welcome! Before you start using Regul, you must read the user agreement. Do you agree to it?</v:String>
+        <v:String x:Key="WhatIsRegul">What is Regul?</v:String>
+        <v:String x:Key="WhatIsRegulSecondDescription">The program does not have its own tools by default (except VirusTotal), so it relies mostly on modules. This also means that Regul contains no viruses. In addition, the application is free and has source code. If you come across a resource that pays for Regul, it will be scammers. You can always help this project by donating money, or better yet, by making changes to the program by creating a PR on GitHub! You can also submit a bug report there with no problem.</v:String>
+        <v:String x:Key="ModuleInstallation">Module Installation</v:String>
+        <v:String x:Key="ModuleInstallationWarning">Keep in mind that the Regul developer is not responsible for installing third-party modules. Only official modules (under the Onebeld name) are safe to use (in a virus-free context). Always check modules for threats! Regul has a tool that allows you to check modules for viruses via VirusTotal.</v:String>
+        <v:String x:Key="ExcerptFromLicenseFile">Excerpt from the license file</v:String>
+        <v:String x:Key="GitHubProject">GitHub project</v:String>
 
         <!-- Crash Report -->
         <v:String x:Key="ThereWasAnException">There was an exception!</v:String>

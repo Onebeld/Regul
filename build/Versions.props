@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <RegulVersion>4.0.0.0</RegulVersion>
+        <AvaloniaVersion>11.0.999-cibuild0031449-beta</AvaloniaVersion>
+    </PropertyGroup>
+</Project>

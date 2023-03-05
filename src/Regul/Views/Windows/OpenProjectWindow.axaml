@@ -60,6 +60,9 @@
                                                     FontSize="12" />
                                             </StackPanel>
                                         </Border>
+                                        <InformationBlock Icon="{StaticResource SearchRegular}"
+                                                          Content="{CompiledBinding SortedProjects.Count}"
+                                                          ToolTip.Tip="{StaticResource NumberOfElementsFound}" />
                                     </StackPanel>
                                 </Panel>
 
@@ -197,13 +200,15 @@
         </StackPanel>
 
         <SmoothScrollViewer Grid.Row="1" Margin="0 10 0 0">
-            <ItemsRepeater Items="{CompiledBinding SortedProjects}"
-                           Margin="20 0 20 10"
-                           ItemTemplate="{StaticResource ProjectWindowItemTemplate}">
-                <ItemsRepeater.Layout>
-                    <StackLayout Spacing="5" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+            <ItemsControl Items="{CompiledBinding SortedProjects}"
+                          Margin="20 0 20 10"
+                          ItemTemplate="{StaticResource ProjectWindowItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="5" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </SmoothScrollViewer>
 
         <TextBlock Grid.Row="1"

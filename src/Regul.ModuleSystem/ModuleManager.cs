@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Styling;
 using McMaster.NETCore.Plugins;
 using Regul.ModuleSystem.Structures;

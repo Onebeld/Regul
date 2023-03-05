@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
+using Avalonia.Platform;
 using Avalonia.Platform.Storage;
-using Avalonia.Win32;
 using PleasantUI;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Media;
 using PleasantUI.Other;
 using PleasantUI.Reactive;
-using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
 using Regul.Helpers;
@@ -35,8 +26,6 @@ using Regul.Other;
 using Regul.Structures;
 using Regul.Views.Pages;
 using Language = Regul.Structures.Language;
-
-#pragma warning disable CS4014
 
 namespace Regul.ViewModels.Pages;
 
@@ -69,7 +58,6 @@ public class SettingsPageViewModel : ViewModelBase
     public string DotNetInformation { get; } = $"{RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}";
 
     public AvaloniaList<Theme> Themes { get; } = new();
-    public AvaloniaList<KeyColor> Colors { get; } = new();
     public AvaloniaList<FontFamily> Fonts { get; } = new();
     public AvaloniaList<Module> SortedModules { get; } = new();
     public AvaloniaList<EditorRelatedExtension> SortedEditorRelatedExtensions { get; } = new();
@@ -168,7 +156,7 @@ public class SettingsPageViewModel : ViewModelBase
         get
         {
 #if Windows
-            return Win32Platform.WindowsVersion > new Version(10, 0, 10586);
+            return Environment.OSVersion.Version > new Version(10, 0, 10586);
 #else
             return false;
 #endif
@@ -193,15 +181,9 @@ public class SettingsPageViewModel : ViewModelBase
         set
         {
             RaiseAndSetIfChanged(ref _selectedTheme, value);
-            Colors.Clear();
+            
             App.PleasantTheme.CustomTheme = value;
             PleasantUiSettings.Instance.CustomThemeModeName = value?.Name;
-
-            if (value is not null)
-            {
-                foreach (KeyValuePair<string, uint> color in value.Colors)
-                    Colors.Add(new KeyColor(color.Key, color.Value));
-            }
         }
     }
 
@@ -292,12 +274,7 @@ public class SettingsPageViewModel : ViewModelBase
         get => App.Languages.First(l => l.Key == ApplicationSettings.Current.Language);
         set
         {
-            ApplicationSettings.Current.Language = value.Key;
-
-            Application.Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
-            {
-                Source = new Uri($"avares://Regul.Assets/Localization/{value.Key}.axaml")
-            };
+            App.ChangeLanguage(value.Key);
 
             foreach (Window modalWindow in WindowsManager.Windows)
             {
@@ -341,10 +318,8 @@ public class SettingsPageViewModel : ViewModelBase
             foreach (string path in Directory.EnumerateFiles(Directories.Themes))
             {
                 using FileStream fileStream = File.OpenRead(path);
-                byte[] buffer = new byte[fileStream.Length];
-                _ = fileStream.Read(buffer, 0, buffer.Length);
-
-                Theme theme = Theme.LoadFromText(Encoding.Default.GetString(buffer));
+                Theme theme = Theme.LoadFromJson(fileStream);
+                
                 (theme, _isThemesChanged) = App.PleasantTheme.CompareWithDefaultTheme(theme);
 
                 Themes.Add(theme);
@@ -355,8 +330,8 @@ public class SettingsPageViewModel : ViewModelBase
         SelectedTheme = Themes.FirstOrDefault(t => t.Name == PleasantUiSettings.Instance.CustomThemeModeName);
         App.PleasantTheme.DisableUpdateTheme = false;
 
-        foreach (string fontName in FontManager.Current.PlatformImpl.GetInstalledFontFamilyNames())
-            Fonts.Add(FontFamily.Parse(fontName));
+        foreach (FontFamily font in FontManager.Current.SystemFonts)
+            Fonts.Add(font);
         
         ModuleManager.Modules.CollectionChanged += ModulesOnCollectionChanged;
         ApplicationSettings.Current.EditorRelatedExtensions.CollectionChanged += EditorRelatedExtensionsOnCollectionChanged;
@@ -371,7 +346,7 @@ public class SettingsPageViewModel : ViewModelBase
     private void EditorRelatedExtensionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearchEditorRelatedExtensions(ApplicationSettings.Current.EditorRelatedExtensions);
     internal void ModulesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnSearchModules(ModuleManager.Modules);
 
-    private void OnSearchModules(AvaloniaList<Module> modules)
+    private void OnSearchModules(IEnumerable<Module> modules)
     {
         SortedModules.Clear();
 
@@ -388,7 +363,7 @@ public class SettingsPageViewModel : ViewModelBase
         SortedModules.AddRange(list);
     }
 
-    private void OnSearchEditorRelatedExtensions(AvaloniaList<EditorRelatedExtension> extensions)
+    private void OnSearchEditorRelatedExtensions(IEnumerable<EditorRelatedExtension> extensions)
     {
         SortedEditorRelatedExtensions.Clear();
 
@@ -426,9 +401,7 @@ public class SettingsPageViewModel : ViewModelBase
             if (!string.IsNullOrWhiteSpace(theme.Name))
             {
                 using FileStream fileStream = File.Create(Path.Combine(Directories.Themes, $"{theme.Name}.style"));
-
-                byte[] buffer = Encoding.Default.GetBytes(theme.SaveToText());
-                fileStream.Write(buffer, 0, buffer.Length);
+                theme.SaveToJson(fileStream);
             }
         }
     }
@@ -437,20 +410,7 @@ public class SettingsPageViewModel : ViewModelBase
     {
         if (WindowsManager.MainWindow is null) return;
 
-        string result = await MessageBox.Show(WindowsManager.MainWindow, "ResetSettingsWarning", string.Empty,
-            new List<MessageBoxButton>
-            {
-                new()
-                {
-                    Result = "Yes",
-                    Text = App.GetString("Yes")
-                },
-                new()
-                {
-                    Result = "No",
-                    Text = App.GetString("No")
-                }
-            });
+        string result = await MessageBox.Show(WindowsManager.MainWindow, "ResetSettingsWarning", string.Empty, MessageBoxButtons.YesNo);
 
         if (result != "Yes") return;
 
@@ -459,10 +419,7 @@ public class SettingsPageViewModel : ViewModelBase
         ApplicationSettings.Reset();
         PleasantUiSettings.Reset();
 
-        Application.Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
-        {
-            Source = new Uri($"avares://Regul.Assets/Localization/{ApplicationSettings.Current.Language}.axaml")
-        };
+        App.ChangeLanguage(ApplicationSettings.Current.Language);
 
         RaisePropertyChanged(nameof(SelectedLanguage));
         RaisePropertyChanged(nameof(SelectedFont));
@@ -492,7 +449,7 @@ public class SettingsPageViewModel : ViewModelBase
 
     public async void PasteAccentColor()
     {
-        string data = await Application.Current?.Clipboard?.GetTextAsync()!;
+        string? data = await Application.Current?.Clipboard?.GetTextAsync();
 
         if (uint.TryParse(data, out uint uintColor))
             PleasantUiSettings.Instance.UIntAccentColor = uintColor;
@@ -509,7 +466,7 @@ public class SettingsPageViewModel : ViewModelBase
 
     public async void PasteColor(KeyColor keyColor)
     {
-        string data = await Application.Current?.Clipboard?.GetTextAsync()!;
+        string? data = await Application.Current?.Clipboard?.GetTextAsync();
 
         uint newColor;
 
@@ -520,7 +477,7 @@ public class SettingsPageViewModel : ViewModelBase
         else return;
 
         keyColor.Value = newColor;
-        SelectedTheme!.Colors[keyColor.Key] = uintColor;
+        SelectedTheme!.Colors.First(x => x.Key == keyColor.Key).Value = uintColor;
         _isThemesChanged = true;
 
         App.PleasantTheme.UpdateCustomTheme();
@@ -537,7 +494,7 @@ public class SettingsPageViewModel : ViewModelBase
             uint uintColor = ((Color)newColor).ToUint32();
 
             keyColor.Value = uintColor;
-            SelectedTheme!.Colors[keyColor.Key] = uintColor;
+            SelectedTheme!.Colors.First(x => x.Key == keyColor.Key).Value = uintColor;
             _isThemesChanged = true;
 
             App.PleasantTheme.UpdateCustomTheme();
@@ -583,7 +540,7 @@ public class SettingsPageViewModel : ViewModelBase
 
     public async void CopyTheme()
     {
-        await Application.Current!.Clipboard!.SetTextAsync(SelectedTheme!.SaveToText());
+        await Application.Current!.Clipboard!.SetTextAsync(SelectedTheme!.SaveToJson());
 
         WindowsManager.MainWindow?.ShowNotification("ThemeCopied", timeSpan: TimeSpan.FromSeconds(2));
     }
@@ -594,7 +551,7 @@ public class SettingsPageViewModel : ViewModelBase
 
         try
         {
-            theme = Theme.LoadFromText(await Application.Current!.Clipboard!.GetTextAsync());
+            theme = Theme.LoadFromJson(await Application.Current!.Clipboard!.GetTextAsync());
         }
         catch
         {
@@ -607,10 +564,12 @@ public class SettingsPageViewModel : ViewModelBase
             PleasantUiSettings.Instance.CustomThemeModeName = SelectedTheme!.Name;
         }
 
-        foreach (KeyValuePair<string, uint> color in theme.Colors)
+        foreach (KeyColor color in theme.Colors)
         {
-            if (SelectedTheme!.Colors.TryGetValue(color.Key, out _))
-                SelectedTheme.Colors[color.Key] = color.Value;
+            KeyColor? keyColor = theme.Colors.FirstOrDefault(x => x.Key == color.Key);
+
+            if (keyColor is not null)
+                color.Value = keyColor.Value;
         }
 
         App.PleasantTheme.UpdateCustomTheme();
@@ -679,7 +638,7 @@ public class SettingsPageViewModel : ViewModelBase
         {
             if (WindowsManager.MainWindow is null) return;
             
-            MessageBox.Show(WindowsManager.MainWindow, "FeatureIsNotSupported", null, MessageBoxButtons.Ok);
+            MessageBox.Show(WindowsManager.MainWindow, "FeatureIsNotSupported", string.Empty, MessageBoxButtons.Ok);
         }
     }
 
@@ -712,7 +671,7 @@ public class SettingsPageViewModel : ViewModelBase
                 MessageBoxButtons.YesNo);
             
             if (result == "Yes")
-                IoHelpers.OpenBrowserAsync("https://github.com/Onebeld/Regul/tags");
+                IoHelpers.OpenBrowserAsync("https://github.com/Onebeld/Regul/releases");
         }
         else if (checkUpdateResult == CheckUpdateResult.NoUpdate)
             WindowsManager.MainWindow.ShowNotification("NoUpdatesAtThisTime", NotificationType.Information, TimeSpan.FromSeconds(4));
@@ -731,30 +690,17 @@ public class SettingsPageViewModel : ViewModelBase
             {
                 new FilePickerFileType($"ZIP {App.GetString("FilesS")}")
                 {
-                    Patterns = new [] { ".zip" }
+                    Patterns = new [] { "*.zip" }
                 },
                 new FilePickerFileType($"DLL {App.GetString("FilesS")}")
                 {
-                    Patterns = new [] { ".dll" }
+                    Patterns = new [] { "*.dll" }
                 }
             },
             AllowMultiple = true
         })!;
-        
-        List<string> result = new();
 
-        foreach (IStorageFile storageFile in files)
-        {
-            storageFile.TryGetUri(out Uri? uri);
-
-            if (uri is null) continue;
-
-            result.Add(uri.LocalPath);
-        }
-
-        if (result is not { Count: > 0 }) return;
-        
-        App.InstallModules(result);
+        App.InstallModules(files);
     }
 
     public async void CheckUpdateModules()

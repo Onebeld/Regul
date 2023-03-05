@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime;
-using System.Threading;
-using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using PleasantUI;
 using PleasantUI.Controls;
 using PleasantUI.Enums;
-using PleasantUI.Structures;
 using PleasantUI.Windows;
 using Regul.Enums;
 using Regul.Helpers;
@@ -42,10 +35,6 @@ public class MainWindow : PleasantWindow
     public MainWindow()
     {
         AvaloniaXamlLoader.Load(this);
-
-#if DEBUG
-        this.AttachDevTools();
-#endif
 
 #if DEBUG
         KeyDown += (_, e) =>
@@ -78,12 +67,14 @@ public class MainWindow : PleasantWindow
                 ZIndex = 1
             };
         };
-        Loaded += (_, _) =>
+        Loaded += async (_, _) =>
         {
             List<string> filesFromArguments = ViewModel.GetFilesFromArguments(Program.Arguments);
             ViewModel.DropFiles(filesFromArguments);
 
             ViewModel.SynchronizationContext = SynchronizationContext.Current;
+            
+            ViewModel.CheckUpdateAsync();
 
             if (!Directory.Exists(RegulDirectories.Cache))
                 Directory.CreateDirectory(RegulDirectories.Cache);
@@ -104,6 +95,13 @@ public class MainWindow : PleasantWindow
             
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GC.Collect();
+            
+            if (ApplicationSettings.Current.UserAgreementAdopted) return;
+
+            if (await UserAgreementWindow.Show())
+                ApplicationSettings.Current.UserAgreementAdopted = true;
+            else
+                Close();
         };
     }
     private async void OnClosing(object? sender, CancelEventArgs e)
@@ -178,13 +176,13 @@ public class MainWindow : PleasantWindow
         {
             e.DragEffects &= DragDropEffects.Copy | DragDropEffects.Link;
 
-            if (e.Data.Contains(DataFormats.FileNames))
+            if (e.Data.Contains(DataFormats.Files))
             {
-                IEnumerable<string>? fileNames = e.Data.GetFileNames();
+                IEnumerable<IStorageItem>? fileNames = e.Data.GetFiles();
 
                 if (fileNames is null) return;
 
-                if (fileNames.Any(x => x.Contains(".dll") || x.Contains(".zip")))
+                if (fileNames.Any(x => x.Name.Contains(".dll") || x.Name.Contains(".zip")))
                     _dragAndDropWindow = new DragAndDropWindow(TypeDrop.Module);
                 else
                     _dragAndDropWindow = new DragAndDropWindow(TypeDrop.File);
@@ -200,18 +198,18 @@ public class MainWindow : PleasantWindow
 
         void Drop(object? s, DragEventArgs e)
         {
-            if (e.Data.Contains(DataFormats.FileNames))
+            if (e.Data.Contains(DataFormats.Files))
             {
-                IEnumerable<string>? fileNames = e.Data.GetFileNames();
+                IEnumerable<IStorageItem>? files = e.Data.GetFiles();
 
-                if (fileNames is not null)
+                if (files is not null)
                 {
-                    List<string> fileNamesList = new(fileNames);
+                    List<IStorageItem> filesList = new(files);
 
-                    if (fileNamesList.Any(x => x.Contains(".dll") || x.Contains(".zip")))
-                        ViewModel.DropModules(fileNamesList);
+                    if (filesList.Any(x => x.Name.Contains(".dll") || x.Name.Contains(".zip")))
+                        ViewModel.DropModules(filesList);
                     else
-                        ViewModel.DropFiles(fileNamesList);
+                        ViewModel.DropFiles(filesList);
                 }
             }
 

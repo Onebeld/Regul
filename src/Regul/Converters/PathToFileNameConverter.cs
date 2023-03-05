@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using Avalonia.Data.Converters;
 
 namespace Regul.Converters;
@@ -13,7 +11,7 @@ public class PathToFileNameConverter : IValueConverter
         get => Lazy.Value;
     }
 
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         string? path = value as string;
 

@@ -1,5 +1,0 @@
-<Project>
-    <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.999-cibuild0028700-beta"/>
-    </ItemGroup>
-</Project>

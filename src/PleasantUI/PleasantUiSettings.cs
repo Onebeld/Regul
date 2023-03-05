@@ -10,11 +10,6 @@ using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Other;
 
-#if Windows
-using Avalonia.Win32;
-#endif
-
-
 namespace PleasantUI;
 
 [DataContract]
@@ -41,7 +36,7 @@ public class PleasantUiSettings : ViewModelBase
     private Color _accentColorLightTertiary;
     private Color _accentColorLightSelected;
 
-    public static PleasantUiSettings Instance = new();
+    public static PleasantUiSettings Instance { get; private set; } = new();
 
     public PleasantUiSettings()
     {
@@ -58,14 +53,17 @@ public class PleasantUiSettings : ViewModelBase
     private void Setup()
     {
 #if Windows
-        if (Win32Platform.WindowsVersion >= new Version(10, 0, 22000))
+        OperatingSystem operatingSystem = Environment.OSVersion;
+        Version currentVersion = operatingSystem.Version;
+        
+        if (currentVersion >= new Version(10, 0, 22000))
         {
             EnableTransparency = true;
             BlurMode = WindowTransparencyLevel.Mica;
             UseAccentColorFromSystem = true;
             EnableCustomTitleBar = true;
         }
-        else if (Win32Platform.WindowsVersion >= new Version(10, 0, 10586))
+        else if (currentVersion >= new Version(10, 0, 10586))
         {
             EnableTransparency = true;
             BlurMode = WindowTransparencyLevel.Blur;

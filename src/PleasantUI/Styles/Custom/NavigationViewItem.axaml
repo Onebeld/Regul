@@ -108,8 +108,6 @@
                         </Border>
                         <Border Grid.Row="1" Name="PART_BottomBorder">
                             <ItemsPresenter Name="PART_ItemsPresenter"
-                                            Items="{TemplateBinding Items}"
-                                            ItemTemplate="{TemplateBinding ItemTemplate}"
                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </Border>
                     </Grid>

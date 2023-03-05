@@ -18,10 +18,11 @@
 
     <ControlTheme x:Key="{x:Type PleasantTabView}" TargetType="PleasantTabView">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
+        <Setter Property="Padding" Value="10 0 10 10" />
         <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
-        <Setter Property="BorderThickness" Value="0 1 0 0" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Margin="{TemplateBinding Margin}"
@@ -41,9 +42,7 @@
                                                 VerticalAlignment="Center"
                                                 Margin="0 0 40 0">
                                 <ItemsPresenter Name="PART_ItemsPresenter"
-                                                Items="{TemplateBinding Items}"
-                                                ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                ItemTemplate="{TemplateBinding ItemTemplate}" />
+                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
                             </SmoothScrollViewer>
                             <Button Name="PART_AdderButton"
                                     Classes="EnabledIconAnimation"
@@ -64,6 +63,7 @@
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       Margin="{TemplateBinding Padding}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                       Content="{TemplateBinding SelectedContent}"

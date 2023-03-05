@@ -59,6 +59,7 @@
                 <ResourceInclude Source="avares://PleasantUI/Styles/ListBox.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/ListBoxItem.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Styles/ScrollBar.axaml" />
+                <ResourceInclude Source="avares://PleasantUI/Styles/ItemsControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

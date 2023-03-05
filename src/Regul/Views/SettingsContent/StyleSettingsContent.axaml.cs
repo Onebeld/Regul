@@ -1,21 +1,22 @@
 ﻿using Avalonia.Controls;
-using Avalonia.LogicalTree;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Regul.Managers;
 using Regul.ViewModels.Pages;
 using Regul.Views.Pages;
 
-// ReSharper disable UnusedParameter.Local
-
 namespace Regul.Views.SettingsContent;
 
 public class StyleSettingsContent : UserControl
 {
-    public StyleSettingsContent() => AvaloniaXamlLoader.Load(this);
-
-    private void OnDetachedFromLogicalTree(object sender, LogicalTreeAttachmentEventArgs e)
+    private readonly SettingsPage? _settingsPage;
+    
+    public StyleSettingsContent()
     {
-        SettingsPage? settingsPage = WindowsManager.MainWindow?.Content as SettingsPage;
-        settingsPage?.GetDataContext<SettingsPageViewModel>().Release();
+        AvaloniaXamlLoader.Load(this);
+
+        _settingsPage = WindowsManager.MainWindow?.Content as SettingsPage;
+        Unloaded += OnUnloaded;
     }
+    private void OnUnloaded(object? sender, RoutedEventArgs e) => _settingsPage?.GetDataContext<SettingsPageViewModel>().Release();
 }

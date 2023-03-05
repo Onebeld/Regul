@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Platform.Storage;
 using Avalonia.Styling;
 using PleasantUI;
 using PleasantUI.Enums;
@@ -20,6 +14,7 @@ using PleasantUI.Other;
 using Regul.CrashReport.ViewModels;
 using Regul.CrashReport.Views;
 using Regul.Enums;
+using Regul.Helpers;
 using Regul.Logging;
 using Regul.Managers;
 using Regul.ModuleSystem;
@@ -118,10 +113,7 @@ public class App : Application
                 foreach (string path in Directory.EnumerateFiles(Directories.Themes, "*.style"))
                 {
                     using FileStream fileStream = File.OpenRead(path);
-                    byte[] buffer = new byte[fileStream.Length];
-                    _ = fileStream.Read(buffer, 0, buffer.Length);
-
-                    themes.Add(Theme.LoadFromText(Encoding.Default.GetString(buffer)));
+                    themes.Add(Theme.LoadFromJson(fileStream));
                 }
             }
 
@@ -135,29 +127,26 @@ public class App : Application
         }
     }
 
+    internal static void ChangeLanguage(string key)
+    {
+        ApplicationSettings.Current.Language = key;
+
+        Current!.Styles[1] = new StyleInclude(new Uri("avares://Regul/App.axaml"))
+        {
+            Source = new Uri($"avares://Regul.Assets/Localization/{key}.axaml")
+        };
+    }
+
     internal static async Task<(CheckUpdateResult, Version?)> CheckUpdate()
     {
-        string resultCheckUpdate = string.Empty;
-
         try
         {
-#pragma warning disable SYSLIB0014
-            using WebClient webClient = new();
-#pragma warning restore SYSLIB0014
-            webClient.DownloadStringCompleted += (_, e) =>
-            {
-                if (e.Error != null)
-                    return;
+            string result = await HttpClientHelpers.DownloadString("https://raw.githubusercontent.com/Onebeld/Regul/main/version.txt");
 
-                resultCheckUpdate = e.Result;
-            };
-
-            await webClient.DownloadStringTaskAsync(new Uri("https://raw.githubusercontent.com/Onebeld/Regul/main/version.txt"));
-
-            Version latest = Version.Parse(resultCheckUpdate);
+            Version latest = Version.Parse(result);
             Version? current = Assembly.GetExecutingAssembly().GetName().Version;
 
-            return latest > current ? (CheckUpdateResult.HasUpdate, latest) : (CheckUpdateResult.NoUpdate, null);
+            return latest < current ? (CheckUpdateResult.HasUpdate, latest) : (CheckUpdateResult.NoUpdate, null);
         }
         catch
         {
@@ -165,38 +154,38 @@ public class App : Application
         }
     }
 
-    public static async void InstallModules(IReadOnlyList<string> paths)
+    public static async void InstallModules(IReadOnlyList<IStorageItem> files)
     {
         if (WindowsManager.MainWindow is null) return;
 
-        List<string> listPaths = new(paths);
+        List<IStorageItem> filesList = new(files);
 
         if (ApplicationSettings.Current.ScanForVirus)
         {
             WindowsManager.MainWindow.RunLoading(100);
 
-            for (int index = listPaths.Count - 1; index >= 0; index--)
+            for (int index = filesList.Count - 1; index >= 0; index--)
             {
-                string path = listPaths[index];
+                string path = filesList[index].Path.AbsolutePath;
                 if (!await VirusScanner.Scan(path))
-                    listPaths.Remove(path);
+                    filesList.Remove(filesList[index]);
             }
 
             WindowsManager.MainWindow.CloseLoading();
             
-            if (listPaths.Count <= 0)
+            if (filesList.Count <= 0)
                 return;
         }
         
         List<string> copiedFiles = new();
         
-        foreach (string path in listPaths)
+        foreach (IStorageItem file in filesList)
         {
-            if (Path.GetExtension(path).ToLower() == ".zip")
+            if (Path.GetExtension(file.Path.AbsolutePath).ToLower() == ".zip")
             {
                 try
                 {
-                    copiedFiles.AddRange(ZipFileManager.ExtractToDirectoryWithPaths(path, RegulDirectories.Modules));
+                    copiedFiles.AddRange(ZipFileManager.ExtractToDirectoryWithPaths(file.Path.AbsolutePath, RegulDirectories.Modules));
                 }
                 catch
                 {
@@ -204,13 +193,13 @@ public class App : Application
                     return;
                 }
             }
-            else if (Path.GetExtension(path).ToLower() == ".dll")
+            else if (Path.GetExtension(file.Path.AbsolutePath).ToLower() == ".dll")
             {
-                string pathInModulesFolder = Path.Combine(RegulDirectories.Modules, Path.GetFileName(path));
+                string pathInModulesFolder = Path.Combine(RegulDirectories.Modules, Path.GetFileName(file.Path.AbsolutePath));
 
                 try
                 {
-                    File.Copy(path, pathInModulesFolder);
+                    File.Copy(file.Path.AbsolutePath, pathInModulesFolder);
                 }
                 catch
                 {

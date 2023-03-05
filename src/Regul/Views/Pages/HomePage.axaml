@@ -10,7 +10,7 @@
              x:Class="Regul.Views.Pages.HomePage"
              x:DataType="vm:MainWindowViewModel">
     <UserControl.KeyBindings>
-        <KeyBinding Command="{CompiledBinding CreateProject}"
+        <KeyBinding Command="{CompiledBinding CreateProjectAsync}"
                     Gesture="Ctrl+N" />
     </UserControl.KeyBindings>
 
@@ -64,31 +64,12 @@
                                                                Text="{StaticResource Search}"
                                                                HorizontalAlignment="Left"
                                                                VerticalAlignment="Center" />
-
-                                                    <StackPanel Orientation="Horizontal"
-                                                                Spacing="5"
-                                                                HorizontalAlignment="Right"
-                                                                VerticalAlignment="Center">
-                                                        <Border
-                                                            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                                            BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
-                                                            BorderThickness="1"
-                                                            CornerRadius="4"
-                                                            ToolTip.Tip="{StaticResource NumberOfElementsFound}">
-                                                            <StackPanel Orientation="Horizontal" Spacing="8"
-                                                                        Margin="8 5">
-                                                                <Path Data="{StaticResource SearchRegular}"
-                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                                      VerticalAlignment="Center"
-                                                                      Width="14"
-                                                                      Height="14"
-                                                                      Stretch="Uniform" />
-                                                                <TextBlock
-                                                                    Text="{CompiledBinding SortedProjects.Count}"
-                                                                    FontSize="12" />
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </StackPanel>
+                                                    
+                                                        <InformationBlock Icon="{StaticResource SearchRegular}"
+                                                                          Content="{CompiledBinding SortedProjects.Count}"
+                                                                          ToolTip.Tip="{StaticResource NumberOfElementsFound}"
+                                                                          VerticalAlignment="Center"
+                                                                          HorizontalAlignment="Right"/>
                                                 </Panel>
 
                                                 <Grid ColumnDefinitions="Auto,5,*" RowDefinitions="Auto,5,Auto,5,Auto">
@@ -203,32 +184,23 @@
                                     <Path Data="{StaticResource SearchRegular}" />
                                 </Viewbox>
                             </Button>
-
-                            <Border Theme="{StaticResource BorderBlockInformationTheme}"
-                                    ToolTip.Tip="{StaticResource NumberOfAllProjectsInTheProgram}">
-                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                    <Path Data="{StaticResource NavigationRegular}"
-                                          Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                          Width="14"
-                                          VerticalAlignment="Center"
-                                          Stretch="Uniform" />
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{CompiledBinding Projects.Count, Source={x:Static s:ApplicationSettings.Current}}"
-                                               FontSize="12" />
-                                </StackPanel>
-                            </Border>
+                            
+                            <InformationBlock Icon="{StaticResource NavigationRegular}"
+                                              Content="{CompiledBinding Projects.Count, Source={x:Static s:ApplicationSettings.Current}}"
+                                              ToolTip.Tip="{StaticResource NumberOfAllProjectsInTheProgram}" />
                         </StackPanel>
                     </Panel>
                 </StackPanel>
 
                 <Panel Grid.Row="1" Margin="0 5 0 0">
-                    <ItemsRepeater x:Name="ProjectList"
-                                   Items="{CompiledBinding SortedProjects}"
-                                   ItemTemplate="{StaticResource ProjectMainPageItemTemplate}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="5" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
+                    <ItemsControl Items="{CompiledBinding SortedProjects}"
+                                  ItemTemplate="{StaticResource ProjectMainPageItemTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
 
                     <TextBlock Text="{StaticResource NoProjects}"
                                VerticalAlignment="Center"
@@ -251,7 +223,7 @@
                 </StackPanel.Styles>
 
                 <Button Theme="{StaticResource AppBarButtonTheme}"
-                        Command="{CompiledBinding CreateProject}">
+                        Command="{CompiledBinding CreateProjectAsync}">
                     <ToolTip.Tip>
                         <TextBlock>
                             <Run Text="{StaticResource NewProject}" />
@@ -285,32 +257,14 @@
                                             HorizontalAlignment="Right"
                                             Spacing="5"
                                             Margin="0 15 20 5">
-                                    <Border Theme="{StaticResource BorderBlockInformationTheme}"
-                                            ToolTip.Tip="{StaticResource NumberOfOpenWorkbenches}"
-                                            IsVisible="{CompiledBinding !!Workbenches.Count}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                            <Path Data="{StaticResource TabDesktopRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Width="14"
-                                                  Height="14"
-                                                  Stretch="Uniform" />
-                                            <TextBlock Text="{CompiledBinding Workbenches.Count}" FontSize="12" />
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Theme="{StaticResource BorderBlockInformationTheme}"
-                                            ToolTip.Tip="{StaticResource NumberOfLoadedModules}"
-                                            IsVisible="{CompiledBinding !!Count, Source={x:Static moduleSystem:ModuleManager.Modules}}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                            <Path Data="{StaticResource AppFolderRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Width="14"
-                                                  Height="14"
-                                                  Stretch="Uniform" />
-                                            <TextBlock
-                                                Text="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}"
-                                                FontSize="12" />
-                                        </StackPanel>
-                                    </Border>
+                                    <InformationBlock Icon="{StaticResource TabDesktopRegular}"
+                                                      Content="{CompiledBinding Workbenches.Count}"
+                                                      ToolTip.Tip="{StaticResource NumberOfOpenWorkbenches}"
+                                                      IsVisible="{CompiledBinding !!Workbenches.Count}" />
+                                    <InformationBlock Icon="{StaticResource AppFolderRegular}"
+                                                      Content="{CompiledBinding Count, Source={x:Static moduleSystem:ModuleManager.Modules}}"
+                                                      ToolTip.Tip="{StaticResource NumberOfLoadedModules}"
+                                                      IsVisible="{CompiledBinding !!Count, Source={x:Static moduleSystem:ModuleManager.Modules}}" />
                                 </StackPanel>
 
                                 <UniformGrid Grid.Row="1" Columns="3" Margin="15 0 15 15">
@@ -331,7 +285,7 @@
                                         </ToolTip.Tip>
                                         <Button Padding="40 14"
                                                 Classes="EnabledIconAnimation"
-                                                Command="{CompiledBinding OpenFile}"
+                                                Command="{CompiledBinding OpenFileAsync}"
                                                 Click="MenuButtonsOnClick">
                                             <Viewbox Width="16" Height="16">
                                                 <Path Data="{StaticResource OpenRegular}" />
@@ -347,7 +301,7 @@
                                                    FontSize="12" />
                                         <Button Padding="40 14"
                                                 Classes="EnabledIconAnimation"
-                                                Command="{CompiledBinding OpenTools}"
+                                                Command="{CompiledBinding OpenToolsAsync}"
                                                 Click="MenuButtonsOnClick">
                                             <ToolTip.Tip>
                                                 <TextBlock>

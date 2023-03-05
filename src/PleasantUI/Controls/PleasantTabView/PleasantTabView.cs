@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using PleasantUI.Extensions;
-using PleasantUI.Generators;
 
 namespace PleasantUI.Controls;
 
@@ -26,15 +24,7 @@ public partial class PleasantTabView : TabControl
         routedEventArgs.Handled = true;
     }
 
-    /// <inheritdoc />
-    protected override IItemContainerGenerator CreateItemContainerGenerator()
-    {
-        return new PleasantTabItemContainerGenerator(
-            this,
-            ContentControl.ContentProperty,
-            ContentControl.ContentTemplateProperty);
-    }
-
+    protected override Control CreateContainerForItemOverride() => new PleasantTabItem();
 
     protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {

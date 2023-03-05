@@ -1,40 +1,57 @@
 ﻿using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
 using PleasantUI.Media;
+using PleasantUI.Other;
 
 namespace PleasantUI;
 
-public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
+public class PleasantTheme : Styles
 {
     private readonly IPlatformSettings _platformSettings;
     
-    private StyleInclude _styleCommon = null!;
-    private StyleInclude _styleControls = null!;
-    private StyleInclude _pleasantLight = null!;
-    private StyleInclude _pleasantDark = null!;
-    private StyleInclude _pleasantMysterious = null!;
-    private StyleInclude _pleasantEmerald = null!;
-    private StyleInclude _pleasantTurquoise = null!;
-    private bool _isLoading;
-    private IStyle? _loaded;
+    private readonly IResourceDictionary _pleasantLight;
+    private readonly IResourceDictionary _pleasantDark;
+    private readonly IResourceDictionary _pleasantMysterious;
+    private readonly IResourceDictionary _pleasantEmerald;
+    private readonly IResourceDictionary _pleasantTurquoise;
 
-    public PleasantTheme(IServiceProvider serviceProvider)
+    public PleasantTheme(IServiceProvider? serviceProvider = null)
     {
+        AvaloniaXamlLoader.Load(serviceProvider, this);
+        
+        PleasantUiSettings.Load();
+
         _platformSettings = AvaloniaLocator.Current.GetRequiredService<IPlatformSettings>();
-        
-        Uri baseUri = ((IUriContext)serviceProvider.GetService(typeof(IUriContext))!).BaseUri;
-        InitStyles(baseUri);
-        
         _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
+        
+#if Windows
+        if (PleasantUiSettings.Instance.UseAccentColorFromSystem)
+            PleasantUiSettings.Instance.UIntAccentColor = _platformSettings.GetColorValues().AccentColor1.ToUint32();
+#endif
+
+        _pleasantLight = (IResourceDictionary)GetAndRemove("PleasantLight");
+        _pleasantDark = (IResourceDictionary)GetAndRemove("PleasantDark");
+        _pleasantMysterious = (IResourceDictionary)GetAndRemove("PleasantMysterious");
+        _pleasantEmerald = (IResourceDictionary)GetAndRemove("PleasantEmerald");
+        _pleasantTurquoise = (IResourceDictionary)GetAndRemove("PleasantTurquoise");
+        
+        EnsureTheme();
+        
+        object GetAndRemove(string key)
+        {
+            object val = Resources[key]
+                         ?? throw new KeyNotFoundException($"Key {key} was not found in the resources");
+            Resources.Remove(key);
+            return val;
+        }
     }
+    
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
         if (PleasantUiSettings.Instance.ThemeMode == PleasantThemeMode.System)
@@ -69,55 +86,15 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
             EnsureTheme();
     }
 
-    public IStyle Loaded
-    {
-        get
-        {
-            if (_loaded is null)
-            {
-                _isLoading = true;
-
-                StyleInclude styleInclude = Mode switch
-                {
-                    PleasantThemeMode.Dark => _pleasantDark,
-                    PleasantThemeMode.Mysterious => _pleasantMysterious,
-                    PleasantThemeMode.Emerald => _pleasantEmerald,
-                    PleasantThemeMode.Turquoise => _pleasantTurquoise,
-
-                    PleasantThemeMode.Light => _pleasantLight,
-                    PleasantThemeMode.Custom => _pleasantLight,
-                    _ => _platformSettings.GetColorValues().ThemeVariant switch
-                    {
-                        PlatformThemeVariant.Light => _pleasantLight,
-                        PlatformThemeVariant.Dark => _pleasantDark,
-                        _ => throw new ArgumentOutOfRangeException()
-                    }
-                };
-
-                _loaded = new Styles
-                {
-                    _styleCommon, _styleControls, styleInclude
-                };
-
-                _isLoading = false;
-            }
-
-            return _loaded!;
-        }
-    }
-
     public Theme GetTheme(bool makeClone = false)
     {
         if (Mode != PleasantThemeMode.Custom)
         {
             Theme theme = new()
             {
-                Name = Mode.ToString()
+                Name = Mode.ToString(),
+                Colors = ((IResourceDictionary)Resources.MergedDictionaries[0]).ToColorList()
             };
-
-            IStyle? style = (Loaded as Styles)!.ElementAtOrDefault(2);
-
-            theme.Colors = ((Style)((StyleInclude)style!).Loaded).ToColorDictionary();
 
             return theme;
         }
@@ -126,12 +103,10 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
 
         return new Theme
         {
-            Name = "Default", Colors = ((Style)_pleasantLight.Loaded).ToColorDictionary()
+            Name = "Default", Colors = _pleasantLight.ToColorList()
         };
     }
-
-    public AvaloniaDictionary<string, uint> GetColorDictionaryFromDefaultTheme() => ((Style)_pleasantLight.Loaded).ToColorDictionary();
-
+    
     public (Theme, bool) CompareWithDefaultTheme(Theme theme)
     {
         bool colorsChanged = false;
@@ -139,123 +114,62 @@ public class PleasantTheme : AvaloniaObject, IStyle, IResourceProvider
         Theme newTheme = GetTheme(true);
         newTheme.Name = theme.Name;
 
-        foreach (KeyValuePair<string, uint> color in newTheme.Colors)
+        foreach (KeyColor color in newTheme.Colors)
         {
-            if (theme.Colors.TryGetValue(color.Key, out uint value))
+            KeyColor? keyColor = theme.Colors.FirstOrDefault(x => x.Key == color.Key);
+
+            if (keyColor is not null)
             {
-                newTheme.Colors[color.Key] = value;
+                color.Value = keyColor.Value;
                 colorsChanged = true;
             }
+
+            // if (theme.Colors.TryGetValue(color.Key, out uint value))
+            // {
+            //     newTheme.Colors[color.Key] = value;
+            //     colorsChanged = true;
+            // }
         }
 
         return (newTheme, colorsChanged);
     }
 
-    public bool TryGetResource(object key, out object? value)
-    {
-        if (!_isLoading && Loaded is IResourceProvider provider)
-            return provider.TryGetResource(key, out value);
-
-        value = null;
-        return false;
-    }
-
-    public IReadOnlyList<IStyle> Children => _loaded?.Children ?? Array.Empty<IStyle>();
-
     public void UpdateCustomTheme() => OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<Theme?>(this, CustomThemeProperty, CustomTheme, CustomTheme, BindingPriority.Style));
-
-    public bool HasResources => (Loaded as IResourceProvider)?.HasResources ?? false;
-
-    public void AddOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.AddOwner(owner);
-
-    public void RemoveOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.RemoveOwner(owner);
-
-    public IResourceHost? Owner => (Loaded as IResourceProvider)?.Owner;
-
-    public event EventHandler? OwnerChanged
-    {
-        add
-        {
-            if (Loaded is IResourceProvider resourceProvider)
-                resourceProvider.OwnerChanged += value;
-        }
-        remove
-        {
-            if (Loaded is IResourceProvider resourceProvider)
-                resourceProvider.OwnerChanged -= value;
-        }
-    }
 
     private void EnsureTheme()
     {
         if (DisableUpdateTheme) return;
 
-        IStyle style = Mode switch
+        IResourceDictionary themeVariant;
+
+        if (Mode != PleasantThemeMode.Custom || CustomTheme is null)
         {
-            PleasantThemeMode.Dark => _pleasantDark,
-            PleasantThemeMode.Mysterious => _pleasantMysterious,
-            PleasantThemeMode.Emerald => _pleasantEmerald,
-            PleasantThemeMode.Turquoise => _pleasantTurquoise,
-
-            PleasantThemeMode.Light => _pleasantLight,
-            PleasantThemeMode.Custom => _pleasantLight,
-
-            _ => _platformSettings.GetColorValues().ThemeVariant switch
+            themeVariant = Mode switch
             {
-                PlatformThemeVariant.Light => _pleasantLight,
-                PlatformThemeVariant.Dark => _pleasantDark,
-                _ => throw new ArgumentOutOfRangeException()
-            }
-        };
+                PleasantThemeMode.Dark => _pleasantDark,
+                PleasantThemeMode.Mysterious => _pleasantMysterious,
+                PleasantThemeMode.Emerald => _pleasantEmerald,
+                PleasantThemeMode.Turquoise => _pleasantTurquoise,
 
-        if (Mode == PleasantThemeMode.Custom && CustomTheme is not null)
-            style = (IStyle)AvaloniaRuntimeXamlLoader.Load(CustomTheme.ToAxaml());
+                PleasantThemeMode.Light => _pleasantLight,
+                PleasantThemeMode.Custom => _pleasantLight,
 
-        (Loaded as Styles)![2] = style;
-    }
+                _ => _platformSettings.GetColorValues().ThemeVariant switch
+                {
+                    PlatformThemeVariant.Light => _pleasantLight,
+                    PlatformThemeVariant.Dark => _pleasantDark,
+                    _ => throw new ArgumentOutOfRangeException()
+                }
+            };
+        }
+        else
+            themeVariant = CustomTheme.ToResourceDictionary();
 
-    private void InitStyles(Uri baseUri)
-    {
-        PleasantUiSettings.Load();
+        IList<IResourceProvider> dict = Resources.MergedDictionaries;
 
-#if Windows
-        if (PleasantUiSettings.Instance.UseAccentColorFromSystem)
-            PleasantUiSettings.Instance.UIntAccentColor = _platformSettings.GetColorValues().AccentColor1.ToUint32();
-#endif
-
-        _styleCommon = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/PleasantTheme.Common.axaml")
-        };
-
-        _styleControls = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/PleasantTheme.Controls.axaml")
-        };
-
-        _pleasantLight = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/Modes/Light.axaml")
-        };
-
-        _pleasantDark = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/Modes/Dark.axaml")
-        };
-
-        _pleasantMysterious = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/Modes/Mysterious.axaml")
-        };
-
-        _pleasantEmerald = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/Modes/Emerald.axaml")
-        };
-
-        _pleasantTurquoise = new StyleInclude(baseUri)
-        {
-            Source = new Uri("avares://PleasantUI/Modes/Turquoise.axaml")
-        };
+        if (dict.Count == 0)
+            dict.Add(themeVariant);
+        else
+            dict[0] = themeVariant;
     }
 }

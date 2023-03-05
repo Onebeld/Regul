@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
+using PleasantUI.Extensions;
 using PleasantUI.Xaml.Interactivity;
 
 namespace PleasantUI.Xaml.Behaviors;
@@ -93,7 +93,7 @@ public class ItemDragBehavior : Behavior<Control>
         {
             _enableDrag = true;
             _dragStarted = false;
-            _start = e.GetPosition(AssociatedObject.Parent);
+            _start = e.GetPosition(AssociatedObject.Parent as Visual);
             _draggedIndex = -1;
             _targetIndex = -1;
             _itemsControl = itemsControl;
@@ -138,28 +138,10 @@ public class ItemDragBehavior : Behavior<Control>
 
         RemoveTransforms(_itemsControl);
 
-        if (_itemsControl is { })
-        {
-            foreach (ItemContainerInfo container in _itemsControl.ItemContainerGenerator.Containers)
-            {
-                if (!container.ContainerControl.Equals(_draggedContainer))
-                    SetDraggingPseudoClasses(container.ContainerControl, true);
-            }
-        }
-
         if (_dragStarted)
         {
             if (_draggedIndex >= 0 && _targetIndex >= 0 && _draggedIndex != _targetIndex)
                 MoveDraggedItem(_itemsControl, _draggedIndex, _targetIndex);
-        }
-
-        if (_itemsControl is { })
-        {
-            foreach (ItemContainerInfo container in _itemsControl.ItemContainerGenerator.Containers)
-            {
-                if (!container.ContainerControl.Equals(_draggedContainer))
-                    SetDraggingPseudoClasses(container.ContainerControl, false);
-            }
         }
 
         _draggedIndex = -1;

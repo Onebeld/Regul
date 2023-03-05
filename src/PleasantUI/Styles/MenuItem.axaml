@@ -134,9 +134,7 @@
                             <SmoothScrollViewer HorizontalScrollBarVisibility="Auto"
                                                 VerticalScrollBarVisibility="Auto">
                                 <ItemsPresenter Name="PART_ItemsPresenter"
-                                                Items="{TemplateBinding Items}"
                                                 ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                ItemTemplate="{TemplateBinding ItemTemplate}"
                                                 Margin="0 2 0 2"
                                                 Grid.IsSharedSizeScope="True" />
                             </SmoothScrollViewer>

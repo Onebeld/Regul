@@ -1,24 +1,9 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--RepeatButton-->
-    <Style Selector="RepeatButton > Path, RepeatButton > Viewbox > Path">
-        <Setter Property="Fill"
-                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
-    </Style>
-
     <!--Button-->
-    <Style
-        Selector="Button > Path,
-                     Button > Viewbox > Path,
-                     Button > StackPanel > Path,
-                     ToggleButton > Path,
-                     ToggleButton > Viewbox > Path,
-                     ToggleButton > StackPanel > Path,
-                     RadioButton > Viewbox > Path">
-        <Setter Property="Fill"
-                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
-        <Setter Property="Stroke"
-                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+    <Style Selector="Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="Stroke" Value="{StaticResource TextFillColorPrimaryBrush}" />
     </Style>
 
     <Style

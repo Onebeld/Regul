@@ -1,0 +1,16 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PleasantUI.PleasantTheme">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceInclude x:Key="PleasantLight" Source="Modes/Light.axaml" />
+            <ResourceInclude x:Key="PleasantDark" Source="Modes/Dark.axaml" />
+            <ResourceInclude x:Key="PleasantMysterious" Source="Modes/Mysterious.axaml" />
+            <ResourceInclude x:Key="PleasantEmerald" Source="Modes/Emerald.axaml" />
+            <ResourceInclude x:Key="PleasantTurquoise" Source="Modes/Turquoise.axaml" />
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <StyleInclude Source="/PleasantTheme.Common.axaml" />
+    <StyleInclude Source="/PleasantTheme.Controls.axaml" />
+</Styles>

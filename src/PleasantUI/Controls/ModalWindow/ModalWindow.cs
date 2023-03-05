@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Interactivity;
-using Avalonia.Rendering;
 using Avalonia.Styling;
 using PleasantUI.Interfaces;
 using PleasantUI.Reactive;
@@ -11,11 +9,9 @@ using PleasantUI.Reactive;
 namespace PleasantUI.Controls;
 
 [PseudoClasses(":close")]
-public partial class ModalWindow : ContentControl, IStyleable, ICustomHitTest
+public partial class ModalWindow : ContentControl, IStyleable
 {
     static ModalWindow() { }
-
-    public bool HitTest(Point point) => VisualChildren.HitTestCustom(point);
 
     protected virtual void OnClosed()
     {

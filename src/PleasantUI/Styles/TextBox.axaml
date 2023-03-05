@@ -84,6 +84,14 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
                             <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
+                                <TextBlock Name="PART_FloatingWatermark"
+                                           Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                           FontSize="12"
+                                           IsVisible="False"
+                                           Text="{TemplateBinding Watermark}"
+                                           FontWeight="SemiBold"
+                                           DockPanel.Dock="Top" />
+                                
                                 <SmoothScrollViewer Cursor="Ibeam"
                                                     HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
@@ -174,6 +182,10 @@
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        
+        <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
+            <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

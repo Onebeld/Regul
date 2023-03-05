@@ -12,7 +12,7 @@
     </Design.DataContext>
 
     <SmoothScrollViewer>
-        <VirtualizingStackPanel Spacing="5" Margin="25">
+        <StackPanel Spacing="5" Margin="25">
             <TextBlock Text="{StaticResource About}"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
@@ -247,6 +247,6 @@
                     </TextBlock>
                 </StackPanel>
             </Border>
-        </VirtualizingStackPanel>
+        </StackPanel>
     </SmoothScrollViewer>
 </UserControl>

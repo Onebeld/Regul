@@ -49,9 +49,7 @@
                                 </interactivity:Interaction.Behaviors>
                                 <SmoothScrollViewer>
                                     <ItemsPresenter Name="PART_ItemsPresenter"
-                                                    Items="{TemplateBinding Items}"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    ItemTemplate="{TemplateBinding ItemTemplate}"
                                                     Margin="0 2 0 2"
                                                     Grid.IsSharedSizeScope="True" />
                                 </SmoothScrollViewer>
@@ -102,9 +100,7 @@
                         HorizontalAlignment="Stretch"
                         Padding="{TemplateBinding Padding}">
                     <ItemsPresenter Name="PART_ItemsPresenter"
-                                    Items="{TemplateBinding Items}"
                                     ItemsPanel="{TemplateBinding ItemsPanel}"
-                                    ItemTemplate="{TemplateBinding ItemTemplate}"
                                     VerticalAlignment="Stretch"
                                     KeyboardNavigation.TabNavigation="Continue" />
                 </Border>

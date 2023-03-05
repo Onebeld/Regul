@@ -59,6 +59,6 @@ public partial class PleasantMiniWindow : Window, IStyleable, IPleasantWindowMod
 
     public void RemoveModalWindow(ModalWindow modalWindow)
     {
-        _modalWindows.Children.Remove(modalWindow.Parent!);
+        _modalWindows.Children.Remove(modalWindow.Parent! as Control);
     }
 }

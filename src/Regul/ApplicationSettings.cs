@@ -1,16 +1,11 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Avalonia.Collections;
-using Avalonia.Controls.Notifications;
 using PleasantUI;
 using PleasantUI.Other;
 using Regul.Enums;
-using Regul.Managers;
 using Regul.Structures;
 
 namespace Regul;
@@ -106,6 +101,9 @@ public class ApplicationSettings : ViewModelBase
     [DataMember]
     public string? DateOfLastUpdateCheck { get; set; }
 
+    [DataMember]
+    public bool UserAgreementAdopted { get; set; }
+
     [JsonIgnore]
     internal bool ExceptionCalled { get; set; }
 
@@ -136,6 +134,9 @@ public class ApplicationSettings : ViewModelBase
         {
             // ignored
         }
+        
+        if (string.IsNullOrWhiteSpace(Current.VirusTotalApiKey) || Current.VirusTotalApiKey.Length < 64)
+            Current.ScanForVirus = false;
     }
 
     public static void Save()

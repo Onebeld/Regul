@@ -1,52 +1,34 @@
-﻿using System.Text;
+﻿using System.Text.Json;
 using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Styling;
-#if Windows
-using Microsoft.Win32;
-#endif
 using PleasantUI.Media;
+using PleasantUI.Other;
 
 namespace PleasantUI.Extensions;
 
 public static class ThemeExtensions
 {
-    public static string ToAxaml(this Theme theme)
+    public static IResourceDictionary ToResourceDictionary(this Theme theme)
     {
-        StringBuilder stringBuilder = new();
+        ResourceDictionary resourceDictionary = new();
 
-        stringBuilder.AppendLine("<Style xmlns=\"https://github.com/avaloniaui\"");
-        stringBuilder.AppendLine("       xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
-        stringBuilder.AppendLine("    <Style.Resources>");
-
-        foreach (KeyValuePair<string, uint> color in theme.Colors)
-            stringBuilder.AppendLine($"        <Color x:Key=\"{color.Key}\">#{color.Value:X8}</Color>");
-
-        stringBuilder.AppendLine("    </Style.Resources>");
-        stringBuilder.AppendLine("</Style>");
-
-        return stringBuilder.ToString();
+        foreach (KeyColor color in theme.Colors)
+            resourceDictionary.Add(color.Key, Color.FromUInt32(color.Value));
+        
+        return resourceDictionary;
     }
 
-    public static AvaloniaDictionary<string, uint> ToColorDictionary(this Style styles)
+    public static AvaloniaList<KeyColor> ToColorList(this IResourceDictionary resourceDictionary)
     {
-        AvaloniaDictionary<string, uint> colors = new();
+        AvaloniaList<KeyColor> colors = new();
 
-        foreach (KeyValuePair<object, object?> keyValuePair in styles.Resources)
-            colors.Add((string)keyValuePair.Key, ((Color)keyValuePair.Value!).ToUint32());
+        foreach (KeyValuePair<object, object?> keyValuePair in resourceDictionary)
+            colors.Add(new KeyColor((string)keyValuePair.Key, ((Color)keyValuePair.Value!).ToUint32()));
 
         return colors;
     }
 
-    public static string SaveToText(this Theme theme)
-    {
-        StringBuilder stringBuilder = new();
-
-        stringBuilder.AppendLine(theme.Name);
-
-        foreach (KeyValuePair<string, uint> color in theme.Colors)
-            stringBuilder.AppendLine($"{color.Key};{color.Value}");
-
-        return stringBuilder.ToString();
-    }
+    public static void SaveToJson(this Theme theme, Stream stream) => JsonSerializer.Serialize(stream, theme);
+    public static string SaveToJson(this Theme theme) => JsonSerializer.Serialize(theme);
 }

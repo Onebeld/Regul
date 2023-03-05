@@ -59,23 +59,13 @@
                                            Text="{StaticResource Search}"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center" Margin="10" />
-
-                                <Border Grid.Row="0"
-                                        Theme="{StaticResource BorderBlockInformationTheme}"
-                                        Margin="10"
-                                        HorizontalAlignment="Right"
-                                        ToolTip.Tip="{StaticResource NumberOfElementsFound}">
-                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                                        <Path Data="{StaticResource SearchRegular}"
-                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                              VerticalAlignment="Center"
-                                              Width="14"
-                                              Height="14"
-                                              Stretch="Uniform" />
-                                        <TextBlock Text="{CompiledBinding SortedEditors.Count}"
-                                                   FontSize="12" />
-                                    </StackPanel>
-                                </Border>
+                                
+                                <InformationBlock Grid.Row="0"
+                                                  Icon="{StaticResource SearchRegular}"
+                                                  HorizontalAlignment="Right"
+                                                  Content="{CompiledBinding SortedEditors.Count}"
+                                                  ToolTip.Tip="{StaticResource NumberOfElementsFound}" />
+                                
                                 <DockPanel Grid.Row="1" Margin="10 0 10 10">
                                     <TextBlock VerticalAlignment="Center" Margin="0 0 5 0">
                                         <Run Text="{StaticResource Name}" /><Run Text=":" />
@@ -119,21 +109,11 @@
                         <Path Data="{StaticResource SearchRegular}" Stretch="Uniform" />
                     </Viewbox>
                 </Button>
-                <Border Theme="{StaticResource BorderBlockInformationTheme}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        ToolTip.Tip="{StaticResource NumberOfInstalledEditors}">
-                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                        <Path Data="{StaticResource EditRegular}"
-                              Fill="{StaticResource TextFillColorPrimaryBrush}"
-                              VerticalAlignment="Center"
-                              Width="14"
-                              Height="14"
-                              Stretch="Uniform" />
-                        <TextBlock Text="{CompiledBinding Count, Source={x:Static m:ModuleManager.Editors}}"
-                                   FontSize="12" />
-                    </StackPanel>
-                </Border>
+                
+                <InformationBlock Icon="{StaticResource EditRegular}"
+                                  HorizontalAlignment="Right"
+                                  Content="{CompiledBinding Count, Source={x:Static m:ModuleManager.Editors}}"
+                                  ToolTip.Tip="{StaticResource NumberOfInstalledEditors}" />
             </StackPanel>
         </Grid>
 
@@ -146,7 +126,7 @@
                  Padding="15 10 15 10">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Spacing="2" />
+                    <VirtualizingStackPanel />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>

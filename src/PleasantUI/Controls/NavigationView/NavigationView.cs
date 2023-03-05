@@ -2,7 +2,6 @@
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
@@ -156,20 +155,6 @@ public sealed partial class NavigationView : TreeView, IContentPresenterHost, IH
 
     private bool RegisterContentPresenter(IContentPresenter presenter) =>
         presenter.Name == "PART_SelectedContentPresenter";
-
-    ///<inheritdoc/>
-    protected override void OnContainersMaterialized(ItemContainerEventArgs e)
-    {
-        base.OnContainersMaterialized(e);
-        UpdateTitleAndSelectedContent();
-    }
-
-    ///<inheritdoc/>
-    protected override void OnContainersDematerialized(ItemContainerEventArgs e)
-    {
-        base.OnContainersDematerialized(e);
-        UpdateTitleAndSelectedContent();
-    }
 
     private void OnIsOpenChanged()
     {

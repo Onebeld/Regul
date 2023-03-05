@@ -1,7 +1,5 @@
 ﻿using Avalonia.Media;
 #if Windows
-using Avalonia.Win32;
-using Microsoft.Win32;
 #endif
 using PleasantUI.Helpers;
 

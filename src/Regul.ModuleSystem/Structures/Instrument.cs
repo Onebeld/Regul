@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Regul.ModuleSystem.Structures;
+﻿namespace Regul.ModuleSystem.Structures;
 
 public class Instrument
 {

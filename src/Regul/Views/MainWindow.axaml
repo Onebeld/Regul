@@ -18,10 +18,10 @@
                 Title="Regul">
     <PleasantWindow.KeyBindings>
         <KeyBinding Command="{CompiledBinding ClearGc}" Gesture="Ctrl+Alt+Shift+F12" />
-        <KeyBinding Command="{CompiledBinding CreateProject}" Gesture="Ctrl+N" />
-        <KeyBinding Command="{CompiledBinding OpenFile}" Gesture="Ctrl+O" />
+        <KeyBinding Command="{CompiledBinding CreateProjectAsync}" Gesture="Ctrl+N" />
+        <KeyBinding Command="{CompiledBinding OpenFileAsync}" Gesture="Ctrl+O" />
         <KeyBinding Command="{CompiledBinding SaveWorkbench}" CommandParameter="{CompiledBinding SelectedWorkbench}" Gesture="Ctrl+S" />
-        <KeyBinding Command="{CompiledBinding OpenTools}" Gesture="Ctrl+T" />
+        <KeyBinding Command="{CompiledBinding OpenToolsAsync}" Gesture="Ctrl+T" />
     </PleasantWindow.KeyBindings>
 
     <Design.DataContext>

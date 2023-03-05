@@ -49,8 +49,6 @@
                                     <DockPanel Grid.Row="3">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
-                                                            Items="{TemplateBinding Items}"
-                                                            ItemTemplate="{TemplateBinding ItemTemplate}"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                                         </SmoothScrollViewer>
                                     </DockPanel>

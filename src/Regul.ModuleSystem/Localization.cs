@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Avalonia.Styling;
+﻿using Avalonia.Styling;
 
 namespace Regul.ModuleSystem;
 

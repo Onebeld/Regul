@@ -9,12 +9,12 @@
              xmlns:other="clr-namespace:PleasantUI.Other;assembly=PleasantUI"
              xmlns:media="clr-namespace:PleasantUI.Media;assembly=PleasantUI"
              xmlns:pages="clr-namespace:Regul.Views.Pages"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
              x:Class="Regul.Views.SettingsContent.StyleSettingsContent"
-             x:DataType="vm:SettingsPageViewModel"
-             DetachedFromLogicalTree="OnDetachedFromLogicalTree">
+             x:DataType="vm:SettingsPageViewModel">
     <SmoothScrollViewer>
-        <VirtualizingStackPanel Spacing="5" Margin="25">
+        <StackPanel Spacing="5" Margin="25">
             <TextBlock Text="{StaticResource Style}"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
@@ -360,12 +360,14 @@
                                    Margin="0 5"
                                    IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                        <ItemsRepeater Items="{CompiledBinding Colors}">
-                            <ItemsRepeater.Layout>
-                                <StackLayout Spacing="10" />
-                            </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate DataType="other:KeyColor">
+                        <ItemsControl Items="{CompiledBinding SelectedTheme.Colors}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="other:KeyColor">
                                     <Panel>
                                         <TextBlock Text="{CompiledBinding Key}"
                                                    HorizontalAlignment="Left"
@@ -444,11 +446,11 @@
                                         </StackPanel>
                                     </Panel>
                                 </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
-        </VirtualizingStackPanel>
+        </StackPanel>
     </SmoothScrollViewer>
 </UserControl>

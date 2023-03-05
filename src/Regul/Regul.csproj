@@ -1,20 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
         <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LangVersion>preview</LangVersion>
-        <ApplicationIcon>..\Regul.Assets\icon.ico</ApplicationIcon>
         <TieredPGO>true</TieredPGO>
         <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <AssemblyVersion>4.0.0</AssemblyVersion>
+        <FileVersion>4.0.0</FileVersion>
+        <ApplicationIcon>..\Regul.Assets\icon.ico</ApplicationIcon>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-        <ErrorReport>none</ErrorReport>
-    </PropertyGroup>
+    <Import Project="..\..\build\Versions.props" />
+    <Import Project="..\..\build\PlatformDependentCompilation.props" />
 
     <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
@@ -22,19 +23,16 @@
         <ProjectReference Include="..\Regul.ModuleSystem\Regul.ModuleSystem.csproj" />
     </ItemGroup>
 
-    <Import Project="..\..\build\Avalonia.props" />
-    <Import Project="..\..\build\AvaloniaDesktop.props" />
-    <Import Project="..\..\build\AvaloniaDiagnostics.props" />
-    <Import Project="..\..\build\PlatformDependentCompilation.props" />
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="VirusTotalNet" Version="2.1.0" />
+    </ItemGroup>
 
     <ItemGroup>
         <None Remove=".gitignore" />
         <None Include="..\Regul.Assets\icon.ico">
             <Link>icon.ico</Link>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="VirusTotalNet" Version="2.1.0" />
     </ItemGroup>
 </Project>

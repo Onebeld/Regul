@@ -84,7 +84,6 @@
                                     ToolTip.Tip="{StaticResource Close}">
                                 <Path Data="{StaticResource DismissRegular}"
                                       StrokeThickness="0.5"
-                                      Stroke="{CompiledBinding $self.Fill}"
                                       Width="8"
                                       Height="8"
                                       Stretch="Uniform" />

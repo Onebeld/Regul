@@ -1,5 +1,4 @@
-﻿using System;
-using McMaster.NETCore.Plugins;
+﻿using McMaster.NETCore.Plugins;
 using PleasantUI;
 
 namespace Regul.ModuleSystem.Structures;

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Avalonia.Controls;
+﻿using Avalonia.Platform.Storage;
 using PleasantUI;
 using PleasantUI.Controls;
 using Regul.Logging;
-
-#pragma warning disable CS0618
 
 namespace Regul.ViewModels.Windows;
 
@@ -52,25 +48,19 @@ public class LogWindowViewModel : ViewModelBase
 
     public async void SaveLogs()
     {
-        SaveFileDialog saveFileDialog = new()
+        IStorageFile? file = await _window.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Filters = new List<FileDialogFilter>
+            FileTypeChoices = new []
             {
-                new()
+                new FilePickerFileType("Log " + App.GetString("Files"))
                 {
-                    Name = "Log-" + App.GetString("Files"),
-                    Extensions =
-                    {
-                        "log"
-                    }
+                    Patterns = new[] { ".log" }
                 }
             },
-            DefaultExtension = "log"
-        };
-
-        string? path = await saveFileDialog.ShowAsync(_window);
-
-        if (!string.IsNullOrEmpty(path))
-            Logger.Instance.SaveLogsToFile(path);
+            DefaultExtension = ".log"
+        });
+        
+        if (file is not null)
+            Logger.Instance.SaveLogsToFile(file.Path.AbsolutePath);
     }
 }

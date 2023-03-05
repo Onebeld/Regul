@@ -1,15 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
         <TieredPGO>true</TieredPGO>
+        <Company>Dmitry Zhutkov (Onebeld)</Company>
+        <AssemblyVersion>4.0.0</AssemblyVersion>
+        <FileVersion>4.0.0</FileVersion>
     </PropertyGroup>
 
-    <Import Project="..\..\build\Avalonia.props" />
+    <Import Project="..\..\build\Versions.props" />
     <Import Project="..\..\build\PlatformDependentCompilation.props" />
 
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)"/>
+    </ItemGroup>
+    
     <ItemGroup>
         <AvaloniaResource Include="icon.ico" />
     </ItemGroup>

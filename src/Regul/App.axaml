@@ -13,6 +13,9 @@
                 <ResourceInclude Source="/DataTemplates/ModuleListItemTemplate.axaml" />
                 <ResourceInclude Source="/DataTemplates/InstrumentListItemTemplate.axaml" />
                 <ResourceInclude Source="/DataTemplates/EditorRelatedExtensionListItemTemplate.axaml" />
+                
+                <!--Custom Controls-->
+                <ResourceInclude Source="/Controls/Resources/InformationBlock.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -63,8 +63,5 @@ public class CommandOnDoubleTappedBehavior : Behavior<Control>
         AssociatedObject?.RemoveHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped);
     }
 
-    private void AssociatedObject_DoubleTapped(object? sender, TappedEventArgs e)
-    {
-        Command?.Execute(CommandParameter);
-    }
+    private void AssociatedObject_DoubleTapped(object? sender, TappedEventArgs e) => Command?.Execute(CommandParameter);
 }
