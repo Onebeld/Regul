@@ -206,6 +206,7 @@
         <v:String x:Key="PasteThemeWithoutName">Paste theme without name</v:String>
         <v:String x:Key="ThemeCopied">Theme copied!</v:String>
         <v:String x:Key="ThemeAppliedFromClipboard">Theme applied from the clipboard!</v:String>
+        <v:String x:Key="MakeAccentColorLighter">Make accent color lighter</v:String>
 
         <!-- Modules Settings Content -->
         <v:String x:Key="Modules">Modules</v:String>

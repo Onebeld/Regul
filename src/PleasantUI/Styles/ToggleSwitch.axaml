@@ -89,8 +89,8 @@
                             Width="40"
                             Height="20"
                             IsVisible="False"
-                            Background="{StaticResource AccentFillColorLightSelectedBrush}"
-                            BorderBrush="{StaticResource AccentFillColorLightSelectedBrush}"
+                            Background="{StaticResource AccentFillColorLightSecondaryBrush}"
+                            BorderBrush="{StaticResource AccentFillColorLightSecondaryBrush}"
                             BorderThickness="1"
                             CornerRadius="10" />
 
@@ -104,12 +104,12 @@
                             <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                 <Ellipse
                                     x:Name="SwitchKnobOn"
-                                    Fill="{DynamicResource ToggleSwitchKnobFillOn}"
+                                    Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
                                     Width="10"
                                     Height="10" />
                                 <Ellipse
                                     x:Name="SwitchKnobOff"
-                                    Fill="{DynamicResource ToggleSwitchKnobFillOff}"
+                                    Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
                                     Width="10"
                                     Height="10" />
                             </Grid>
@@ -190,8 +190,8 @@
                                     Width="40"
                                     Height="20"
                                     IsVisible="False"
-                                    Background="{StaticResource AccentFillColorLightSelectedBrush}"
-                                    BorderBrush="{StaticResource AccentFillColorLightSelectedBrush}"
+                                    Background="{StaticResource AccentFillColorLightSecondaryBrush}"
+                                    BorderBrush="{StaticResource AccentFillColorLightSecondaryBrush}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -205,12 +205,12 @@
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
                                         x:Name="SwitchKnobOn"
-                                        Fill="{DynamicResource ToggleSwitchKnobFillOn}"
+                                        Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
                                         Width="10"
                                         Height="10" />
                                     <Ellipse
                                         x:Name="SwitchKnobOff"
-                                        Fill="{DynamicResource ToggleSwitchKnobFillOff}"
+                                        Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
                                         Width="10"
                                         Height="10" />
                                 </Grid>
@@ -255,13 +255,12 @@
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
+            <Setter Property="Opacity" Value="0.8" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#OuterBorder">

@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using PleasantUI.Enums;
 using PleasantUI.Extensions;
+using PleasantUI.Helpers;
 using PleasantUI.Other;
 
 namespace PleasantUI;
@@ -28,10 +29,9 @@ public class PleasantUiSettings : ViewModelBase
     private string _fontName = null!;
     private uint _uIntAccentColor;
     private AvaloniaList<uint> _colorPalette = new();
+    private bool _lightnessAccentColorInCustomMode = false;
 
     private Color _accentColor;
-    private Color _accentColorDarkSecondary;
-    private Color _accentColorDarkTertiary;
     private Color _accentColorLightSecondary;
     private Color _accentColorLightTertiary;
     private Color _accentColorLightSelected;
@@ -46,8 +46,36 @@ public class PleasantUiSettings : ViewModelBase
     }
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
-        if (UseAccentColorFromSystem)
+        if (UseAccentColorFromSystem) 
             UIntAccentColor = e.AccentColor1.ToUint32();
+
+        RaiseChangingAccentColor();
+    }
+
+    private void RaiseChangingAccentColor()
+    {
+        PlatformThemeVariant themeVariant = _platformSettings.GetColorValues().ThemeVariant;
+        
+        if (ThemeMode is PleasantThemeMode.Dark or PleasantThemeMode.Mysterious or PleasantThemeMode.Emerald || 
+            ThemeMode is PleasantThemeMode.System && themeVariant is PlatformThemeVariant.Dark ||
+            ThemeMode is PleasantThemeMode.Custom && LightnessAccentColorInCustomMode && !string.IsNullOrWhiteSpace(CustomThemeModeName))
+        {
+            AccentColorLightSelected = AccentColor.ChangeColorBrightness(0.75);
+            Hsl accentSelected = ColorExtensions.ToHsl(AccentColorLightSelected);
+            if (accentSelected.L >= 0.59)
+            {
+                accentSelected.L *= 0.85;
+                AccentColorLightSelected = accentSelected.ToRgb(AccentColorLightSelected.A);
+            }
+            AccentColorLightSecondary = AccentColor.ChangeColorBrightness(0.6);
+            AccentColorLightTertiary = AccentColor.ChangeColorBrightness(0.5);
+        }
+        else
+        {
+            AccentColorLightSecondary = AccentColor;
+            AccentColorLightSelected = AccentColor.ChangeColorBrightness(0.95);
+            AccentColorLightTertiary = AccentColor.ChangeColorBrightness(0.85);
+        }
     }
 
     private void Setup()
@@ -113,9 +141,13 @@ public class PleasantUiSettings : ViewModelBase
     public PleasantThemeMode ThemeMode
     {
         get => _themeMode;
-        set => RaiseAndSetIfChanged(ref _themeMode, value);
+        set
+        {
+            RaiseAndSetIfChanged(ref _themeMode, value);
+            RaiseChangingAccentColor();
+        }
     }
-    
+
     [DataMember]
     public string? CustomThemeModeName
     {
@@ -144,7 +176,20 @@ public class PleasantUiSettings : ViewModelBase
 #endif
         }
     }
-    
+
+    [DataMember]
+    public bool LightnessAccentColorInCustomMode
+    {
+        get => _lightnessAccentColorInCustomMode;
+        set
+        {
+            RaiseAndSetIfChanged(ref _lightnessAccentColorInCustomMode, value);
+            
+            if (ThemeMode is PleasantThemeMode.Custom)
+                RaiseChangingAccentColor();
+        }
+    }
+
     [DataMember]
     public double OpacityLevel
     {
@@ -167,6 +212,7 @@ public class PleasantUiSettings : ViewModelBase
         {
             RaiseAndSetIfChanged(ref _uIntAccentColor, value);
             AccentColor = Color.FromUInt32(value);
+            RaiseChangingAccentColor();
         }
     }
 
@@ -190,30 +236,7 @@ public class PleasantUiSettings : ViewModelBase
     public Color AccentColor
     {
         get => _accentColor;
-        private set
-        {
-            RaiseAndSetIfChanged(ref _accentColor, value);
-            
-            AccentColorDarkSecondary = value.ChangeColorBrightness(1.5);
-            AccentColorDarkTertiary = value.ChangeColorBrightness(1.7);
-            AccentColorLightSelected = value.ChangeColorBrightness(0.75);
-            AccentColorLightSecondary = value.ChangeColorBrightness(0.7);
-            AccentColorLightTertiary = value.ChangeColorBrightness(0.6);
-        }
-    }
-
-    [JsonIgnore]
-    public Color AccentColorDarkSecondary
-    {
-        get => _accentColorDarkSecondary;
-        private set => RaiseAndSetIfChanged(ref _accentColorDarkSecondary, value);
-    }
-
-    [JsonIgnore]
-    public Color AccentColorDarkTertiary
-    {
-        get => _accentColorDarkTertiary;
-        private set => RaiseAndSetIfChanged(ref _accentColorDarkTertiary, value);
+        private set => RaiseAndSetIfChanged(ref _accentColor, value);
     }
 
     [JsonIgnore]

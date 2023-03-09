@@ -10,6 +10,7 @@ public class Theme : ViewModelBase, ICloneable
 {
     private string _name = string.Empty;
     private AvaloniaList<KeyColor> _colors = null!;
+    private bool _lightnessAccentColor = false;
 
     [DataMember]
     public string Name
@@ -23,6 +24,17 @@ public class Theme : ViewModelBase, ICloneable
     {
         get => _colors;
         set => RaiseAndSetIfChanged(ref _colors, value);
+    }
+
+    [DataMember]
+    public bool LightnessAccentColor
+    {
+        get => _lightnessAccentColor;
+        set
+        {
+            RaiseAndSetIfChanged(ref _lightnessAccentColor, value);
+            PleasantUiSettings.Instance.LightnessAccentColorInCustomMode = value;
+        }
     }
 
     public static Theme LoadFromJson(Stream stream) => JsonSerializer.Deserialize<Theme>(stream) ?? throw new NullReferenceException();

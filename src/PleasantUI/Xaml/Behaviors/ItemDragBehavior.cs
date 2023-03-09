@@ -6,7 +6,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
-using PleasantUI.Extensions;
 using PleasantUI.Xaml.Interactivity;
 
 namespace PleasantUI.Xaml.Behaviors;
@@ -27,6 +26,12 @@ public class ItemDragBehavior : Behavior<Control>
     /// </summary>
     public static readonly StyledProperty<double> VerticalDragThresholdProperty =
         AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
+        
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly StyledProperty<bool> EnableDragProperty =
+        AvaloniaProperty.Register<ItemDragBehavior, bool>(nameof(EnableDrag), true);
 
     private bool _enableDrag;
     private bool _dragStarted;
@@ -60,15 +65,27 @@ public class ItemDragBehavior : Behavior<Control>
         set => SetValue(VerticalDragThresholdProperty, value);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool EnableDrag
+    {
+        get => GetValue(EnableDragProperty);
+        set => SetValue(EnableDragProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         if (AssociatedObject is null) return;
 
-        AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Bubble);
-        AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Bubble);
-        AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Bubble);
-        AssociatedObject.AddHandler(InputElement.PointerCaptureLostEvent, CaptureLost, RoutingStrategies.Bubble);
+        if (EnableDrag)
+        {
+            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Bubble);
+            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Bubble);
+            AssociatedObject.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Bubble);
+            AssociatedObject.AddHandler(InputElement.PointerCaptureLostEvent, CaptureLost, RoutingStrategies.Bubble);
+        }
     }
 
     /// <inheritdoc />
@@ -76,10 +93,36 @@ public class ItemDragBehavior : Behavior<Control>
     {
         if (AssociatedObject is null) return;
 
-        AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
-        AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
-        AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
-        AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+        if (EnableDrag)
+        {
+            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
+            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
+            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
+            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+        }
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == EnableDragProperty)
+        {
+            if (EnableDrag)
+            {
+                AssociatedObject?.AddHandler(InputElement.PointerReleasedEvent, Released, RoutingStrategies.Bubble);
+                AssociatedObject?.AddHandler(InputElement.PointerPressedEvent, Pressed, RoutingStrategies.Bubble);
+                AssociatedObject?.AddHandler(InputElement.PointerMovedEvent, Moved, RoutingStrategies.Bubble);
+                AssociatedObject?.AddHandler(InputElement.PointerCaptureLostEvent, CaptureLost, RoutingStrategies.Bubble);
+            }
+            else
+            {
+                AssociatedObject?.RemoveHandler(InputElement.PointerReleasedEvent, Released);
+                AssociatedObject?.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
+                AssociatedObject?.RemoveHandler(InputElement.PointerMovedEvent, Moved);
+                AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+            }
+        }
     }
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
@@ -128,8 +171,6 @@ public class ItemDragBehavior : Behavior<Control>
 
     private void Released()
     {
-        if (!_enableDrag) return;
-
         if (_draggedContainer is { })
         {
             _draggedContainer.ZIndex = 0;

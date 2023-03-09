@@ -75,10 +75,6 @@
                          Color="{CompiledBinding AccentColorLightSelected, Source={x:Static PleasantUiSettings.Instance}}" />
         <SolidColorBrush x:Key="AccentFillColorDefaultBrush"
                          Color="{CompiledBinding AccentColor, Source={x:Static PleasantUiSettings.Instance}}" />
-        <SolidColorBrush x:Key="AccentFillColorDarkSecondaryBrush"
-                         Color="{CompiledBinding AccentColorDarkSecondary, Source={x:Static PleasantUiSettings.Instance}}" />
-        <SolidColorBrush x:Key="AccentFillColorDarkTertiaryBrush"
-                         Color="{CompiledBinding AccentColorDarkTertiary, Source={x:Static PleasantUiSettings.Instance}}" />
 
         <SolidColorBrush x:Key="AccentTextFillColorBrush"
                          Color="{CompiledBinding AccentColor, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
@@ -88,10 +84,6 @@
                          Color="{CompiledBinding AccentColorLightTertiary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
         <SolidColorBrush x:Key="AccentTextFillColorLightSelectedBrush"
                          Color="{CompiledBinding AccentColorLightSelected, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
-        <SolidColorBrush x:Key="AccentTextFillColorDarkSecondaryBrush"
-                         Color="{CompiledBinding AccentColorDarkSecondary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
-        <SolidColorBrush x:Key="AccentTextFillColorDarkTertiaryBrush"
-                         Color="{CompiledBinding AccentColorDarkTertiary, Source={x:Static PleasantUiSettings.Instance}, Converter={x:Static AccentBackgroundForTextConverter.Instance}}" />
 
         <LinearGradientBrush x:Key="ControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
             <!--TODO: In Avalonia 11.0 add transform-->

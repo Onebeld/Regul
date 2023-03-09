@@ -206,6 +206,7 @@
         <v:String x:Key="PasteThemeWithoutName">Вставить тему без названия</v:String>
         <v:String x:Key="ThemeCopied">Тема скопирована!</v:String>
         <v:String x:Key="ThemeAppliedFromClipboard">Тема применена из буфера обмена!</v:String>
+        <v:String x:Key="MakeAccentColorLighter">Сделать акцентный цвет светлее</v:String>
 
         <!-- Modules Settings Content -->
         <v:String x:Key="Modules">Модули</v:String>

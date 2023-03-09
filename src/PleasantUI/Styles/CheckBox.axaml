@@ -92,7 +92,7 @@
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
+            <Setter Property="Background" Value="{StaticResource AccentFillColorLightTertiaryBrush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
         <Style Selector="^:checked:pressed /template/ Path#CheckGlyph">
@@ -108,11 +108,11 @@
         </Style>
 
         <Style Selector="^:indeterminate:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
+            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
         </Style>
 
         <Style Selector="^:indeterminate:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSelectedBrush}" />
+            <Setter Property="Background" Value="{StaticResource AccentFillColorLightSecondaryBrush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
         <Style Selector="^:indeterminate:pressed /template/ Rectangle#IndeterminateGlyph">

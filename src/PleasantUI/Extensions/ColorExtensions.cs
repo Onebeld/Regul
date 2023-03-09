@@ -10,12 +10,35 @@ public static class ColorExtensions
     public static Color ChangeColorBrightness(this Color color, double correctionFactor)
     {
         Hsl hsl = ToHsl(color);
-        hsl.L = Math.Min(hsl.L / correctionFactor, 1);
+        hsl.L = Math.Min(hsl.L / correctionFactor, 0.6);
 
         return hsl.ToRgb(color.A);
     }
+    
+    public static Color ChangeColorLuminosity(this Color color, double luminosityFactor)
+    {
+        var red = (double)color.R;
+        var green = (double)color.G;
+        var blue = (double)color.B;
 
-    private static Hsl ToHsl(this Color color)
+        if (luminosityFactor < 0)
+        {
+            luminosityFactor = 1 + luminosityFactor;
+            red *= luminosityFactor;
+            green *= luminosityFactor;
+            blue *= luminosityFactor;
+        }
+        else if (luminosityFactor >= 0)
+        {
+            red = (255 - red) * luminosityFactor + red;
+            green = (255 - green) * luminosityFactor + green;
+            blue = (255 - blue) * luminosityFactor + blue;
+        }
+
+        return new Color(color.A, (byte)red, (byte)green, (byte)blue);
+    }
+
+    public static Hsl ToHsl(this Color color)
     {
         const double div = 1.0 / 255;
 

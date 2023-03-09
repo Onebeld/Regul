@@ -75,7 +75,11 @@ public class PleasantTheme : Styles
     public Theme? CustomTheme
     {
         get => GetValue(CustomThemeProperty);
-        set => SetValue(CustomThemeProperty, value);
+        set
+        {
+            SetValue(CustomThemeProperty, value);
+            PleasantUiSettings.Instance.LightnessAccentColorInCustomMode = value.LightnessAccentColor;
+        }
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -93,7 +97,15 @@ public class PleasantTheme : Styles
             Theme theme = new()
             {
                 Name = Mode.ToString(),
-                Colors = ((IResourceDictionary)Resources.MergedDictionaries[0]).ToColorList()
+                Colors = ((IResourceDictionary)Resources.MergedDictionaries[0]).ToColorList(),
+                LightnessAccentColor = Mode switch
+                {
+                    PleasantThemeMode.Dark => true,
+                    PleasantThemeMode.Emerald => true,
+                    PleasantThemeMode.Mysterious => true,
+                    PleasantThemeMode.System => _platformSettings.GetColorValues().ThemeVariant is PlatformThemeVariant.Dark,
+                    _ => false
+                }
             };
 
             return theme;
@@ -113,6 +125,7 @@ public class PleasantTheme : Styles
 
         Theme newTheme = GetTheme(true);
         newTheme.Name = theme.Name;
+        newTheme.LightnessAccentColor = theme.LightnessAccentColor;
 
         foreach (KeyColor color in newTheme.Colors)
         {

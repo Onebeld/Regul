@@ -350,15 +350,20 @@
                             </StackPanel>
                         </Button>
 
-                        <Separator
-                            IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
-                            Margin="-12 10 -12 0"
-                            Background="{StaticResource CardStrokeColorDefaultBrush}" />
+                        <Separator IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   Margin="-12 10 -12 0"
+                                   Background="{StaticResource CardStrokeColorDefaultBrush}" />
 
-                        <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
-                                   Text="{StaticResource Colors}"
-                                   Margin="0 5"
-                                   IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <Panel Margin="0 10" IsVisible="{CompiledBinding SelectedTheme, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}"
+                                       Text="{StaticResource Colors}" />
+                            
+                            <CheckBox VerticalAlignment="Center"
+                                      HorizontalAlignment="Right"
+                                      Content="{StaticResource MakeAccentColorLighter}"
+                                      IsChecked="{CompiledBinding SelectedTheme.LightnessAccentColor}" />
+                        </Panel>
+                        
 
                         <ItemsControl Items="{CompiledBinding SelectedTheme.Colors}">
                             <ItemsControl.ItemsPanel>
