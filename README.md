@@ -1,3 +1,5 @@
+# ⚠️ The development of the project has been discontinued ⚠️
+
 [![GitHub license](https://img.shields.io/github/license/Onebeld/Regul?style=flat-square)](https://github.com/Onebeld/Regul/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Onebeld/Regul?style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/Onebeld/Regul/total?style=flat-square) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Onebeld/Regul?include_prereleases&style=flat-square) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Onebeld/Regul?style=flat-square) [![CodeFactor](https://www.codefactor.io/repository/github/onebeld/regul/badge?style=flat-square)](https://www.codefactor.io/repository/github/onebeld/regul)
 
 <h1 align="center">
